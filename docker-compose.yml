@@ -17,4 +17,4 @@ services:
       CORS_ENABLED: "true"
       CORS_ORIGIN: "http://localhost:5173,https://construct-africa.netlify.app,https://cavally-sightable-jamel.ngrok-free.dev"
       CORS_METHODS: "GET,POST,PATCH,DELETE"
-      CORS_HEADERS: "Content-Type,Authorization"
+      CORS_HEADERS: "Content-Type,Authorization,ngrok-skip-browser-warning"
