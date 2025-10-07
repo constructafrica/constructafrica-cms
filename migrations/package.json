@@ -1,0 +1,28 @@
+{
+  "name": "directus-migration",
+  "version": "1.0.0",
+  "description": "Node.js script to migrate Drupal taxonomy and content into Directus-friendly CSVs.",
+  "main": "migrate-event-types.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node event-types.js",
+    "migrate:event-types": "node scripts/event-types.js",
+    "data:clear": "node helpers/clear-data.js"
+  },
+  "keywords": [
+    "drupal",
+    "directus",
+    "migration",
+    "jsonapi",
+    "csv"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@directus/sdk": "^18.0.3",
+    "axios": "^1.12.2",
+    "dotenv": "^16.4.5",
+    "node-fetch": "^3.3.2",
+    "uuid": "^9.0.1"
+  }
+}
