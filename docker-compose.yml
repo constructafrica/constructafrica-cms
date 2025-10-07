@@ -14,7 +14,11 @@ services:
       DB_CLIENT: "${DB_CLIENT}"
       DB_FILENAME: "${DB_FILENAME}"
       WEBSOCKETS_ENABLED: "${WEBSOCKETS_ENABLED}"
+      
+      # ✅ Enable CORS properly
       CORS_ENABLED: "true"
       CORS_ORIGIN: "http://localhost:5173,https://construct-africa.netlify.app,https://cavally-sightable-jamel.ngrok-free.dev"
-      CORS_METHODS: "GET,POST,PATCH,DELETE"
+      CORS_METHODS: "GET,POST,PATCH,DELETE,OPTIONS"
       CORS_HEADERS: "Content-Type,Authorization,ngrok-skip-browser-warning"
+      CORS_EXPOSE_HEADERS: "Content-Type,Authorization,ngrok-skip-browser-warning"
+      CORS_CREDENTIALS: "true"
