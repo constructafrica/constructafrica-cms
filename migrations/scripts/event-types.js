@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 const https = require("https");
 const path = require("path");
 
-const BASE_URL = process.env.DRUPAL_BASE_URL;
+const BASE_URL = process.env.DRUPAL_API_URL;
 const DEFAULT_ADMIN_USER = process.env.DEFAULT_ADMIN_USER;
 
 // Axios instance
@@ -83,6 +83,6 @@ async function generateEventTypesCsv() {
 // Run
 generateEventTypesCsv().catch((error) => {
     console.error("❌ CSV generation failed:", error.message);
-    fs.appendFileSync("csv_errors.log", `CSV generation failed: ${error.message}\n`);
+    fs.appendFileSync("logs/csv_errors.log", `CSV generation failed: ${error.message}\n`);
 });
 

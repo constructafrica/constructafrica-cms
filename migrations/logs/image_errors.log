@@ -1,0 +1,41 @@
+❌ Failed to upload sponsor logo for delegate-4bf1b4f9-488b-412d-a369-581126882954: Failed to fetch https://dev-constructafrica.pantheonsite.io/jsonapi/sites/default/files/4947.jpg
+❌ Failed to upload sponsor logo for sponsor-c145a177-2bd4-4c0e-afc2-ac45bb17fff1: Failed to fetch https://dev-constructafrica.pantheonsite.io/jsonapi/sites/default/files/4945.jpg
+❌ Failed to upload sponsor logo for partner-c89e0158-05d0-4d71-8792-329aa1ffde11: Failed to fetch https://dev-constructafrica.pantheonsite.io/jsonapi/sites/default/files/5190.jpg
+❌ Failed to upload sponsor logo for sponsor-018b5e5d-7f81-499f-9369-44311c032acd: Failed to fetch https://dev-constructafrica.pantheonsite.io/jsonapi/sites/default/files/4946.jpg
+❌ Failed to upload sponsor logo for sponsor-7b3831a7-918d-4cfa-9d8b-4e02e404cb0c: Failed to fetch https://dev-constructafrica.pantheonsite.io/jsonapi/sites/default/files/5155.jpg
+❌ Failed to upload sponsor logo for sponsor-849f717d-834f-4c31-98cf-df5680ad0aff: Failed to fetch https://dev-constructafrica.pantheonsite.io/jsonapi/sites/default/files/5156.jpg
+❌ Failed to upload sponsor logo for sponsor-dbbde022-5dc7-44a0-b01f-12b7ecc696fc: Failed to fetch https://dev-constructafrica.pantheonsite.io/jsonapi/sites/default/files/5157.jpg
+❌ Failed to upload sponsor logo for sponsor-8c4c522d-61bf-4e3c-9a5d-939ebe0b5f96: Failed to fetch https://dev-constructafrica.pantheonsite.io/jsonapi/sites/default/files/5158.jpg
+❌ Failed to upload sponsor logo for sponsor-9aff553c-8487-4bac-8ff3-a17fe608cfb7: Failed to fetch https://dev-constructafrica.pantheonsite.io/jsonapi/sites/default/files/5159.jpg
+❌ Failed to upload sponsor logo for sponsor-0ef92fd9-8250-48fd-ad57-558e694d5aee: Failed to fetch https://dev-constructafrica.pantheonsite.io/jsonapi/sites/default/files/5160.jpg
+❌ Failed to upload sponsor logo for delegate-4bf1b4f9-488b-412d-a369-581126882954: Failed to fetch https://dev-constructafrica.pantheonsite.io/sites/default/files/4947.jpg
+❌ Failed to upload sponsor logo for sponsor-c145a177-2bd4-4c0e-afc2-ac45bb17fff1: Failed to fetch https://dev-constructafrica.pantheonsite.io/sites/default/files/4945.jpg
+❌ Failed to upload sponsor logo for partner-c89e0158-05d0-4d71-8792-329aa1ffde11: Failed to fetch https://dev-constructafrica.pantheonsite.io/sites/default/files/5190.jpg
+❌ Failed to upload sponsor logo for sponsor-018b5e5d-7f81-499f-9369-44311c032acd: Failed to fetch https://dev-constructafrica.pantheonsite.io/sites/default/files/4946.jpg
+❌ Failed to upload sponsor logo for sponsor-7b3831a7-918d-4cfa-9d8b-4e02e404cb0c: Failed to fetch https://dev-constructafrica.pantheonsite.io/sites/default/files/5155.jpg
+❌ Failed to upload sponsor logo for sponsor-849f717d-834f-4c31-98cf-df5680ad0aff: Failed to fetch https://dev-constructafrica.pantheonsite.io/sites/default/files/5156.jpg
+❌ Failed to upload sponsor logo for sponsor-dbbde022-5dc7-44a0-b01f-12b7ecc696fc: Failed to fetch https://dev-constructafrica.pantheonsite.io/sites/default/files/5157.jpg
+❌ Failed to upload sponsor logo for sponsor-8c4c522d-61bf-4e3c-9a5d-939ebe0b5f96: Failed to fetch https://dev-constructafrica.pantheonsite.io/sites/default/files/5158.jpg
+❌ Failed to upload sponsor logo for sponsor-9aff553c-8487-4bac-8ff3-a17fe608cfb7: Failed to fetch https://dev-constructafrica.pantheonsite.io/sites/default/files/5159.jpg
+❌ Failed to upload sponsor logo for sponsor-0ef92fd9-8250-48fd-ad57-558e694d5aee: Failed to fetch https://dev-constructafrica.pantheonsite.io/sites/default/files/5160.jpg
+❌ Failed to upload test_image for test.jpg: Failed to fetch https://dev-constructafrica.pantheonsite.io/sites/default/files/test-id.jpg (404)
+❌ Failed to process delegate image delegate-1: Could not get file URL
+❌ Failed to process sponsor image sponsor-2: uploadImageBlob is not defined
+❌ Failed to process partner image partner-23: uploadImageBlob is not defined
+❌ Failed to process sponsor image sponsor-3: uploadImageBlob is not defined
+❌ Failed to process sponsor image sponsor-15: uploadImageBlob is not defined
+❌ Failed to process sponsor image sponsor-16: uploadImageBlob is not defined
+❌ Failed to process sponsor image sponsor-17: uploadImageBlob is not defined
+❌ Failed to process sponsor image sponsor-18: uploadImageBlob is not defined
+❌ Failed to process sponsor image sponsor-19: uploadImageBlob is not defined
+❌ Failed to process sponsor image sponsor-20: uploadImageBlob is not defined
+❌ Failed to upload delegate for delegate-4bf1b4f9-488b-412d-a369-581126882954: Could not get file URL
+❌ Failed to upload sponsor for sponsor-c145a177-2bd4-4c0e-afc2-ac45bb17fff1: Could not get file URL
+❌ Failed to upload partner for partner-c89e0158-05d0-4d71-8792-329aa1ffde11: Could not get file URL
+❌ Failed to upload sponsor for sponsor-018b5e5d-7f81-499f-9369-44311c032acd: fetch failed
+❌ Failed to upload sponsor for sponsor-7b3831a7-918d-4cfa-9d8b-4e02e404cb0c: fetch failed
+❌ Failed to upload sponsor for sponsor-849f717d-834f-4c31-98cf-df5680ad0aff: fetch failed
+❌ Failed to upload sponsor for sponsor-dbbde022-5dc7-44a0-b01f-12b7ecc696fc: undefined
+❌ Failed to upload sponsor for sponsor-8c4c522d-61bf-4e3c-9a5d-939ebe0b5f96: undefined
+❌ Failed to upload sponsor for sponsor-9aff553c-8487-4bac-8ff3-a17fe608cfb7: fetch failed
+❌ Failed to upload sponsor for sponsor-0ef92fd9-8250-48fd-ad57-558e694d5aee: undefined

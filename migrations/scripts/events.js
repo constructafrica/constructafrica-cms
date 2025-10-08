@@ -32,30 +32,6 @@ for (const partner of DRUPAL_JSON_PARTNERS.data) {
 }
 fs.writeFileSync('sponsors_delegates.csv', sponsorsCsv.join('\n'));
 
-// Process Event Photos and Galleries
-for (const event of DRUPAL_JSON_EVENTS.data) {
-    // Event Photo
-    const photoData = event.relationships.field_event_photo?.data;
-    if (photoData) {
-        await uploadImage(
-            photoData.meta.drupal_internal__target_id,
-            `${event.attributes.title}_photo.jpg`,
-            'event_photo'
-        );
-    }
-
-    // Event Gallery (multiple images)
-    const galleryData = event.relationships.field_event_gallery?.data || [];
-    for (const [index, galleryItem] of galleryData.entries()) {
-        await uploadImage(
-            galleryItem.meta.drupal_internal__target_id,
-            `${event.attributes.title}_gallery_${index + 1}.jpg`,
-            'event_gallery'
-        );
-    }
-}
-
-
 // Generate events.csv
 const eventsCsv = ['id,status,title,slug,event_type,start_date,end_date,country,registration_required,is_virtual,body,contact_number,contact_email,event_link_url,event_link_title,venue_city,venue_address,photo,gallery,created_by,created_at,updated_at'];
 const eventMap = {}; // { drupal_id: directus_id }
