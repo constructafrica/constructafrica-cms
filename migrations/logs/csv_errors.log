@@ -17,3 +17,27 @@ CSV generation failed: [object Object]
 CSV generation failed: [object Object]
 CSV generation failed: [object Object]
 CSV generation failed: [object Object]
+CSV generation failed: Cannot use 'in' operator to search for 'otp' in Abayomi@123
+TypeError: Cannot use 'in' operator to search for 'otp' in Abayomi@123
+    at Object.v [as login] (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/node_modules/@directus/sdk/dist/auth/composable.cjs:1:1248)
+    at getDirectus (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/helpers/upload-image.js:26:36)
+    at uploadImage (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/helpers/upload-image.js:127:28)
+    at /home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/sponsors_delegates.js:49:28
+    at Object.<anonymous> (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/sponsors_delegates.js:95:3)
+    at Module._compile (node:internal/modules/cjs/loader:1469:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+    at Module.load (node:internal/modules/cjs/loader:1288:32)
+    at Module._load (node:internal/modules/cjs/loader:1104:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:174:12)
+CSV generation failed: Cannot use 'in' operator to search for 'otp' in Abayomi@123
+TypeError: Cannot use 'in' operator to search for 'otp' in Abayomi@123
+    at Object.v [as login] (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/node_modules/@directus/sdk/dist/auth/composable.cjs:1:1248)
+    at getDirectus (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/helpers/upload-image.js:26:36)
+    at uploadImage (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/helpers/upload-image.js:127:28)
+    at /home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/sponsors_delegates.js:49:28
+    at Object.<anonymous> (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/sponsors_delegates.js:95:3)
+    at Module._compile (node:internal/modules/cjs/loader:1469:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+    at Module.load (node:internal/modules/cjs/loader:1288:32)
+    at Module._load (node:internal/modules/cjs/loader:1104:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:174:12)

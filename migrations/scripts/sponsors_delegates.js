@@ -1,22 +1,14 @@
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const { uploadImage, uploadImageBlob } = require('../helpers/upload-image.js');
+const { getAuthenticatedApi, resetAuth } = require('../helpers/auth');
+const { uploadImage } = require('../helpers/upload-image');
+const { escapeCsv } = require('../helpers/index');
 
-// Load Drupal data and image map
-const DRUPAL_JSON_SPONSORS_DELEGATES = require('../data/sponsors_delegates.json');
-const IMAGE_MAP_FILE = path.resolve(__dirname, '../data/image_map.json');
-let IMAGE_MAP = fs.existsSync(IMAGE_MAP_FILE)
-    ? require('../data/image_map.json')
-    : {};
-
-const DRUPAL_BASE_URL = process.env.DRUPAL_BASE_URL || 'https://dev-constructafrica.pantheonsite.io';
-
-// Helper: escape CSV values safely
-function escapeCsv(value) {
-    if (value === null || value === undefined) return '';
-    const str = String(value).replace(/"/g, '""');
-    return `"${str}"`;
-}
+// CSV header
+const sponsorsCsv = [
+    'id,name,type,logo,website,description,date_created,status',
+];
 
 // Helper: map Drupal field to Directus type
 function getType(fieldName) {
@@ -32,159 +24,145 @@ function getType(fieldName) {
     }
 }
 
-// Helper: Download and upload image
-async function downloadAndUploadImage(fileUuid, drupalTargetId, filename, type) {
-    // Check if already uploaded
-    if (IMAGE_MAP[drupalTargetId]) {
-        console.log(`✅ Found cached logo for ${type} (Drupal ID: ${drupalTargetId})`);
-        return IMAGE_MAP[drupalTargetId];
-    }
+// Fetch sponsors/delegates from Drupal with pagination
+async function fetchSponsorsDelegates() {
+    const api = await getAuthenticatedApi();
+    let allData = [];
+    let includedData = [];
+    let nextUrl = '/paragraph/sponsors_delegates';
+    let page = 1;
+
+    const params = {
+        'fields[node--sponsor_delegate]': 'drupal_internal__nid,title,created,field_logo,parent_field_name,field_website,body,status',
+        'include': 'field_logo',
+        'page[limit]': 100,
+    };
 
     try {
-        // Get the actual file URL from Drupal
-        const fileUrl = await getFileUrl(fileUuid);
+        console.log('📥 Fetching all sponsors/delegates...');
+        while (nextUrl) {
+            console.log(`📄 Fetching page ${page}...`);
 
-        if (!fileUrl) {
-            throw new Error('Could not get file URL');
-        }
+            const response = await api.get(nextUrl, {
+                params: page === 1 ? params : {}
+            });
 
-        console.log(`📥 Downloading image from: ${fileUrl}`);
-
-        // Download the image
-        const response = await fetch(fileUrl);
-        if (!response.ok) {
-            throw new Error(`Failed to download image: ${response.status} ${response.statusText}`);
-        }
-
-        const blob = await response.blob();
-
-        // Determine file extension from content type or URL
-        const contentType = response.headers.get('content-type');
-        let extension = 'jpg';
-
-        if (contentType) {
-            if (contentType.includes('png')) extension = 'png';
-            else if (contentType.includes('gif')) extension = 'gif';
-            else if (contentType.includes('webp')) extension = 'webp';
-            else if (contentType.includes('svg')) extension = 'svg';
-        } else {
-            // Try to get extension from URL
-            const urlParts = fileUrl.split('.');
-            if (urlParts.length > 1) {
-                extension = urlParts[urlParts.length - 1].split('?')[0].toLowerCase();
+            const records = response.data.data || [];
+            allData = allData.concat(records);
+            if (response.data.included) {
+                includedData = includedData.concat(response.data.included);
             }
+
+            console.log(`✅ Page ${page}: ${records.length} records`);
+
+            if (response.data.links?.next?.href) {
+                nextUrl = response.data.links.next.href.replace(api.defaults.baseURL, '');
+                page++;
+            } else {
+                nextUrl = null;
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 200));
         }
 
-        const finalFilename = `${filename}.${extension}`;
+        console.log(`🎉 Fetched ${allData.length} sponsors/delegates across ${page} pages`);
 
-        // Now upload to Directus using your helper
-        const directusFileId = await uploadImageBlob(blob, finalFilename, type);
-
-        if (directusFileId) {
-            IMAGE_MAP[drupalTargetId] = directusFileId;
-            fs.writeFileSync(IMAGE_MAP_FILE, JSON.stringify(IMAGE_MAP, null, 2));
-            console.log(`✅ Uploaded ${type} logo: ${finalFilename} → ${directusFileId}`);
-        }
-
-        return directusFileId;
+        return {
+            data: allData,
+            included: includedData
+        };
     } catch (error) {
-        console.error(`❌ Failed to process image for ${filename}:`, error.message);
-
-        // Log error
+        console.error('❌ Fetch failed on page', page, ':', error.response?.status, error.response?.data || error.message);
+        if (error.response?.status === 401) {
+            console.log('🔄 Token might be expired, resetting authentication...');
+            resetAuth();
+        }
         if (!fs.existsSync('logs')) fs.mkdirSync('logs');
-        fs.appendFileSync('logs/image_errors.log',
-            `❌ Failed to process ${type} image ${filename}: ${error.message}\n`
-        );
-
-        return null;
+        fs.appendFileSync('logs/csv_errors.log', `Sponsors/delegates fetch failed on page ${page}: ${error.message}\n`);
+        throw error;
     }
 }
 
-// CSV header
-const sponsorsCsv = [
-    'id,name,type,logo,website,description,date_created',
-];
-
+// Generate CSV from fetched Drupal sponsors/delegates
 (async () => {
-    console.log(`🚀 Starting sponsors/delegates migration...`);
-    console.log(`📊 Total items to process: ${DRUPAL_JSON_SPONSORS_DELEGATES.data.length}\n`);
+    console.log('🚀 Starting sponsors/delegates migration...');
 
     let successCount = 0;
     let errorCount = 0;
 
-    for (const [index, item] of DRUPAL_JSON_SPONSORS_DELEGATES.data.entries()) {
-        const attrs = item.attributes;
-        const rels = item.relationships;
+    try {
+        const sponsorsData = await fetchSponsorsDelegates();
+        console.log(`📊 Total items to process: ${sponsorsData.data.length}\n`);
 
-        // Determine type from parent_field_name
-        const type = getType(attrs.parent_field_name);
+        for (const [index, item] of sponsorsData.data.entries()) {
+            const attrs = item.attributes;
+            const rels = item.relationships;
 
-        console.log(`\n[${index + 1}/${DRUPAL_JSON_SPONSORS_DELEGATES.data.length}] Processing ${type}...`);
+            // Determine type from parent_field_name
+            const type = getType(attrs.parent_field_name);
 
-        // Get Drupal image data
-        const fileUuid = rels.field_logo?.data?.id;
-        const drupalTargetId = rels.field_logo?.data?.meta?.drupal_internal__target_id;
-        let logoId = '';
+            console.log(`[${index + 1}/${sponsorsData.data.length}] Processing ${type} (ID: ${item.id})...`);
 
-        if (fileUuid && drupalTargetId) {
-            // logoId = await downloadAndUploadImage(
-            //     fileUuid,
-            //     drupalImageId,
-            //     `${type}-${attrs.drupal_internal__id}`,
-            //     type
-            // );
+            // Get Drupal image data
+            const fileUuid = rels.field_logo?.data?.id;
+            let logoId = '';
 
-            logoId = await uploadImage(drupalTargetId, fileUuid,  `${type}-${item.id}`, type);
-
-            if (logoId) {
-                successCount++;
+            if (fileUuid) {
+                try {
+                    logoId = await uploadImage(fileUuid, 'sponsor_delegate');
+                    if (logoId) {
+                        successCount++;
+                    } else {
+                        errorCount++;
+                        console.log(`⚠️ Failed to upload logo for ${type} (ID: ${item.id})`);
+                    }
+                } catch (error) {
+                    errorCount++;
+                    console.error(`❌ Error uploading logo for ${type} (ID: ${item.id}):`, error.message);
+                    if (!fs.existsSync('logs')) fs.mkdirSync('logs');
+                    fs.appendFileSync('logs/image_errors.log', `Failed to upload logo for ${item.id}: ${error.message}\n`);
+                }
             } else {
-                errorCount++;
+                console.log(`⚠️ No logo found for ${type} (ID: ${item.id})`);
             }
-        } else {
-            console.log(`⚠️  No logo found for ${type} (ID: ${attrs.drupal_internal__id})`);
+
+            // Build CSV row with proper escaping
+            sponsorsCsv.push(
+                [
+                    item.id, // Drupal UUID
+                    escapeCsv(attrs.title || ''),
+                    escapeCsv(type),
+                    escapeCsv(logoId),
+                    escapeCsv(attrs.field_website?.uri || ''),
+                    escapeCsv(attrs.body?.value || ''),
+                    escapeCsv(attrs.created?.split('+')[0] || ''),
+                    escapeCsv(attrs.status ? 'active' : 'inactive') // Status
+                ].join(',')
+            );
         }
 
-        // Build CSV row with proper escaping
-        sponsorsCsv.push(
-            [
-                item.id, // UUID
-                escapeCsv(''), // name (not in JSON)
-                escapeCsv(type),
-                escapeCsv(logoId),
-                escapeCsv(''), // website
-                escapeCsv(''), // description
-                escapeCsv(attrs.created?.split('+')[0] || ''),
-            ].join(',')
-        );
+        // Write CSV
+        const outputPath = path.resolve(__dirname, '../csv/sponsors_delegates.csv');
+        const csvDir = path.dirname(outputPath);
+        if (!fs.existsSync(csvDir)) {
+            fs.mkdirSync(csvDir, { recursive: true });
+        }
+
+        fs.writeFileSync(outputPath, sponsorsCsv.join('\n'));
+
+        console.log(`\n✅ CSV generated: ${outputPath}`);
+        console.log(`📊 Statistics:`);
+        console.log(`   - Total items: ${sponsorsData.data.length}`);
+        console.log(`   - Images uploaded: ${successCount}`);
+        console.log(`   - Errors: ${errorCount}`);
+
+        if (errorCount > 0) {
+            console.log(`⚠️ Check logs/image_errors.log for details`);
+        }
+    } catch (error) {
+        console.error('\n❌ CSV generation failed:', error);
+        if (!fs.existsSync('logs')) fs.mkdirSync('logs');
+        fs.appendFileSync('logs/csv_errors.log', `CSV generation failed: ${error.message}\n${error.stack}\n`);
+        process.exit(1);
     }
-
-    // Write CSV
-    const outputPath = path.resolve(__dirname, '../csv/sponsors_delegates.csv');
-
-    // Ensure csv directory exists
-    const csvDir = path.dirname(outputPath);
-    if (!fs.existsSync(csvDir)) {
-        fs.mkdirSync(csvDir, { recursive: true });
-    }
-
-    fs.writeFileSync(outputPath, sponsorsCsv.join('\n'));
-
-    console.log(`\n✅ CSV generated: ${outputPath}`);
-    console.log(`📊 Statistics:`);
-    console.log(`   - Total items: ${DRUPAL_JSON_SPONSORS_DELEGATES.data.length}`);
-    console.log(`   - Images uploaded: ${successCount}`);
-    console.log(`   - Errors: ${errorCount}`);
-
-    if (errorCount > 0) {
-        console.log(`\n⚠️  Check logs/image_errors.log for details`);
-    }
-})().catch((error) => {
-    console.error("\n❌ CSV generation failed:", error);
-
-    if (!fs.existsSync('logs')) fs.mkdirSync('logs');
-    fs.appendFileSync("logs/csv_errors.log",
-        `CSV generation failed: ${error.message}\n${error.stack}\n`
-    );
-    process.exit(1);
-});
+})();

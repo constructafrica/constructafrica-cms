@@ -1,85 +1,267 @@
+require('dotenv').config();
 const fs = require('fs');
+const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const { getAuthenticatedApi, resetAuth } = require('../helpers/auth');
+const { escapeCsv, formatDateTimeForCsv } = require('../helpers/index');
+const {uploadImage} = require("../helpers/upload-image");
 
-const DRUPAL_JSON_EVENTS = { /* Paste node--events JSON here */ };
-const DRUPAL_JSON_PARTNERS = { /* Paste node--partners JSON here */ };
-const IMAGE_MAP = require('./image_map.json');
-const DEFAULT_ADMIN_USER = 'admin-user-uuid'; // Replace with actual Directus user UUID
+const DEFAULT_ADMIN_USER = process.env.DEFAULT_ADMIN_USER;
 
-// Helper: Escape CSV field
-function escapeCsv(value) {
-    if (!value) return '';
-    const str = String(value).replace(/"/g, '""');
-    return `"${str}"`;
-}
+// Fetch ALL events from Drupal with pagination
+async function fetchEvents() {
+    const api = await getAuthenticatedApi();
+    let allData = [];
+    let includedData = [];
+    let nextUrl = "/node/events";
+    let page = 1;
 
-// Generate sponsors_delegates.csv
-const sponsorsCsv = ['id,name,type,logo,website,website_title,description,created_by,created_at,updated_at'];
-for (const partner of DRUPAL_JSON_PARTNERS.data) {
-    const logoId = IMAGE_MAP[partner.relationships.field_partner_logo?.data?.meta.drupal_internal__target_id] || '';
-    sponsorsCsv.push([
-        partner.id,
-        escapeCsv(partner.attributes.title),
-        'partner',
-        logoId,
-        escapeCsv(partner.attributes.field_partner_link?.uri),
-        escapeCsv(partner.attributes.field_partner_link?.title),
-        '',
-        DEFAULT_ADMIN_USER,
-        partner.attributes.created.split('+')[0],
-        partner.attributes.changed.split('+')[0]
-    ].join(','));
-}
-fs.writeFileSync('sponsors_delegates.csv', sponsorsCsv.join('\n'));
+    const params = {
+        "page[limit]": 100,
+    };
 
-// Generate events.csv
-const eventsCsv = ['id,status,title,slug,event_type,start_date,end_date,country,registration_required,is_virtual,body,contact_number,contact_email,event_link_url,event_link_title,venue_city,venue_address,photo,gallery,created_by,created_at,updated_at'];
-const eventMap = {}; // { drupal_id: directus_id }
-for (const event of DRUPAL_JSON_EVENTS.data) {
-    const eventId = uuidv4();
-    eventMap[event.id] = eventId;
-    const photoId = IMAGE_MAP[event.relationships.field_event_photo?.data?.meta.drupal_internal__target_id] || '';
-    const galleryIds = (event.relationships.field_event_gallery?.data || [])
-        .map(g => IMAGE_MAP[g.meta.drupal_internal__target_id])
-        .filter(id => id)
-        .join(';');
-    eventsCsv.push([
-        eventId,
-        event.attributes.status ? 'published' : 'draft',
-        escapeCsv(event.attributes.title),
-        escapeCsv(event.attributes.title.toLowerCase().replace(/\s+/g, '-')),
-        'Expo', // Adjust or map from /taxonomy_term/events_/{id}
-        event.attributes.field_event_date?.value?.split('+')[0] || '',
-        event.attributes.field_event_date?.end_value?.split('+')[0] || '',
-        event.attributes.field_event_venue?.country_code || '',
-        event.attributes.field_registration_close_date ? 'true' : 'false',
-        event.attributes.field_online_event ? 'true' : 'false',
-        escapeCsv(event.attributes.body?.processed),
-        escapeCsv(event.attributes.field_contact_number),
-        escapeCsv(event.attributes.field_event_email),
-        escapeCsv(event.attributes.field_event_link?.uri),
-        escapeCsv(event.attributes.field_event_link?.title),
-        escapeCsv(event.attributes.field_event_venue?.locality),
-        escapeCsv(event.attributes.field_event_venue?.address_line1),
-        photoId,
-        galleryIds,
-        DEFAULT_ADMIN_USER,
-        event.attributes.created?.split('+')[0] || '',
-        event.attributes.changed?.split('+')[0] || ''
-    ].join(','));
-}
-fs.writeFileSync('events.csv', eventsCsv.join('\n'));
+    try {
+        console.log("📥 Fetching ALL events (including unpublished)...");
+        while (nextUrl) {
+            console.log(`📄 Fetching page ${page}...`);
 
-// Generate events_sponsors_delegates.csv
-const junctionCsv = ['events_id,sponsors_delegates_id'];
-for (const event of DRUPAL_JSON_EVENTS.data) {
-    const partners = event.relationships.field_supporting_partners?.data || [];
-    for (const partner of partners) {
-        if (eventMap[event.id] && DRUPAL_JSON_PARTNERS.data.find(p => p.id === partner.id)) {
-            junctionCsv.push([eventMap[event.id], partner.id].join(','));
+            const response = await api.get(nextUrl, {
+                params: page === 1 ? params : {}
+            });
+
+            const records = response.data.data || [];
+            allData = allData.concat(records);
+            if (response.data.included) {
+                includedData = includedData.concat(response.data.included);
+            }
+
+            const publishedCount = records.filter(r => r.attributes.status).length;
+            const unpublishedCount = records.length - publishedCount;
+            console.log(`✅ Page ${page}: ${records.length} records (${publishedCount} published, ${unpublishedCount} unpublished)`);
+
+            if (response.data.links?.next?.href) {
+                nextUrl = response.data.links.next.href.replace(api.defaults.baseURL, '');
+                page++;
+            } else {
+                nextUrl = null;
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 200));
         }
+
+        const totalPublished = allData.filter(r => r.attributes.status).length;
+        const totalUnpublished = allData.length - totalPublished;
+        console.log(`🎉 Fetched all ${allData.length} events: ${totalPublished} published, ${totalUnpublished} unpublished across ${page} pages`);
+
+        return {
+            data: allData,
+            included: includedData
+        };
+    } catch (error) {
+        console.error("❌ Fetch failed on page", page, ":", error.response?.status, error.response?.data || error.message);
+        if (error.response?.status === 401) {
+            console.log('🔄 Token might be expired, resetting authentication...');
+            resetAuth();
+        }
+        if (!fs.existsSync('logs')) fs.mkdirSync('logs');
+        fs.appendFileSync("logs/fetch_errors.log", `Events fetch failed on page ${page}: ${error.message}\n`);
+        throw error;
     }
 }
-fs.writeFileSync('events_sponsors_delegates.csv', junctionCsv.join('\n'));
 
-console.log('CSVs generated: sponsors_delegates.csv, events.csv, events_sponsors_delegates.csv');
+// Map Drupal file ID to Directus file ID (placeholder for now)
+async function getFeaturedImageId(fileUuid) {
+    if (!fileUuid) return '';
+    console.log("file: ", fileUuid)
+    let imageId = '';
+    imageId = await uploadImage(fileUuid, 'events');
+    return imageId || '';
+}
+
+// Generate CSV from fetched Drupal events
+async function generateEventsCsv() {
+    const eventsData = await fetchEvents();
+
+    const csvDir = path.join(__dirname, "..", "csv");
+    if (!fs.existsSync(csvDir)) {
+        fs.mkdirSync(csvDir, { recursive: true });
+    }
+
+    const outputPath = path.join(csvDir, "events.csv");
+
+    const csvHeaders = [
+        "id",
+        "drupal_nid",
+        "status",
+        "title",
+        "slug",
+        "description",
+        "summary",
+        "event_type",
+        "start_date",
+        "end_date",
+        "country",
+        "city",
+        "state",
+        "venue_address",
+        "registration_required",
+        "registration_deadline",
+        "is_online",
+        "contact_number",
+        "contact_email",
+        "event_website",
+        "event_website_label",
+        "featured_image",
+        "created_by",
+        "date_created",
+        "date_updated",
+        "moderation_state",
+        "drupal_path"
+    ];
+
+    const csv = [csvHeaders.join(',')];
+
+    for (const event of eventsData.data) {
+        try {
+            const attributes = event.attributes || {};
+            const relationships = event.relationships || {};
+
+            const directusId = uuidv4();
+            const featuredImageId = await getFeaturedImageId(relationships.field_event_photo?.data?.id);
+            const eventTypeId = relationships.field_event_type?.data?.id;
+            const registrationRequired = attributes.field_registration_close_date ? 'true' : 'false';
+            const slug = attributes.title ? attributes.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') : 'event-' + directusId;
+
+            csv.push([
+                event.id,
+                attributes.drupal_internal__nid || '',
+                attributes.status ? 'published' : 'draft',
+                escapeCsv(attributes.title || ''),
+                escapeCsv(slug),
+                escapeCsv(attributes.body?.processed || ''),
+                escapeCsv(attributes.body?.summary || ''),
+                escapeCsv(eventTypeId),
+                formatDateTimeForCsv(attributes.field_event_date?.value || ''),
+                formatDateTimeForCsv(attributes.field_event_date?.end_value || ''),
+                escapeCsv(attributes.field_event_venue?.country_code || ''),
+                escapeCsv(attributes.field_event_venue?.locality || ''),
+                escapeCsv(attributes.field_event_venue?.administrative_area || ''),
+                escapeCsv(attributes.field_event_venue?.address_line1 || ''),
+                registrationRequired,
+                formatDateTimeForCsv(attributes.field_registration_close_date || ''),
+                attributes.field_online_event ? 'true' : 'false',
+                escapeCsv(attributes.field_contact_number || ''),
+                escapeCsv(attributes.field_event_email || ''),
+                escapeCsv(attributes.field_event_link?.uri || ''),
+                escapeCsv(attributes.field_event_link?.title || ''),
+                escapeCsv(featuredImageId),
+                escapeCsv(relationships?.uid?.data?.id || DEFAULT_ADMIN_USER || ''),
+                formatDateTimeForCsv(attributes.created || ''),
+                formatDateTimeForCsv(attributes.changed || ''),
+                escapeCsv(attributes.moderation_state || ''),
+                escapeCsv(attributes.path?.alias || '')
+            ].join(','));
+        } catch (error) {
+            console.error(`❌ Error processing event ${event.id}:`, error.message);
+            if (!fs.existsSync('logs')) fs.mkdirSync('logs');
+            fs.appendFileSync('logs/migration_errors.log', `Event ${event.id} processing failed: ${error.message}\n`);
+        }
+    }
+
+    fs.writeFileSync(outputPath, csv.join('\n'), 'utf8');
+
+    const publishedCount = eventsData.data.filter(e => e.attributes.status).length;
+    const unpublishedCount = eventsData.data.length - publishedCount;
+    console.log(`✅ CSV generated with ${eventsData.data.length} events (${publishedCount} published, ${unpublishedCount} unpublished): ${outputPath}`);
+
+    // Run the migration
+    generateEventSponsorsDelegatesCsv(eventsData).catch((error) => {
+        console.error('❌ Event sponsors/delegates CSV generation failed:', error.message);
+        if (!fs.existsSync('logs')) fs.mkdirSync('logs');
+        fs.appendFileSync('logs/migration_errors.log', `Event sponsors/delegates migration failed: ${error.message}\n`);
+        process.exit(1);
+    });
+}
+
+// Run the migration
+generateEventsCsv().catch((error) => {
+    console.error('❌ Events CSV generation failed:', error.message);
+    if (!fs.existsSync('logs')) fs.mkdirSync('logs');
+    fs.appendFileSync('logs/migration_errors.log', `Events migration failed: ${error.message}\n`);
+    process.exit(1);
+});
+
+async function generateEventSponsorsDelegatesCsv(eventsData) {
+
+    console.log("Event sponsor migrating started")
+    const csvDir = path.join(__dirname, "..", "csv");
+    if (!fs.existsSync(csvDir)) {
+        fs.mkdirSync(csvDir, { recursive: true });
+    }
+
+    const outputPath = path.join(csvDir, "events_sponsors_delegates.csv");
+
+    // CSV headers for Directus junction table
+    const csvHeaders = [
+        "id",
+        "event_id",
+        "sponsor_id"
+    ];
+
+    const csv = [csvHeaders.join(',')];
+
+    for (const event of eventsData.data) {
+        try {
+            const attributes = event.attributes || {};
+            const relationships = event.relationships || {};
+            const eventUuid = event.id; // Drupal UUID, maps to events.drupal_uuid
+
+
+
+            // Handle field_show_sponsors_delegates (array of references)
+            const sponsorDelegateRefs = relationships.field_sponsors?.data || [];
+            const delegates = relationships.field_delegates?.data || [];
+            const partners = relationships.field_supporting_partners?.data || [];
+
+            for (const ref of sponsorDelegateRefs) {
+                const directusId = uuidv4();
+                const sponsorDelegateUuid = ref.id; // Drupal UUID of sponsor/delegate
+
+                csv.push([
+                    directusId,
+                    escapeCsv(eventUuid),
+                    escapeCsv(sponsorDelegateUuid)
+                ].join(','));
+            }
+
+            for (const ref of delegates) {
+                const directusId = uuidv4();
+                const sponsorDelegateUuid = ref.id; // Drupal UUID of sponsor/delegate
+
+                csv.push([
+                    directusId,
+                    escapeCsv(eventUuid),
+                    escapeCsv(sponsorDelegateUuid)
+                ].join(','));
+            }
+
+            for (const ref of partners) {
+                const directusId = uuidv4();
+                const sponsorDelegateUuid = ref.id; // Drupal UUID of sponsor/delegate
+
+                csv.push([
+                    directusId,
+                    escapeCsv(eventUuid),
+                    escapeCsv(sponsorDelegateUuid)
+                ].join(','));
+            }
+        } catch (error) {
+            console.error(`❌ Error processing event ${event.id}:`, error.message);
+            if (!fs.existsSync('logs')) fs.mkdirSync('logs');
+            fs.appendFileSync('logs/migration_errors.log', `Event sponsors/delegates ${event.id} processing failed: ${error.message}\n`);
+        }
+    }
+
+    fs.writeFileSync(outputPath, csv.join('\n'), 'utf8');
+    console.log(`✅ CSV generated with ${csv.length - 1} event-sponsor/delegate relationships: ${outputPath}`);
+}

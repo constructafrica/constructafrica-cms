@@ -4,6 +4,7 @@ const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const https = require("https");
 const path = require("path");
+const { escapeCsv } = require('../helpers/index.js');
 
 const BASE_URL = process.env.DRUPAL_API_URL;
 const DEFAULT_ADMIN_USER = process.env.DEFAULT_ADMIN_USER;
@@ -39,13 +40,6 @@ async function fetchEventTypes() {
         fs.appendFileSync("fetch_errors.log", `Fetch failed: ${error.message}\n`);
         throw error;
     }
-}
-
-// Helper: Escape CSV field
-function escapeCsv(value) {
-    if (!value) return "";
-    const str = String(value).replace(/"/g, '""');
-    return `"${str}"`;
 }
 
 // Generate CSV from fetched Drupal taxonomy

@@ -1,12 +1,13 @@
 require('dotenv').config();
 const fs = require('fs');
-const { createDirectus, rest, authentication, uploadFiles } = require('@directus/sdk');
+const { createDirectus, rest, authentication, uploadFiles, readFile, readFiles } = require('@directus/sdk');
+const axios = require("axios");
+const https = require("https");
 
 // Environment variables
 const DIRECTUS_URL = process.env.DIRECTUS_URL || 'http://localhost:8055';
-const DIRECTUS_EMAIL = process.env.DIRECTUS_EMAIL || "dev.constructafrica@gmail.com";
-const DIRECTUS_PASSWORD = process.env.DIRECTUS_PASSWORD || "Abayomi@123";
-const DRUPAL_BASE_URL = process.env.DRUPAL_BASE_URL;
+const DIRECTUS_EMAIL = process.env.DIRECTUS_EMAIL;
+const DIRECTUS_PASSWORD = process.env.DIRECTUS_PASSWORD;
 
 let directusInstance = null;
 let imageMap = {};
@@ -22,7 +23,10 @@ async function getDirectus() {
             .with(rest());
 
         try {
-            await directusInstance.login(DIRECTUS_EMAIL, DIRECTUS_PASSWORD);
+            await directusInstance.login({
+                email: DIRECTUS_EMAIL,
+                password: DIRECTUS_PASSWORD
+            });
             console.log('🔐 Logged into Directus successfully');
         } catch (error) {
             console.error('❌ Login failed:', error);
@@ -52,131 +56,177 @@ function saveImageMap() {
     fs.writeFileSync('image_map.json', JSON.stringify(imageMap, null, 2));
 }
 
-async function getFileUrl(fileId) {
-    try {
-        const url = `${DRUPAL_BASE_URL}/jsonapi/file/file/${fileId}`;
-        const response = await fetch(url);
+async function createApiInstance() {
+    return axios.create({
+        baseURL: process.env.DRUPAL_API_URL,
+        headers: {
+            Accept: 'application/vnd.api+json',
+        },
+        timeout: 10000,
+        httpsAgent: new https.Agent({ family: 4 }), // Force IPv
+    });
+}
 
-        if (!response.ok) {
-            throw new Error(`Failed to fetch file metadata: ${response.status}`);
+async function getFile(fileId) {
+    const maxRetries = 2; // number of retries after the first attempt
+    let attempt = 0;
+    let lastError;
+    const api = await createApiInstance();
+
+    while (attempt <= maxRetries) {
+        try {
+            const url = `/file/file/${fileId}`;
+            const response = await api.get(url);
+
+            if (!response.data) {
+                throw new Error(`Failed to fetch file metadata: ${response.status}`);
+            }
+
+            const fileData = response.data;
+            const attr = fileData.data.attributes;
+            const fileUrl = attr.uri.url;
+
+            const absoluteUrl = fileUrl.startsWith('/')
+                ? `${process.env.DRUPAL_BASE_URL}${fileUrl}`
+                : fileUrl;
+
+            return {
+                data: fileData.data,
+                url: absoluteUrl,
+                fileName: attr.filename,
+                userId: fileData.data.relationships?.uid?.data?.id || null,
+                createdAt: attr.created,
+                updatedAt: attr.changed,
+            };
+        } catch (error) {
+            lastError = error;
+            attempt++;
+
+            if (attempt > maxRetries) {
+                console.error(`❌ Failed to get file URL for ${fileId} after ${attempt} attempts.`);
+                console.error('Last error:', error.message);
+                return null;
+            }
+
+            const delay = 500 * attempt; // backoff (0.5s, then 1s)
+            console.warn(`⚠️ Attempt ${attempt} failed for file ${fileId}. Retrying in ${delay}ms...`);
+            await new Promise(resolve => setTimeout(resolve, delay));
         }
-
-        const fileData = await response.json();
-
-        // The actual file URL is in attributes.uri.url
-        const fileUrl = fileData.data.attributes.uri.url;
-
-        // If it's a relative URL, make it absolute
-        if (fileUrl.startsWith('/')) {
-            return `${DRUPAL_BASE_URL}${fileUrl}`;
-        }
-
-        return fileUrl;
-    } catch (error) {
-        console.error(`❌ Failed to get file URL for ${fileId}:`, error.message);
-        return null;
     }
+
+    // If we get here, all retries failed
+    return null;
 }
 
 /**
- * Upload image to Directus (stored in Cloudflare R2)
- * @param {string} drupalTargetId - Drupal file ID
+ * Upload image to Directus
  * @param {string} fileUuid - Drupal file uuid
- * @param {string} filename - Desired filename
- * @param {string} type - Image type (e.g., 'sponsor_delegate_logo', 'partner_logo')
+ * @param {string} folder - Desired folder name
+ *
  * @returns {Promise<string|null>} Directus file ID or null on failure
  */
-async function uploadImage(drupalTargetId, fileUuid, filename, type = 'image') {
+async function uploadImage(fileUuid, folder = '') {
     loadImageMap();
+    const directus = await getDirectus();
+    const api = await createApiInstance();
 
-    // Check if image is already uploaded
-    if (imageMap[drupalTargetId]) {
-        console.log(`✅ Reusing existing ${type} image: ${drupalTargetId} → ${imageMap[drupalTargetId]}`);
-        return imageMap[drupalTargetId];
+    // Check if file already exists in Directus by drupal_uuid
+    // try {
+    //     const existingFiles = await directus.request(readFiles({
+    //         filter: {
+    //             drupal_uuid: {
+    //                 _eq: fileUuid
+    //             }
+    //         },
+    //         limit: 1
+    //     }));
+    //
+    //     if (existingFiles.data && existingFiles.data.length > 0) {
+    //         const existingFile = existingFiles.data[0];
+    //         console.log(`✅ Reusing existing image by drupal_uuid: ${fileUuid} → ${existingFile.id}`);
+    //         return existingFile.id;
+    //     }
+    // } catch (error) {
+    //     console.log(`📝 No existing file found with drupal_uuid: ${fileUuid}, will upload new file`);
+    // }
+
+    if (imageMap[fileUuid]) {
+        console.log(`✅ Reusing existing image: ${fileUuid} → ${imageMap[fileUuid]}`);
+        return imageMap[fileUuid];
     }
 
-    const directus = await getDirectus();
-    // const imageUrl = `${DRUPAL_BASE_URL}/sites/default/files/${drupalTargetId}.jpg`;
+    const file = await getFile(fileUuid);
 
-    try {
-        const fileUrl = await getFileUrl(fileUuid);
-
-        if (!fileUrl) {
-            throw new Error('Could not get file URL');
-        }
-
-        console.log(`📥 Downloading image from: ${fileUrl}`);
-
-        // Fetch image from Drupal
-        const response = await fetch(fileUrl);
-        if (!response.ok) throw new Error(`Failed to fetch ${fileUrl} (${response.status})`);
-
-        // Get the blob
-        const blob = await response.blob();
-
-        // Create FormData (Directus expects multipart/form-data)
-        const formData = new FormData();
-        formData.append('file', blob, filename);
-        formData.append('title', filename);
-
-        // Upload using the uploadFiles composable
-        const uploadedFile = await directus.request(
-            uploadFiles(formData)
-        );
-
-        imageMap[drupalTargetId] = uploadedFile.id;
-        saveImageMap();
-
-        console.log(`📸 Uploaded ${type} image: ${filename} → ${uploadedFile.id}`);
-        return uploadedFile.id;
-    } catch (error) {
-        console.error(`❌ Failed to upload ${type} for ${filename}:`, error.message);
-
-        // Ensure logs directory exists
-        if (!fs.existsSync('logs')) {
-            fs.mkdirSync('logs');
-        }
-
-        fs.appendFileSync(
-            'logs/image_errors.log',
-            `❌ Failed to upload ${type} for ${filename}: ${error.message}\n`
-        );
+    if (!file) {
+        console.error(`❌ No file data for UUID ${fileUuid}`);
         return null;
     }
-}
 
-async function uploadImageBlob(blob, filename, type) {
-    const directus = await getDirectus();
+    const filename = file.fileName || `file-${fileUuid}`;
+    const maxRetries = 2;
+    let attempt = 1;
 
-    try {
-        // Create FormData
-        const formData = new FormData();
-        formData.append('file', blob, filename);
-        formData.append('title', filename);
+    while (attempt <= maxRetries) {
+        try {
+            if (!file) {
+                throw new Error('Could not get file URL');
+            }
 
-        // Get auth token
-        const token = await directus.getToken();
+            const fileUrl = file?.url;
 
-        // Upload using raw fetch
-        const uploadResponse = await fetch(`${process.env.DIRECTUS_URL}/files`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            body: formData
-        });
+            console.log(`📥 Downloading image from: ${fileUrl}`);
 
-        if (!uploadResponse.ok) {
-            const errorText = await uploadResponse.text();
-            throw new Error(`Upload failed: ${uploadResponse.status} - ${errorText}`);
+            // Fetch image from Drupal
+            const response = await api.get(fileUrl, { responseType: 'arraybuffer' });
+            if (!response.data) throw new Error(`Failed to fetch ${fileUrl} (${response.status})`);
+
+            // Get the blob
+            // const blob = await response.data.blob();
+            const buffer = Buffer.from(response.data);
+            const blob = new Blob([buffer], {
+                type: response.headers['content-type'] || 'image/jpeg'
+            });
+
+            const formData = new FormData();
+            formData.append('file', blob, file.fileName);
+            // formData.append('title', file.fileName);
+            formData.append('drupal_uuid', fileUuid); // not working
+            formData.append('id', fileUuid);
+            formData.append('drupal_id', 1);  // not working
+            formData.append('folder', folder); // not working
+            formData.append('uploaded_by', file.userId || '');
+            formData.append('created_on', file.createdAt);
+            formData.append('modified_on', file.updatedAt);
+
+            // Upload using the uploadFiles composable
+            const uploadedFile = await directus.request(
+                uploadFiles(formData)
+            );
+
+            imageMap[fileUuid] = uploadedFile.id;
+            saveImageMap();
+
+            console.log(`📸 Uploaded image: ${filename} → ${uploadedFile.id} (drupal_uuid: ${fileUuid})`);
+            return uploadedFile.id;
+        } catch (error) {
+            console.error(`❌ Attempt ${attempt} failed for ${filename}:`, error.message);
+            if (error.response) {
+                console.error('Response details:', await error.response.text());
+            }
+            if (attempt === maxRetries) {
+                console.error('❌ All attempts failed');
+                if (!fs.existsSync('logs')) fs.mkdirSync('logs');
+                fs.appendFileSync(
+                    'logs/image_errors.log',
+                    `❌ Failed to upload for ${filename}: ${error.message}\n`
+                );
+                return null;
+            }
+            attempt++;
+            await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
         }
-
-        const result = await uploadResponse.json();
-        return result.data.id;
-    } catch (error) {
-        console.error(`❌ Failed to upload blob for ${filename}:`, error.message);
-        return null;
     }
+    return null;
 }
 
-module.exports = { uploadImage, getDirectus, uploadImageBlob };
+module.exports = { uploadImage, getDirectus };
