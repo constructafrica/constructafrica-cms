@@ -34,104 +34,19 @@
         "display_name": "mudasir",
         "drupal_internal__uid": 1,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": null,
         "name": "mudasir",
         "mail": "web.mudasir@gmail.com",
+        "timezone": "Asia/Kolkata",
+        "status": true,
         "created": "2019-09-28T14:12:27+00:00",
         "changed": "2024-08-14T05:56:29+00:00",
+        "access": "2025-07-28T13:33:31+00:00",
+        "login": "2025-07-28T13:33:31+00:00",
+        "init": "wasimqayoomkhan@gmail.com",
         "default_langcode": true,
-        "metatag": [
-          {
-            "tag": "meta",
-            "attributes": {
-              "name": "title",
-              "content": "mudasir | ConstructAfrica"
-            }
-          },
-          {
-            "tag": "meta",
-            "attributes": {
-              "name": "description",
-              "content": "ConstructAfrica"
-            }
-          },
-          {
-            "tag": "meta",
-            "attributes": {
-              "name": "keywords",
-              "content": "Construction, Constructions reports, Africa construction"
-            }
-          },
-          {
-            "tag": "meta",
-            "attributes": {
-              "name": "robots",
-              "content": "index, follow"
-            }
-          },
-          {
-            "tag": "link",
-            "attributes": {
-              "rel": "canonical",
-              "href": "https://dev-constructafrica.pantheonsite.io/user/1"
-            }
-          },
-          {
-            "tag": "meta",
-            "attributes": {
-              "property": "og:site_name",
-              "content": "ConstructAfrica"
-            }
-          },
-          {
-            "tag": "meta",
-            "attributes": {
-              "property": "og:url",
-              "content": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user"
-            }
-          },
-          {
-            "tag": "meta",
-            "attributes": {
-              "property": "og:image:width",
-              "content": "730"
-            }
-          },
-          {
-            "tag": "meta",
-            "attributes": {
-              "property": "og:image:height",
-              "content": "450"
-            }
-          },
-          {
-            "tag": "meta",
-            "attributes": {
-              "property": "fb:pages",
-              "content": "ConstructAfricasite"
-            }
-          },
-          {
-            "tag": "meta",
-            "attributes": {
-              "name": "twitter:card",
-              "content": "summary_large_image"
-            }
-          },
-          {
-            "tag": "meta",
-            "attributes": {
-              "name": "twitter:site",
-              "content": "@africaconstruct"
-            }
-          },
-          {
-            "tag": "meta",
-            "attributes": {
-              "name": "twitter:creator",
-              "content": "@africaconstruct"
-            }
-          }
-        ],
+        "metatag": [],
         "path": {
           "alias": null,
           "pid": null,
@@ -177,25 +92,9 @@
         "field_verification_timestamp": "2024-08-14T15:26:29+04:00"
       },
       "relationships": {
-        "customer_profiles": {
-          "data": [
-            {
-              "type": "profile--customer",
-              "id": "57c8fc7f-b31b-4aee-a1b5-6c3cea6b26fc",
-              "meta": {
-                "drupal_internal__target_id": 2
-              }
-            }
-          ],
-          "links": {
-            "related": {
-              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/155b076c-d191-4ca6-968c-68c7bff64662/customer_profiles"
-            },
-            "self": {
-              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/155b076c-d191-4ca6-968c-68c7bff64662/relationships/customer_profiles"
-            }
-          }
-        },
+        "roles": {},
+        "customer_profiles": {},
+        "field_corporate_accounts": {},
         "field_simple_affiliate_referrals": {
           "data": null,
           "links": {
@@ -253,10 +152,17 @@
         "display_name": "Staff Writer",
         "drupal_internal__uid": 4,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Staff Writer",
         "mail": "segun.faniran@turntown.com",
+        "timezone": "Asia/Kolkata",
+        "status": true,
         "created": "2020-03-30T08:21:14+00:00",
         "changed": "2024-03-02T13:46:03+00:00",
+        "access": "2023-12-09T13:12:49+00:00",
+        "login": "2023-12-09T11:13:51+00:00",
+        "init": "faniran@westnet.com.au",
         "default_langcode": true,
         "metatag": [
           {
@@ -305,7 +211,7 @@
             "tag": "meta",
             "attributes": {
               "property": "og:url",
-              "content": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user"
+              "content": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/c560768f-57bc-4377-a246-d6a4ffd424c6"
             }
           },
           {
@@ -383,6 +289,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/c560768f-57bc-4377-a246-d6a4ffd424c6/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/c560768f-57bc-4377-a246-d6a4ffd424c6/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -391,6 +308,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/c560768f-57bc-4377-a246-d6a4ffd424c6/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/c560768f-57bc-4377-a246-d6a4ffd424c6/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/c560768f-57bc-4377-a246-d6a4ffd424c6/relationships/field_corporate_accounts"
             }
           }
         },
@@ -441,10 +369,17 @@
         "display_name": "administrator",
         "drupal_internal__uid": 5,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "administrator",
         "mail": "web.mud+asir@gmail.com",
+        "timezone": "Asia/Kolkata",
+        "status": true,
         "created": "2020-04-06T05:54:35+00:00",
         "changed": "2020-09-19T16:11:21+00:00",
+        "access": "2020-09-19T18:48:44+00:00",
+        "login": "2020-09-19T16:12:49+00:00",
+        "init": "deeptanwar79@gmail.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -571,6 +506,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d4d669da-c75f-44b4-80f5-32f5919c5128/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d4d669da-c75f-44b4-80f5-32f5919c5128/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -579,6 +525,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d4d669da-c75f-44b4-80f5-32f5919c5128/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d4d669da-c75f-44b4-80f5-32f5919c5128/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d4d669da-c75f-44b4-80f5-32f5919c5128/relationships/field_corporate_accounts"
             }
           }
         },
@@ -629,10 +586,17 @@
         "display_name": "Richard Scott",
         "drupal_internal__uid": 48,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Richard Scott",
         "mail": "hello@constructafrica.com",
+        "timezone": "Asia/Kolkata",
+        "status": true,
         "created": "2020-10-10T07:33:23+00:00",
         "changed": "2024-03-26T11:26:39+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": "constructafrica2@gmail.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -767,6 +731,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "68f01f49-a829-4ebc-91c6-1759b3951535",
+              "meta": {
+                "drupal_internal__target_id": "opinion"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/19385162-4144-43d8-bff4-4254a6fdf435/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/19385162-4144-43d8-bff4-4254a6fdf435/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -775,6 +758,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/19385162-4144-43d8-bff4-4254a6fdf435/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/19385162-4144-43d8-bff4-4254a6fdf435/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/19385162-4144-43d8-bff4-4254a6fdf435/relationships/field_corporate_accounts"
             }
           }
         },
@@ -835,10 +829,17 @@
         "display_name": "Jide Ehizele",
         "drupal_internal__uid": 49,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Jide Ehizele",
         "mail": null,
+        "timezone": "Asia/Kolkata",
+        "status": true,
         "created": "2020-10-10T10:12:52+00:00",
         "changed": "2023-12-12T08:52:22+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -973,6 +974,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "68f01f49-a829-4ebc-91c6-1759b3951535",
+              "meta": {
+                "drupal_internal__target_id": "opinion"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a10cec5e-e04b-4870-85b4-7934af22c34f/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a10cec5e-e04b-4870-85b4-7934af22c34f/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -981,6 +1001,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a10cec5e-e04b-4870-85b4-7934af22c34f/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a10cec5e-e04b-4870-85b4-7934af22c34f/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a10cec5e-e04b-4870-85b4-7934af22c34f/relationships/field_corporate_accounts"
             }
           }
         },
@@ -1041,10 +1072,17 @@
         "display_name": "Vladyslav Zdravchev",
         "drupal_internal__uid": 50,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Vladyslav Zdravchev",
         "mail": null,
+        "timezone": "Asia/Kolkata",
+        "status": true,
         "created": "2020-10-10T10:32:18+00:00",
         "changed": "2023-12-12T09:34:27+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -1179,6 +1217,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "68f01f49-a829-4ebc-91c6-1759b3951535",
+              "meta": {
+                "drupal_internal__target_id": "opinion"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/88c7e581-75cc-49dd-8783-6075b0a973d3/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/88c7e581-75cc-49dd-8783-6075b0a973d3/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -1187,6 +1244,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/88c7e581-75cc-49dd-8783-6075b0a973d3/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/88c7e581-75cc-49dd-8783-6075b0a973d3/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/88c7e581-75cc-49dd-8783-6075b0a973d3/relationships/field_corporate_accounts"
             }
           }
         },
@@ -1247,10 +1315,17 @@
         "display_name": "segun.f",
         "drupal_internal__uid": 57,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "segun.f",
         "mail": "segun.f@constructafrica.com",
+        "timezone": "Asia/Kolkata",
+        "status": true,
         "created": "2020-11-07T14:01:42+00:00",
         "changed": "2025-05-23T14:47:42+00:00",
+        "access": "2025-05-22T12:01:47+00:00",
+        "login": "2025-05-22T09:52:24+00:00",
+        "init": "segun.f@constructafrica.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -1299,7 +1374,7 @@
             "tag": "meta",
             "attributes": {
               "property": "og:url",
-              "content": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user"
+              "content": "https://dev-constructafrica.pantheonsite.io/jsonapi/node/events"
             }
           },
           {
@@ -1377,6 +1452,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "52ed01b4-6121-4a52-a894-ddbb6f233ca2",
+              "meta": {
+                "drupal_internal__target_id": "administrator"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/ab1098ae-7c32-4f07-a46d-d227c31bef9d/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/ab1098ae-7c32-4f07-a46d-d227c31bef9d/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -1385,6 +1479,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/ab1098ae-7c32-4f07-a46d-d227c31bef9d/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/ab1098ae-7c32-4f07-a46d-d227c31bef9d/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/ab1098ae-7c32-4f07-a46d-d227c31bef9d/relationships/field_corporate_accounts"
             }
           }
         },
@@ -1435,10 +1540,17 @@
         "display_name": "Moses Itanola",
         "drupal_internal__uid": 67,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Moses Itanola",
         "mail": null,
+        "timezone": "Asia/Kolkata",
+        "status": true,
         "created": "2020-12-07T10:02:01+00:00",
         "changed": "2020-12-07T10:02:01+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -1565,6 +1677,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/c9378851-811f-49bb-ad7c-65951f71b172/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/c9378851-811f-49bb-ad7c-65951f71b172/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -1573,6 +1696,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/c9378851-811f-49bb-ad7c-65951f71b172/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/c9378851-811f-49bb-ad7c-65951f71b172/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/c9378851-811f-49bb-ad7c-65951f71b172/relationships/field_corporate_accounts"
             }
           }
         },
@@ -1623,10 +1757,17 @@
         "display_name": "Diana Muringo",
         "drupal_internal__uid": 122,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Diana Muringo",
         "mail": "dianamuringo24@gmail.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2021-01-07T19:19:59+00:00",
         "changed": "2021-12-15T09:41:54+00:00",
+        "access": "2024-06-06T13:55:03+00:00",
+        "login": "2024-06-06T10:07:29+00:00",
+        "init": "dianamuringo24@gmail.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -1753,6 +1894,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/b1da05b5-3f66-4dce-9615-38d5070c2715/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/b1da05b5-3f66-4dce-9615-38d5070c2715/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -1761,6 +1913,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/b1da05b5-3f66-4dce-9615-38d5070c2715/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/b1da05b5-3f66-4dce-9615-38d5070c2715/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/b1da05b5-3f66-4dce-9615-38d5070c2715/relationships/field_corporate_accounts"
             }
           }
         },
@@ -1811,10 +1974,17 @@
         "display_name": "Sustainability Times",
         "drupal_internal__uid": 128,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Sustainability Times",
         "mail": null,
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2021-01-11T09:50:09+00:00",
         "changed": "2021-01-11T09:50:09+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -1941,6 +2111,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/1271f8ea-f80e-4165-99f2-9237984237d8/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/1271f8ea-f80e-4165-99f2-9237984237d8/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -1949,6 +2130,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/1271f8ea-f80e-4165-99f2-9237984237d8/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/1271f8ea-f80e-4165-99f2-9237984237d8/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/1271f8ea-f80e-4165-99f2-9237984237d8/relationships/field_corporate_accounts"
             }
           }
         },
@@ -1999,10 +2191,17 @@
         "display_name": "Elekanyani Ndlovu",
         "drupal_internal__uid": 129,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Elekanyani Ndlovu",
         "mail": null,
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2021-01-11T11:02:48+00:00",
         "changed": "2023-12-12T09:55:49+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -2141,6 +2340,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "68f01f49-a829-4ebc-91c6-1759b3951535",
+              "meta": {
+                "drupal_internal__target_id": "opinion"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a62b24da-692e-471d-a869-dd07d27aa311/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a62b24da-692e-471d-a869-dd07d27aa311/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -2149,6 +2367,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a62b24da-692e-471d-a869-dd07d27aa311/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a62b24da-692e-471d-a869-dd07d27aa311/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a62b24da-692e-471d-a869-dd07d27aa311/relationships/field_corporate_accounts"
             }
           }
         },
@@ -2209,10 +2438,17 @@
         "display_name": "Charné Hundermark",
         "drupal_internal__uid": 158,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Charné Hundermark",
         "mail": null,
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2021-02-11T05:26:29+00:00",
         "changed": "2021-02-11T05:28:17+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -2339,6 +2575,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a24039e9-b328-4b9d-8989-a827fbf15ae7/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a24039e9-b328-4b9d-8989-a827fbf15ae7/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -2347,6 +2594,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a24039e9-b328-4b9d-8989-a827fbf15ae7/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a24039e9-b328-4b9d-8989-a827fbf15ae7/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/a24039e9-b328-4b9d-8989-a827fbf15ae7/relationships/field_corporate_accounts"
             }
           }
         },
@@ -2397,10 +2655,17 @@
         "display_name": "Salona and Gabi",
         "drupal_internal__uid": 184,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Salona and Gabi",
         "mail": null,
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2021-03-25T07:42:16+00:00",
         "changed": "2021-04-15T14:09:20+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -2527,6 +2792,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f0e5ede5-d702-4126-82f8-c44ce529ee1b/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f0e5ede5-d702-4126-82f8-c44ce529ee1b/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -2535,6 +2811,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f0e5ede5-d702-4126-82f8-c44ce529ee1b/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f0e5ede5-d702-4126-82f8-c44ce529ee1b/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f0e5ede5-d702-4126-82f8-c44ce529ee1b/relationships/field_corporate_accounts"
             }
           }
         },
@@ -2585,10 +2872,17 @@
         "display_name": "Andres Vega",
         "drupal_internal__uid": 198,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Andres Vega",
         "mail": null,
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2021-04-15T14:11:03+00:00",
         "changed": "2023-12-12T09:21:18+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -2723,6 +3017,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "68f01f49-a829-4ebc-91c6-1759b3951535",
+              "meta": {
+                "drupal_internal__target_id": "opinion"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f383897a-85bd-4a60-9d75-afb5f7958ea3/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f383897a-85bd-4a60-9d75-afb5f7958ea3/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -2731,6 +3044,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f383897a-85bd-4a60-9d75-afb5f7958ea3/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f383897a-85bd-4a60-9d75-afb5f7958ea3/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f383897a-85bd-4a60-9d75-afb5f7958ea3/relationships/field_corporate_accounts"
             }
           }
         },
@@ -2791,10 +3115,17 @@
         "display_name": "Miguel Artacho",
         "drupal_internal__uid": 265,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Miguel Artacho",
         "mail": null,
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2021-09-22T03:40:23+00:00",
         "changed": "2021-09-22T03:40:23+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -2921,6 +3252,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d67bf0a2-5c7d-44d9-9845-acfcb26ed234/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d67bf0a2-5c7d-44d9-9845-acfcb26ed234/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -2929,6 +3271,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d67bf0a2-5c7d-44d9-9845-acfcb26ed234/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d67bf0a2-5c7d-44d9-9845-acfcb26ed234/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d67bf0a2-5c7d-44d9-9845-acfcb26ed234/relationships/field_corporate_accounts"
             }
           }
         },
@@ -2979,10 +3332,17 @@
         "display_name": "Roger Long",
         "drupal_internal__uid": 278,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Roger Long",
         "mail": null,
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2021-11-09T11:57:21+00:00",
         "changed": "2023-12-12T09:40:34+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -3113,6 +3473,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "68f01f49-a829-4ebc-91c6-1759b3951535",
+              "meta": {
+                "drupal_internal__target_id": "opinion"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/fef96411-89b9-426a-ba72-435e6380048c/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/fef96411-89b9-426a-ba72-435e6380048c/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -3121,6 +3500,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/fef96411-89b9-426a-ba72-435e6380048c/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/fef96411-89b9-426a-ba72-435e6380048c/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/fef96411-89b9-426a-ba72-435e6380048c/relationships/field_corporate_accounts"
             }
           }
         },
@@ -3181,10 +3571,17 @@
         "display_name": "Kelsey Mulvey",
         "drupal_internal__uid": 287,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Kelsey Mulvey",
         "mail": null,
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2021-11-30T10:28:54+00:00",
         "changed": "2021-11-30T10:28:54+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -3311,6 +3708,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9baa63d5-76f9-4458-858a-5345deac62f8/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9baa63d5-76f9-4458-858a-5345deac62f8/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -3319,6 +3727,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9baa63d5-76f9-4458-858a-5345deac62f8/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9baa63d5-76f9-4458-858a-5345deac62f8/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9baa63d5-76f9-4458-858a-5345deac62f8/relationships/field_corporate_accounts"
             }
           }
         },
@@ -3369,10 +3788,17 @@
         "display_name": "chrism",
         "drupal_internal__uid": 294,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "chrism",
         "mail": "chriselle.moraes@gmail.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2021-12-15T06:12:41+00:00",
         "changed": "2024-09-27T00:52:49+00:00",
+        "access": "2024-09-27T07:08:02+00:00",
+        "login": "2024-09-27T00:52:49+00:00",
+        "init": "chriselle.moraes@gmail.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -3499,6 +3925,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/445a6668-f2ce-4ed8-84cb-6439a2e01b14/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/445a6668-f2ce-4ed8-84cb-6439a2e01b14/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -3507,6 +3944,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/445a6668-f2ce-4ed8-84cb-6439a2e01b14/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/445a6668-f2ce-4ed8-84cb-6439a2e01b14/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/445a6668-f2ce-4ed8-84cb-6439a2e01b14/relationships/field_corporate_accounts"
             }
           }
         },
@@ -3557,10 +4005,17 @@
         "display_name": "Nicholas Nhede",
         "drupal_internal__uid": 344,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Nicholas Nhede",
         "mail": null,
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2022-04-04T23:59:29+00:00",
         "changed": "2022-04-04T23:59:29+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -3687,6 +4142,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f16330f7-113f-43a3-b23b-cb5b0edfbdd8/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f16330f7-113f-43a3-b23b-cb5b0edfbdd8/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -3695,6 +4161,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f16330f7-113f-43a3-b23b-cb5b0edfbdd8/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f16330f7-113f-43a3-b23b-cb5b0edfbdd8/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f16330f7-113f-43a3-b23b-cb5b0edfbdd8/relationships/field_corporate_accounts"
             }
           }
         },
@@ -3745,10 +4222,17 @@
         "display_name": "Kelly-Ann Mealia",
         "drupal_internal__uid": 414,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Kelly-Ann Mealia",
         "mail": null,
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2022-06-21T08:11:17+00:00",
         "changed": "2023-12-12T09:52:32+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -3883,6 +4367,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "68f01f49-a829-4ebc-91c6-1759b3951535",
+              "meta": {
+                "drupal_internal__target_id": "opinion"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/565fa953-d6e0-4c4d-8155-1e5a7b866293/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/565fa953-d6e0-4c4d-8155-1e5a7b866293/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -3891,6 +4394,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/565fa953-d6e0-4c4d-8155-1e5a7b866293/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/565fa953-d6e0-4c4d-8155-1e5a7b866293/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/565fa953-d6e0-4c4d-8155-1e5a7b866293/relationships/field_corporate_accounts"
             }
           }
         },
@@ -3951,10 +4465,17 @@
         "display_name": "Adeola",
         "drupal_internal__uid": 726,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Adeola",
         "mail": "e_adeolaagunbiade@yahoo.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-02-24T05:32:54+00:00",
         "changed": "2023-02-24T05:32:54+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": "e_adeolaagunbiade@yahoo.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -4081,6 +4602,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/7e9ca90b-dcec-46b6-b16f-869ad7a3ce75/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/7e9ca90b-dcec-46b6-b16f-869ad7a3ce75/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -4089,6 +4621,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/7e9ca90b-dcec-46b6-b16f-869ad7a3ce75/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/7e9ca90b-dcec-46b6-b16f-869ad7a3ce75/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/7e9ca90b-dcec-46b6-b16f-869ad7a3ce75/relationships/field_corporate_accounts"
             }
           }
         },
@@ -4136,7 +4679,220 @@
         }
       },
       "attributes": {
-        "display_name": "Liz Bains"
+        "display_name": "Liz Bains",
+        "drupal_internal__uid": 769,
+        "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
+        "name": "Liz Bains",
+        "mail": "lizbains@constructafrica.com",
+        "timezone": "Asia/Dubai",
+        "status": false,
+        "created": "2023-05-01T09:04:02+00:00",
+        "changed": "2025-04-02T07:27:54+00:00",
+        "access": "2025-03-16T06:15:50+00:00",
+        "login": "2025-03-16T05:30:38+00:00",
+        "init": "lizbains@constructafrica.com",
+        "default_langcode": true,
+        "metatag": [
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "title",
+              "content": "Liz Bains | ConstructAfrica"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "description",
+              "content": "ConstructAfrica"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "keywords",
+              "content": "Construction, Constructions reports, Africa construction"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "robots",
+              "content": "index, follow"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "canonical",
+              "href": "https://dev-constructafrica.pantheonsite.io/user/769"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:site_name",
+              "content": "ConstructAfrica"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:url",
+              "content": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:width",
+              "content": "730"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:height",
+              "content": "450"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:pages",
+              "content": "ConstructAfricasite"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:card",
+              "content": "summary_large_image"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:site",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:creator",
+              "content": "@africaconstruct"
+            }
+          }
+        ],
+        "path": {
+          "alias": null,
+          "pid": null,
+          "langcode": "en"
+        },
+        "commerce_remote_id": [],
+        "field_auto_verified": null,
+        "field_bio": null,
+        "field_company": "ConstructAfrica",
+        "field_country": "AE",
+        "field_expired_subscription": null,
+        "field_facebook": null,
+        "field_job_t": "editor",
+        "field_last_trial_email_sent_day": null,
+        "field_linkedln": null,
+        "field_linked_account": null,
+        "field_phone": "0",
+        "field_registration_type": null,
+        "field_subscription": null,
+        "field_subscription_expiry": null,
+        "field_subscription_expiry_preser": null,
+        "field_subscription_start": null,
+        "field_subscription_start_preserv": null,
+        "field_terms_conditions": true,
+        "field_trial_used": null,
+        "field_twitter": null,
+        "field_user_first_name": "Liz",
+        "field_user_last_name": "Bains",
+        "field_verification": null,
+        "field_verification_timestamp": null
+      },
+      "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "817613c8-f74f-442a-ac84-247ffb13ebca",
+              "meta": {
+                "drupal_internal__target_id": "super_editor"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/57682ec4-d272-475d-8e26-21bfb0a5822b/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/57682ec4-d272-475d-8e26-21bfb0a5822b/relationships/roles"
+            }
+          }
+        },
+        "customer_profiles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/57682ec4-d272-475d-8e26-21bfb0a5822b/customer_profiles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/57682ec4-d272-475d-8e26-21bfb0a5822b/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/57682ec4-d272-475d-8e26-21bfb0a5822b/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/57682ec4-d272-475d-8e26-21bfb0a5822b/relationships/field_corporate_accounts"
+            }
+          }
+        },
+        "field_simple_affiliate_referrals": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/57682ec4-d272-475d-8e26-21bfb0a5822b/field_simple_affiliate_referrals"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/57682ec4-d272-475d-8e26-21bfb0a5822b/relationships/field_simple_affiliate_referrals"
+            }
+          }
+        },
+        "layout_selection": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/57682ec4-d272-475d-8e26-21bfb0a5822b/layout_selection"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/57682ec4-d272-475d-8e26-21bfb0a5822b/relationships/layout_selection"
+            }
+          }
+        },
+        "user_picture": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/57682ec4-d272-475d-8e26-21bfb0a5822b/user_picture"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/57682ec4-d272-475d-8e26-21bfb0a5822b/relationships/user_picture"
+            }
+          }
+        }
       }
     },
     {
@@ -4151,10 +4907,17 @@
         "display_name": "Victor Ongoma",
         "drupal_internal__uid": 792,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Victor Ongoma",
         "mail": null,
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-05-12T06:47:56+00:00",
         "changed": "2023-12-12T09:31:10+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -4285,6 +5048,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "68f01f49-a829-4ebc-91c6-1759b3951535",
+              "meta": {
+                "drupal_internal__target_id": "opinion"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d01b99ae-1b59-4bf2-8dfb-881fdc09c5e7/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d01b99ae-1b59-4bf2-8dfb-881fdc09c5e7/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -4293,6 +5075,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d01b99ae-1b59-4bf2-8dfb-881fdc09c5e7/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d01b99ae-1b59-4bf2-8dfb-881fdc09c5e7/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d01b99ae-1b59-4bf2-8dfb-881fdc09c5e7/relationships/field_corporate_accounts"
             }
           }
         },
@@ -4353,10 +5146,17 @@
         "display_name": "chinedu55",
         "drupal_internal__uid": 802,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "chinedu55",
         "mail": "coniva05@yahoo.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-05-28T08:44:09+00:00",
         "changed": "2024-03-29T08:59:17+00:00",
+        "access": "2023-10-25T21:25:41+00:00",
+        "login": "2023-10-25T21:19:56+00:00",
+        "init": "coniva05@yahoo.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -4483,6 +5283,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/17ae0198-1db0-4b87-a9dd-1fc6bac87053/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/17ae0198-1db0-4b87-a9dd-1fc6bac87053/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -4491,6 +5302,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/17ae0198-1db0-4b87-a9dd-1fc6bac87053/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/17ae0198-1db0-4b87-a9dd-1fc6bac87053/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/17ae0198-1db0-4b87-a9dd-1fc6bac87053/relationships/field_corporate_accounts"
             }
           }
         },
@@ -4541,10 +5363,17 @@
         "display_name": "Lesutis",
         "drupal_internal__uid": 805,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Lesutis",
         "mail": "bainsdubai22@gmail.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-05-31T11:47:42+00:00",
         "changed": "2023-05-31T11:49:17+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": "bainsdubai22@gmail.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -4671,6 +5500,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0a9507e0-a097-42e5-aa40-5084ded8a94d/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0a9507e0-a097-42e5-aa40-5084ded8a94d/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -4679,6 +5519,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0a9507e0-a097-42e5-aa40-5084ded8a94d/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0a9507e0-a097-42e5-aa40-5084ded8a94d/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0a9507e0-a097-42e5-aa40-5084ded8a94d/relationships/field_corporate_accounts"
             }
           }
         },
@@ -4729,10 +5580,17 @@
         "display_name": "Ambrose Kessy",
         "drupal_internal__uid": 806,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Ambrose Kessy",
         "mail": "bainsdubai2@gmail.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-06-07T05:47:22+00:00",
         "changed": "2023-12-12T08:59:11+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": "bainsdubai2@gmail.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -4867,6 +5725,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "68f01f49-a829-4ebc-91c6-1759b3951535",
+              "meta": {
+                "drupal_internal__target_id": "opinion"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6fe7ec6a-8f22-415b-8cf6-4ca548ee74af/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6fe7ec6a-8f22-415b-8cf6-4ca548ee74af/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -4875,6 +5752,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6fe7ec6a-8f22-415b-8cf6-4ca548ee74af/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6fe7ec6a-8f22-415b-8cf6-4ca548ee74af/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6fe7ec6a-8f22-415b-8cf6-4ca548ee74af/relationships/field_corporate_accounts"
             }
           }
         },
@@ -4935,10 +5823,17 @@
         "display_name": "David Walwyn",
         "drupal_internal__uid": 807,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "David Walwyn",
         "mail": "bainsdubai3@gmail.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-06-07T06:24:23+00:00",
         "changed": "2023-12-12T08:26:47+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": "bainsdubai3@gmail.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -5073,6 +5968,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "68f01f49-a829-4ebc-91c6-1759b3951535",
+              "meta": {
+                "drupal_internal__target_id": "opinion"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/93d222f2-4f56-4eb3-94af-be43b14b57be/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/93d222f2-4f56-4eb3-94af-be43b14b57be/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -5081,6 +5995,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/93d222f2-4f56-4eb3-94af-be43b14b57be/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/93d222f2-4f56-4eb3-94af-be43b14b57be/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/93d222f2-4f56-4eb3-94af-be43b14b57be/relationships/field_corporate_accounts"
             }
           }
         },
@@ -5141,10 +6066,17 @@
         "display_name": "JosephKeogh",
         "drupal_internal__uid": 810,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "JosephKeogh",
         "mail": "bainsdubai226@gmail.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-06-21T07:33:27+00:00",
         "changed": "2023-06-21T07:34:32+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": "bainsdubai226@gmail.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -5271,6 +6203,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d3fae3e6-4e55-4eb5-a7ff-ab15b5241592/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d3fae3e6-4e55-4eb5-a7ff-ab15b5241592/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -5279,6 +6222,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d3fae3e6-4e55-4eb5-a7ff-ab15b5241592/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d3fae3e6-4e55-4eb5-a7ff-ab15b5241592/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/d3fae3e6-4e55-4eb5-a7ff-ab15b5241592/relationships/field_corporate_accounts"
             }
           }
         },
@@ -5329,10 +6283,17 @@
         "display_name": "Faith Ezeugoh",
         "drupal_internal__uid": 819,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Faith Ezeugoh",
         "mail": "lizbains@agbi.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-07-17T07:50:25+00:00",
         "changed": "2023-07-17T07:55:23+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": "lizbains@agbi.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -5459,6 +6420,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e29ee69b-19f5-4702-8f35-f6acbde74bea/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e29ee69b-19f5-4702-8f35-f6acbde74bea/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -5467,6 +6439,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e29ee69b-19f5-4702-8f35-f6acbde74bea/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e29ee69b-19f5-4702-8f35-f6acbde74bea/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e29ee69b-19f5-4702-8f35-f6acbde74bea/relationships/field_corporate_accounts"
             }
           }
         },
@@ -5517,10 +6500,17 @@
         "display_name": "sneha",
         "drupal_internal__uid": 822,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "sneha",
         "mail": "sneha.a@constructafrica.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-08-03T16:29:48+00:00",
         "changed": "2025-01-21T14:50:05+00:00",
+        "access": "2025-05-22T04:58:18+00:00",
+        "login": "2025-05-19T10:20:21+00:00",
+        "init": "sneha.a@constructafrica.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -5647,6 +6637,25 @@
         "field_verification_timestamp": "2024-06-28T17:14:15+04:00"
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "817613c8-f74f-442a-ac84-247ffb13ebca",
+              "meta": {
+                "drupal_internal__target_id": "super_editor"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/eb8d6bb4-d0d8-42d2-a903-87426a9f2284/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/eb8d6bb4-d0d8-42d2-a903-87426a9f2284/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -5655,6 +6664,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/eb8d6bb4-d0d8-42d2-a903-87426a9f2284/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/eb8d6bb4-d0d8-42d2-a903-87426a9f2284/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/eb8d6bb4-d0d8-42d2-a903-87426a9f2284/relationships/field_corporate_accounts"
             }
           }
         },
@@ -5705,10 +6725,17 @@
         "display_name": "mitchell",
         "drupal_internal__uid": 823,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "mitchell",
         "mail": "mitchell.t@constructafrica.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-08-03T16:30:26+00:00",
         "changed": "2025-05-12T07:21:25+00:00",
+        "access": "2025-05-22T09:08:16+00:00",
+        "login": "2025-05-12T16:08:32+00:00",
+        "init": "mitchell.t@constructafrica.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -5835,6 +6862,25 @@
         "field_verification_timestamp": "2025-05-12T16:51:25+04:00"
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "c0adcd1e-297a-42ee-92e2-ee48dbd242bc",
+              "meta": {
+                "drupal_internal__target_id": "editor"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e591b394-585b-4fa2-9aa3-0719a1cb2e5e/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e591b394-585b-4fa2-9aa3-0719a1cb2e5e/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -5843,6 +6889,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e591b394-585b-4fa2-9aa3-0719a1cb2e5e/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e591b394-585b-4fa2-9aa3-0719a1cb2e5e/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e591b394-585b-4fa2-9aa3-0719a1cb2e5e/relationships/field_corporate_accounts"
             }
           }
         },
@@ -5893,10 +6950,17 @@
         "display_name": "Janeck Winand",
         "drupal_internal__uid": 829,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Janeck Winand",
         "mail": null,
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-08-15T06:19:26+00:00",
         "changed": "2023-12-12T10:04:41+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -6031,6 +7095,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "68f01f49-a829-4ebc-91c6-1759b3951535",
+              "meta": {
+                "drupal_internal__target_id": "opinion"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9162df1a-a9ad-4b59-95fe-836d7b310519/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9162df1a-a9ad-4b59-95fe-836d7b310519/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -6039,6 +7122,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9162df1a-a9ad-4b59-95fe-836d7b310519/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9162df1a-a9ad-4b59-95fe-836d7b310519/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9162df1a-a9ad-4b59-95fe-836d7b310519/relationships/field_corporate_accounts"
             }
           }
         },
@@ -6099,10 +7193,17 @@
         "display_name": "Simonherd",
         "drupal_internal__uid": 863,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Simonherd",
         "mail": "constructafrica4@gmail.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-09-15T06:11:43+00:00",
         "changed": "2023-09-15T06:11:43+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": "constructafrica4@gmail.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -6229,6 +7330,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/12599cfc-fb63-4208-975a-29c17c8d482e/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/12599cfc-fb63-4208-975a-29c17c8d482e/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -6237,6 +7349,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/12599cfc-fb63-4208-975a-29c17c8d482e/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/12599cfc-fb63-4208-975a-29c17c8d482e/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/12599cfc-fb63-4208-975a-29c17c8d482e/relationships/field_corporate_accounts"
             }
           }
         },
@@ -6287,10 +7410,17 @@
         "display_name": "mandela",
         "drupal_internal__uid": 875,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "mandela",
         "mail": "josephnelson0707@gmail.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-09-29T08:40:44+00:00",
         "changed": "2023-09-29T08:40:44+00:00",
+        "access": "2023-09-29T08:40:44+00:00",
+        "login": "2023-09-29T08:40:44+00:00",
+        "init": "josephnelson0707@gmail.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -6417,6 +7547,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/90a29bb8-d311-4388-88ad-a43efd538806/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/90a29bb8-d311-4388-88ad-a43efd538806/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -6425,6 +7566,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/90a29bb8-d311-4388-88ad-a43efd538806/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/90a29bb8-d311-4388-88ad-a43efd538806/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/90a29bb8-d311-4388-88ad-a43efd538806/relationships/field_corporate_accounts"
             }
           }
         },
@@ -6475,10 +7627,17 @@
         "display_name": "Ramon Grau",
         "drupal_internal__uid": 876,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Ramon Grau",
         "mail": "rgrau@grupsa.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-09-29T08:41:09+00:00",
         "changed": "2024-09-24T10:23:12+00:00",
+        "access": "2024-11-19T08:38:19+00:00",
+        "login": "2024-11-19T06:48:08+00:00",
+        "init": "rgrau@grupsa.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -6605,6 +7764,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/95d732da-3498-48a1-b48e-36824c0394e6/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/95d732da-3498-48a1-b48e-36824c0394e6/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -6613,6 +7783,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/95d732da-3498-48a1-b48e-36824c0394e6/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/95d732da-3498-48a1-b48e-36824c0394e6/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/95d732da-3498-48a1-b48e-36824c0394e6/relationships/field_corporate_accounts"
             }
           }
         },
@@ -6663,10 +7844,17 @@
         "display_name": "asoko",
         "drupal_internal__uid": 877,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "asoko",
         "mail": "mu.dasir@constructafrica.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-01T16:03:17+00:00",
         "changed": "2023-10-01T16:03:17+00:00",
+        "access": "2023-10-04T11:41:17+00:00",
+        "login": "2023-10-04T11:41:17+00:00",
+        "init": "mu.dasir@constructafrica.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -6793,6 +7981,25 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "beb56a7f-b92c-4f3b-9280-a4423a8c9ae3",
+              "meta": {
+                "drupal_internal__target_id": "subscriber"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e43d6a6a-029c-4f5c-a49f-2b4cf2947066/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e43d6a6a-029c-4f5c-a49f-2b4cf2947066/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -6801,6 +8008,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e43d6a6a-029c-4f5c-a49f-2b4cf2947066/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e43d6a6a-029c-4f5c-a49f-2b4cf2947066/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e43d6a6a-029c-4f5c-a49f-2b4cf2947066/relationships/field_corporate_accounts"
             }
           }
         },
@@ -6851,10 +8069,17 @@
         "display_name": "CAsalesdepartment",
         "drupal_internal__uid": 904,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "CAsalesdepartment",
         "mail": "sales@constructafrica.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-04T15:05:48+00:00",
         "changed": "2024-03-26T11:16:56+00:00",
+        "access": "2023-10-04T15:10:15+00:00",
+        "login": "2023-10-04T15:05:48+00:00",
+        "init": "sales@constructafrica.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -6981,6 +8206,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/b31fc09a-f932-47c8-a252-37491a0943ea/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/b31fc09a-f932-47c8-a252-37491a0943ea/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -6989,6 +8225,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/b31fc09a-f932-47c8-a252-37491a0943ea/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/b31fc09a-f932-47c8-a252-37491a0943ea/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/b31fc09a-f932-47c8-a252-37491a0943ea/relationships/field_corporate_accounts"
             }
           }
         },
@@ -7036,7 +8283,220 @@
         }
       },
       "attributes": {
-        "display_name": "Caroline Gumble"
+        "display_name": "Caroline Gumble",
+        "drupal_internal__uid": 907,
+        "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
+        "name": "Caroline Gumble",
+        "mail": "chinedu.c@constructafrica.com",
+        "timezone": "Asia/Dubai",
+        "status": false,
+        "created": "2023-10-06T08:18:22+00:00",
+        "changed": "2025-03-11T08:22:08+00:00",
+        "access": "1970-01-01T00:00:00+00:00",
+        "login": "1970-01-01T00:00:00+00:00",
+        "init": "chinedu.c@constructafrica.com",
+        "default_langcode": true,
+        "metatag": [
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "title",
+              "content": "Caroline Gumble | ConstructAfrica"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "description",
+              "content": "ConstructAfrica"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "keywords",
+              "content": "Construction, Constructions reports, Africa construction"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "robots",
+              "content": "index, follow"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "canonical",
+              "href": "https://dev-constructafrica.pantheonsite.io/user/907"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:site_name",
+              "content": "ConstructAfrica"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:url",
+              "content": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:width",
+              "content": "730"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:height",
+              "content": "450"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:pages",
+              "content": "ConstructAfricasite"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:card",
+              "content": "summary_large_image"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:site",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:creator",
+              "content": "@africaconstruct"
+            }
+          }
+        ],
+        "path": {
+          "alias": null,
+          "pid": null,
+          "langcode": "en"
+        },
+        "commerce_remote_id": [],
+        "field_auto_verified": null,
+        "field_bio": null,
+        "field_company": "ConstructAfrica",
+        "field_country": "AE",
+        "field_expired_subscription": null,
+        "field_facebook": null,
+        "field_job_t": null,
+        "field_last_trial_email_sent_day": null,
+        "field_linkedln": null,
+        "field_linked_account": null,
+        "field_phone": null,
+        "field_registration_type": null,
+        "field_subscription": null,
+        "field_subscription_expiry": null,
+        "field_subscription_expiry_preser": null,
+        "field_subscription_start": null,
+        "field_subscription_start_preserv": null,
+        "field_terms_conditions": true,
+        "field_trial_used": null,
+        "field_twitter": null,
+        "field_user_first_name": "Caroline ",
+        "field_user_last_name": "Gumble",
+        "field_verification": "verified",
+        "field_verification_timestamp": null
+      },
+      "relationships": {
+        "roles": {
+          "data": [
+            {
+              "type": "user_role--user_role",
+              "id": "ad12a1b0-a15a-40eb-acc7-cda7b4c543d0",
+              "meta": {
+                "drupal_internal__target_id": "paid_corporate"
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0eef7f15-c0d2-444b-b9b7-5d0d98a29e88/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0eef7f15-c0d2-444b-b9b7-5d0d98a29e88/relationships/roles"
+            }
+          }
+        },
+        "customer_profiles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0eef7f15-c0d2-444b-b9b7-5d0d98a29e88/customer_profiles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0eef7f15-c0d2-444b-b9b7-5d0d98a29e88/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0eef7f15-c0d2-444b-b9b7-5d0d98a29e88/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0eef7f15-c0d2-444b-b9b7-5d0d98a29e88/relationships/field_corporate_accounts"
+            }
+          }
+        },
+        "field_simple_affiliate_referrals": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0eef7f15-c0d2-444b-b9b7-5d0d98a29e88/field_simple_affiliate_referrals"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0eef7f15-c0d2-444b-b9b7-5d0d98a29e88/relationships/field_simple_affiliate_referrals"
+            }
+          }
+        },
+        "layout_selection": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0eef7f15-c0d2-444b-b9b7-5d0d98a29e88/layout_selection"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0eef7f15-c0d2-444b-b9b7-5d0d98a29e88/relationships/layout_selection"
+            }
+          }
+        },
+        "user_picture": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0eef7f15-c0d2-444b-b9b7-5d0d98a29e88/user_picture"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/0eef7f15-c0d2-444b-b9b7-5d0d98a29e88/relationships/user_picture"
+            }
+          }
+        }
       }
     },
     {
@@ -7051,10 +8511,17 @@
         "display_name": "se_zuber@2023",
         "drupal_internal__uid": 908,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "se_zuber@2023",
         "mail": "szuber@rediffmail.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-07T20:11:58+00:00",
         "changed": "2023-10-07T20:11:58+00:00",
+        "access": "2023-10-07T20:50:44+00:00",
+        "login": "2023-10-07T20:11:58+00:00",
+        "init": "szuber@rediffmail.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -7181,6 +8648,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f0e1458a-a5a7-48a9-8b42-f1508175e925/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f0e1458a-a5a7-48a9-8b42-f1508175e925/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -7189,6 +8667,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f0e1458a-a5a7-48a9-8b42-f1508175e925/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f0e1458a-a5a7-48a9-8b42-f1508175e925/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/f0e1458a-a5a7-48a9-8b42-f1508175e925/relationships/field_corporate_accounts"
             }
           }
         },
@@ -7239,10 +8728,17 @@
         "display_name": "test101",
         "drupal_internal__uid": 909,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": null,
         "name": "test101",
         "mail": "test@chinedu.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-09T11:52:18+00:00",
         "changed": "2023-10-09T11:52:18+00:00",
+        "access": "2023-10-09T12:09:44+00:00",
+        "login": "2023-10-09T12:05:28+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -7369,6 +8865,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/45b68cb3-00fd-4f34-b3de-f05d7890e874/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/45b68cb3-00fd-4f34-b3de-f05d7890e874/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -7377,6 +8884,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/45b68cb3-00fd-4f34-b3de-f05d7890e874/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/45b68cb3-00fd-4f34-b3de-f05d7890e874/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/45b68cb3-00fd-4f34-b3de-f05d7890e874/relationships/field_corporate_accounts"
             }
           }
         },
@@ -7427,10 +8945,17 @@
         "display_name": "test102",
         "drupal_internal__uid": 910,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "test102",
         "mail": "test102@chinedu.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-09T12:26:12+00:00",
         "changed": "2023-10-09T12:26:12+00:00",
+        "access": "2023-10-09T13:52:16+00:00",
+        "login": "2023-10-09T13:15:04+00:00",
+        "init": "test102@chinedu.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -7557,6 +9082,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/542223d2-9b4e-4583-bbed-db7a1f99aad5/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/542223d2-9b4e-4583-bbed-db7a1f99aad5/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -7565,6 +9101,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/542223d2-9b4e-4583-bbed-db7a1f99aad5/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/542223d2-9b4e-4583-bbed-db7a1f99aad5/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/542223d2-9b4e-4583-bbed-db7a1f99aad5/relationships/field_corporate_accounts"
             }
           }
         },
@@ -7615,10 +9162,17 @@
         "display_name": "refukgcc",
         "drupal_internal__uid": 911,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "refukgcc",
         "mail": "ukgcc@ere.jj",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-09T12:58:00+00:00",
         "changed": "2023-10-09T12:58:00+00:00",
+        "access": "2023-10-09T12:58:00+00:00",
+        "login": "2023-10-09T12:58:00+00:00",
+        "init": "ukgcc@ere.jj",
         "default_langcode": true,
         "metatag": [
           {
@@ -7745,6 +9299,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e0000d31-58e7-4db2-9373-1b35a1ebfa7b/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e0000d31-58e7-4db2-9373-1b35a1ebfa7b/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -7753,6 +9318,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e0000d31-58e7-4db2-9373-1b35a1ebfa7b/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e0000d31-58e7-4db2-9373-1b35a1ebfa7b/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/e0000d31-58e7-4db2-9373-1b35a1ebfa7b/relationships/field_corporate_accounts"
             }
           }
         },
@@ -7803,10 +9379,17 @@
         "display_name": "refasoko",
         "drupal_internal__uid": 912,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "refasoko",
         "mail": "refasoko@ere.jj",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-09T12:59:04+00:00",
         "changed": "2023-10-09T12:59:04+00:00",
+        "access": "2023-10-09T12:59:04+00:00",
+        "login": "2023-10-09T12:59:04+00:00",
+        "init": "refasoko@ere.jj",
         "default_langcode": true,
         "metatag": [
           {
@@ -7933,6 +9516,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/248c1a30-f525-497e-bcee-ab1421e9ca32/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/248c1a30-f525-497e-bcee-ab1421e9ca32/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -7941,6 +9535,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/248c1a30-f525-497e-bcee-ab1421e9ca32/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/248c1a30-f525-497e-bcee-ab1421e9ca32/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/248c1a30-f525-497e-bcee-ab1421e9ca32/relationships/field_corporate_accounts"
             }
           }
         },
@@ -7991,10 +9596,17 @@
         "display_name": "johndoe",
         "drupal_internal__uid": 913,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "johndoe",
         "mail": "john@doe.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-09T13:40:05+00:00",
         "changed": "2023-10-09T13:40:05+00:00",
+        "access": "2023-10-09T13:45:35+00:00",
+        "login": "2023-10-09T13:40:05+00:00",
+        "init": "john@doe.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -8121,6 +9733,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/5679e4e6-98d7-4013-baa1-52362ff92a44/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/5679e4e6-98d7-4013-baa1-52362ff92a44/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -8129,6 +9752,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/5679e4e6-98d7-4013-baa1-52362ff92a44/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/5679e4e6-98d7-4013-baa1-52362ff92a44/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/5679e4e6-98d7-4013-baa1-52362ff92a44/relationships/field_corporate_accounts"
             }
           }
         },
@@ -8179,10 +9813,17 @@
         "display_name": "janedoe",
         "drupal_internal__uid": 914,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "janedoe",
         "mail": "jane@doe.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-09T14:05:25+00:00",
         "changed": "2023-10-09T14:05:25+00:00",
+        "access": "2023-10-09T14:05:25+00:00",
+        "login": "2023-10-09T14:05:25+00:00",
+        "init": "jane@doe.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -8309,6 +9950,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/868e6892-8c1c-4681-89cc-6d5fc31cb368/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/868e6892-8c1c-4681-89cc-6d5fc31cb368/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -8317,6 +9969,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/868e6892-8c1c-4681-89cc-6d5fc31cb368/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/868e6892-8c1c-4681-89cc-6d5fc31cb368/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/868e6892-8c1c-4681-89cc-6d5fc31cb368/relationships/field_corporate_accounts"
             }
           }
         },
@@ -8367,10 +10030,17 @@
         "display_name": "jenniepatterson",
         "drupal_internal__uid": 915,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": null,
         "name": "jenniepatterson",
         "mail": "jennie.forcierpatterson@asokoinsight.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-11T15:57:19+00:00",
         "changed": "2023-10-11T15:57:19+00:00",
+        "access": "2023-10-11T15:57:19+00:00",
+        "login": "2023-10-11T15:57:19+00:00",
+        "init": null,
         "default_langcode": true,
         "metatag": [
           {
@@ -8497,6 +10167,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6c3854b3-3c96-4c2e-a1f3-850fd5dd233a/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6c3854b3-3c96-4c2e-a1f3-850fd5dd233a/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -8505,6 +10186,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6c3854b3-3c96-4c2e-a1f3-850fd5dd233a/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6c3854b3-3c96-4c2e-a1f3-850fd5dd233a/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6c3854b3-3c96-4c2e-a1f3-850fd5dd233a/relationships/field_corporate_accounts"
             }
           }
         },
@@ -8555,10 +10247,17 @@
         "display_name": "Evans Osman Asigri",
         "drupal_internal__uid": 916,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "Evans Osman Asigri",
         "mail": "evansasigri@gmail.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-11T20:13:19+00:00",
         "changed": "2023-10-11T20:13:19+00:00",
+        "access": "2023-10-11T20:13:19+00:00",
+        "login": "2023-10-11T20:13:19+00:00",
+        "init": "evansasigri@gmail.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -8685,6 +10384,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6498e1de-054a-42f8-b882-53165a0e89cd/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6498e1de-054a-42f8-b882-53165a0e89cd/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -8693,6 +10403,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6498e1de-054a-42f8-b882-53165a0e89cd/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6498e1de-054a-42f8-b882-53165a0e89cd/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/6498e1de-054a-42f8-b882-53165a0e89cd/relationships/field_corporate_accounts"
             }
           }
         },
@@ -8743,10 +10464,17 @@
         "display_name": "cloft85",
         "drupal_internal__uid": 917,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "cloft85",
         "mail": "ladycloft2410@yahoo.com",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-12T14:50:46+00:00",
         "changed": "2023-10-12T14:50:46+00:00",
+        "access": "2023-10-12T14:50:46+00:00",
+        "login": "2023-10-12T14:50:46+00:00",
+        "init": "ladycloft2410@yahoo.com",
         "default_langcode": true,
         "metatag": [
           {
@@ -8873,6 +10601,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/2f98b1d9-aed9-4d15-9e35-9d7f79b22b5b/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/2f98b1d9-aed9-4d15-9e35-9d7f79b22b5b/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -8881,6 +10620,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/2f98b1d9-aed9-4d15-9e35-9d7f79b22b5b/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/2f98b1d9-aed9-4d15-9e35-9d7f79b22b5b/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/2f98b1d9-aed9-4d15-9e35-9d7f79b22b5b/relationships/field_corporate_accounts"
             }
           }
         },
@@ -8931,10 +10681,17 @@
         "display_name": "PhambConstruct20",
         "drupal_internal__uid": 918,
         "langcode": "en",
+        "preferred_langcode": "en",
+        "preferred_admin_langcode": "en",
         "name": "PhambConstruct20",
         "mail": "wilfred@leapdevelopment.africa",
+        "timezone": "Asia/Dubai",
+        "status": true,
         "created": "2023-10-19T03:12:11+00:00",
         "changed": "2023-10-19T03:12:11+00:00",
+        "access": "2023-10-19T03:16:02+00:00",
+        "login": "2023-10-19T03:17:32+00:00",
+        "init": "wilfred@leapdevelopment.africa",
         "default_langcode": true,
         "metatag": [
           {
@@ -9061,6 +10818,17 @@
         "field_verification_timestamp": null
       },
       "relationships": {
+        "roles": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9affe91f-1c4b-479b-a872-5910db897d06/roles"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9affe91f-1c4b-479b-a872-5910db897d06/relationships/roles"
+            }
+          }
+        },
         "customer_profiles": {
           "data": [],
           "links": {
@@ -9069,6 +10837,17 @@
             },
             "self": {
               "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9affe91f-1c4b-479b-a872-5910db897d06/relationships/customer_profiles"
+            }
+          }
+        },
+        "field_corporate_accounts": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9affe91f-1c4b-479b-a872-5910db897d06/field_corporate_accounts"
+            },
+            "self": {
+              "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/9affe91f-1c4b-479b-a872-5910db897d06/relationships/field_corporate_accounts"
             }
           }
         },
@@ -9108,12 +10887,404 @@
       }
     }
   ],
+  "included": [
+    {
+      "type": "user_role--user_role",
+      "id": "52ed01b4-6121-4a52-a894-ddbb6f233ca2",
+      "links": {
+        "self": {
+          "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user_role/user_role/52ed01b4-6121-4a52-a894-ddbb6f233ca2"
+        }
+      },
+      "attributes": {
+        "langcode": "en",
+        "status": true,
+        "dependencies": [],
+        "drupal_internal__id": "administrator",
+        "label": "Administrator",
+        "weight": -8,
+        "is_admin": true,
+        "permissions": []
+      }
+    },
+    {
+      "type": "user_role--user_role",
+      "id": "68f01f49-a829-4ebc-91c6-1759b3951535",
+      "links": {
+        "self": {
+          "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user_role/user_role/68f01f49-a829-4ebc-91c6-1759b3951535"
+        }
+      },
+      "attributes": {
+        "langcode": "en",
+        "status": true,
+        "dependencies": {
+          "module": [
+            "file",
+            "lightning_core"
+          ]
+        },
+        "third_party_settings": {
+          "lightning_core": {
+            "description": ""
+          }
+        },
+        "drupal_internal__id": "opinion",
+        "label": "Opinion",
+        "weight": 3,
+        "is_admin": null,
+        "permissions": [
+          "delete own files"
+        ]
+      }
+    },
+    {
+      "type": "user_role--user_role",
+      "id": "817613c8-f74f-442a-ac84-247ffb13ebca",
+      "links": {
+        "self": {
+          "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user_role/user_role/817613c8-f74f-442a-ac84-247ffb13ebca"
+        }
+      },
+      "attributes": {
+        "langcode": "en",
+        "status": true,
+        "dependencies": {
+          "config": [
+            "filter.format.full_editor",
+            "filter.format.rich_text_editor",
+            "media.type.files",
+            "media.type.video_gallery",
+            "node.type.blog",
+            "node.type.blog_authors",
+            "node.type.events",
+            "node.type.experts_and_analysts",
+            "node.type.faqs",
+            "node.type.landing_page",
+            "node.type.main_news",
+            "node.type.news_author",
+            "node.type.partners",
+            "node.type.photo_gallery",
+            "node.type.projects_tenders",
+            "node.type.team",
+            "node.type.testimonials",
+            "node.type.trending_project",
+            "workflows.workflow.publisher"
+          ],
+          "module": [
+            "commerce",
+            "commerce_order",
+            "commerce_product",
+            "commerce_store",
+            "content_moderation",
+            "dropzonejs",
+            "file",
+            "filter",
+            "lightning_core",
+            "media",
+            "node",
+            "shortcut",
+            "system",
+            "toolbar",
+            "webform"
+          ]
+        },
+        "third_party_settings": {
+          "lightning_core": {
+            "description": ""
+          }
+        },
+        "drupal_internal__id": "super_editor",
+        "label": "Super Editor",
+        "weight": 0,
+        "is_admin": null,
+        "permissions": [
+          "access administration pages",
+          "access commerce administration pages",
+          "access commerce_order overview",
+          "access commerce_product overview",
+          "access content overview",
+          "access media overview",
+          "access toolbar",
+          "access webform overview",
+          "administer account settings",
+          "administer media",
+          "administer nodes",
+          "administer permissions",
+          "administer shortcuts",
+          "administer users",
+          "create blog content",
+          "create events content",
+          "create experts_and_analysts content",
+          "create faqs content",
+          "create files media",
+          "create landing_page content",
+          "create main_news content",
+          "create media",
+          "create partners content",
+          "create photo_gallery content",
+          "create projects_tenders content",
+          "create reports commerce_product",
+          "create team content",
+          "create testimonials content",
+          "create trending_project content",
+          "create video_gallery media",
+          "customize shortcut links",
+          "delete any blog content",
+          "delete any events content",
+          "delete any experts_and_analysts content",
+          "delete any faqs content",
+          "delete any files media",
+          "delete any main_news content",
+          "delete any media",
+          "delete any partners content",
+          "delete any photo_gallery content",
+          "delete any projects_tenders content",
+          "delete any reports commerce_product",
+          "delete any team content",
+          "delete any testimonials content",
+          "delete any video_gallery media",
+          "delete media",
+          "delete own blog content",
+          "delete own events content",
+          "delete own experts_and_analysts content",
+          "delete own faqs content",
+          "delete own files",
+          "delete own files media",
+          "delete own main_news content",
+          "delete own partners content",
+          "delete own photo_gallery content",
+          "delete own projects_tenders content",
+
+          "delete own reports commerce_product",
+          "delete own team content",
+          "delete own testimonials content",
+          "delete own video_gallery media",
+          "dropzone upload files",
+          "edit any blog content",
+          "edit any blog_authors content",
+          "edit any events content",
+          "edit any experts_and_analysts content",
+          "edit any faqs content",
+          "edit any files media",
+          "edit any landing_page content",
+          "edit any main_news content",
+          "edit any news_author content",
+          "edit any partners content",
+          "edit any photo_gallery content",
+          "edit any projects_tenders content",
+          "edit any team content",
+          "edit any testimonials content",
+          "edit any video_gallery media",
+          "edit own blog content",
+          "edit own blog_authors content",
+          "edit own events content",
+          "edit own experts_and_analysts content",
+          "edit own faqs content",
+          "edit own files media",
+          "edit own landing_page content",
+          "edit own main_news content",
+          "edit own news_author content",
+          "edit own partners content",
+          "edit own photo_gallery content",
+          "edit own projects_tenders content",
+          "edit own team content",
+          "edit own testimonials content",
+          "edit own video_gallery media",
+          "switch shortcut sets",
+          "update any media",
+          "update any reports commerce_product",
+          "update media",
+          "update own reports commerce_product",
+          "use publisher transition create_new_draft",
+          "use publisher transition publish",
+          "use publisher transition unpublish",
+          "use text format full_editor",
+          "use text format rich_text_editor",
+          "view all media revisions",
+          "view any unpublished content",
+          "view any webform submission",
+          "view commerce_order",
+          "view commerce_store",
+          "view default commerce_order",
+          "view latest version",
+          "view online commerce_store",
+          "view own unpublished commerce_product",
+          "view own unpublished content",
+          "view own unpublished media",
+          "view reports commerce_product",
+          "view the administration theme"
+        ]
+      }
+    },
+    {
+      "type": "user_role--user_role",
+      "id": "c0adcd1e-297a-42ee-92e2-ee48dbd242bc",
+      "links": {
+        "self": {
+          "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user_role/user_role/c0adcd1e-297a-42ee-92e2-ee48dbd242bc"
+        }
+      },
+      "attributes": {
+        "langcode": "en",
+        "status": true,
+        "dependencies": {
+          "config": [
+            "filter.format.full_editor",
+            "filter.format.rich_text_editor",
+            "node.type.main_news",
+            "node.type.photo_gallery",
+            "node.type.projects_tenders",
+            "workflows.workflow.publisher"
+          ],
+          "module": [
+            "content_moderation",
+            "file",
+            "filter",
+            "lightning_core",
+            "node",
+            "shortcut",
+            "system",
+            "toolbar"
+          ]
+        },
+        "third_party_settings": {
+          "lightning_core": {
+            "description": ""
+          }
+        },
+        "drupal_internal__id": "editor",
+        "label": "Editor",
+        "weight": -1,
+        "is_admin": null,
+        "permissions": [
+          "access administration pages",
+          "access content overview",
+          "access toolbar",
+          "administer shortcuts",
+          "create main_news content",
+          "create photo_gallery content",
+          "create projects_tenders content",
+          "customize shortcut links",
+          "delete any projects_tenders content",
+          "delete own files",
+          "delete own main_news content",
+          "delete own photo_gallery content",
+          "delete own projects_tenders content",
+          "edit any projects_tenders content",
+          "edit own main_news content",
+          "edit own photo_gallery content",
+          "edit own projects_tenders content",
+          "switch shortcut sets",
+          "use publisher transition create_new_draft",
+          "use publisher transition publish",
+          "use publisher transition unpublish",
+          "use text format full_editor",
+          "use text format rich_text_editor",
+          "view own unpublished content",
+          "view the administration theme"
+        ]
+      }
+    },
+    {
+      "type": "user_role--user_role",
+      "id": "beb56a7f-b92c-4f3b-9280-a4423a8c9ae3",
+      "links": {
+        "self": {
+          "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user_role/user_role/beb56a7f-b92c-4f3b-9280-a4423a8c9ae3"
+        }
+      },
+      "attributes": {
+        "langcode": "en",
+        "status": true,
+        "dependencies": {
+          "module": [
+            "eu_cookie_compliance",
+            "file",
+            "lightning_core"
+          ]
+        },
+        "third_party_settings": {
+          "lightning_core": {
+            "description": ""
+          }
+        },
+        "drupal_internal__id": "subscriber",
+        "label": "Subscriber",
+        "weight": -7,
+        "is_admin": null,
+        "permissions": [
+          "delete own files",
+          "display eu cookie compliance popup"
+        ]
+      }
+    },
+    {
+      "type": "user_role--user_role",
+      "id": "ad12a1b0-a15a-40eb-acc7-cda7b4c543d0",
+      "links": {
+        "self": {
+          "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user_role/user_role/ad12a1b0-a15a-40eb-acc7-cda7b4c543d0"
+        }
+      },
+      "attributes": {
+        "langcode": "en",
+        "status": true,
+        "dependencies": {
+          "module": [
+            "field_permissions",
+            "file",
+            "lightning_core"
+          ]
+        },
+        "third_party_settings": {
+          "lightning_core": {
+            "description": ""
+          }
+        },
+        "drupal_internal__id": "paid_corporate",
+        "label": "Paid Corporate",
+        "weight": -3,
+        "is_admin": null,
+        "permissions": [
+          "create field_corporate_accounts",
+          "delete own files",
+          "edit own field_corporate_accounts",
+          "view own field_corporate_accounts"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "omitted": {
+      "detail": "Some resources have been omitted because of insufficient authorization.",
+      "links": {
+        "help": {
+          "href": "https://www.drupal.org/docs/8/modules/json-api/filtering#filters-access-control"
+        },
+        "item--CSOs8yl": {
+          "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/7d166658-67a4-418f-9b6e-72b8964d2302/roles",
+          "meta": {
+            "rel": "item",
+            "detail": "The current user is not allowed to view this relationship. The user only has authorization for the 'view label' operation."
+          }
+        },
+        "item--oaPaDqt": {
+          "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user/7d166658-67a4-418f-9b6e-72b8964d2302/field_corporate_accounts",
+          "meta": {
+            "rel": "item",
+            "detail": "The current user is not allowed to view this relationship. The user only has authorization for the 'view label' operation."
+          }
+        }
+      }
+    }
+  },
   "links": {
     "next": {
-      "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user?page%5Boffset%5D=50&page%5Blimit%5D=50"
+      "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user?include=roles%2Cfield_corporate_accounts&page%5Boffset%5D=50&page%5Blimit%5D=50"
     },
     "self": {
-      "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user"
+      "href": "https://dev-constructafrica.pantheonsite.io/jsonapi/user/user?include=roles%2Cfield_corporate_accounts"
     }
   }
 }
