@@ -340,6 +340,40 @@ foreach ($allowed as $item) {
 }
 ' > industry_classification.csv
 
+
+
+
+terminus drush catracker.dev -- php:eval '
+$config = \Drupal::config("field.storage.node.field_sector");
+$allowed = $config->get("settings.allowed_values") ?? [];
+echo "value,label\n";
+foreach ($allowed as $item) {
+  if (is_array($item) && isset($item["value"], $item["label"])) {
+    $val = str_replace("\"", "\"\"", $item["value"]);
+    $lab = str_replace("\"", "\"\"", $item["label"]);
+    echo "\"$val\",\"$lab\"\n";
+  }
+}
+' > field_sector_allowed.csv
+
+
+
+
+
+terminus drush catracker.dev -- php:eval '
+$config = \Drupal::config("field.storage.node.field_type");
+$allowed = $config->get("settings.allowed_values") ?? [];
+echo "value,label\n";
+foreach ($allowed as $item) {
+  if (is_array($item) && isset($item["value"], $item["label"])) {
+    $val = str_replace("\"", "\"\"", $item["value"]);
+    $lab = str_replace("\"", "\"\"", $item["label"]);
+    echo "\"$val\",\"$lab\"\n";
+  }
+}
+' > field_type_allowed.csv
+
+
 ----------------------------------------------------------------------------------------
 
 
@@ -432,103 +466,170 @@ COMPANIES
 -------------------------------------------------------------------------------------------
 terminus drush catracker.dev -- php:eval '
 use Drupal\node\Entity\Node;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\file\Entity\File;
+
+function clean_csv_text($text) {
+  return trim(strip_tags((string) $text));
+}
+
+function get_taxonomy_names($node, $field_name) {
+  if (!$node->hasField($field_name)) return "";
+  $field = $node->get($field_name);
+  if ($field->isEmpty()) return "";
+  if (!method_exists($field, "referencedEntities")) return "";
+
+  $names = [];
+  foreach ($field->referencedEntities() as $term) {
+    if ($term instanceof Term) {
+      $names[] = $term->getName();
+    }
+  }
+  return implode(", ", $names);
+}
+
+function get_file_urls_from_field($field) {
+  if ($field->isEmpty()) return "";
+  $urls = [];
+  foreach ($field as $item) {
+    if (!empty($item->target_id)) {
+      $file = File::load($item->target_id);
+      if ($file) {
+        $urls[] = \Drupal::service("file_url_generator")->generateAbsoluteString($file->getFileUri());
+      }
+    }
+  }
+  return implode(", ", $urls);
+}
+
+function get_node_refs($field) {
+  if ($field->isEmpty()) return "";
+  $ids = [];
+  foreach ($field as $item) {
+    if (!empty($item->target_id)) {
+      $ids[] = $item->target_id;
+    }
+  }
+  return implode(", ", $ids);
+}
 
 $header = [
-  "drupal_nid","drupal_uuid","title","body","activities","address","awards",
-  "certifications","comments","company_email","company_role","country_id",
-  "region_id","sector_id","type_id","email","employees","fax",
-  "headquarter","key_contacts","location_details","location_geo",
-  "map_iframe_src","news","news_updates","ongoing_projects","completed_projects",
-  "projects","phone","tags","team","website"
+  "id",
+  "title",
+  "body",
+  "country",
+  "sector",
+  "type",
+  "address",
+  "company_email",
+  "email",
+  "phone",
+  "website",
+  "facebook",
+  "twitter",
+  "linkedin",
+  "logo_url",
+  "gallery_urls",
+  "tags_company",
+  "projects",
+  "promote",
+  "moderation_state"
 ];
-echo implode(",", $header) . "\n";
+
+$fp = fopen("php://output", "w");
+fputcsv($fp, $header);
 
 $nids = \Drupal::entityQuery("node")
   ->condition("type", "company")
   ->accessCheck(FALSE)
   ->execute();
 
-foreach ($nids as $nid) {
-  $node = Node::load($nid);
+$nodes = Node::loadMultiple($nids);
+
+foreach ($nodes as $node) {
   $row = [];
+  $row[] = $node->uuid(); // still using UUID as value
+  $row[] = clean_csv_text($node->getTitle());
+  $row[] = clean_csv_text($node->body->value ?? "");
 
-  $row[] = $node->id();
-  $row[] = $node->uuid();
-  $row[] = "\"".str_replace("\"","\"\"", $node->getTitle())."\"";
+  // Country (text values)
+  $countries = array_map(fn($c) => $c["value"] ?? "", $node->get("field_country")->getValue() ?? []);
+  $row[] = clean_csv_text(implode(", ", $countries));
 
-  // Text fields (strip HTML)
-  $row[] = "\"".str_replace("\"","\"\"", strip_tags($node->body->value ?? ""))."\"";
-  $row[] = "\"".str_replace("\"","\"\"", strip_tags($node->get("field_activities")->value ?? ""))."\"";
-  $row[] = "\"".str_replace("\"","\"\"", strip_tags($node->get("field_address")->value ?? ""))."\"";
+  // Taxonomy: sector + type
+  $row[] = clean_csv_text(get_taxonomy_names($node, "field_sector"));
+  $row[] = clean_csv_text(get_taxonomy_names($node, "field_type"));
 
-  // Multi-value text
-  $awards = array_column($node->get("field_awards")->getValue() ?? [], "value");
-  $row[] = "\"".str_replace("\"","\"\"", strip_tags(implode(" | ", $awards)))."\"";
+  // Text fields
+  $row[] = clean_csv_text($node->get("field_address")->value ?? "");
+  $row[] = clean_csv_text($node->get("field_company_email")->value ?? "");
+  $row[] = clean_csv_text($node->get("field_email")->value ?? "");
+  $row[] = clean_csv_text($node->get("field_phone")->value ?? "");
+  $row[] = clean_csv_text($node->get("field_website")->value ?? "");
+  $row[] = clean_csv_text($node->get("field_facebook")->value ?? "");
+  $row[] = clean_csv_text($node->get("field_twitter")->value ?? "");
+  $row[] = clean_csv_text($node->get("field_linkedin")->value ?? "");
 
-  $certifications = array_column($node->get("field_certifications")->getValue() ?? [], "value");
-  $row[] = "\"".str_replace("\"","\"\"", strip_tags(implode(" | ", $certifications)))."\"";
+  // Files
+  $row[] = clean_csv_text(get_file_urls_from_field($node->get("field_logo")));
+  $row[] = clean_csv_text(get_file_urls_from_field($node->get("field_gallery")));
 
-  $row[] = "\"".str_replace("\"","\"\"", strip_tags($node->get("field_comments_")->value ?? ""))."\"";
-  $row[] = $node->get("field_company_email")->value ?? "";
-  $row[] = $node->get("field_company_role")->value ?? "";
-  $row[] = $node->get("field_country")->target_id ?? "";
-  $row[] = $node->get("field_region")->target_id ?? "";
-  $row[] = $node->get("field_sector")->target_id ?? "";
-  $row[] = $node->get("field_type")->target_id ?? "";
-  $row[] = $node->get("field_email")->value ?? "";
-  $row[] = $node->get("field_employees")->value ?? "";
-  $row[] = $node->get("field_fax")->value ?? "";
+  // Tags taxonomy
+  $row[] = clean_csv_text(get_taxonomy_names($node, "field_tags_company"));
 
-  // Skip gallery + logo for now
-  $row[] = "\"".str_replace("\"","\"\"", strip_tags($node->get("field_headquater")->value ?? ""))."\"";
+  // Project references
+  $row[] = clean_csv_text(get_node_refs($node->get("field_projects")));
 
-  $contacts = $node->get("field_key_contacts_companies")->getValue();
-  $row[] = implode(" | ", array_column($contacts, "target_id"));
+  // Flags
+  $row[] = $node->get("promote")->value ? "1" : "0";
+  $row[] = clean_csv_text($node->get("moderation_state")->value ?? "");
 
-  $row[] = "\"".str_replace("\"","\"\"", strip_tags($node->get("field_location_details")->value ?? ""))."\"";
-
-  // Convert geo string into JSON for Directus Map field
-  $geo = trim($node->get("field_location_geo")->value ?? "");
-  $geoJson = "";
-  if (preg_match("/^\s*([0-9\.\-]+)[,\s]+([0-9\.\-]+)\s*$/", $geo, $m)) {
-    $geoJson = json_encode([ "lat" => (float)$m[1], "lng" => (float)$m[2] ]);
-  }
-  $row[] = "\"".str_replace("\"","\"\"", $geoJson)."\"";
-
-  // Extract only src from iframe
-  $iframe = $node->get("field_map_iframe")->value ?? "";
-  $src = "";
-  if (preg_match("/src=\"([^\"]+)\"/", $iframe, $matches)) {
-    $src = $matches[1];
-  } else {
-    $src = $iframe; // fallback
-  }
-  $row[] = "\"".str_replace("\"","\"\"", $src)."\"";
-
-  $news_refs = $node->get("field_news")->getValue();
-  $row[] = implode(" | ", array_column($news_refs,"target_id"));
-
-  $news_updates = $node->get("field_news_updates_paragraph_com")->getValue();
-  $row[] = implode(" | ", array_column($news_updates,"target_id"));
-
-  $row[] = implode(" | ", array_column($node->get("field_on_going_projects")->getValue() ?? [],"target_id"));
-  $row[] = implode(" | ", array_column($node->get("field_projects_completed")->getValue() ?? [],"target_id"));
-  $row[] = implode(" | ", array_column($node->get("field_projects")->getValue() ?? [],"target_id"));
-
-  $row[] = $node->get("field_phone")->value ?? "";
-
-  $tags = $node->get("field_tags_company")->getValue();
-  $row[] = implode(" | ", array_column($tags,"target_id"));
-
-  $team = $node->get("field_team")->getValue();
-  $row[] = implode(" | ", array_column($team,"target_id"));
-
-  $website = $node->get("field_website")->uri ?? $node->get("field_website")->value ?? "";
-  $row[] = "\"".str_replace("\"","\"\"", $website)."\"";
-
-  echo implode(",", $row) . "\n";
+  fputcsv($fp, $row);
 }
-' > companies.csv
+
+fclose($fp);
+' > companies_export.csv
+
+
+
+import pandas as pd
+
+# Load CSVs
+companies = pd.read_csv("companies_export.csv")
+countries = pd.read_csv("directus_countries.csv")
+
+# Normalize column names
+companies.columns = companies.columns.str.strip().str.lower()
+countries.columns = countries.columns.str.strip().str.lower()
+
+# Normalize country names for matching
+companies['country_normalized'] = companies['country'].str.strip().str.lower()
+countries['name_normalized'] = countries['name'].str.strip().str.lower()
+
+# Create mapping: normalized country name -> Directus ID
+name_to_id = countries.set_index('name_normalized')['id'].to_dict()
+
+# Map countries
+companies['country'] = companies['country_normalized'].map(name_to_id)
+
+# Optional: check unmapped countries
+unmapped = companies[companies['country'].isna()]
+if not unmapped.empty:
+    print("⚠️ These countries could not be mapped:")
+    print(unmapped[['country_normalized']].drop_duplicates())
+
+# Drop helper column
+companies.drop(columns=['country_normalized'], inplace=True)
+
+# Convert to nullable integer type (keeps NaN for unmapped)
+companies['country'] = companies['country'].astype('Int64')
+
+# Save to CSV
+companies.to_csv("companies_mapped.csv", index=False)
+
+print(f"✅ Exported {len(companies)} rows to companies_mapped.csv")
+
+
 
 ---------------------------------------------------------------------------------------------
 
@@ -538,71 +639,110 @@ terminus drush catracker.dev -- php:eval '
 use Drupal\node\Entity\Node;
 
 /**
- * Clean CSV text
+ * Helper: clean CSV text for safe export
  */
 function clean_csv_text($text) {
-  $text = strip_tags($text);
-  return trim($text);
+  return trim(strip_tags((string) $text));
+}
+
+/**
+ * Helper: get UUID of referenced entity
+ */
+function get_ref_uuid($node, $field) {
+  if ($node->get($field)->target_id) {
+    $ref = \Drupal\node\Entity\Node::load($node->get($field)->target_id);
+    return $ref ? $ref->uuid() : "";
+  }
+  return "";
 }
 
 // CSV header
 $header = [
-  "drupal_nid","drupal_uuid","title","body",
-  "country","region","sector_uuid","type_uuid","stage_uuid",
-  "estimated_value_usd","revised_budget_value_usd","contract_value_usd",
-  "email","phone","project_manager_id","developer_id",
-  "main_contractor_id","consultant_id","client_owner_id",
-  "location","gps_coordinates",
-  "construction_start","construction_completion","estimated_completion",
-  "financial_close","project_launch","completed","cancelled"
+  "id",                         // UUID primary key
+  "drupal_nid",
+  "title",
+  "body",
+  "country",
+  "region",
+  "sector_tid",
+  "type_tid",
+  "stage_tid",
+  "estimated_value_usd",
+  "revised_budget_value_usd",
+  "contract_value_usd",
+  "email",
+  "phone",
+  "project_manager_id",
+  "developer_id",
+  "main_contractor_id",
+  "consultant_id",
+  "client_owner_id",
+  "location",
+  "gps_coordinates",
+  "construction_start",
+  "construction_completion",
+  "estimated_completion",
+  "financial_close",
+  "project_launch",
+  "completed",
+  "cancelled"
 ];
 
-// Open output stream
 $fp = fopen("php://output", "w");
 fputcsv($fp, $header);
 
-// Load nodes
-$nids = \Drupal::entityQuery("node")->condition("type", "projects")->accessCheck(FALSE)->execute();
+// Load all project nodes
+$nids = \Drupal::entityQuery("node")
+  ->condition("type", "projects")
+  ->accessCheck(FALSE)
+  ->execute();
+
 $nodes = Node::loadMultiple($nids);
 
-// Loop nodes
 foreach ($nodes as $node) {
   $row = [];
-  $row[] = $node->id();
+
+  // UUID + NID
   $row[] = $node->uuid();
+  $row[] = $node->id();
   $row[] = clean_csv_text($node->getTitle() ?? "");
   $row[] = clean_csv_text($node->body->value ?? "");
 
-  // --- Use text values instead of TIDs ---
+  // Country / region
   $row[] = clean_csv_text($node->get("field_country")->value ?? "");
   $row[] = clean_csv_text($node->get("field_region")->value ?? "");
 
+  // Taxonomy term IDs
   $row[] = $node->get("field_sector")->target_id ?? "";
   $row[] = $node->get("field_type")->target_id ?? "";
   $row[] = $node->get("field_stages")->target_id ?? "";
 
+  // Values
   $row[] = $node->get("field_estimated_project_value_us")->value ?? "";
   $row[] = $node->get("field_revised_budget_value_us_m_")->value ?? "";
   $row[] = $node->get("field_contract_value_us_m_")->value ?? "";
 
+  // Contacts
   $row[] = clean_csv_text($node->get("field_email")->value ?? "");
   $row[] = clean_csv_text($node->get("field_phone")->value ?? "");
 
-  $row[] = $node->get("field_project_manager")->target_id ?? "";
-  $row[] = $node->get("field_developer")->target_id ?? "";
-  $row[] = $node->get("field_main_contractor")->target_id ?? "";
-  $row[] = $node->get("field_consultant")->target_id ?? "";
-  $row[] = $node->get("field_client_owner")->target_id ?? "";
+  // Related entity UUIDs
+  $row[] = get_ref_uuid($node, "field_project_manager");
+  $row[] = get_ref_uuid($node, "field_developer");
+  $row[] = get_ref_uuid($node, "field_main_contractor");
+  $row[] = clean_csv_text($node->get("field_consultant")->value ?? ""); // text_long
+  $row[] = get_ref_uuid($node, "field_client_owner");
 
+  // Location & dates
   $row[] = clean_csv_text($node->get("field_location")->value ?? "");
   $row[] = clean_csv_text($node->get("field_gps_coordinates")->value ?? "");
-
   $row[] = $node->get("field_construction_start")->value ?? "";
   $row[] = $node->get("field_construction_completion")->value ?? "";
   $row[] = $node->get("field_estimated_completion")->value ?? "";
   $row[] = $node->get("field_financial_close")->value ?? "";
   $row[] = $node->get("field_project_launch")->value ?? "";
 
+  // Status
   $row[] = $node->get("field_completed")->value ?? "";
   $row[] = $node->get("field_cancelled")->value ?? "";
 
@@ -611,7 +751,6 @@ foreach ($nodes as $node) {
 
 fclose($fp);
 ' > projects_export.csv
-
 
 
 
