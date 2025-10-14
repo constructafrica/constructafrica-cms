@@ -1,0 +1,2 @@
+id,owner_id,company_name,subscription_type,subscription_start,subscription_end,max_users,status,migration_status
+42b6e972-9a0d-4c86-961e-c182f3750ab5,"0028ffcb-175a-44e1-8393-cb38567e9341","Aksa Energy","corporate",2025-02-28T15:03:53,2026-02-28T15:03:53,4,"active",success

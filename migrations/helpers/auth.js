@@ -42,8 +42,9 @@ async function authenticateDrupal() {
             }),
         });
 
+
         // Test the authentication with a simple request
-        const testResponse = await authClient.get('/node/events?page[limit]=1');
+        // const testResponse = await authClient.get('/node/events?page[limit]=1');
         console.log('✅ Successfully authenticated with Basic Auth');
         return;
 

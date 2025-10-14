@@ -10,6 +10,7 @@
     "migrate:sponsors": "node scripts/sponsors_delegates.js",
     "migrate:events": "node scripts/events.js",
     "migrate:users": "node scripts/users.js",
+    "migrate:roles": "node scripts/roles.js",
     "data:clear": "node helpers/clear-data.js"
   },
   "keywords": [
