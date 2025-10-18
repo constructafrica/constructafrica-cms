@@ -1,0 +1,51 @@
+id,drupal_id,drupal_uuid,name,slug,status,description,headquarters,employees,projects_completed,phone,email,website,migration_status,migration_action
+65a3c3d1-d39d-4384-bd6f-d2054dc14d5a,27,"65a3c3d1-d39d-4384-bd6f-d2054dc14d5a","Company 3","27",published,"<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. ","",,,"","","",success,created
+3f36e5f0-0097-47a8-a812-3af7f0d00c44,21,"3f36e5f0-0097-47a8-a812-3af7f0d00c44","Granada Architects & Consulting Engineers","21",published,"<p>Dutch Foundations was established in 1989 in Abu Dhabi. Since that time the company has continued","",,,"08088823483","web.mudasir@gmail.com","",success,created
+9cb4698c-b4c0-41ff-9f1b-64c21792a4b5,3131,"9cb4698c-b4c0-41ff-9f1b-64c21792a4b5","THE BEST","3131",published,"","",,,"","","",success,created
+7dbb8221-5bc6-4d95-bdef-d585a125e29f,3130,"7dbb8221-5bc6-4d95-bdef-d585a125e29f","ENTERPRISE DE COMMERCE ET DE CONSTRUCTION(ECOCO)","3130",published,"","",,,"6.92E+15","","",success,created
+f6ffd4f4-2401-4ae6-960b-f48bc6fb60e0,3128,"f6ffd4f4-2401-4ae6-960b-f48bc6fb60e0","DIAMATECH SA","3128",published,"","",,,"","","",success,created
+75e3f5d3-8e44-4a20-a470-eacf58476457,3127,"75e3f5d3-8e44-4a20-a470-eacf58476457","SOLEN AFRIQUE","3127",published,"","",,,"","","",success,created
+09f87b6e-1b30-4a86-ba9e-a914e7370104,3126,"09f87b6e-1b30-4a86-ba9e-a914e7370104","FNC ENGINEERING LIMITED","3126",published,"","",,,"","","",success,created
+fc1d5bc5-54b7-461f-80c1-f550fc56cb3a,3124,"fc1d5bc5-54b7-461f-80c1-f550fc56cb3a","SOCIETE DES TRAVAUX ET DISTRIBUTION SARL","3124",published,"","",,,"","","",success,created
+1934a94d-9166-48de-8e0b-0d0d9909ef3d,3122,"1934a94d-9166-48de-8e0b-0d0d9909ef3d","ENC SARL","3122",published,"","",,,"","","",success,created
+7adbd3a8-aeaf-40a6-9e02-c1d14924e904,3121,"7adbd3a8-aeaf-40a6-9e02-c1d14924e904","ELCO BTP","3121",published,"","",,,"90 06 83 67	","","",success,created
+4a16407b-93d9-48c9-ac0c-b0b22dd33b6f,3120,"4a16407b-93d9-48c9-ac0c-b0b22dd33b6f","ECONOP","3120",published,"","",,,"90 06 09 08	","","",success,created
+b4080982-2d80-46a1-8b40-a399d07f86ed,3119,"b4080982-2d80-46a1-8b40-a399d07f86ed","REC","3119",published,"","",,,"","","",success,created
+c0f0e421-12fc-453b-8ed1-762084c39371,3118,"c0f0e421-12fc-453b-8ed1-762084c39371","TRASECO","3118",published,"","",,,"90 25 21 01	","","",success,created
+dac1f638-3928-450d-971a-7ceb6875bf6d,3117,"dac1f638-3928-450d-971a-7ceb6875bf6d","DELEMA SARL","3117",published,"","",,,"","","",success,created
+9e9d05a5-b4b8-46c7-91fe-3134c86d7eee,3116,"9e9d05a5-b4b8-46c7-91fe-3134c86d7eee","GROUPEMENT SOMATRAL/MLB - TP","3116",published,"","",,,"36 30 86 51	","","",success,created
+a323d358-4e97-4bae-99c1-084d828ad9fb,3115,"a323d358-4e97-4bae-99c1-084d828ad9fb","INDIVIDUAL CONSULTANT","3115",published,"","",,,"","","",success,created
+7ce2d9d5-f996-4317-9d56-7809810ad8ec,3114,"7ce2d9d5-f996-4317-9d56-7809810ad8ec","SONED AFRIQUE / HYDROPLANTE GROUP","3114",published,"","",,,"33 825 88 03	","","",success,created
+5c08ef11-c34c-4ba5-ac93-a0fc31e06993,3113,"5c08ef11-c34c-4ba5-ac93-a0fc31e06993","HAWA-TP","3113",published,"","",,,"00222 46 78 00 44	","","",success,created
+47133d8d-11e3-4fcd-9107-b27ed740578b,3112,"47133d8d-11e3-4fcd-9107-b27ed740578b","HAWI FANTAYE AND FRIENDS CONSTRUCTION WORK","3112",published,"","",,,"","","",success,created
+52d211f1-2ce7-4584-a5fe-dbe9b7fb8717,3111,"52d211f1-2ce7-4584-a5fe-dbe9b7fb8717","MUBREK GENERAL CONSRUCTION COMPANY","3111",published,"","",,,"","","",success,created
+e39ca388-eeb1-4dd7-9b2a-e5e117b880ec,3110,"e39ca388-eeb1-4dd7-9b2a-e5e117b880ec","IBRAHIM ARAB","3110",published,"","",,,"","","",success,created
+db4a302f-7590-454b-ba54-bf00c91c1b46,3109,"db4a302f-7590-454b-ba54-bf00c91c1b46","MMB","3109",published,"","",,,"","","",success,created
+ae5ee2bf-4b34-4847-9ad7-3d831c7b0744,3108,"ae5ee2bf-4b34-4847-9ad7-3d831c7b0744","BOGOREH CONSTRUCTION","3108",published,"","",,,"00 253 77 80 11 11 / 77 82 43 20	","","",success,created
+b58f3834-d510-47a2-afe7-1294522543c2,3106,"b58f3834-d510-47a2-afe7-1294522543c2","EGAG BC","3106",published,"","",,,"","","",success,created
+1d9ad4ed-c474-4217-82c7-44b3535f4bbc,3105,"1d9ad4ed-c474-4217-82c7-44b3535f4bbc","BIG FIVE INVESTMENT LIMITED","3105",published,"","",,,"","","",success,created
+ffdc5bad-d77d-45ad-aa0a-df56341bffff,3104,"ffdc5bad-d77d-45ad-aa0a-df56341bffff","PROFESSIONAL ENGINEERING CONTRACTORS LIMITED","3104",published,"","",,,"","","",success,created
+6404acf5-632c-435d-a7ee-c85160623d8d,3102,"6404acf5-632c-435d-a7ee-c85160623d8d","TRADEMWA INSTALLATION LTD","3102",published,"","",,,"","","",success,created
+e9f12c68-3b8d-40f2-a575-3b0d8da8a2ee,3101,"e9f12c68-3b8d-40f2-a575-3b0d8da8a2ee","OLUKA LIMITED","3101",published,"","",,,"","","",success,created
+fd797d94-c08e-4032-9bc5-3c2a316e4f34,3100,"fd797d94-c08e-4032-9bc5-3c2a316e4f34","CONDURIL - ENGINEERING SA","3100",published,"","",,,"","","",success,created
+2f7fbbd5-8276-4d8a-8cc5-8e670bc6db1e,3099,"2f7fbbd5-8276-4d8a-8cc5-8e670bc6db1e","MAKHULU INVESTMENT LIMITED","3099",published,"","",,,"","","",success,created
+042ae5f9-dab1-4746-a59c-013f4648daea,3098,"042ae5f9-dab1-4746-a59c-013f4648daea","ZONCOR INVESTMENT LIMITED","3098",published,"","",,,"","","",success,created
+61b1f53e-5f16-46a0-afed-e3ab8ba07ea0,3097,"61b1f53e-5f16-46a0-afed-e3ab8ba07ea0","SUNSHARE CONSTRUCTION LIMITED","3097",published,"","",,,"","","",success,created
+ff49f1da-bd32-4986-92f7-d699556b7673,3096,"ff49f1da-bd32-4986-92f7-d699556b7673","AZU PROPERTIES LIMITED","3096",published,"","",,,"","","",success,created
+05f04983-1709-428d-83fd-ad41f58f4124,3095,"05f04983-1709-428d-83fd-ad41f58f4124","VAMBECO ENTERPRISES LIMITED","3095",published,"","",,,"","","",success,created
+2c97d457-a08f-488c-b212-e7d29100dbae,3094,"2c97d457-a08f-488c-b212-e7d29100dbae","EGISS ENGINEERING CONTRACTORS LTD","3094",published,"","",,,"","","",success,created
+248d4565-e28d-4525-a9d5-7f9524d0f095,3092,"248d4565-e28d-4525-a9d5-7f9524d0f095","STIRLING-SOBETRA JOINT VENTURE","3092",published,"","",,,"","","",success,created
+46b39625-26c1-4ccd-ad23-833a31b646b6,3091,"46b39625-26c1-4ccd-ad23-833a31b646b6","CAPITAL ABUBAKER CONSTRUCTION JOINT VENTURE","3091",published,"","",,,"2.57E+11	","","",success,created
+e5b3ccf7-4fcc-4e41-ba96-72f61acda3ba,3089,"e5b3ccf7-4fcc-4e41-ba96-72f61acda3ba","KILANI PUBLIC WORKS COMPANY","3089",published,"","",,,"21700000000","","",success,created
+22cd0574-06c5-40d7-af5c-b02b84ffa2c4,3087,"22cd0574-06c5-40d7-af5c-b02b84ffa2c4","HELPDESK ENGINEERING TANZANIA LIMITED","3087",published,"","",,,"","","",success,created
+112968ee-cf8d-4d7f-9b4c-478068085e97,3085,"112968ee-cf8d-4d7f-9b4c-478068085e97","KARKOREY CONSTRUCTION COMPANY","3085",published,"","",,,"","","",success,created
+c6e71575-f2ad-47c0-b7e6-8b5310c69530,3084,"c6e71575-f2ad-47c0-b7e6-8b5310c69530","TTN CONSTRUCTION COMPANY","3084",published,"","",,,"","","",success,created
+44ac3467-edef-48e5-82b0-647c40a59891,3083,"44ac3467-edef-48e5-82b0-647c40a59891","PAY CONSTRUCTION ETS BOROM DEURBI","3083",published,"","",,,"","","",success,created
+1a5cafce-84bc-47fd-be23-38c079797e46,3082,"1a5cafce-84bc-47fd-be23-38c079797e46","MBAYAR CONSTRUCTION ETS BOROM DEURBI","3082",published,"","",,,"","","",success,created
+fca4d8f0-92a8-4c02-98f2-5ad8a8945ef3,3081,"fca4d8f0-92a8-4c02-98f2-5ad8a8945ef3","GROUPE UNIVERS TLCOM","3081",published,"","",,,"","","",success,created
+0c9b07a5-9a04-448c-b3ad-a952196cb62d,3080,"0c9b07a5-9a04-448c-b3ad-a952196cb62d","HENAN CHINE","3080",published,"","",,,"","","",success,created
+823ba70c-8742-4232-bd33-19142319b453,3079,"823ba70c-8742-4232-bd33-19142319b453","DAROSA","3079",published,"","",,,"","","",success,created
+f5d86fc1-9546-4a4f-af0a-e67381ba424c,3077,"f5d86fc1-9546-4a4f-af0a-e67381ba424c","KELIMANE ENTERPRISE","3077",published,"","",,,"","","",success,created
+c92ca36b-3ce5-4639-a74e-bcfc4d7df323,3076,"c92ca36b-3ce5-4639-a74e-bcfc4d7df323","BDGB","3076",published,"","",,,"33 820 44 77","","",success,created
+18f0881b-6d0b-4969-943b-912d5e12086d,3075,"18f0881b-6d0b-4969-943b-912d5e12086d","SGI SNGAL SARL","3075",published,"","",,,"","","",success,created
+9c5330c0-0142-49cf-a78c-4ee7ccc88438,3074,"9c5330c0-0142-49cf-a78c-4ee7ccc88438","EDE","3074",published,"","",,,"","","",success,created

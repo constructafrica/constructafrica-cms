@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 const { getDirectus } = require('../helpers/upload-image');
 const { getAuthenticatedApi, resetAuth } = require('../helpers/auth');
 const { uploadImage } = require('../helpers/upload-image');
-const { escapeCsv, formatDateTimeForCsv } = require('../helpers/index');
+const { escapeCsv, formatDateTimeForCsv, csvDir } = require('../helpers/index');
 const { readUsers, createUser, updateUser, readItems, createItems, updateItems, readRoles } = require('@directus/sdk');
 
 // Role mapping from Drupal to Directus
@@ -422,12 +422,6 @@ async function migrateUsersToDirectus() {
     // Fetch data from Drupal
     const rolesData = await fetchRoles();
     const usersData = await fetchUsers();
-
-    // Setup CSV files
-    const csvDir = path.join(__dirname, '../csv');
-    if (!fs.existsSync(csvDir)) {
-        fs.mkdirSync(csvDir, { recursive: true });
-    }
 
     const usersCsvHeaders = [
         'id', 'first_name', 'last_name', 'email', 'role', 'status', 'username',

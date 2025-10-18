@@ -1,6 +1,8 @@
 require('dotenv').config();
 const fs = require('fs');
 const { createDirectus, rest, authentication, uploadFiles, readFile, readFiles } = require('@directus/sdk');
+const { getAuthenticatedApi } = require('../helpers/auth');
+
 const axios = require("axios");
 const https = require("https");
 
@@ -56,22 +58,11 @@ function saveImageMap() {
     fs.writeFileSync('image_map.json', JSON.stringify(imageMap, null, 2));
 }
 
-async function createApiInstance() {
-    return axios.create({
-        baseURL: process.env.DRUPAL_API_URL,
-        headers: {
-            Accept: 'application/vnd.api+json',
-        },
-        timeout: 10000,
-        httpsAgent: new https.Agent({ family: 4 }), // Force IPv
-    });
-}
-
-async function getFile(fileId) {
+async function getFile(fileId, isCat = false) {
     const maxRetries = 2; // number of retries after the first attempt
     let attempt = 0;
     let lastError;
-    const api = await createApiInstance();
+    const api = await getAuthenticatedApi(isCat);
 
     while (attempt <= maxRetries) {
         try {
@@ -86,8 +77,10 @@ async function getFile(fileId) {
             const attr = fileData.data.attributes;
             const fileUrl = attr.uri.url;
 
+            const baseUrl = isCat ? process.env.DRUPAL_BASE_CAT_URL : process.env.DRUPAL_BASE_URL;
+
             const absoluteUrl = fileUrl.startsWith('/')
-                ? `${process.env.DRUPAL_BASE_URL}${fileUrl}`
+                ? `${baseUrl}${fileUrl}`
                 : fileUrl;
 
             return {
@@ -122,13 +115,14 @@ async function getFile(fileId) {
  * Upload image to Directus
  * @param {string} fileUuid - Drupal file uuid
  * @param {string} folder - Desired folder name
+ * @param {boolean} isCat - Desired which api base URL to use
  *
  * @returns {Promise<string|null>} Directus file ID or null on failure
  */
-async function uploadImage(fileUuid, folder = '') {
+async function uploadImage(fileUuid, folder = '', isCat = false) {
     loadImageMap();
     const directus = await getDirectus();
-    const api = await createApiInstance();
+    const api = await getAuthenticatedApi(isCat);
 
     // Check if file already exists in Directus by drupal_uuid
     // try {
@@ -155,7 +149,7 @@ async function uploadImage(fileUuid, folder = '') {
         return imageMap[fileUuid];
     }
 
-    const file = await getFile(fileUuid);
+    const file = await getFile(fileUuid, isCat);
 
     if (!file) {
         console.error(`❌ No file data for UUID ${fileUuid}`);

@@ -5,12 +5,17 @@
   "main": "migrate-event-types.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node event-types.js",
+    "migrate:country-sector-region": "node scripts/taxonomy.js",
+    "migrate:roles": "node scripts/roles.js",
+    "migrate:users": "node scripts/users.js",
+    "migrate:cat-users": "node scripts/catracker_users.js",
     "migrate:event-types": "node scripts/event-types.js",
     "migrate:sponsors": "node scripts/sponsors_delegates.js",
     "migrate:events": "node scripts/events.js",
-    "migrate:users": "node scripts/users.js",
-    "migrate:roles": "node scripts/roles.js",
+    "migrate:project-types": "node scripts/project_type.js",
+    "migrate:project-status": "node scripts/project_status.js",
+    "migrate:companies": "node scripts/companies.js",
+    "migrate:projects": "node scripts/projects.js",
     "data:clear": "node helpers/clear-data.js"
   },
   "keywords": [

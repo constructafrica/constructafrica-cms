@@ -9,23 +9,24 @@ const DRUPAL_PASSWORD = process.env.DRUPAL_PASSWORD;
 let authClient = null;
 
 // Authenticate with Drupal and get API client
-async function getAuthenticatedApi() {
+async function getAuthenticatedApi(cat = false) {
     if (!authClient) {
-        await authenticateDrupal();
+        await authenticateDrupal(cat);
     }
     return authClient;
 }
 
 // Try multiple authentication methods
-async function authenticateDrupal() {
+async function authenticateDrupal(cat = false) {
     console.log('🔐 Attempting to authenticate with Drupal...');
 
     // Method 1: Try Basic Auth first (most reliable)
     const credentials = btoa(`${DRUPAL_USERNAME}:${DRUPAL_PASSWORD}`);
+    const url = cat ? process.env.DRUPAL_CAT_API_URL : BASE_URL;
     try {
         console.log('🔄 Trying Basic Authentication...');
         authClient = axios.create({
-            baseURL: BASE_URL,
+            baseURL: url,
             headers: {
                 'Accept': 'application/vnd.api+json',
                 'Content-Type': 'application/vnd.api+json',
@@ -45,7 +46,7 @@ async function authenticateDrupal() {
 
         // Test the authentication with a simple request
         // const testResponse = await authClient.get('/node/events?page[limit]=1');
-        console.log('✅ Successfully authenticated with Basic Auth');
+        console.log('✅ Successfully authenticated with Basic Auth:' , url);
         return;
 
     } catch (basicAuthError) {
@@ -56,10 +57,9 @@ async function authenticateDrupal() {
     if (process.env.DRUPAL_CLIENT_ID && process.env.DRUPAL_CLIENT_SECRET) {
         try {
             console.log('🔄 Trying OAuth Authentication...');
-
             // Create a temporary client for OAuth token request
             const tempClient = axios.create({
-                baseURL: process.env.DRUPAL_BASE_URL, // Use base URL without jsonapi
+                baseURL: url, // Use base URL without jsonapi
                 timeout: 30000,
                 httpsAgent: new https.Agent({
                     family: 4,
@@ -69,8 +69,8 @@ async function authenticateDrupal() {
 
             const authResponse = await tempClient.post('/oauth/token', {
                 grant_type: 'password',
-                client_id: 'rshmbrO5f920Bd4AW_asOgs6v9ILaVbLl7YHU80lA78',
-                client_secret: 'mrprotocoll',
+                client_id: process.env.DRUPAL_CLIENT_ID,
+                client_secret: process.env.DRUPAL_CLIENT_SECRET,
                 username: DRUPAL_USERNAME,
                 password: DRUPAL_PASSWORD,
                 scope: 'rest'
@@ -79,7 +79,7 @@ async function authenticateDrupal() {
             const authToken = authResponse.data.access_token;
 
             authClient = axios.create({
-                baseURL: BASE_URL,
+                baseURL: url,
                 headers: {
                     'Accept': 'application/vnd.api+json',
                     'Content-Type': 'application/vnd.api+json',
@@ -93,7 +93,7 @@ async function authenticateDrupal() {
             });
 
             // Test the authentication
-            await authClient.get('/node/events?page[limit]=1');
+            await authClient.get('/node/articles?page[limit]=1');
             console.log('✅ Successfully authenticated with OAuth');
             return;
 
@@ -107,7 +107,7 @@ async function authenticateDrupal() {
         console.log('🔄 Trying Cookie-based Authentication...');
 
         const tempClient = axios.create({
-            baseURL: BASE_URL, // Use base Drupal URL
+            baseURL: url, // Use base Drupal URL
             timeout: 30000,
             httpsAgent: new https.Agent({
                 family: 4,
@@ -125,7 +125,7 @@ async function authenticateDrupal() {
 
         // Use the same client for JSON:API requests
         authClient = tempClient;
-        authClient.defaults.baseURL = BASE_URL; // Switch back to JSON:API base URL
+        authClient.defaults.baseURL = url; // Switch back to JSON:API base URL
 
         console.log('✅ Successfully authenticated with Cookie session');
         return;
