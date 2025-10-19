@@ -1,0 +1,5 @@
+id,drupal_id,name,role,email,project_id,company_id,migration_status
+70b96f0c-fd09-44b5-a94e-88d1b85bff95,4076,"Tsion Birhanu","Executive Officer, Procurement and Logistics","kalayou.haddis@gmail.com",5e1296b7-8207-42cf-8858-845fd3e08a33,,success
+c7282648-d5fc-431f-93d8-a77df9768368,7675,"Debay Million","Area Manager","million@un.org",5e1296b7-8207-42cf-8858-845fd3e08a33,,success
+55a50c76-62b5-4023-8ae5-79837b0414f5,7674,"Kjetil Skjeldestad","VP Global, Drilling & Wells","kjetil.skjeldestad@akerenergy.com",8def9c47-f644-4c69-bec3-a26bb364f06f,,success
+53d7153c-15bc-4f86-97ea-717bbc5874b9,7664,"Brian Mitchener","Exploration Director","b.mitchener@soundenergyplc.com",9ae8685b-f11b-4f18-bd6c-863ee2573661,,success

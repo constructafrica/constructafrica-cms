@@ -5,29 +5,8 @@ const { v4: uuidv4 } = require('uuid');
 const { getDirectus } = require('../helpers/upload-image');
 const { getAuthenticatedApi, resetAuth } = require('../helpers/auth');
 const { uploadImage } = require('../helpers/upload-image');
-const { escapeCsv, formatDateTimeForCsv, csvDir } = require('../helpers/index');
-const { readUsers, createUser, updateUser, readItems, createItems, updateItems, readRoles } = require('@directus/sdk');
-
-// Role mapping from Drupal to Directus
-const ROLE_MAPPING = {
-    'administrator': { directus_role: 'Administrator', priority: 100, subscription_type: null, description: 'Administrator role for full access' },
-    'super_editor': { directus_role: 'Super Editor', priority: 90, subscription_type: null, description: 'Super Editor role for full access' },
-    'publisher': { directus_role: 'Publisher', priority: 85, subscription_type: null, description: 'Publisher role for content publishing' },
-    'editor': { directus_role: 'Editor', priority: 80, subscription_type: null, description: 'Editor role for content creation' },
-    'basic_content_editor': { directus_role: 'Content Editor', priority: 70, subscription_type: null, description: 'Content Editor for limited content access' },
-    'coordinator': { directus_role: 'Coordinator', priority: 60, subscription_type: null, description: 'Coordinator for view-only access' },
-    'premium': { directus_role: 'Subscriber', priority: 50, subscription_type: 'premium', description: 'Subscriber for premium content access' },
-    'paid_corporate': { directus_role: 'Subscriber', priority: 50, subscription_type: 'corporate', description: 'Subscriber for premium content access' },
-    'paid_individual': { directus_role: 'Subscriber', priority: 50, subscription_type: 'individual', description: 'Subscriber for premium content access' },
-    'subscriber': { directus_role: 'Subscriber', priority: 40, subscription_type: 'basic', description: 'Subscriber for premium content access' },
-    'reports': { directus_role: 'Subscriber', priority: 40, subscription_type: 'reports', description: 'Subscriber for premium content access' },
-    'demo': { directus_role: 'Authenticated', priority: 30, subscription_type: 'demo', description: '' },
-    'newsletter': { directus_role: 'Authenticated', priority: 20, subscription_type: null, description: '' },
-    'opinion': { directus_role: 'Authenticated', priority: 20, subscription_type: 'opinion', description: '' },
-    'free': { directus_role: 'Authenticated', priority: 10, subscription_type: null, description: '' },
-    'authenticated': { directus_role: 'Authenticated', priority: 5, subscription_type: null, description: 'Authenticated user for basic access' },
-    'anonymous': { directus_role: 'Public', priority: 0, subscription_type: null, description: 'Public role for anonymous access' },
-};
+const { escapeCsv, formatDateTimeForCsv, csvDir, ROLE_MAPPING } = require('../helpers/index');
+const { readUsers, createUser, createItems, readRoles } = require('@directus/sdk');
 
 // Fetch all users from Drupal
 async function fetchUsers() {
@@ -144,46 +123,6 @@ function determinePrimaryRole(userRoles) {
     };
 }
 
-// Map Directus role name to UUID
-async function getDirectusRoleIdold(directusRoleName, rolesData, directus) {
-    // For Administrator, get the existing Directus admin role UUID
-    if (directusRoleName === 'Administrator') {
-        try {
-            const adminRoles = await directus.request(
-                readRoles({
-                    filter: { name: { _eq: 'Administrator' } },
-                    limit: 1
-                })
-            );
-            console.log('admin role', adminRoles[0].id)
-
-            if (adminRoles && adminRoles.length > 0) {
-                return adminRoles[0].id;
-            }else{
-                // Fallback to Drupal admin role
-                const adminRole = rolesData.find(r => r.attributes.is_admin == true);
-                console.log('directus admin role main', adminRole)
-                return adminRole ? adminRole.id : null;
-            }
-        } catch (error) {
-            console.error('❌ Error fetching admin role from Directus:', error.message);
-        }
-
-
-    }
-
-    const drupalRoleId = Object.keys(ROLE_MAPPING).find(
-        key => ROLE_MAPPING[key].directus_role === directusRoleName
-    );
-
-    if (drupalRoleId) {
-        const role = rolesData.find(r => r.attributes.drupal_internal__id === drupalRoleId);
-        return role ? role.id : null;
-    }
-
-    return null;
-}
-
 // Map Directus role name to UUID - FIXED VERSION
 async function getDirectusRoleId(directusRoleName, rolesData, directus) {
     console.log(`🔍 Looking up Directus role: ${directusRoleName}`);
@@ -203,7 +142,7 @@ async function getDirectusRoleId(directusRoleName, rolesData, directus) {
                 return adminRoles[0].id;
             } else {
                 // Fallback to Drupal admin role
-                const adminRole = rolesData.find(r => r.attributes.is_admin == true);
+                const adminRole = rolesData.find(r => r.attributes.is_admin === true);
                 console.log(`⚠️ Using Drupal admin role: ${adminRole?.id}`);
                 return adminRole ? adminRole.id : null;
             }

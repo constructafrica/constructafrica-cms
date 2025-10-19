@@ -64,7 +64,7 @@ async function getFile(fileId, isCat = false) {
     let lastError;
     const api = await getAuthenticatedApi(isCat);
 
-    while (attempt <= maxRetries) {
+    // while (attempt <= maxRetries) {
         try {
             const url = `/file/file/${fileId}`;
             const response = await api.get(url);
@@ -105,7 +105,7 @@ async function getFile(fileId, isCat = false) {
             console.warn(`⚠️ Attempt ${attempt} failed for file ${fileId}. Retrying in ${delay}ms...`);
             await new Promise(resolve => setTimeout(resolve, delay));
         }
-    }
+    // }
 
     // If we get here, all retries failed
     return null;

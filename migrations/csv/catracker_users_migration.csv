@@ -1,6 +1,51 @@
-id,name,migration_status,migration_action
-26d8ef7e-f1db-4413-bc13-d7a706c762da,,success,
-3d293fe9-dcd3-48d5-8ce0-380a9af38e18,,success,
-d9acd4e4-2c58-4b93-a332-4f5d401852c8,,success,
-5e11b4c8-99e1-4561-97c0-01ce9d529e75,,success,
-7dd3c266-e13a-4c8e-a86e-64b6970d0450,,success,
+id,first_name,last_name,email,role,status,username,company,country,phone,migration_status,migration_action
+26d8ef7e-f1db-4413-bc13-d7a706c762da,"","",,,suspended,"","","","",success,created
+3d293fe9-dcd3-48d5-8ce0-380a9af38e18,"Mudasir","Afzal","web.mudasir@gmail.com","administrator",active,"mudasir","constructafrica","IN","08088823483",success,created
+d9acd4e4-2c58-4b93-a332-4f5d401852c8,"Staff","Writer","segun.f@constructafrica.com","super_editor",active,"segun.f","","","",success,created
+5e11b4c8-99e1-4561-97c0-01ce9d529e75,"","","chriselle.moraes@gmail.com",,active,"chrism","","","",success,created
+7dd3c266-e13a-4c8e-a86e-64b6970d0450,"","","lizbains@constructafrica.com","super_editor",active,"Liz Bains","","","",success,created
+fa162084-0664-4fe7-a00e-0680402c3c37,"","","sneha.a@constructafrica.com","super_editor",active,"sneha","","","",success,created
+6fdf4aa4-7b50-4b7e-8914-945f9e329245,"","","mitchell.t@constructafrica.com","super_editor",active,"mitchell","","","",success,created
+be9ab225-050d-4425-8d94-eecc016a0b24,"","","rgrau@grupsa.com",,active,"Ramon Grau","","","",success,created
+90669595-c355-4fe3-8272-b60a10238906,"","","pdevereux@ciob.co.za",,active,"Petra Devereux","","","",success,created
+7759b712-e3fb-46bd-a4e0-f8f5bc771410,"","","diana.m@constructafrica.com","super_editor",active,"diana","","","",success,created
+8e6c5890-4337-4f2c-87d3-066e77b0890c,"","","testeditor@constructafrica.com","editor",suspended,"testeditor","","","",success,created
+6c3ea5b2-3013-4154-9d46-1d09e18dd04b,"","","editor2@constructafrica.com","editor",suspended,"editor2","","","",success,created
+e936ff12-a8d6-47b4-ba2f-08ad28b75884,"","","editor3@constructafrica.com","editor",suspended,"editor3","","","",success,created
+e15ecb74-c61f-49ce-a4df-2eae8a83eff2,"","","supereditor@constructafrica.com","super_editor",suspended,"supereditor","","","",success,created
+3e3ec343-ac80-41cf-a3c5-f5c3cbf5e0ee,"","","freeuser@constructafrica.com","free",active,"free","","","",success,created
+1c3ed807-461f-417a-88f1-c4effb475cd6,"","","individualuser@constructafrica.com","paid_individual",active,"individual","","","",success,created
+979d33b7-5d53-417b-b680-b9462ff2862a,"","","mu.das+ir@constructafrica.com",,active,"corporate","","","",success,created
+b8adc260-dd89-44b6-9b2b-b5f22cbf2073,"","","imran@ca.com","administrator",suspended,"imran","","","",success,created
+66b10f77-d46e-433e-8bf1-2f9cb6316fd9,"","","polikandriotis@gmail.com",,active,"Spo002","","","",success,created
+152b021c-a8fe-45b1-91ac-f2d10c698c1a,"","","ademola.kregence@gmail.com",,active,"@ademola","","","",success,created
+d0a30bb7-a2b3-4c79-a81e-f6a4941adcbf,"","","hmohammed@oauife.edu.ng","free",active,"Professor Hussein Mohammed","","","",success,created
+dbba8173-61f0-43af-b1e4-8ef76904fb44,"","","gracelizatieno@gmail.com","free",active,"Grace Atieno Odhiambo","","","",success,created
+7fa17dc8-098c-47af-b9bd-ac32e0421bbb,"","",,,active,"Dr. Theophilus Shittu","","","",success,
+1ec01e83-43d4-439d-b3ab-552831dc57f3,"","","lea.salloum@dar.com",,active,"LeaSalloum","","","",success,created
+ede8fc00-4eac-4352-b898-5aa96eef65af,"","","rnmbiu1@gmail.com","free",active,"Ronald Mbiu","","","",success,created
+3b7f8ef0-9030-4c88-aef2-506124b3d308,"","","supereditor3@constructafrica.com","super_editor",suspended,"supereditor3","","","",success,created
+56a434c3-5a21-468b-bc84-9c74eff6058b,"","","maxwelloamakor9999@gmail.com",,active,"maxca9999","","","",success,created
+3da75979-e929-435a-bda0-6e62bc4942b3,"","","omario@noba.ng",,active,"nobaconsorzio","","","",success,created
+bc6fb0cc-2300-4f53-8965-a801a3d25b83,"","","ravirai00@gmail.com",,active,"ravirai00","","","",success,created
+b399f6f9-f5b8-4aaf-b4ff-4bb24e3831ea,"","","paolo.balegno@elc-electroconsult.com",,active,"Paolo","","","",success,created
+7a0fc7b7-d497-4e2c-9a2c-f5ebffbae02f,"","","4ab6y9x03@mozmail.com",,active,"Fragoulipout","","","",success,created
+0c7648f6-69e4-40a3-b3d8-155d93fe5605,"","","dohyinsohlah@gmail.com",,active,"doyinmie","","","",success,created
+d2f5e8d3-4377-4c57-8045-d9e501fadb85,"","","andrew.yeoman@gin.hr",,active,"AY","","","",success,created
+c5dd51a5-5f0f-4e65-be7a-11ada1f4cfff,"","","tafadzwa.nyakudya@priceforbes.com",,active,"Tafadzwa.Nyakudya@priceforbes.com","","","",success,created
+9b87d14c-cbfb-473e-bcdc-cf302d8f6d71,"","","asandat@idc.co.za",,active,"Asanda","","","",success,created
+4158e572-b4e7-4d3f-a157-668e10c4a7d3,"","","tenders.power@draipl.com",,active,"girija8899","","","",success,created
+91734c2e-5396-4699-88a1-ccaf8f71d536,"","","charles.malek@dar.com","free",active,"Charles Malek","","","",success,created
+bc873b07-21c9-47d5-b054-7f741295ccba,"","","sikweke@aim-consultants.com",,active,"SARAH1","","","",success,created
+e39be725-90db-48a5-8b87-feed107f59b5,"","","ondercaynak@yandex.com.tr",,active,"Onder","","","",success,created
+d6652a13-d3ff-4403-8b46-4ff1c24725a8,"","","mohamed.atef.bd@arabcont.com","paid_corporate",active,"mohamed.atef.bd@arabcont.com","","","",success,created
+eb353482-8b09-46fe-ab3c-927324ee3d8e,"","","mohyahya89@gmail.com",,active,"momo","","","",success,created
+0b4b1489-de65-4e93-af33-be09325ce467,"","","edwardmashingia@mascons.co.tz",,active,"Mashingia","","","",success,created
+7ecdda95-bbf7-418c-9fa0-840de2b41d94,"","","laurent.beaugrand@komatsu.eu",,active,"Wolwol76","","","",success,created
+d8211061-9e0f-4c84-98ed-7574035637ff,"","","zhanghaobo112@gmail.com",,active,"zhang","","","",success,created
+093f9480-2f6e-48c2-9dfe-debab458f496,"","","zinzile.ndiweni@abiq.io",,active,"ZinzileNdiweni","","","",success,created
+42688243-f5b2-4bd2-ad2b-539435d0a341,"","","meerasharma0505@gmail.com",,active,"Meera@1985","","","",success,created
+89895df6-bd48-4f41-b50d-3107714594dd,"","","amaggs@iafrica.com",,active,"amaggs@iafrica.com","","","",success,created
+7137d43c-d8c7-40f8-b1ec-fa355a21afeb,"","","eunjoy@icak.or.kr",,active,"Minkyu Eun","","","",success,created
+6fcc443b-215a-4f3f-a3ab-3c8a835e5332,"","","md@imcug.com",,active,"imcug","","","",success,created
+3a930af6-07a3-4095-be2d-d0268394ea53,"","","matthew@xypexukltd.com",,active,"mattgarrad","","","",success,created

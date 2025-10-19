@@ -90,9 +90,6 @@ async function migrateTaxonomiesToDirectus() {
 
     // Setup CSV directory
     const csvDir = path.join(__dirname, '../csv');
-    if (!fs.existsSync(csvDir)) {
-        fs.mkdirSync(csvDir, { recursive: true });
-    }
 
     // Initialize mappings and CSV files
     const countryMapping = {};
@@ -247,7 +244,6 @@ async function migrateTaxonomiesToDirectus() {
     fs.writeFileSync(path.join(csvDir, 'countries_mapping.json'), JSON.stringify(countryMapping, null, 2), 'utf8');
     fs.writeFileSync(path.join(csvDir, 'regions_mapping.json'), JSON.stringify(regionMapping, null, 2), 'utf8');
     fs.writeFileSync(path.join(csvDir, 'sectors_mapping.json'), JSON.stringify(sectorMapping, null, 2), 'utf8');
-    // fs.writeFileSync(path.join(csvDir, 'project_types_mapping.json'), JSON.stringify(projectTypeMapping, null, 2), 'utf8');
     // fs.writeFileSync(path.join(csvDir, 'company_types_mapping.json'), JSON.stringify(companyTypeMapping, null, 2), 'utf8');
 
     // Generate migration summary

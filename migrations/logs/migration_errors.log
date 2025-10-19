@@ -5757,3 +5757,1867 @@ User undefined processing failed: TypeError: Cannot read properties of undefined
 TypeError: Cannot read properties of undefined (reading 'roles')
     at migrateUsersToDirectus (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/catracker_users.js:127:42)
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-18T21:02:30.374Z - Migration failed: value is not defined
+2025-10-18T21:02:52.633Z - Migration failed: ReferenceError: value is not defined
+Company c5dd81cc-8605-49b9-af00-c63ceae3deb9 (Chad Ministry of Water and Energy) processing failed: countryMapping is not defined
+ReferenceError: countryMapping is not defined
+    at migrateCompaniesToDirectus (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/companies.js:523:47)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+Company c11e5c1a-4d72-4ca5-b04a-7657a6420148 (Addis Ababa City Roads Authority (AACRA)) processing failed: countryMapping is not defined
+ReferenceError: countryMapping is not defined
+    at migrateCompaniesToDirectus (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/companies.js:523:47)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-18T22:48:24.948Z - Project Bolobedu Solar Consortium - Solar Plant Limpopo South Africa South Africa failed: You don't have permission to access field "drupal_id" in collection "projects" or it does not exist. Queried in root.
+2025-10-18T22:48:24.957Z - Project Construction of New Buildings at University of Dar es Salaam, Tanzania failed: You don't have permission to access field "drupal_id" in collection "projects" or it does not exist. Queried in root.
+2025-10-18T23:28:24.719Z - Project Construction of New Buildings at University of Dar es Salaam, Tanzania failed: Invalid foreign key.
+2025-10-18T23:33:23.837Z - Project Construction of New Buildings at University of Dar es Salaam, Tanzania failed: Invalid foreign key.
+Project 65f90c77-4fbc-42b0-aa7c-f841fe574a7f (Bolobedu Solar Consortium - Solar Plant Limpopo South Africa South Africa) processing failed: directus is not defined
+ReferenceError: directus is not defined
+    at getUserId (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/helpers/index.js:178:18)
+    at migrateProjectsToDirectus (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/projects.js:662:34)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+Project 0ab15843-b207-4b10-b99e-839373e562a4 (Construction of New Buildings at University of Dar es Salaam, Tanzania) processing failed: directus is not defined
+ReferenceError: directus is not defined
+    at getUserId (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/helpers/index.js:178:18)
+    at migrateProjectsToDirectus (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/projects.js:662:34)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2025-10-19T00:12:25.033Z - Company Ministry of Defence, Egypt failed: Token expired.
+2025-10-19T00:12:25.052Z - Company iX engineers failed: Token expired.
+2025-10-19T00:12:25.061Z - Company Civil Aviation Lesotho failed: Token expired.
+2025-10-19T00:12:25.069Z - Company DAL Group failed: Token expired.
+2025-10-19T00:12:25.078Z - Company SURF Architecture failed: Token expired.
+2025-10-19T00:12:25.085Z - Company Bukhatir Group failed: Token expired.
+2025-10-19T00:12:25.092Z - Company Sports Cities International (SCI) failed: Token expired.
+2025-10-19T00:12:25.099Z - Company Akam Development failed: Token expired.
+2025-10-19T00:12:25.106Z - Company Infinitum Energy Group failed: Token expired.
+2025-10-19T00:12:25.114Z - Company Consultrans failed: Token expired.
+2025-10-19T00:12:25.122Z - Company EDECS Construction failed: Token expired.
+2025-10-19T00:12:25.129Z - Company ÖKO PLAN failed: Token expired.
+2025-10-19T00:12:25.137Z - Company Yasser Al Beltagy Architects (YBA) failed: Token expired.
+2025-10-19T00:12:25.144Z - Company Raef Fahmi Architects failed: Token expired.
+2025-10-19T00:12:25.151Z - Company Chaddad Group Egypt failed: Token expired.
+2025-10-19T00:12:25.160Z - Company IL Cazar Developments failed: Token expired.
+2025-10-19T00:12:27.324Z - Company Graeme Page Consulting Engineers failed: Token expired.
+2025-10-19T00:12:30.365Z - Company Watson Mattheus Consulting Electrical Engineers failed: Token expired.
+2025-10-19T00:12:30.372Z - Company Gruner Stucky Ltd failed: Token expired.
+2025-10-19T00:12:30.380Z - Company Duglas Alliance failed: Token expired.
+2025-10-19T00:12:33.021Z - Company Government of Equatorial Guinea failed: Token expired.
+2025-10-19T00:12:35.279Z - Company Alpha Industries & Construction failed: Token expired.
+2025-10-19T00:12:37.488Z - Company Summit Contracting Company failed: Token expired.
+2025-10-19T00:12:39.977Z - Company Tec Merge failed: Token expired.
+2025-10-19T00:12:39.984Z - Company Elton Oil failed: Token expired.
+2025-10-19T00:12:39.991Z - Company Eaglestone failed: Token expired.
+2025-10-19T00:12:39.998Z - Company El Salam failed: Token expired.
+2025-10-19T00:12:40.005Z - Company Japan International Cooperation System (JICS) failed: Token expired.
+2025-10-19T00:12:40.012Z - Company Nippon Koei failed: Token expired.
+2025-10-19T00:12:40.019Z - Company Japan Techno Co failed: Token expired.
+2025-10-19T00:12:40.026Z - Company Central Developments failed: Token expired.
+2025-10-19T00:12:40.033Z - Company Prospect Resources failed: Token expired.
+2025-10-19T00:12:40.042Z - Company Ineco failed: Token expired.
+2025-10-19T00:12:42.439Z - Company Electromechanical Studies Office (ESO Consultancy) failed: Token expired.
+2025-10-19T00:12:44.965Z - Company Peluffo and Partners failed: Token expired.
+2025-10-19T00:12:44.973Z - Company Federal Ministry of Water Resources, Nigeria  failed: Token expired.
+2025-10-19T00:12:46.644Z - Company Emaar Misr failed: Token expired.
+2025-10-19T00:12:46.652Z - Company Ondo State Water Corporation (ODWC) failed: Token expired.
+2025-10-19T00:12:48.582Z - Company Rock Results Group Nigeria Limited failed: Token expired.
+2025-10-19T00:12:50.232Z - Company Setraco Nigeria Limited failed: Token expired.
+2025-10-19T00:12:52.397Z - Company Akwa Ibom State Government (AKSG) failed: Token expired.
+2025-10-19T00:12:54.387Z - Company Advanced Concrete Engineering Solutions (ACES) failed: Token expired.
+2025-10-19T00:12:55.744Z - Company Tanit Group failed: Token expired.
+2025-10-19T00:12:55.751Z - Company Enugu State Ministry of Health failed: Token expired.
+2025-10-19T00:12:55.761Z - Company Dingsheng Minerals failed: Token expired.
+2025-10-19T00:12:57.703Z - Company Turner & Townsend failed: Token expired.
+2025-10-19T00:13:00.155Z - Company Quest Africa Ltd failed: Token expired.
+2025-10-19T00:13:00.163Z - Company Libya Development and Reconstruction Fund failed: Token expired.
+2025-10-19T00:13:00.169Z - Company Egypt Ministry of Transport failed: Token expired.
+2025-10-19T00:13:00.178Z - Company Trans-Kalahari Railway Project Management Office (TKR-PMO) failed: Token expired.
+2025-10-19T00:13:00.192Z - Company Ministry of Industry and Trade, Tanzania failed: Token expired.
+2025-10-19T00:13:00.208Z - Company Vanadium Resources failed: Token expired.
+2025-10-19T00:13:00.217Z - Company Royal IHC failed: Token expired.
+2025-10-19T00:13:00.225Z - Company MRG Metals failed: Token expired.
+2025-10-19T00:13:00.233Z - Company Lifezone Metals failed: Token expired.
+2025-10-19T00:13:00.240Z - Company Caledonia Mining South Africa failed: Token expired.
+2025-10-19T00:13:00.248Z - Company Murray & Roberts Cementation failed: Token expired.
+2025-10-19T00:13:00.255Z - Company Kuvimba Mining House failed: Token expired.
+2025-10-19T00:13:00.262Z - Company Great Dyke Investments failed: Token expired.
+2025-10-19T00:13:00.270Z - Company AngloGold Ashanti South Africa failed: Token expired.
+2025-10-19T00:13:00.277Z - Company Mkango Resources failed: Token expired.
+2025-10-19T00:13:00.285Z - Company Honeywell International failed: Token expired.
+2025-10-19T00:13:00.292Z - Company Giyani Metals failed: Token expired.
+2025-10-19T00:13:00.299Z - Company Cameroon Mining Action (Camina) failed: Token expired.
+2025-10-19T00:13:00.308Z - Company Minxcon failed: Token expired.
+2025-10-19T00:13:00.314Z - Company Southern Palladium failed: Token expired.
+2025-10-19T00:13:00.322Z - Company International Resources Holding (IRH) failed: Token expired.
+2025-10-19T00:13:00.329Z - Company Mopani Copper Mines failed: Token expired.
+2025-10-19T00:13:00.336Z - Company Shenghe Resources failed: Token expired.
+2025-10-19T00:13:00.345Z - Company Kefi Minerals Ethiopia failed: Token expired.
+2025-10-19T00:13:00.351Z - Company Kudu Graphite failed: Token expired.
+2025-10-19T00:13:00.359Z - Company Magnis Energy Technologies failed: Token expired.
+2025-10-19T00:13:00.368Z - Company EBNY failed: Token expired.
+2025-10-19T00:13:02.235Z - Company Construction Management Systems (CMS) failed: Token expired.
+2025-10-19T00:13:05.170Z - Company Maccaferri failed: Token expired.
+2025-10-19T00:13:07.234Z - Company Public Investment Corporation failed: Token expired.
+2025-10-19T00:13:09.413Z - Company Albonico Sack Metacity Architects & Urban Designers failed: Token expired.
+2025-10-19T00:13:11.022Z - Company Bentel Associates International failed: Token expired.
+2025-10-19T00:13:12.578Z - Company Attacq Limited failed: Token expired.
+2025-10-19T00:13:14.428Z - Company Nadinco Construction failed: Token expired.
+2025-10-19T00:13:16.294Z - Company United Brothers Tradaing and Construction  failed: Token expired.
+2025-10-19T00:13:17.668Z - Company Inshaa for Development and Construction failed: Token expired.
+2025-10-19T00:13:20.640Z - Company Ministry of Gender, Culture, the Arts and Heritage, Kenya  failed: Token expired.
+2025-10-19T00:13:24.844Z - Company Ministry of Tourism and Wildlife, Kenya failed: Token expired.
+2025-10-19T00:13:24.852Z - Company Citystars failed: Token expired.
+2025-10-19T00:13:24.862Z - Company Bomas of Kenya failed: Token expired.
+2025-10-19T00:13:24.878Z - Company Roya Developments failed: Token expired.
+2025-10-19T00:13:27.093Z - Company Mimar Engineering Consulting Company failed: Token expired.
+2025-10-19T00:13:27.102Z - Company WeLight Africa failed: Token expired.
+2025-10-19T00:13:27.119Z - Company Darway Coast failed: Token expired.
+2025-10-19T00:13:27.132Z - Company Sosai Renewable Energies Company failed: Token expired.
+2025-10-19T00:13:27.144Z - Company Oando Clean Energy failed: Token expired.
+2025-10-19T00:13:27.152Z - Company Okra Solar failed: Token expired.
+2025-10-19T00:13:27.159Z - Company MBH Power failed: Token expired.
+2025-10-19T00:13:27.167Z - Company Foxpower Technology failed: Token expired.
+2025-10-19T00:13:27.175Z - Company De-Janees Concepts failed: Token expired.
+2025-10-19T00:13:27.185Z - Company Ashipa Electric failed: Token expired.
+2025-10-19T00:13:27.192Z - Company SkipperSeil failed: Token expired.
+2025-10-19T00:13:27.206Z - Company Privida Power failed: Token expired.
+2025-10-19T00:13:27.220Z - Company Havenhill Synergy failed: Token expired.
+2025-10-19T00:13:27.230Z - Company Eauxwell failed: Token expired.
+2025-10-19T00:13:27.237Z - Company A4&T Power Solutions failed: Token expired.
+2025-10-19T00:13:27.246Z - Company Mid-Day International Consulting Engineers failed: Token expired.
+2025-10-19T00:13:29.854Z - Company Sogebam failed: Token expired.
+2025-10-19T00:13:32.514Z - Company Equity Group Holdings failed: Token expired.
+2025-10-19T00:13:35.164Z - Company Ministry of Industrialization and Enterprise Development (State Department for Industry), Kenya  failed: Token expired.
+2025-10-19T00:13:35.171Z - Company El Masria Group failed: Token expired.
+2025-10-19T00:13:35.178Z - Company STOA Infra & Energy failed: Token expired.
+2025-10-19T00:13:35.185Z - Company IC Ictas Insaat failed: Token expired.
+2025-10-19T00:13:35.193Z - Company Earth Systems failed: Token expired.
+2025-10-19T00:13:35.199Z - Company Atacama Consulting failed: Token expired.
+2025-10-19T00:13:35.206Z - Company Infra Consulting Services (ICS) failed: Token expired.
+2025-10-19T00:13:37.232Z - Company Luxembourg Development Cooperation Agency (LUXDEV) failed: Token expired.
+2025-10-19T00:13:37.241Z - Company Ingerop failed: Token expired.
+2025-10-19T00:13:39.768Z - Company Rwanda Finance Limited (RFL) failed: Token expired.
+2025-10-19T00:13:41.148Z - Company Herrenknecht Iberica failed: Token expired.
+2025-10-19T00:13:41.162Z - Company SAI Drilling and Construction, LDA failed: Token expired.
+2025-10-19T00:13:41.175Z - Company Ministry of Commerce, Industry, and SME Promotion, Côte d'Ivoire failed: Token expired.
+2025-10-19T00:13:43.072Z - Company Ministry of Trade and Industry, Sierra Leone failed: Token expired.
+2025-10-19T00:13:43.082Z - Company Kloof Capital failed: Token expired.
+2025-10-19T00:13:45.622Z - Company FBC Structural Engineering failed: Token expired.
+2025-10-19T00:13:47.673Z - Company DKC Consulting Engineers failed: Token expired.
+2025-10-19T00:13:50.539Z - Company  Planning Partners failed: Token expired.
+2025-10-19T00:13:52.794Z - Company JVZ Architects  failed: Token expired.
+2025-10-19T00:13:54.841Z - Company Trinity Projects  failed: Token expired.
+2025-10-19T00:13:57.196Z - Company Mauritania's Ministry of Equipment and Transport failed: Token expired.
+2025-10-19T00:13:57.203Z - Company Nigeria Customs Service failed: Token expired.
+2025-10-19T00:13:57.209Z - Company Nigeria Export Processing Zones Authority (NEPZA) failed: Token expired.
+2025-10-19T00:13:57.218Z - Company Udo Udoma & Belo-Osagie failed: Token expired.
+2025-10-19T00:13:57.225Z - Company Norton Rose Fulbright  failed: Token expired.
+2025-10-19T00:13:57.232Z - Company GuarantCo failed: Token expired.
+2025-10-19T00:13:57.239Z - Company InfraCredit failed: Token expired.
+2025-10-19T00:13:57.247Z - Company Surbana Jurong failed: Token expired.
+2025-10-19T00:13:57.254Z - Company Ministry of Special Economic Zones and Economic Diversification, Congo failed: Token expired.
+2025-10-19T00:13:57.261Z - Company DLA Piper failed: Token expired.
+2025-10-19T00:13:57.268Z - Company Energy Infrastructure Management Services (EIMS Africa) failed: Token expired.
+2025-10-19T00:13:57.276Z - Company Electricity Generation Company (Malawi) Limited (EGENCO) failed: Token expired.
+2025-10-19T00:13:57.284Z - Company Malawi Ministry of Energy failed: Token expired.
+2025-10-19T00:13:58.848Z - Company Arab Maghreb Union failed: Token expired.
+2025-10-19T00:13:58.866Z - Company EMC Consultants failed: Token expired.
+2025-10-19T00:13:58.875Z - Company COBA Group failed: Token expired.
+2025-10-19T00:14:01.248Z - Company Equitane failed: Token expired.
+2025-10-19T00:14:03.746Z - Company Ogun State Investment Promotion and Facilitation Agency failed: Token expired.
+2025-10-19T00:14:03.753Z - Company Ministère de l'Industrie , Democratic Replublic of Congo (DRC) failed: Token expired.
+2025-10-19T00:14:03.760Z - Company Ministère du Commerce et de l'Industrie, Benin failed: Token expired.
+2025-10-19T00:14:06.041Z - Company Société d’Investissement et de Promotion de l’Industrie Bénin (SIPI Bénin) failed: Token expired.
+2025-10-19T00:14:08.246Z - Company BAM Architects failed: Token expired.
+2025-10-19T00:14:10.349Z - Company Fund for Export Development in Africa (FEDA) failed: Token expired.
+2025-10-19T00:14:12.167Z - Company Skyscape Architects failed: Token expired.
+2025-10-19T00:14:12.177Z - Company InfraDesign failed: Token expired.
+2025-10-19T00:14:13.541Z - Company African Horizons failed: Token expired.
+2025-10-19T00:14:14.905Z - Company Terrace Africa failed: Token expired.
+2025-10-19T00:14:14.912Z - Company Tuli Coal failed: Token expired.
+2025-10-19T00:14:14.919Z - Company Xintai Resources (Pvt) Ltd failed: Token expired.
+2025-10-19T00:14:14.926Z - Company Corry & Mukuyu failed: Token expired.
+2025-10-19T00:14:14.933Z - Company GoviEx Uranium Inc failed: Token expired.
+2025-10-19T00:14:16.847Z - Company Architectural & Planning studio failed: Token expired.
+2025-10-19T00:14:18.610Z - Company Chikara Civil Construction failed: Token expired.
+2025-10-19T00:14:18.616Z - Company Gécamines failed: Token expired.
+2025-10-19T00:14:20.943Z - Company Longden Steel failed: Token expired.
+2025-10-19T00:14:22.995Z - Company Schindwe failed: Token expired.
+2025-10-19T00:14:25.044Z - Company Onel Electrical Engineering failed: Token expired.
+2025-10-19T00:14:25.052Z - Company Jinchuan Group International Resources failed: Token expired.
+2025-10-19T00:14:25.059Z - Company Esor Construction Group failed: Token expired.
+2025-10-19T00:14:27.403Z - Company Oman Shapoorji Co (OSCO) failed: Token expired.
+2025-10-19T00:14:29.348Z - Company Eswatini Railways failed: Token expired.
+2025-10-19T00:14:29.355Z - Company Kropz failed: Token expired.
+2025-10-19T00:14:29.363Z - Company  African Rainbow Capital (ARC) failed: Token expired.
+2025-10-19T00:14:29.369Z - Company Toro Energy Ltd failed: Token expired.
+2025-10-19T00:14:29.377Z - Company Deep Yellow Ltd failed: Token expired.
+2025-10-19T00:14:29.385Z - Company B2Gold Corp failed: Token expired.
+2025-10-19T00:14:29.392Z - Company BBA Consultants failed: Token expired.
+2025-10-19T00:14:29.400Z - Company Barr Engineering failed: Token expired.
+2025-10-19T00:14:29.407Z - Company Managem failed: Token expired.
+2025-10-19T00:14:29.413Z - Company Emmerson failed: Token expired.
+2025-10-19T00:14:29.421Z - Company Namibian Marine Phosphate (NMP) failed: Token expired.
+2025-10-19T00:14:29.428Z - Company Hummingbird Resources failed: Token expired.
+2025-10-19T00:14:29.435Z - Company Pasofino Gold Ltd failed: Token expired.
+2025-10-19T00:14:29.442Z - Company Sandfire Motheo failed: Token expired.
+2025-10-19T00:14:29.449Z - Company Orion Minerals failed: Token expired.
+2025-10-19T00:14:29.456Z - Company Harmony Gold Mining Company failed: Token expired.
+2025-10-19T00:14:29.465Z - Company Fortuna Mining West Africa failed: Token expired.
+2025-10-19T00:14:29.471Z - Company West African Resources failed: Token expired.
+2025-10-19T00:14:29.480Z - Company Orion Resource Partners failed: Token expired.
+2025-10-19T00:14:29.487Z - Company Andrada Mining failed: Token expired.
+2025-10-19T00:14:29.494Z - Company GASS Architecture Studios failed: Token expired.
+2025-10-19T00:14:29.502Z - Company Trencon failed: Token expired.
+2025-10-19T00:14:29.509Z - Company Atterbury Property failed: Token expired.
+2025-10-19T00:14:29.515Z - Company Divercity Urban Property Fund failed: Token expired.
+2025-10-19T00:14:29.523Z - Company Boston Consulting Group (BCG) failed: Token expired.
+2025-10-19T00:14:29.530Z - Company Green Metals Refining (GMR) failed: Token expired.
+2025-10-19T00:14:29.539Z - Company Rainbow Rare Earths Ltd failed: Token expired.
+2025-10-19T00:14:29.546Z - Company METC Engineering failed: Token expired.
+2025-10-19T00:14:29.553Z - Company EcoGraf failed: Token expired.
+2025-10-19T00:14:29.561Z - Company CPC Engineering failed: Token expired.
+2025-10-19T00:14:29.568Z - Company Black Rock Mining failed: Token expired.
+2025-10-19T00:14:29.574Z - Company Lotus Resources failed: Token expired.
+2025-10-19T00:14:29.582Z - Company The Holding Company for Water and Wastewater, Egypt failed: Token expired.
+2025-10-19T00:14:29.589Z - Company The Holding Company for Maritime and Land Transport, Egypt failed: Token expired.
+2025-10-19T00:14:29.596Z - Company Nseleni Power Corporation failed: Token expired.
+2025-10-19T00:14:29.604Z - Company Anchor Energy LNG failed: Token expired.
+2025-10-19T00:14:31.461Z - Company MZ Architects failed: Token expired.
+2025-10-19T00:14:33.746Z - Company Chagoury Group failed: Token expired.
+2025-10-19T00:14:33.754Z - Company China Nanchang Engineering failed: Token expired.
+2025-10-19T00:14:33.761Z - Company STFA Construction failed: Token expired.
+2025-10-19T00:14:33.767Z - Company Genser Energy failed: Token expired.
+2025-10-19T00:14:35.902Z - Company Siemens Mobility failed: Token expired.
+2025-10-19T00:14:35.909Z - Company Samsung E&A Algeria failed: Token expired.
+2025-10-19T00:14:35.916Z - Company Beco failed: Token expired.
+2025-10-19T00:14:38.659Z - Company Guinea Alumina Corporation failed: Token expired.
+2025-10-19T00:14:38.665Z - Company Atrium Quality Contractors failed: Token expired.
+2025-10-19T00:14:38.673Z - Company El Hazek Construction failed: Token expired.
+2025-10-19T00:14:38.679Z - Company Alexandria Construction Company failed: Token expired.
+2025-10-19T00:14:38.686Z - Company Abu Dhabi Development Holding Company (ADQ) failed: Token expired.
+2025-10-19T00:14:38.693Z - Company EFG Hermes failed: Token expired.
+2025-10-19T00:14:41.020Z - Company Commercial International Bank (CIB) failed: Token expired.
+2025-10-19T00:14:43.171Z - Company Emarat Misr failed: Token expired.
+2025-10-19T00:14:43.179Z - Company Taw developments failed: Token expired.
+2025-10-19T00:14:45.158Z - Company El Rabwa Group failed: Token expired.
+2025-10-19T00:14:47.684Z - Company BETA EGYPT failed: Token expired.
+2025-10-19T00:14:49.885Z - Company Grand Plaza Developments failed: Token expired.
+2025-10-19T00:14:51.248Z - Company Ardic For Real Estate Developments failed: Token expired.
+2025-10-19T00:14:53.002Z - Company Housing and Development Properties (HDP) failed: Token expired.
+2025-10-19T00:14:55.249Z - Company Wadi Delga Developments failed: Token expired.
+2025-10-19T00:14:55.256Z - Company MISR ITALIA PROPERTIES failed: Token expired.
+2025-10-19T00:14:55.264Z - Company Tecnicas Reunidas failed: Token expired.
+2025-10-19T00:14:55.270Z - Company Tatweer Misr failed: Token expired.
+2025-10-19T00:14:55.278Z - Company Al Ahly Sabbour Developments failed: Token expired.
+2025-10-19T00:14:57.923Z - Company Hengya Cement failed: Token expired.
+2025-10-19T00:14:57.930Z - Company Niger Electricity Company (NIGELEC) failed: Token expired.
+2025-10-19T00:14:57.938Z - Company Sonelgaz failed: Token expired.
+2025-10-19T00:14:57.944Z - Company Kharafi National failed: Token expired.
+2025-10-19T00:15:01.096Z - Company Angola Ministry of Economy and Planning failed: Token expired.
+2025-10-19T00:15:01.104Z - Company Rowad Modern Engineering	 failed: Token expired.
+2025-10-19T00:15:01.112Z - Company Egyptians for Healthcare Services (EHCS) failed: Token expired.
+2025-10-19T00:15:02.494Z - Company Arcadis failed: Token expired.
+2025-10-19T00:15:04.876Z - Company Myrtha Pools failed: Token expired.
+2025-10-19T00:15:07.342Z - Company Robertson and Poole Construction failed: Token expired.
+2025-10-19T00:15:10.005Z - Company  St Charles College failed: Token expired.
+2025-10-19T00:15:10.014Z - Company Ministry of Lands, Agriculture, Fisheries, Water and Rural Development, Zimbabwe failed: Token expired.
+2025-10-19T00:15:10.022Z - Company SDK architects failed: Token expired.
+2025-10-19T00:15:10.029Z - Company Mediclinic Southern Africa failed: Token expired.
+2025-10-19T00:15:10.038Z - Company Mediterranean Shipping Company failed: Token expired.
+2025-10-19T00:15:12.338Z - Company Remgro Limited failed: Token expired.
+2025-10-19T00:15:12.346Z - Company Gulf Data Hub (GDH) failed: Token expired.
+2025-10-19T00:15:12.354Z - Company Norfund failed: Token expired.
+2025-10-19T00:15:12.362Z - Company Quanten Consortium Angola failed: Token expired.
+2025-10-19T00:15:12.370Z - Company Ministry of Mineral Resources, Petroleum and Gas, Angola failed: Token expired.
+2025-10-19T00:15:12.377Z - Company Novec failed: Token expired.
+2025-10-19T00:15:12.387Z - Company Bouygues Immobilier Maroc failed: Token expired.
+2025-10-19T00:15:12.400Z - Company Agence d'Urbanisation et de Développement d'Anfa (AUDA) failed: Token expired.
+2025-10-19T00:15:12.412Z - Company The General Organization for Teaching Hospitals and Institutes (GOTHI) failed: Token expired.
+2025-10-19T00:15:12.422Z - Company Groupe 3 failed: Token expired.
+2025-10-19T00:15:12.431Z - Company Free State Piling failed: Token expired.
+2025-10-19T00:15:15.219Z - Company National Department of Health (NDoH) failed: Token expired.
+2025-10-19T00:15:17.275Z - Company Free State Department of Health failed: Token expired.
+2025-10-19T00:15:19.218Z - Company Ministry of Health, Zambia  failed: Token expired.
+2025-10-19T00:15:21.157Z - Company The Zambia National Public Health Institute (ZNPHI) failed: Token expired.
+2025-10-19T00:15:21.165Z - Company MPAMOT Africa  failed: Token expired.
+2025-10-19T00:15:21.171Z - Company Sheladia Associates failed: Token expired.
+2025-10-19T00:15:21.180Z - Company  Zambia Railways Ltd failed: Token expired.
+2025-10-19T00:15:21.187Z - Company Bergstan failed: Token expired.
+2025-10-19T00:15:21.195Z - Company Maydane Capital failed: Token expired.
+2025-10-19T00:15:21.204Z - Company OZA Design failed: Token expired.
+2025-10-19T00:15:23.004Z - Company Ancora Group failed: Token expired.
+2025-10-19T00:15:24.954Z - Company Krea Studio failed: Token expired.
+2025-10-19T00:15:27.816Z - Company International Hospitals Construction Company (IHCC) failed: Token expired.
+2025-10-19T00:15:30.385Z - Company Ministry of Mines of the Democratic Republic of Congo (DRC) failed: Token expired.
+2025-10-19T00:15:30.394Z - Company Ausenco failed: Token expired.
+2025-10-19T00:15:30.401Z - Company AS+P failed: Token expired.
+2025-10-19T00:15:30.408Z - Company HKS failed: Token expired.
+2025-10-19T00:15:30.415Z - Company LONGi failed: Token expired.
+2025-10-19T00:15:30.422Z - Company Nigeria Oil and Gas Free Trade Zone Authority failed: Token expired.
+2025-10-19T00:15:30.430Z - Company Alternative Petroleum and Power Limited (APPL) failed: Token expired.
+2025-10-19T00:15:30.437Z - Company Nigeria Federal Ministry of Innovation, Science and Technology failed: Token expired.
+2025-10-19T00:15:30.443Z - Company Energy Commission of Nigeria failed: Token expired.
+2025-10-19T00:15:30.451Z - Company Japan Organization for Metals and Energy Security failed: Token expired.
+2025-10-19T00:15:30.458Z - Company Namibia Critical Metals Inc failed: Token expired.
+2025-10-19T00:15:30.465Z - Company Allied Gold Corporation failed: Token expired.
+2025-10-19T00:15:30.475Z - Company Front Range Developers failed: Token expired.
+2025-10-19T00:15:30.489Z - Company Snow Lake Energy failed: Token expired.
+2025-10-19T00:15:30.502Z - Company Centenary City Plc failed: Token expired.
+2025-10-19T00:15:30.510Z - Company JCHX Mining Zambia failed: Token expired.
+2025-10-19T00:15:30.517Z - Company Lubambe Copper Mine failed: Token expired.
+2025-10-19T00:15:30.524Z - Company Macro Metals failed: Token expired.
+2025-10-19T00:15:30.532Z - Company  Base Toliara failed: Token expired.
+2025-10-19T00:15:30.541Z - Company Underground Mining Alliance failed: Token expired.
+2025-10-19T00:15:30.548Z - Company AngloGold Ashanti Ghana failed: Token expired.
+2025-10-19T00:15:30.555Z - Company Asmidal failed: Token expired.
+2025-10-19T00:15:30.562Z - Company Shaker Consultancy Group failed: Token expired.
+2025-10-19T00:15:30.571Z - Company Gensler Middle East failed: Token expired.
+2025-10-19T00:15:30.579Z - Company LMS Construction failed: Token expired.
+2025-10-19T00:15:30.586Z - Company JDS Energy & Mining failed: Token expired.
+2025-10-19T00:15:30.593Z - Company Lucara Diamond failed: Token expired.
+2025-10-19T00:15:30.599Z - Company ECC Environmental failed: Token expired.
+2025-10-19T00:15:30.606Z - Company WIA Gold failed: Token expired.
+2025-10-19T00:15:30.614Z - Company Chemaf Resources failed: Token expired.
+2025-10-19T00:15:30.620Z - Company Sinosteel Corporation failed: Token expired.
+2025-10-19T00:15:30.629Z - Company Toubani Resources failed: Token expired.
+2025-10-19T00:15:30.636Z - Company SENET failed: Token expired.
+2025-10-19T00:15:30.642Z - Company Loncor Gold failed: Token expired.
+2025-10-19T00:15:30.650Z - Company Perseus Mining failed: Token expired.
+2025-10-19T00:15:30.657Z - Company Montage Gold failed: Token expired.
+2025-10-19T00:15:30.664Z - Company Kansanshi Mining failed: Token expired.
+2025-10-19T00:15:30.672Z - Company ENFI Engineering Corporation failed: Token expired.
+2025-10-19T00:15:30.679Z - Company Kamoa Copper failed: Token expired.
+2025-10-19T00:15:30.686Z - Company Kore Potash failed: Token expired.
+2025-10-19T00:15:30.694Z - Company Winning International Group failed: Token expired.
+2025-10-19T00:15:30.700Z - Company Winning Consortium Simandou (WCS) failed: Token expired.
+2025-10-19T00:15:30.707Z - Company Société Minière de Boké (SMB) failed: Token expired.
+2025-10-19T00:15:30.715Z - Company Rio Tinto SimFer failed: Token expired.
+2025-10-19T00:15:30.722Z - Company Impala Platinum (Implats) failed: Token expired.
+2025-10-19T00:15:30.731Z - Company Tosyalı Iron and Steel Angola (TISA) failed: Token expired.
+2025-10-19T00:15:30.742Z - Company Barrick Gold Corporation Zambia failed: Token expired.
+2025-10-19T00:15:33.751Z - Company Zululand Energy Terminal failed: Token expired.
+2025-10-19T00:15:36.221Z - Company Transnet National Ports Authority (TNPA) failed: Token expired.
+2025-10-19T00:15:36.228Z - Company Insuco failed: Token expired.
+2025-10-19T00:15:36.237Z - Company Acciona failed: Token expired.
+2025-10-19T00:15:36.243Z - Company Nuez et Fils failed: Token expired.
+2025-10-19T00:15:36.250Z - Company Perenco failed: Token expired.
+2025-10-19T00:15:36.257Z - Company Gabonese Electricity, Telephone and Water Company (SETEG) failed: Token expired.
+2025-10-19T00:15:36.265Z - Company EHAF Consulting Engineers failed: Token expired.
+2025-10-19T00:15:36.272Z - Company Mohammed Bin Rashid Al Maktoum Global Initiatives (MBRGI) failed: Token expired.
+2025-10-19T00:15:38.674Z - Company Magdi Yacoub Heart Foundation failed: Token expired.
+2025-10-19T00:15:38.680Z - Company Lufhereng Development Company (LDC) failed: Token expired.
+2025-10-19T00:15:40.926Z - Company Johannesburg Social Housing Company failed: Token expired.
+2025-10-19T00:15:40.933Z - Company JLL Africa failed: Token expired.
+2025-10-19T00:15:40.940Z - Company Société d’Aménagement Zenata (SAZ) failed: Token expired.
+2025-10-19T00:15:40.952Z - Company Sonae Sierra failed: Token expired.
+2025-10-19T00:15:43.794Z - Company Marjane Holding failed: Token expired.
+2025-10-19T00:15:45.741Z - Company Al-Futtaim Group failed: Token expired.
+2025-10-19T00:15:47.685Z - Company Reichen et Robert & Associés International failed: Token expired.
+2025-10-19T00:15:47.693Z - Company Atelier Franck Boutté Consultants failed: Token expired.
+2025-10-19T00:15:49.732Z - Company Anteverti failed: Token expired.
+2025-10-19T00:15:52.292Z - Company Groupe Caisse de Dépôts et de Gestion (CDG) failed: Token expired.
+2025-10-19T00:15:52.303Z - Company National Department of Human Settlements failed: Token expired.
+2025-10-19T00:15:52.309Z - Company Western Cape Department of Human Settlements failed: Token expired.
+2025-10-19T00:15:54.334Z - Company Les Grands Travaux Routiers (GTR) failed: Token expired.
+2025-10-19T00:15:56.696Z - Company Family Homes Funds Limited (FHFL) failed: Token expired.
+2025-10-19T00:15:58.336Z - Company Federal Mortgage Bank of Nigeria (FMBN) failed: Token expired.
+2025-10-19T00:15:58.343Z - Company Nigerian Sovereign Investment Authority failed: Token expired.
+2025-10-19T00:15:58.350Z - Company Gabon Energy and Water Company (SEEG) failed: Token expired.
+2025-10-19T00:15:58.359Z - Company Gabon Ministry of Energy and Water Resources failed: Token expired.
+2025-10-19T00:15:58.366Z - Company Ceezali Limited failed: Token expired.
+2025-10-19T00:15:58.374Z - Company Continental Civil and General Construction Company failed: Token expired.
+2025-10-19T00:15:58.382Z - Company Wartsila failed: Token expired.
+2025-10-19T00:16:01.713Z - Company Moroccan National Railways Office (ONCF) failed: Token expired.
+2025-10-19T00:16:01.720Z - Company Hogan Lovells failed: Token expired.
+2025-10-19T00:16:04.042Z - Company International Solar Alliance (ISA) failed: Token expired.
+2025-10-19T00:16:04.048Z - Company Entreprise Metro d'Alger failed: Token expired.
+2025-10-19T00:16:04.056Z - Company Physical Planning & Development Covenant University failed: Token expired.
+2025-10-19T00:16:04.063Z - Company Godaret Associates failed: Token expired.
+2025-10-19T00:16:04.070Z - Company Civil Sphere Konsult failed: Token expired.
+2025-10-19T00:16:05.503Z - Company Lycopodium Minerals failed: Token expired.
+2025-10-19T00:16:05.511Z - Company Bezal Engineering Consultants Ltd failed: Token expired.
+2025-10-19T00:16:05.518Z - Company Laralek Ultimate Limited failed: Token expired.
+2025-10-19T00:16:05.524Z - Company Living Faith Church Worldwide failed: Token expired.
+2025-10-19T00:16:07.539Z - Company Development Consultants Private Limited [DCPL] failed: Token expired.
+2025-10-19T00:16:10.211Z - Company Global Atomic Corporation failed: Token expired.
+2025-10-19T00:16:10.217Z - Company Dandemutande  failed: Token expired.
+2025-10-19T00:16:10.224Z - Company Sichuan Road and Bridge Group failed: Token expired.
+2025-10-19T00:16:13.806Z - Company Mangwana Capital failed: Token expired.
+2025-10-19T00:16:16.151Z - Company Dallaglio Investments failed: Token expired.
+2025-10-19T00:16:18.820Z - Company Invictus Energy Ltd failed: Token expired.
+2025-10-19T00:16:18.829Z - Company China Railway 20 Bureau Group Corporation failed: Token expired.
+2025-10-19T00:16:18.836Z - Company Vedanta Zinc International failed: Token expired.
+2025-10-19T00:16:20.751Z - Company Zimbabwe Environmental Management Agency failed: Token expired.
+2025-10-19T00:16:20.758Z - Company Rouandi failed: Token expired.
+2025-10-19T00:16:20.767Z - Company Ventec failed: Token expired.
+2025-10-19T00:16:20.775Z - Company Cegelec Maroc SA failed: Token expired.
+2025-10-19T00:16:22.498Z - Company Moxico Resources failed: Token expired.
+2025-10-19T00:16:22.505Z - Company Richards Bay Industrial Development Zone failed: Token expired.
+2025-10-19T00:16:22.511Z - Company Mangaung Metropolitan Municipality failed: Token expired.
+2025-10-19T00:16:22.518Z - Company AECOM failed: Token expired.
+2025-10-19T00:16:22.525Z - Company Wessal Capital Asset Management failed: Token expired.
+2025-10-19T00:16:22.532Z - Company Aveng failed: Token expired.
+2025-10-19T00:16:22.539Z - Company Ivanhoe Mines failed: Token expired.
+2025-10-19T00:16:24.679Z - Company Mining Plus failed: Token expired.
+2025-10-19T00:16:27.517Z - Company Hill International failed: Token expired.
+2025-10-19T00:16:27.523Z - Company Tshwane Automotive Special Economic Zone (TASEZ) failed: Token expired.
+2025-10-19T00:16:30.080Z - Company Robex Resources failed: Token expired.
+2025-10-19T00:16:33.049Z - Company Bouregreg Valley Development Agency failed: Token expired.
+2025-10-19T00:16:35.811Z - Company JLA Architects failed: Token expired.
+2025-10-19T00:16:35.817Z - Company PPC Cement failed: Token expired.
+2025-10-19T00:16:35.825Z - Company Uxene Smart City failed: Token expired.
+2025-10-19T00:16:35.833Z - Company Ministère de l’Urbanisme et Habitat, DRC failed: Token expired.
+2025-10-19T00:16:35.840Z - Company Tramway Rabat - Salé failed: Token expired.
+2025-10-19T00:16:35.848Z - Company Société du Métro Léger de Sfax (SMLS) failed: Token expired.
+2025-10-19T00:16:35.855Z - Company Spanish Society of Studies for Fixed Communication Across Strait of Gibraltar (SECEGSA) failed: Token expired.
+2025-10-19T00:16:35.861Z - Company Vaal Central Water Board (VCWB) failed: Token expired.
+2025-10-19T00:16:35.869Z - Company Rhema Project BCEGI failed: Token expired.
+2025-10-19T00:16:35.876Z - Company Lagos Food Systems & Logistics Park failed: Token expired.
+2025-10-19T00:16:35.882Z - Company Ministry of Commerce, Trade and Industry, Zambia failed: Token expired.
+2025-10-19T00:16:35.890Z - Company ZipBCC (Zambian (IP) Border Crossing Company) failed: Token expired.
+2025-10-19T00:16:35.897Z - Company ZMart Group of Companies failed: Token expired.
+2025-10-19T00:16:38.377Z - Company Hainan Mining failed: Token expired.
+2025-10-19T00:16:41.040Z - Company Kodal Minerals PLC failed: Token expired.
+2025-10-19T00:16:41.047Z - Company Gaborone City Council failed: Token expired.
+2025-10-19T00:16:41.054Z - Company Almar Water Solutions failed: Token expired.
+2025-10-19T00:16:41.060Z - Company Practara failed: Token expired.
+2025-10-19T00:16:41.067Z - Company ProProcess Engineering failed: Token expired.
+2025-10-19T00:16:41.074Z - Company ADP Marine & Modular failed: Token expired.
+2025-10-19T00:16:41.080Z - Company The Mineral Corporation failed: Token expired.
+2025-10-19T00:16:41.087Z - Company Mining Consultancy Company failed: Token expired.
+2025-10-19T00:16:41.095Z - Company Angola Sovereign Fund (FSDEA) failed: Token expired.
+2025-10-19T00:16:41.102Z - Company GMR Projects failed: Token expired.
+2025-10-19T00:16:41.111Z - Company  Proskim Construction failed: Token expired.
+2025-10-19T00:16:41.120Z - Company SLT Architects failed: Token expired.
+2025-10-19T00:16:41.136Z - Company dhk architects failed: Token expired.
+2025-10-19T00:16:41.143Z - Company Vivid Architects failed: Token expired.
+2025-10-19T00:16:41.151Z - Company Blake Renovation Concepts and Project Management failed: Token expired.
+2025-10-19T00:16:41.157Z - Company Intracontinent Asset Holdings Limited of Mauritius failed: Token expired.
+2025-10-19T00:16:41.164Z - Company Yaatra Ventures LLC failed: Token expired.
+2025-10-19T00:16:41.171Z - Company EKF (Danish Export Credit Agency) failed: Token expired.
+2025-10-19T00:16:41.177Z - Company SBC (Shikun and Binui International-SBI/Colas Limited) failed: Token expired.
+2025-10-19T00:16:41.186Z - Company Px Limited failed: Token expired.
+2025-10-19T00:16:41.197Z - Company King Shaka International Airport failed: Token expired.
+2025-10-19T00:16:41.209Z - Company Beluluane Gas Company (BGC) failed: Token expired.
+2025-10-19T00:16:41.217Z - Company VGI Consulting failed: Token expired.
+2025-10-19T00:16:41.226Z - Company John Wood Group failed: Token expired.
+2025-10-19T00:16:41.233Z - Company Azule Energy failed: Token expired.
+2025-10-19T00:16:41.240Z - Company Konkola Copper Mines failed: Token expired.
+2025-10-19T00:16:43.708Z - Company Imathia Construction failed: Token expired.
+2025-10-19T00:16:43.714Z - Company Hatch South Africa failed: Token expired.
+2025-10-19T00:16:43.721Z - Company Dube TradePort failed: Token expired.
+2025-10-19T00:16:43.728Z - Company IYER failed: Token expired.
+2025-10-19T00:16:43.735Z - Company  KwaZulu-Natal Department of Economic Development and Environmental Affairs, South Africa failed: Token expired.
+2025-10-19T00:16:43.742Z - Company Ethiopian Airports Enterprise failed: Token expired.
+2025-10-19T00:16:46.470Z - Company Export Processing Zones Authority, Kenya failed: Token expired.
+2025-10-19T00:16:49.226Z - Company Kenya Leather Development Council failed: Token expired.
+2025-10-19T00:16:50.683Z - Company Kiri Consult failed: Token expired.
+2025-10-19T00:16:50.690Z - Company Raygen failed: Token expired.
+2025-10-19T00:16:50.698Z - Company Photon Energy failed: Token expired.
+2025-10-19T00:16:50.704Z - Company Gauteng Department of Human Settlements, South Africa failed: Token expired.
+2025-10-19T00:16:50.711Z - Company SBI International failed: Token expired.
+2025-10-19T00:16:50.718Z - Company Goldwind failed: Token expired.
+2025-10-19T00:16:50.725Z - Company Cennergi failed: Token expired.
+2025-10-19T00:16:50.732Z - Company SMEC Uganda failed: Token expired.
+2025-10-19T00:16:50.739Z - Company Norrsken East Africa failed: Token expired.
+2025-10-19T00:16:50.746Z - Company Rwanda Innovation Fund (RIF) failed: Token expired.
+2025-10-19T00:16:50.753Z - Company Ministry of Information, Communications Technology and Innovation, Rwanda failed: Token expired.
+2025-10-19T00:16:50.761Z - Company CDM Smith failed: Token expired.
+2025-10-19T00:16:50.770Z - Company CMI Infrastructure Company failed: Token expired.
+2025-10-19T00:16:50.779Z - Company Delta State Government, Nigeria failed: Token expired.
+2025-10-19T00:16:50.786Z - Company Ministry of Tourism, Environment and Culture, Lesotho failed: Token expired.
+2025-10-19T00:16:50.794Z - Company Ministry of Water, Energy and Communications, Lesotho failed: Token expired.
+2025-10-19T00:16:50.801Z - Company Studio MHNA failed: Token expired.
+2025-10-19T00:16:50.809Z - Company Tinley Leisure Women’s Investment Group failed: Token expired.
+2025-10-19T00:16:50.818Z - Company Collins Residential failed: Token expired.
+2025-10-19T00:16:50.825Z - Company Club Med Resort failed: Token expired.
+2025-10-19T00:16:52.499Z - Company Thiess Pty Ltd failed: Token expired.
+2025-10-19T00:16:55.518Z - Company RSV Consulting Engineers & Project Managers failed: Token expired.
+2025-10-19T00:16:56.995Z - Company Debswana Diamond Company failed: Token expired.
+2025-10-19T00:16:57.001Z - Company Seed Engineering Consultants failed: Token expired.
+2025-10-19T00:16:57.008Z - Company Synergy Architects failed: Token expired.
+2025-10-19T00:16:57.014Z - Company AY-AKS Construction Ltd failed: Token expired.
+2025-10-19T00:16:57.021Z - Company Rwanda Social Security Board (RSSB) failed: Token expired.
+2025-10-19T00:16:57.031Z - Company UniCredit SpA failed: Token expired.
+2025-10-19T00:16:57.038Z - Company Chinese Exim Bank failed: Token expired.
+2025-10-19T00:16:57.045Z - Company Didier Design Studio failed: Token expired.
+2025-10-19T00:16:57.053Z - Company Transhydro Engineering Ltd failed: Token expired.
+2025-10-19T00:16:57.060Z - Company Fairton Agencies Ltd failed: Token expired.
+2025-10-19T00:16:57.068Z - Company Moca Contractors Company Ltd failed: Token expired.
+2025-10-19T00:16:57.075Z - Company Alpatech Cons Ltd failed: Token expired.
+2025-10-19T00:16:57.081Z - Company Unified Structures Ltd failed: Token expired.
+2025-10-19T00:16:57.089Z - Company Pekals Limited failed: Token expired.
+2025-10-19T00:16:57.096Z - Company Gruppo ICM failed: Token expired.
+2025-10-19T00:16:57.103Z - Company Pell Frischmann failed: Token expired.
+2025-10-19T00:16:57.111Z - Company Deloitte failed: Token expired.
+2025-10-19T00:16:57.117Z - Company Société Générale failed: Token expired.
+2025-10-19T00:16:57.124Z - Company Ada Consultants failed: Token expired.
+2025-10-19T00:16:57.131Z - Company Compagnie Sahélienne d’Entreprises failed: Token expired.
+2025-10-19T00:16:57.138Z - Company Kuwaiti Fund for Arab Economic Development (FKDEA) failed: Token expired.
+2025-10-19T00:16:57.144Z - Company Netherlands Enterprise Agency (RVO) failed: Token expired.
+2025-10-19T00:16:58.656Z - Company  DLC TOWNPLAN failed: Token expired.
+2025-10-19T00:16:58.662Z - Company Ministry of Foreign Trade, Democratic Republic of Congo (DRC) failed: Token expired.
+2025-10-19T00:16:58.672Z - Company Ministry of Foreign Affairs, Democratic Republic of Congo (DRC) failed: Token expired.
+2025-10-19T00:16:58.679Z - Company Younjin Construction Inc failed: Token expired.
+2025-10-19T00:16:58.685Z - Company TradeMark Africa (TMA) failed: Token expired.
+2025-10-19T00:16:58.693Z - Company International Organization for Migration (IOM) failed: Token expired.
+2025-10-19T00:16:58.699Z - Company  Joadah Consults failed: Token expired.
+2025-10-19T00:16:58.707Z - Company Pan Modern Consults Ltd failed: Token expired.
+2025-10-19T00:16:58.718Z - Company ALTIDO HealthCare Consulting failed: Token expired.
+2025-10-19T00:16:58.724Z - Company Ministry of Health, Uganda  failed: Token expired.
+2025-10-19T00:16:58.733Z - Company Islamic Development Fund failed: Token expired.
+2025-10-19T00:16:58.739Z - Company Uganda Heart Institute (UHI)  failed: Token expired.
+2025-10-19T00:16:58.746Z - Company Dornier Suntrace failed: Token expired.
+2025-10-19T00:16:58.753Z - Company Energynautics failed: Token expired.
+2025-10-19T00:16:58.759Z - Company Rabie Property Developers failed: Token expired.
+2025-10-19T00:16:58.766Z - Company Century City failed: Token expired.
+2025-10-19T00:16:58.778Z - Company Ghana EXIM Bank failed: Token expired.
+2025-10-19T00:16:58.789Z - Company Brighton Hotels and Business Plc failed: Token expired.
+2025-10-19T00:16:58.796Z - Company Novare failed: Token expired.
+2025-10-19T00:16:58.803Z - Company ReElement Technologies Corporation failed: Token expired.
+2025-10-19T00:17:00.664Z - Company Ghana National Chamber of Pharmacy failed: Token expired.
+2025-10-19T00:17:03.480Z - Company Dawa City Ltd, Ghana failed: Token expired.
+2025-10-19T00:17:03.488Z - Company National Railway Company of Congo (SNCC) failed: Token expired.
+2025-10-19T00:17:03.495Z - Company Ministry of Defence, Ghana failed: Token expired.
+2025-10-19T00:17:03.502Z - Company Euroget De-Invest failed: Token expired.
+2025-10-19T00:17:03.509Z - Company MMAC Design Associates failed: Token expired.
+2025-10-19T00:17:03.520Z - Company Capital Shoppers Ltd failed: Token expired.
+2025-10-19T00:17:03.531Z - Company Marriott International failed: Token expired.
+2025-10-19T00:17:03.538Z - Company Grey Oak Construction failed: Token expired.
+2025-10-19T00:17:03.546Z - Company SMS Construction Ltd failed: Token expired.
+2025-10-19T00:17:06.320Z - Company Pearl Marina Estates Limited failed: Token expired.
+2025-10-19T00:17:06.327Z - Company Limak  failed: Token expired.
+2025-10-19T00:17:06.333Z - Company Senegal Ministry of Infrastructure and Land and Air Transport failed: Token expired.
+2025-10-19T00:17:06.340Z - Company Lionsbridge failed: Token expired.
+2025-10-19T00:17:06.346Z - Company Economic Community of Central African States (CEEAC) failed: Token expired.
+2025-10-19T00:17:06.353Z - Company RoC Ministry of Planning, Territorial Equipment and Major Works failed: Token expired.
+2025-10-19T00:17:06.361Z - Company DRC Ministry of Infrastructure and Public Works failed: Token expired.
+2025-10-19T00:17:06.368Z - Company Mutukula Regional Market failed: Token expired.
+2025-10-19T00:17:06.375Z - Company Development Bank Ghana (DBG) failed: Token expired.
+2025-10-19T00:17:06.383Z - Company Tourism Development Fund (TDF) failed: Token expired.
+2025-10-19T00:17:06.389Z - Company Ministry of Transport and Public Works, Malawi failed: Token expired.
+2025-10-19T00:17:06.397Z - Company Airport Developments Limited (ADL) failed: Token expired.
+2025-10-19T00:17:06.404Z - Company Ghana Tourist Development Company (GTDC) failed: Token expired.
+2025-10-19T00:17:06.410Z - Company Capital Engineering Consultancy failed: Token expired.
+2025-10-19T00:17:06.417Z - Company Ministry of Trade, Industry and Cooperatives, Uganda failed: Token expired.
+2025-10-19T00:17:06.424Z - Company Ministry of East African Community Affairs, Uganda failed: Token expired.
+2025-10-19T00:17:06.431Z - Company Nawaloka Construction Company failed: Token expired.
+2025-10-19T00:17:06.437Z - Company Rural United Business Association Network (RUSBA) Ltd failed: Token expired.
+2025-10-19T00:17:06.444Z - Company Ministry of Local Government, Rwanda failed: Token expired.
+2025-10-19T00:17:06.450Z - Company City of Kigali failed: Token expired.
+2025-10-19T00:17:06.456Z - Company Ghana Commercial Bank failed: Token expired.
+2025-10-19T00:17:06.463Z - Company Stellar Holding failed: Token expired.
+2025-10-19T00:17:06.469Z - Company Ministry of Trade and Industry, Ghana failed: Token expired.
+2025-10-19T00:17:06.475Z - Company Ghana Trade Fair Company Ltd failed: Token expired.
+2025-10-19T00:17:06.485Z - Company Industrial Development Corporation Limited (IDC), Zambia failed: Token expired.
+2025-10-19T00:17:06.491Z - Company Somaliland Ministry of Energy and Minerals failed: Token expired.
+2025-10-19T00:17:06.498Z - Company Somalia Ministry of Energy and Water Resources failed: Token expired.
+2025-10-19T00:17:06.505Z - Company Nigerian Shippers’ Council failed: Token expired.
+2025-10-19T00:17:06.512Z - Company Nigeria Ministry of Marine and Blue Economy failed: Token expired.
+2025-10-19T00:17:08.886Z - Company GulfCap Real Estate failed: Token expired.
+2025-10-19T00:17:08.893Z - Company Mitsubishi Power failed: Token expired.
+2025-10-19T00:17:08.899Z - Company Ministry Of Local Government, Decentralization and Rural Development, Ghana failed: Token expired.
+2025-10-19T00:17:08.906Z - Company VoltagreenCT Development Company failed: Token expired.
+2025-10-19T00:17:08.913Z - Company Ministry Of Lands And Natural Resources, Ghana failed: Token expired.
+2025-10-19T00:17:08.920Z - Company Haitech Technologies failed: Token expired.
+2025-10-19T00:17:08.927Z - Company Steady X failed: Token expired.
+2025-10-19T00:17:08.934Z - Company Climate Investment Funds (CIF) failed: Token expired.
+2025-10-19T00:17:08.940Z - Company Mamdev Ghana Limited failed: Token expired.
+2025-10-19T00:17:11.038Z - Company Lake Victoria Basin Commission (LVBC) failed: Token expired.
+2025-10-19T00:17:11.045Z - Company KE International failed: Token expired.
+2025-10-19T00:17:11.051Z - Company Bakri & Associates Development Consultants (BAD Consult) failed: Token expired.
+2025-10-19T00:17:13.234Z - Company Federal Republic of Germany failed: Token expired.
+2025-10-19T00:17:13.241Z - Company Khairi Consult failed: Token expired.
+2025-10-19T00:17:13.248Z - Company Malaysia External Trade Development Corporation (MATRADE) failed: Token expired.
+2025-10-19T00:17:13.255Z - Company AJM Planning & Urban Design Group failed: Token expired.
+2025-10-19T00:17:13.263Z - Company Ministry Of Lands, Housing And Urban Development, Uganda failed: Token expired.
+2025-10-19T00:17:13.271Z - Company Malaysian Incorporated Services Berhad failed: Token expired.
+2025-10-19T00:17:15.235Z - Company TotalEnergies Uganda failed: Token expired.
+2025-10-19T00:17:15.241Z - Company Atelier Ferret Architectures failed: Token expired.
+2025-10-19T00:17:15.248Z - Company The Ministry of National Education Preschool and Sports, Morocco failed: Token expired.
+2025-10-19T00:17:15.255Z - Company Ministry Of Sports And Youth, Egypt failed: Token expired.
+2025-10-19T00:17:15.262Z - Company Zilla Capital failed: Token expired.
+2025-10-19T00:17:15.269Z - Company Diaa Consult Engineering Consulting & Services failed: Token expired.
+2025-10-19T00:17:15.276Z - Company Al Masry Sporting Club failed: Token expired.
+2025-10-19T00:17:15.286Z - Company Wadi El Nile failed: Token expired.
+2025-10-19T00:17:15.293Z - Company Tomra failed: Token expired.
+2025-10-19T00:17:15.299Z - Company Starlinger failed: Token expired.
+2025-10-19T00:17:15.307Z - Company Seychelles Port Authority (SPA) failed: Token expired.
+2025-10-19T00:17:15.314Z - Company Kardham Architecture failed: Token expired.
+2025-10-19T00:17:15.321Z - Company Mohinani Group failed: Token expired.
+2025-10-19T00:17:15.329Z - Company The National Society For Construction And Management Of Sports Facilities (Sonarges) failed: Token expired.
+2025-10-19T00:17:15.336Z - Company Hitachi Rail failed: Token expired.
+2025-10-19T00:17:15.345Z - Company Engineering Consultants Group (ECG) failed: Token expired.
+2025-10-19T00:17:17.373Z - Company Ministry of Health, Population and Hospital Reform, Algeria failed: Token expired.
+2025-10-19T00:17:17.379Z - Company Kased Khair for General Supplies and Contracting failed: Token expired.
+2025-10-19T00:17:17.386Z - Company Maritime Transport & Logistics Sector, Egypt failed: Token expired.
+2025-10-19T00:17:17.393Z - Company Studio 5 Architects failed: Token expired.
+2025-10-19T00:17:17.399Z - Company Traversal Trading Pvt Ltd failed: Token expired.
+2025-10-19T00:17:17.410Z - Company GV Investments failed: Token expired.
+2025-10-19T00:17:17.417Z - Company University of Zimbabwe failed: Token expired.
+2025-10-19T00:17:17.424Z - Company Designsport failed: Token expired.
+2025-10-19T00:17:17.432Z - Company Laboratory for Visionary Architecture failed: Token expired.
+2025-10-19T00:17:17.438Z - Company Nigeria Ministry of Petroleum Resources failed: Token expired.
+2025-10-19T00:17:17.446Z - Company Ministry of Youth and Sport, Ethiopia  failed: Token expired.
+2025-10-19T00:17:17.453Z - Company Niger Ministry of Petroleum failed: Token expired.
+2025-10-19T00:17:17.459Z - Company ME Engineering failed: Token expired.
+2025-10-19T00:17:17.468Z - Company Rider Levett Bucknall failed: Token expired.
+2025-10-19T00:17:17.474Z - Company Maffeis Engineering failed: Token expired.
+2025-10-19T00:17:17.481Z - Company Oualalou + Choi Architects failed: Token expired.
+2025-10-19T00:17:17.492Z - Company Populous failed: Token expired.
+2025-10-19T00:17:17.498Z - Company Ministry of Youth, Culture, and Communication, Morocco failed: Token expired.
+2025-10-19T00:17:17.505Z - Company Caisse de Dépôt et de Gestion failed: Token expired.
+2025-10-19T00:17:17.513Z - Company Ministry of Information, Culture, Arts and Sports, Tanzania  failed: Token expired.
+2025-10-19T00:17:17.519Z - Company CBH Grup failed: Token expired.
+2025-10-19T00:17:17.528Z - Company Daovtech Design Group failed: Token expired.
+2025-10-19T00:17:17.535Z - Company Avangarde Design Services failed: Token expired.
+2025-10-19T00:17:17.541Z - Company Multi Lead Limited failed: Token expired.
+2025-10-19T00:17:17.552Z - Company OshDarley Consult failed: Token expired.
+2025-10-19T00:17:17.558Z - Company Kissart Group Ltd failed: Token expired.
+2025-10-19T00:17:17.565Z - Company CC&M Consult Limited failed: Token expired.
+2025-10-19T00:17:17.573Z - Company Engineering Services Provision Company Ltd failed: Token expired.
+2025-10-19T00:17:17.579Z - Company CSEng Consult failed: Token expired.
+2025-10-19T00:17:19.545Z - Company Persianas Group failed: Token expired.
+2025-10-19T00:17:19.553Z - Company Sutherland & Sutherland Architects failed: Token expired.
+2025-10-19T00:17:19.560Z - Company Hospital Infrastructure Group (HIG) Ltd. failed: Token expired.
+2025-10-19T00:17:19.566Z - Company ADK Consortium failed: Token expired.
+2025-10-19T00:17:19.574Z - Company Ministry of Health, Rwanda failed: Token expired.
+2025-10-19T00:17:19.581Z - Company National Health Commission Of The People's Replublic Of China failed: Token expired.
+2025-10-19T00:17:19.588Z - Company Ghana Infrastructure Investment Fund failed: Token expired.
+2025-10-19T00:17:19.595Z - Company Ministry Of Health, Ghana failed: Token expired.
+2025-10-19T00:17:22.412Z - Company Mezzo Stüdyo failed: Token expired.
+2025-10-19T00:17:25.165Z - Company Meinhardt Group failed: Token expired.
+2025-10-19T00:17:26.759Z - Company Yazgan Design Architecture Inc. failed: Token expired.
+2025-10-19T00:17:26.766Z - Company The Global Fund  failed: Token expired.
+2025-10-19T00:17:28.689Z - Company Adino Capital Limited failed: Token expired.
+2025-10-19T00:17:28.697Z - Company VAMED Engineering failed: Token expired.
+2025-10-19T00:17:28.703Z - Company Khalifa Bin Zayed Al Nahyan Foundation  failed: Token expired.
+2025-10-19T00:17:28.709Z - Company AIA Life Designers failed: Token expired.
+2025-10-19T00:17:28.717Z - Company Bymaro failed: Token expired.
+2025-10-19T00:17:28.725Z - Company Amarenco failed: Token expired.
+2025-10-19T00:17:28.731Z - Company Tunisia Ministry of Industry, Mines and Energy failed: Token expired.
+2025-10-19T00:17:28.739Z - Company Morocco Ministry of Energy Transition and Sustainable Development failed: Token expired.
+2025-10-19T00:17:28.745Z - Company H2 Global Energy failed: Token expired.
+2025-10-19T00:17:28.752Z - Company Standard Chartered, Nigeria  failed: Token expired.
+2025-10-19T00:17:28.760Z - Company Guaranty Trust Bank failed: Token expired.
+2025-10-19T00:17:28.766Z - Company Access Bank, Nigeria  failed: Token expired.
+2025-10-19T00:17:28.773Z - Company First Bank of Nigeria  failed: Token expired.
+2025-10-19T00:17:28.780Z - Company First City Monument Bank (FCMB) failed: Token expired.
+2025-10-19T00:17:28.786Z - Company Mbako Projects and Trading failed: Token expired.
+2025-10-19T00:17:28.794Z - Company Murray and Dickson Construction failed: Token expired.
+2025-10-19T00:17:28.800Z - Company Magalies Water Board failed: Token expired.
+2025-10-19T00:17:28.807Z - Company Royal HaskoningDHV failed: Token expired.
+2025-10-19T00:17:28.813Z - Company South Energyx Limited, Nigeria failed: Token expired.
+2025-10-19T00:17:28.820Z - Company Sinerji Construction failed: Token expired.
+2025-10-19T00:17:31.447Z - Company Nigeria Sovereign Investment Authority (NSIA) failed: Token expired.
+2025-10-19T00:17:31.455Z - Company Verbund failed: Token expired.
+2025-10-19T00:17:31.461Z - Company EREN Groupe SA failed: Token expired.
+2025-10-19T00:17:31.470Z - Company Inventure Group (IG) failed: Token expired.
+2025-10-19T00:17:31.476Z - Company Dogus Group (Doğuş) failed: Token expired.
+2025-10-19T00:17:31.483Z - Company Ocior Energy failed: Token expired.
+2025-10-19T00:17:31.490Z - Company Trucrete Solutions failed: Token expired.
+2025-10-19T00:17:31.496Z - Company Hassan Allam Utilities failed: Token expired.
+2025-10-19T00:17:31.503Z - Company DAI Infrastruktur GmbH failed: Token expired.
+2025-10-19T00:17:31.510Z - Company DEME Group failed: Token expired.
+2025-10-19T00:17:31.517Z - Company Eko Atlantic failed: Token expired.
+2025-10-19T00:17:31.523Z - Company Cowater International failed: Token expired.
+2025-10-19T00:17:31.530Z - Company Central Africa Power Pool (PEAC) failed: Token expired.
+2025-10-19T00:17:31.537Z - Company Sieyuan Electric Company failed: Token expired.
+2025-10-19T00:17:31.544Z - Company Jongro Electric Company failed: Token expired.
+2025-10-19T00:17:31.551Z - Company ZTT Group failed: Token expired.
+2025-10-19T00:17:31.561Z - Company Kenyatta Trust failed: Token expired.
+2025-10-19T00:17:31.569Z - Company Superior Homes failed: Token expired.
+2025-10-19T00:17:31.576Z - Company Local Authorities Pensions Trust (Laptrust) failed: Token expired.
+2025-10-19T00:17:31.582Z - Company County Pension Fund (CPF) failed: Token expired.
+2025-10-19T00:17:31.589Z - Company Shafa Construcoes failed: Token expired.
+2025-10-19T00:17:31.595Z - Company Grindrod failed: Token expired.
+2025-10-19T00:17:31.602Z - Company Caminhos de Ferro de Mozambique (CFM) failed: Token expired.
+2025-10-19T00:17:31.610Z - Company Laser Property Services failed: Token expired.
+2025-10-19T00:17:31.616Z - Company Ministry Of Devolution And Planning, Kenya  failed: Token expired.
+2025-10-19T00:17:31.624Z - Company Groupe Petrosen failed: Token expired.
+2025-10-19T00:17:31.631Z - Company JGC Holdings Corporation failed: Token expired.
+2025-10-19T00:17:31.637Z - Company UTM Offshore Limited failed: Token expired.
+2025-10-19T00:17:31.644Z - Company Ace Energy Group failed: Token expired.
+2025-10-19T00:17:31.651Z - Company Transoceanic Group failed: Token expired.
+2025-10-19T00:17:31.657Z - Company Wison New Energies failed: Token expired.
+2025-10-19T00:17:31.664Z - Company Redcon Construction failed: Token expired.
+2025-10-19T00:17:31.671Z - Company Kosmos Energy failed: Token expired.
+2025-10-19T00:17:31.677Z - Company Daewoo E&C failed: Token expired.
+2025-10-19T00:17:31.684Z - Company Golar LNG failed: Token expired.
+2025-10-19T00:17:31.692Z - Company Mozambique Rovuma Venture SpA failed: Token expired.
+2025-10-19T00:17:31.698Z - Company Aquagreen Engineering Management (AEMPL) failed: Token expired.
+2025-10-19T00:17:31.707Z - Company WSS Services failed: Token expired.
+2025-10-19T00:17:31.714Z - Company Arab Consulting Engineers (ACE) failed: Token expired.
+2025-10-19T00:17:31.720Z - Company ZJCC ENGINEERING & CONSTRUCTION PTE. LTD. failed: Token expired.
+2025-10-19T00:17:31.728Z - Company African Energy Company failed: Token expired.
+2025-10-19T00:17:34.079Z - Company   MSA Mimarlık failed: Token expired.
+2025-10-19T00:17:34.086Z - Company Eneo Cameroon failed: Token expired.
+2025-10-19T00:17:34.093Z - Company The Public Establishment Of The New City of Boughezoul (EPIC) failed: Token expired.
+2025-10-19T00:17:34.101Z - Company Lordship Africa failed: Token expired.
+2025-10-19T00:17:34.107Z - Company NigLeb failed: Token expired.
+2025-10-19T00:17:34.117Z - Company Egyptian Competition Authority failed: Token expired.
+2025-10-19T00:17:34.124Z - Company Bombardier Transportation failed: Token expired.
+2025-10-19T00:17:34.130Z - Company Societe Egyptienne D'Entreprises (SEDE) failed: Token expired.
+2025-10-19T00:17:34.137Z - Company Associated Consultants, Egypt failed: Token expired.
+2025-10-19T00:17:34.143Z - Company Palm Hills Developments failed: Token expired.
+2025-10-19T00:17:34.150Z - Company Armed Forces Engineering Authority, Egypt failed: Token expired.
+2025-10-19T00:17:36.381Z - Company New Urban Communities Authority failed: Token expired.
+2025-10-19T00:17:36.388Z - Company GV Real Estate Development Company failed: Token expired.
+2025-10-19T00:17:36.394Z - Company Sovereign Fund of Egypt failed: Token expired.
+2025-10-19T00:17:36.401Z - Company Tarboul Management Company failed: Token expired.
+2025-10-19T00:17:36.408Z - Company General Authority for Construction and Housing Cooperatives failed: Token expired.
+2025-10-19T00:17:36.414Z - Company SIAC Construction failed: Token expired.
+2025-10-19T00:17:37.999Z - Company Modon Developments failed: Token expired.
+2025-10-19T00:17:38.006Z - Company National Office for Electricity and Drinking Water (Electricity Branch), Morocco failed: Token expired.
+2025-10-19T00:17:38.013Z - Company Hydromine failed: Token expired.
+2025-10-19T00:17:38.021Z - Company Ghana Grid Company (Gridco) failed: Token expired.
+2025-10-19T00:17:38.027Z - Company Ministry of Environment, Agriculture and Livestock, Burundi failed: Token expired.
+2025-10-19T00:17:38.034Z - Company Ministry of Urban Planning, Local Authorities, and Territorial Development, Senegal failed: Token expired.
+2025-10-19T00:17:38.041Z - Company Ministry of Finance, Budget and Economic Cooperation, Burundi failed: Token expired.
+2025-10-19T00:17:38.048Z - Company National Sanitation Authority (ONAS), Tunisia failed: Token expired.
+2025-10-19T00:17:38.054Z - Company Société Nationale Des Telecom Du Sénégal (SONATEL), Senegal failed: Token expired.
+2025-10-19T00:17:38.063Z - Company National Office of Water and Sanitation (ONEA), Burkina Faso failed: Token expired.
+2025-10-19T00:17:38.069Z - Company Ministry of Environment, Water and Sanitation (MEEA), Burkina Faso failed: Token expired.
+2025-10-19T00:17:38.077Z - Company Environics failed: Token expired.
+2025-10-19T00:17:38.084Z - Company Société de Gestion des Déchets et de la Salubrité (SGDS SA), Benin failed: Token expired.
+2025-10-19T00:17:38.090Z - Company Energy Markets and Regulatory Consultants (EMRC), United Kingdom failed: Token expired.
+2025-10-19T00:17:38.103Z - Company MRC Consultants and Transaction Advisers  failed: Token expired.
+2025-10-19T00:17:38.121Z - Company Empresa Nacional De Administracao Dos Portos EP (ENAPOR)  failed: Token expired.
+2025-10-19T00:17:38.131Z - Company Estaleiros Navais de Cabo Verde (CABNAVE) failed: Token expired.
+2025-10-19T00:17:38.138Z - Company Botswana Energy Regulatory Authority (BERA) failed: Token expired.
+2025-10-19T00:17:38.146Z - Company CES Consulting Engineers Salzgitter GmbH failed: Token expired.
+2025-10-19T00:17:38.152Z - Company Green World Consult failed: Token expired.
+2025-10-19T00:17:38.162Z - Company Ministry of Agriculture and Animal Resources (MINAGRI), Rwanda failed: Token expired.
+2025-10-19T00:17:38.168Z - Company Advanced Engineering Consultants (AEC) failed: Token expired.
+2025-10-19T00:17:38.176Z - Company Nexant Consulting failed: Token expired.
+2025-10-19T00:17:38.189Z - Company Global Impact Environmental Consulting failed: Token expired.
+2025-10-19T00:17:38.197Z - Company China Petroleum Engineering & Construction Corporation (CPECC)  failed: Token expired.
+2025-10-19T00:17:38.204Z - Company Jiangsu Power Design Institute (JSPDI) failed: Token expired.
+2025-10-19T00:17:38.211Z - Company Ministry of Equipment and Road Maintenance, Cote d'Ivoire failed: Token expired.
+2025-10-19T00:17:38.217Z - Company Douala City Council failed: Token expired.
+2025-10-19T00:17:38.225Z - Company Ministry of Housing and Urban Development, Cameroon failed: Token expired.
+2025-10-19T00:17:38.231Z - Company Plexus Energy failed: Token expired.
+2025-10-19T00:17:38.239Z - Company Earth Link & Advanced Resources Development (Elard) failed: Token expired.
+2025-10-19T00:17:38.245Z - Company Proger  failed: Token expired.
+2025-10-19T00:17:38.252Z - Company Ideaconsult International failed: Token expired.
+2025-10-19T00:17:38.259Z - Company HPC Italia failed: Token expired.
+2025-10-19T00:17:38.266Z - Company Kwarsa Hexagon failed: Token expired.
+2025-10-19T00:17:38.272Z - Company Rina Consulting failed: Token expired.
+2025-10-19T00:17:38.279Z - Company Rete Elettrica Nazionale (Terna), Italy failed: Token expired.
+2025-10-19T00:17:38.285Z - Company Intertek failed: Token expired.
+2025-10-19T00:17:38.292Z - Company WSP failed: Token expired.
+2025-10-19T00:17:38.299Z - Company Xlinks failed: Token expired.
+2025-10-19T00:17:38.306Z - Company Sweco failed: Token expired.
+2025-10-19T00:17:38.312Z - Company Serviço Autónomo de Saneamento da Beira (SASB) failed: Token expired.
+2025-10-19T00:17:38.319Z - Company Administração de Infra-Estruturas de Água e Saneamento (AIAS, I.P.) failed: Token expired.
+2025-10-19T00:17:38.326Z - Company Chint New Energy Development (Zhejiang) Co. Ltd failed: Token expired.
+2025-10-19T00:17:38.332Z - Company Axxela Group  failed: Token expired.
+2025-10-19T00:17:38.340Z - Company Silver Peaks Limited failed: Token expired.
+2025-10-19T00:17:38.346Z - Company Highland LNG failed: Token expired.
+2025-10-19T00:17:38.353Z - Company LNG Arete Limited failed: Token expired.
+2025-10-19T00:17:38.360Z - Company Namibia Power Corporation  failed: Token expired.
+2025-10-19T00:17:38.366Z - Company Southern African Development Community (SADC) failed: Token expired.
+2025-10-19T00:17:38.374Z - Company Gauff Engineering failed: Token expired.
+2025-10-19T00:17:38.383Z - Company China Railway Engineering Design and Consulting Group (CREDC) failed: Token expired.
+2025-10-19T00:17:38.389Z - Company China Railway Engineering Group Co (CREGC) failed: Token expired.
+2025-10-19T00:17:38.395Z - Company DRC Ministry of Hydrocarbons  failed: Token expired.
+2025-10-19T00:17:38.404Z - Company Lukanga Water Supply and Sanitation Company failed: Token expired.
+2025-10-19T00:17:38.411Z - Company Nador West Med Betoya Industriel & Logistic Zone failed: Token expired.
+2025-10-19T00:17:38.418Z - Company Ministry of Maritime and Air Transport, Comoros failed: Token expired.
+2025-10-19T00:17:38.426Z - Company  Global Center on Adaptation (GCA)  failed: Token expired.
+2025-10-19T00:17:38.432Z - Company Western Solar Power Ltd failed: Token expired.
+2025-10-19T00:17:38.439Z - Company Serengeti Energy Ltd failed: Token expired.
+2025-10-19T00:17:38.446Z - Company Alpha Group failed: Token expired.
+2025-10-19T00:17:38.453Z - Company Qair International failed: Token expired.
+2025-10-19T00:17:38.459Z - Company Invest International failed: Token expired.
+2025-10-19T00:17:38.467Z - Company Climate Fund Managers failed: Token expired.
+2025-10-19T00:17:38.475Z - Company Ministry of Mines and Energy Namibia failed: Token expired.
+2025-10-19T00:17:38.483Z - Company Namibia Green Hydrogen Programme (NGH2P) failed: Token expired.
+2025-10-19T00:17:38.490Z - Company Touchstone Capital Group Holdings failed: Token expired.
+2025-10-19T00:17:38.496Z - Company UIC Energy Ghana failed: Token expired.
+2025-10-19T00:17:38.502Z - Company China Wuhan Engineering Co failed: Token expired.
+2025-10-19T00:17:38.509Z - Company China Construction Third Engineering Bureau Co failed: Token expired.
+2025-10-19T00:17:38.515Z - Company National Transport Authority, Comoros failed: Token expired.
+2025-10-19T00:17:38.524Z - Company Ministry of Equipment and Water, Morocco failed: Token expired.
+2025-10-19T00:17:38.530Z - Company Ministry of Public Works and Transport, Eswatini failed: Token expired.
+2025-10-19T00:17:38.537Z - Company Hydrogenious LOHC Technologies failed: Token expired.
+2025-10-19T00:17:38.545Z - Company Ministry of Equipment and Housing, Tunisia failed: Token expired.
+2025-10-19T00:17:38.552Z - Company Comoros Geological Bureau failed: Token expired.
+2025-10-19T00:17:38.558Z - Company Global Environment Facility failed: Token expired.
+2025-10-19T00:17:38.566Z - Company Penspen failed: Token expired.
+2025-10-19T00:17:38.572Z - Company National Office of Hydrocarbons and Mines ONHYM failed: Token expired.
+2025-10-19T00:17:38.579Z - Company Petroleum Hub Development Corporation failed: Token expired.
+2025-10-19T00:17:38.586Z - Company SRK Consulting  failed: Token expired.
+2025-10-19T00:17:38.593Z - Company East China Engineering Science and Technology Co failed: Token expired.
+2025-10-19T00:17:38.600Z - Company Midoil Refining & Petrochemicals Company Limited failed: Token expired.
+2025-10-19T00:17:38.607Z - Company Athari Capital Partners  failed: Token expired.
+2025-10-19T00:17:38.613Z - Company DBF Capital Partners failed: Token expired.
+2025-10-19T00:17:38.621Z - Company Arkein Capital Partners failed: Token expired.
+2025-10-19T00:17:38.628Z - Company China National Chemical Engineering Company failed: Token expired.
+2025-10-19T00:17:38.635Z - Company Nyanza Light Metals failed: Token expired.
+2025-10-19T00:17:38.642Z - Company Toyo Engineering failed: Token expired.
+2025-10-19T00:17:38.649Z - Company Dar al-Handasah failed: Token expired.
+2025-10-19T00:17:38.656Z - Company WeDo Developments failed: Token expired.
+2025-10-19T00:17:38.663Z - Company KBR  failed: Token expired.
+2025-10-19T00:17:38.670Z - Company Opaia Group failed: Token expired.
+2025-10-19T00:17:38.677Z - Company Nigeria Federal Ministry of Works failed: Token expired.
+2025-10-19T00:17:38.684Z - Company AEC Unity Network failed: Token expired.
+2025-10-19T00:17:38.691Z - Company Panyu Chu Kong Steel Pipe Co failed: Token expired.
+2025-10-19T00:17:38.698Z - Company Electrical Instrumentation Control Telecom Security (EITS) failed: Token expired.
+2025-10-19T00:17:38.705Z - Company East African Logistics Services (EALS) failed: Token expired.
+2025-10-19T00:17:38.712Z - Company Africa Global Logistics (AGL)  failed: Token expired.
+2025-10-19T00:17:38.718Z - Company Besix Ballast Nedam (BBN) failed: Token expired.
+2025-10-19T00:17:38.727Z - Company Daqing Oilfield Construction Group failed: Token expired.
+2025-10-19T00:17:38.733Z - Company Ministry of Planning, Statistics and Regional Integration, Republic of Congo failed: Token expired.
+2025-10-19T00:17:38.740Z - Company WSP Canada failed: Token expired.
+2025-10-19T00:17:38.747Z - Company United Kingdom Foreign Commonwealth & Development Office (FCDO) failed: Token expired.
+2025-10-19T00:17:38.754Z - Company Airports of Mauritius Co. Ltd  failed: Token expired.
+2025-10-19T00:17:38.761Z - Company Airport of Rodrigues Limited failed: Token expired.
+2025-10-19T00:17:38.769Z - Company China Petroleum Pipeline Engineering failed: Token expired.
+2025-10-19T00:17:38.775Z - Company Worley Europe Limited failed: Token expired.
+2025-10-19T00:17:38.782Z - Company COMETE Engineering failed: Token expired.
+2025-10-19T00:17:38.789Z - Company Holland & Hausberger failed: Token expired.
+2025-10-19T00:17:38.796Z - Company Pearl Consultants failed: Token expired.
+2025-10-19T00:17:38.803Z - Company Ginger Sofreco  failed: Token expired.
+2025-10-19T00:17:38.810Z - Company SCET Tunisie failed: Token expired.
+2025-10-19T00:17:38.816Z - Company Benin Ministry of Water and Mines failed: Token expired.
+2025-10-19T00:17:38.822Z - Company Benin National Agency for Drinking Water Supply in Rural Areas (ANAEPMR) failed: Token expired.
+2025-10-19T00:17:38.830Z - Company Tanzania Petroleum Development Corporation (TPDC) failed: Token expired.
+2025-10-19T00:17:38.837Z - Company Ministry of Energy and Hydraulics, Republic of Congo failed: Token expired.
+2025-10-19T00:17:38.843Z - Company China Overseas Corporation Limited failed: Token expired.
+2025-10-19T00:17:38.850Z - Company Enterprise Power DRC (EPDRC) failed: Token expired.
+2025-10-19T00:17:38.857Z - Company DRC Ministry of Hydraulic Resources and Electricity failed: Token expired.
+2025-10-19T00:17:38.864Z - Company Zambia Ministry Of Energy failed: Token expired.
+2025-10-19T00:17:38.871Z - Company Uganda National Oil Company failed: Token expired.
+2025-10-19T00:17:38.877Z - Company China National Offshore Oil Company  failed: Token expired.
+2025-10-19T00:17:38.884Z - Company TotalEnergies failed: Token expired.
+2025-10-19T00:17:38.891Z - Company Ministry of Energy and Minerals, Somalila failed: Token expired.
+2025-10-19T00:17:38.897Z - Company Ministry of Trade and Industry, Rwanda failed: Token expired.
+2025-10-19T00:17:38.904Z - Company  Common Market for Eastern and Southern Africa (COMESA) Secretariet failed: Token expired.
+2025-10-19T00:17:38.910Z - Company US Trade and Development Agency (USTDA) failed: Token expired.
+2025-10-19T00:17:38.917Z - Company Zambia Ministry of Transport and Logistics failed: Token expired.
+2025-10-19T00:17:38.923Z - Company Matadi Corridor Container Terminals failed: Token expired.
+2025-10-19T00:17:38.930Z - Company Envision Group failed: Token expired.
+2025-10-19T00:17:38.937Z - Company Regional Centre for Renewable Energies and Energy Efficiency (RCREEE) failed: Token expired.
+2025-10-19T00:17:38.943Z - Company Safe Soar For Environmental Studies and Consultations failed: Token expired.
+2025-10-19T00:17:38.950Z - Company ECO Consult  failed: Token expired.
+2025-10-19T00:17:38.956Z - Company EcoConServ failed: Token expired.
+2025-10-19T00:17:38.964Z - Company Arab Petroleum Investments Corporation (Apicorp) failed: Token expired.
+2025-10-19T00:17:38.971Z - Company German Investment Corporation (DEG) failed: Token expired.
+2025-10-19T00:17:38.978Z - Company British International Investment failed: Token expired.
+2025-10-19T00:17:38.984Z - Company European Bank for Reconstruction and Development (EBRD) failed: Token expired.
+2025-10-19T00:17:38.991Z - Company HAU Energy failed: Token expired.
+2025-10-19T00:17:38.998Z - Company UAE Ministry of Investment failed: Token expired.
+2025-10-19T00:17:39.005Z - Company Public Service Pensions Fund Eswatini failed: Token expired.
+2025-10-19T00:17:39.011Z - Company Old Mutual Eswatini  failed: Token expired.
+2025-10-19T00:17:39.017Z - Company Infinity Renewable Energy failed: Token expired.
+2025-10-19T00:17:39.023Z - Company Conjuncta GmbH failed: Token expired.
+2025-10-19T00:17:39.031Z - Company H2-Greenforce failed: Token expired.
+2025-10-19T00:17:39.037Z - Company Mauritania Ministry of Energy and Petroleum failed: Token expired.
+2025-10-19T00:17:40.727Z - Company GreenGo Energy Group AS failed: Token expired.
+2025-10-19T00:17:40.734Z - Company Dvorak Exp LLC  failed: Token expired.
+2025-10-19T00:17:43.808Z - Company EXP Global Inc failed: Token expired.
+2025-10-19T00:17:46.683Z - Company Ministry of Road, Air and Rail Transport, Togo failed: Token expired.
+2025-10-19T00:17:46.690Z - Company Colenco Consulting failed: Token expired.
+2025-10-19T00:17:46.699Z - Company South Sudan Electricity Corporation (SSEC) failed: Token expired.
+2025-10-19T00:17:46.706Z - Company Cesi  failed: Token expired.
+2025-10-19T00:17:46.713Z - Company Ministry of Transport, Niger  failed: Token expired.
+2025-10-19T00:17:46.721Z - Company LEA Associates South Asia failed: Token expired.
+2025-10-19T00:17:46.728Z - Company Millennium Challenge Account-Malawi II failed: Token expired.
+2025-10-19T00:17:46.736Z - Company Bento Pedroso Construcoes failed: Token expired.
+2025-10-19T00:17:46.743Z - Company Sierra Leone Electricity Distribution and Supply Authority (EDSA) failed: Token expired.
+2025-10-19T00:17:49.750Z - Company TEAM Engineering failed: Token expired.
+2025-10-19T00:17:52.629Z - Company  SU-YAPI Engineering & Consulting  failed: Token expired.
+2025-10-19T00:17:54.814Z - Company Don Consult Ltd  failed: Token expired.
+2025-10-19T00:17:56.704Z - Company Ministry of Water and Irrigation, Tanzania failed: Token expired.
+2025-10-19T00:17:59.473Z - Company GOPA Infra GmbH failed: Token expired.
+2025-10-19T00:18:01.731Z - Company  East African Community (EAC)  failed: Token expired.
+2025-10-19T00:18:04.140Z - Company Maziya General Services failed: Token expired.
+2025-10-19T00:18:06.135Z - Company Indo Zambia Bank (IZM) failed: Token expired.
+2025-10-19T00:18:08.895Z - Company National Pension Scheme Authority, Zambia failed: Token expired.
+2025-10-19T00:18:11.159Z - Company Maamba Energy Limited (MEL) failed: Token expired.
+2025-10-19T00:18:13.768Z - Company REGIDESO Régie de Production et de Distribution d’eau et d’électricité du Burundi failed: Token expired.
+2025-10-19T00:18:16.012Z - Company Ministry of Hydraulics, Energy and Mines failed: Token expired.
+2025-10-19T00:18:18.060Z - Company Sogea Satom failed: Token expired.
+2025-10-19T00:18:20.226Z - Company Emirates Building Systems  failed: Token expired.
+2025-10-19T00:18:22.094Z - Company Til Construction Limited failed: Token expired.
+2025-10-19T00:18:24.670Z - Company Shandong Dejian Group Co., Ltd. failed: Token expired.
+2025-10-19T00:18:27.330Z - Company Trade and Development Bank failed: Token expired.
+2025-10-19T00:18:29.885Z - Company Finnish Fund for Industrial Cooperation Limited (FinnFund) failed: Token expired.
+2025-10-19T00:18:32.543Z - Company Veenocks Limited failed: Token expired.
+2025-10-19T00:18:35.114Z - Company Proconics, South Africa failed: Token expired.
+2025-10-19T00:18:37.773Z - Company SolarAfrica Energy failed: Token expired.
+2025-10-19T00:18:40.024Z - Company Cross River State Government, Nigeria failed: Token expired.
+2025-10-19T00:18:43.203Z - Company QUALCONSUL QS failed: Token expired.
+2025-10-19T00:18:43.212Z - Company Gola Civil Engineering Contractors failed: Token expired.
+2025-10-19T00:18:46.374Z - Company Ilanda Africa Consulting Engineers & Project Managers failed: Token expired.
+2025-10-19T00:18:49.044Z - Company Department of Health, Mpumalanga failed: Token expired.
+2025-10-19T00:18:50.978Z - Company Nala Consulting failed: Token expired.
+2025-10-19T00:18:50.985Z - Company Solar failed: Token expired.
+2025-10-19T00:18:52.927Z - Company African Export-Import Bank (Afreximbank) failed: Token expired.
+2025-10-19T00:18:54.980Z - Company Export Development Fund (EDF) Limited  failed: Token expired.
+2025-10-19T00:18:57.258Z - Company Ministry of Public Works, Gabon failed: Token expired.
+2025-10-19T00:18:58.609Z - Company Novawind failed: Token expired.
+2025-10-19T00:19:01.635Z - Company Government of Addis Ababa failed: Token expired.
+2025-10-19T00:19:04.271Z - Company Millennium Challenge Corporation failed: Token expired.
+2025-10-19T00:19:06.341Z - Company TPS Eastern Africa PLC failed: Token expired.
+2025-10-19T00:19:09.435Z - Company Ministry of Education and Sports, Uganda failed: Token expired.
+2025-10-19T00:19:11.876Z - Company Landrum & Brown failed: Token expired.
+2025-10-19T00:19:13.920Z - Company Zaha Hadid Architects (ZHA) failed: Token expired.
+2025-10-19T00:19:13.926Z - Company Société d’exploitation du Transgabonais (SETRAG) failed: Token expired.
+2025-10-19T00:19:16.175Z - Company Government of Comoros failed: Token expired.
+2025-10-19T00:19:18.325Z - Company Everstrong Capital Kenya Limited failed: Token expired.
+2025-10-19T00:19:20.372Z - Company Mozambique Ports and Railways failed: Token expired.
+2025-10-19T00:19:23.033Z - Company National Railways of Zimbabwe failed: Token expired.
+2025-10-19T00:19:25.059Z - Company West Ingenierie failed: Token expired.
+2025-10-19T00:19:27.337Z - Company Consulting Engineering And Applied Research (CIRA SAS) failed: Token expired.
+2025-10-19T00:19:29.380Z - Company TRANSTECH CONSULT failed: Token expired.
+2025-10-19T00:19:32.137Z - Company Afreximbank, Côte d'Ivoire failed: Token expired.
+2025-10-19T00:19:34.909Z - Company CGP Consulting Engineers failed: Token expired.
+2025-10-19T00:19:37.678Z - Company Atlantic Energy Partners failed: Token expired.
+2025-10-19T00:19:40.339Z - Company Hodari Southern Africa (HSA) failed: Token expired.
+2025-10-19T00:19:42.388Z - Company Poly Changda Engineering Company Limited failed: Token expired.
+2025-10-19T00:19:44.745Z - Company China Railway Seventh Group (CRSG) failed: Token expired.
+2025-10-19T00:19:47.204Z - Company Ministry of Public Works, Reconstruction and Housing (MPWRH), Somalia failed: Token expired.
+2025-10-19T00:19:48.797Z - Company Botala Energy failed: Token expired.
+2025-10-19T00:19:50.147Z - Company AAAS Energy failed: Token expired.
+2025-10-19T00:19:51.605Z - Company NTPC Limited failed: Token expired.
+2025-10-19T00:19:51.614Z - Company Fossil Mines (Private) Limited failed: Token expired.
+2025-10-19T00:19:51.622Z - Company Bonang Power and Energy failed: Token expired.
+2025-10-19T00:19:54.266Z - Company MBW Consulting failed: Token expired.
+2025-10-19T00:19:54.272Z - Company ENL Energy and Engineering Co Ltd failed: Token expired.
+2025-10-19T00:19:57.241Z - Company The Lufubu Power Company Limited (LPC)  failed: Token expired.
+2025-10-19T00:19:57.248Z - Company Total Eren failed: Token expired.
+2025-10-19T00:19:59.688Z - Company Chariot Transitional Power  failed: Token expired.
+2025-10-19T00:20:01.844Z - Company Western Power, Zambia failed: Token expired.
+2025-10-19T00:20:04.813Z - Company Eleqtra failed: Token expired.
+2025-10-19T00:20:04.822Z - Company BN Environmental Consultancy Pvt Ltd failed: Token expired.
+2025-10-19T00:20:07.175Z - Company Herzog & de Meuron failed: Token expired.
+2025-10-19T00:20:09.220Z - Company Gateway Construction failed: Token expired.
+2025-10-19T00:20:11.316Z - Company K3 Aluproducts Ltd failed: Token expired.
+2025-10-19T00:20:12.657Z - Company American Hospital Management Company failed: Token expired.
+2025-10-19T00:20:12.674Z - Company SOTCOCOG  failed: Token expired.
+2025-10-19T00:20:12.687Z - Company Energie Des Grands Lacs (EGL) failed: Token expired.
+2025-10-19T00:20:12.695Z - Company Geostruct Konsults Limited failed: Token expired.
+2025-10-19T00:20:12.702Z - Company HOT Construction Limited failed: Token expired.
+2025-10-19T00:20:12.711Z - Company Warp D Architects failed: Token expired.
+2025-10-19T00:20:12.719Z - Company ADQ Engineering failed: Token expired.
+2025-10-19T00:20:14.584Z - Company Abumet Nigeria Limited failed: Token expired.
+2025-10-19T00:20:17.412Z - Company  Kagga & Partners failed: Token expired.
+2025-10-19T00:20:20.379Z - Company TNM Engineering Consulting & Management failed: Token expired.
+2025-10-19T00:20:20.388Z - Company World Bank, Cameroon failed: Token expired.
+2025-10-19T00:20:23.252Z - Company SERING Ingegneria Srl failed: Token expired.
+2025-10-19T00:20:25.494Z - Company ALPHA GEO – Engineering Limited failed: Token expired.
+2025-10-19T00:20:25.501Z - Company Societe d'Operation Ivoirienne d'Electricite failed: Token expired.
+2025-10-19T00:20:25.509Z - Company Eswatini Electricity Company (EEC) failed: Token expired.
+2025-10-19T00:20:28.367Z - Company CES Environmental and Social Advisory Services failed: Token expired.
+2025-10-19T00:20:30.817Z - Company Omnium Technique for the Study of Construction & Equipment (OTCE) failed: Token expired.
+2025-10-19T00:20:34.202Z - Company OM Partnership Limited failed: Token expired.
+2025-10-19T00:20:34.212Z - Company Ministry of Agriculture, Water and Land Reform failed: Token expired.
+2025-10-19T00:20:34.218Z - Company Kaleeta Construction failed: Token expired.
+2025-10-19T00:20:36.392Z - Company Lukhozi Consulting Engineers (Pty) Ltd failed: Token expired.
+2025-10-19T00:20:37.890Z - Company INZAG Germany GmbH, Ghana failed: Token expired.
+2025-10-19T00:20:37.897Z - Company Stonegate Engineering & Quarries failed: Token expired.
+2025-10-19T00:20:37.904Z - Company Kaduna State Roads Agency (KADRA) failed: Token expired.
+2025-10-19T00:20:37.911Z - Company Thinklab Group failed: Token expired.
+2025-10-19T00:20:37.919Z - Company Investec failed: Token expired.
+2025-10-19T00:20:40.557Z - Company FirstRand Bank failed: Token expired.
+2025-10-19T00:20:43.421Z - Company Absa Group failed: Token expired.
+2025-10-19T00:20:46.331Z - Company Nedbank failed: Token expired.
+2025-10-19T00:20:46.337Z - Company Stonegate Engineering & Quarries failed: Token expired.
+2025-10-19T00:20:46.344Z - Company The Government of Kaduna State failed: Token expired.
+2025-10-19T00:20:46.350Z - Company Thies failed: Token expired.
+2025-10-19T00:20:46.358Z - Company Weihai International Economic ＆Technical Cooperative failed: Token expired.
+2025-10-19T00:20:48.142Z - Company IPEC failed: Token expired.
+2025-10-19T00:20:48.148Z - Company Weihai International Economic ＆Technical Cooperative failed: Token expired.
+2025-10-19T00:20:50.414Z - Company Vita Construction failed: Token expired.
+2025-10-19T00:20:50.421Z - Company Integrated Engineering Associates failed: Token expired.
+2025-10-19T00:20:50.429Z - Company CRJE East Africa Limited, Kenya failed: Token expired.
+2025-10-19T00:20:50.435Z - Company Fubusbag Consulting Limited failed: Token expired.
+2025-10-19T00:20:52.029Z - Company The Shell Staff Cooperative Investment and Thrift Society Limited (COOPLAG) failed: Token expired.
+2025-10-19T00:20:53.996Z - Company Permanent Secretariat of the Transport Sector Programme (SP-PST) failed: Token expired.
+2025-10-19T00:20:55.912Z - Company Ministry of Infrastructure and Opening Up, Burkina Faso failed: Token expired.
+2025-10-19T00:20:55.919Z - Company Upwind Konikablo failed: Token expired.
+2025-10-19T00:20:55.926Z - Company NEK Ghana failed: Token expired.
+2025-10-19T00:20:55.933Z - Company NEK Umwelttechnik AG failed: Token expired.
+2025-10-19T00:20:55.940Z - Company Upwind Madavunu failed: Token expired.
+2025-10-19T00:20:57.325Z - Company Sageto Limited failed: Token expired.
+2025-10-19T00:20:58.751Z - Company Ad -Team Limited failed: Token expired.
+2025-10-19T00:20:58.759Z - Company Liege Consultants failed: Token expired.
+2025-10-19T00:21:00.107Z - Company Allison - Ade Nigeria Limited failed: Token expired.
+2025-10-19T00:21:03.182Z - Company A.G. Ferrero & Co. Ltd failed: Token expired.
+2025-10-19T00:21:05.436Z - Company Nigerian Deposit Insurance Corporation (NIDC) failed: Token expired.
+2025-10-19T00:21:06.822Z - Company Coop Property Development Ltd (CPDCL) failed: Token expired.
+2025-10-19T00:21:06.829Z - Company Ashlex Synergy Limited failed: Token expired.
+2025-10-19T00:21:06.838Z - Company Zabithon Nigeria Limited failed: Token expired.
+2025-10-19T00:21:06.844Z - Company Bay Built Nigeria Limited failed: Token expired.
+2025-10-19T00:21:08.719Z - Company National Social Security Fund failed: Token expired.
+2025-10-19T00:21:10.346Z - Company Tembo Power failed: Token expired.
+2025-10-19T00:21:11.990Z - Company Bhoux Limited failed: Token expired.
+2025-10-19T00:21:11.997Z - Company Parque Eólico de Namaacha failed: Token expired.
+2025-10-19T00:21:12.004Z - Company Energia failed: Token expired.
+2025-10-19T00:21:12.011Z - Company Regional Hospital of Thies failed: Token expired.
+2025-10-19T00:21:12.019Z - Company  Ministry of Health and Social Action (MSAS), Senegal failed: Token expired.
+2025-10-19T00:21:12.026Z - Company Mulembo Lelya Hydro Electric Power Limited (MLHEPL)  failed: Token expired.
+2025-10-19T00:21:12.033Z - Company Mchimadzi  failed: Token expired.
+2025-10-19T00:21:12.041Z - Company Africana Finance and Investments (AFI) failed: Token expired.
+2025-10-19T00:21:13.993Z - Company International Development Finance Corporation failed: Token expired.
+2025-10-19T00:21:15.331Z - Company Industrial and Commercial Bank of China Limited failed: Token expired.
+2025-10-19T00:21:17.218Z - Company TPF failed: Token expired.
+2025-10-19T00:21:17.225Z - Company Lakama Group failed: Token expired.
+2025-10-19T00:21:19.461Z - Company Savannah Energy failed: Token expired.
+2025-10-19T00:21:21.719Z - Company Repcon Associates failed: Token expired.
+2025-10-19T00:21:24.381Z - Company Katahira & Engineers International failed: Token expired.
+2025-10-19T00:21:26.939Z - Company China Railway Construction Engineering Group (CRCEG) failed: Token expired.
+2025-10-19T00:21:29.909Z - Company Athi Water Works Development Agency failed: Token expired.
+2025-10-19T00:21:29.917Z - Company Resek Consult failed: Token expired.
+2025-10-19T00:21:29.923Z - Company Integrated Practice Consultants failed: Token expired.
+2025-10-19T00:21:32.265Z - Company European Commission, South Africa failed: Token expired.
+2025-10-19T00:21:35.027Z - Company Green Climate Fund failed: Token expired.
+2025-10-19T00:21:37.177Z - Company Empresa Publica de Producao de Electricidade ( PRODEL) failed: Token expired.
+2025-10-19T00:21:39.432Z - Company Urban Green Consultants failed: Token expired.
+2025-10-19T00:21:41.688Z - Company Windhoek Consulting Engineers (Pty) Ltd failed: Token expired.
+2025-10-19T00:21:44.352Z - Company Hydregen Energy (Pty) Ltd failed: Token expired.
+2025-10-19T00:21:47.719Z - Company ENERTRAG, Pretoria failed: Token expired.
+2025-10-19T00:21:49.429Z - Company Hintco failed: Token expired.
+2025-10-19T00:21:52.123Z - Company Moroccan Agency for Sustainable Energy (Masen) failed: Token expired.
+2025-10-19T00:21:54.177Z - Company Meadows Energy failed: Token expired.
+2025-10-19T00:21:54.183Z - Company Malatex Global Services failed: Token expired.
+2025-10-19T00:21:56.328Z - Company Ultra Green Corporation, Zambia failed: Token expired.
+2025-10-19T00:21:56.335Z - Company Southpole Consulting  failed: Token expired.
+2025-10-19T00:21:56.342Z - Company  SouthPole StalwartBuild Zimbabwe PL failed: Token expired.
+2025-10-19T00:21:58.877Z - Company Rio Tinto failed: Token expired.
+2025-10-19T00:22:01.540Z - Company RioZim Limited failed: Token expired.
+2025-10-19T00:22:04.724Z - Company China Power Investment Corporation failed: Token expired.
+2025-10-19T00:22:06.487Z - Company AF Power Limited failed: Token expired.
+2025-10-19T00:22:07.812Z - Company  Sable Energy  failed: Token expired.
+2025-10-19T00:22:09.189Z - Company Sable Chemical Industries Limited failed: Token expired.
+2025-10-19T00:22:11.176Z - Company Tatanga Energy  failed: Token expired.
+2025-10-19T00:22:14.354Z - Company  Sunon Asogli Power failed: Token expired.
+2025-10-19T00:22:17.223Z - Company V & V Rending failed: Token expired.
+2025-10-19T00:22:17.230Z - Company Centragale Private Limited failed: Token expired.
+2025-10-19T00:22:19.573Z - Company China International Development Cooperation Agency  failed: Token expired.
+2025-10-19T00:22:22.027Z - Company  Apollo Africa failed: Token expired.
+2025-10-19T00:22:24.900Z - Company Zimbabwe Investment and Development Agency (ZIDA) failed: Token expired.
+2025-10-19T00:22:27.560Z - Company Charis UAS, Rwanda failed: Token expired.
+2025-10-19T00:22:29.396Z - Company Niger Delta Power Holding failed: Token expired.
+2025-10-19T00:22:29.403Z - Company  Trans Connexion Congo (TCC) failed: Token expired.
+2025-10-19T00:22:32.068Z - Company Metrokin failed: Token expired.
+2025-10-19T00:22:34.823Z - Company Natural Eco Capital failed: Token expired.
+2025-10-19T00:22:37.438Z - Company Consem Associates failed: Token expired.
+2025-10-19T00:22:39.658Z - Company GE Vernova failed: Token expired.
+2025-10-19T00:22:41.462Z - Company H1 Holdings failed: Token expired.
+2025-10-19T00:22:43.352Z - Company City of Tshwane failed: Token expired.
+2025-10-19T00:22:43.359Z - Company FTR Engineering Pty Ltd failed: Token expired.
+2025-10-19T00:22:45.218Z - Company Studio Pietrangeli failed: Token expired.
+2025-10-19T00:22:46.550Z - Company Multiconsult failed: Token expired.
+2025-10-19T00:22:51.303Z - Company Moolman Group failed: Token expired.
+2025-10-19T00:22:52.942Z - Company Deutsche Bank AG, Germany failed: Token expired.
+2025-10-19T00:22:55.064Z - Company  Kenya Railways Corporation  failed: Token expired.
+2025-10-19T00:22:56.888Z - Company World Bank, Liberia failed: Token expired.
+2025-10-19T00:22:58.769Z - Company VIA International, Uganda failed: Token expired.
+2025-10-19T00:22:58.777Z - Company Ramodisa Projects Pty Ltd failed: Token expired.
+2025-10-19T00:23:01.050Z - Company Rede Nacional De Transporte De Electricidade (RNT) failed: Token expired.
+2025-10-19T00:23:01.061Z - Company Permanent Joint Technical Commission (PJTC) failed: Token expired.
+2025-10-19T00:23:03.812Z - Company African Legal Support Facility (ALSF) failed: Token expired.
+2025-10-19T00:23:06.168Z - Company Korea - Africa Economic Cooperation (KOAFEC) failed: Token expired.
+2025-10-19T00:23:08.111Z - Company Swedfund International AB failed: Token expired.
+2025-10-19T00:23:10.463Z - Company West African Development Bank (BOAD)  failed: Token expired.
+2025-10-19T00:23:13.104Z - Company IAA Associates Limited failed: Token expired.
+2025-10-19T00:23:13.111Z - Company Aerobell Properties Limited failed: Token expired.
+2025-10-19T00:23:15.267Z - Company Ablon Construction failed: Token expired.
+2025-10-19T00:23:18.172Z - Company Intercontinental Consultants and Technocrats Private Limited (ICT) failed: Token expired.
+2025-10-19T00:23:20.409Z - Company Gauff Consultants Uganda Ltd failed: Token expired.
+2025-10-19T00:23:21.835Z - Company Aventro Investments failed: Token expired.
+2025-10-19T00:23:24.185Z - Company Swiftpiles Ltd failed: Token expired.
+2025-10-19T00:23:25.655Z - Company Reatile Renewables failed: Token expired.
+2025-10-19T00:23:27.002Z - Company Maziv failed: Token expired.
+2025-10-19T00:23:28.874Z - Company Redan Zimbabwe failed: Token expired.
+2025-10-19T00:23:28.881Z - Company CSL Senegal Sarl (CSL Group) failed: Token expired.
+2025-10-19T00:23:28.891Z - Company Ministry of Transport, Works and Infrastructure (MOTWI) failed: Token expired.
+2025-10-19T00:23:30.427Z - Company Ecowas Bank for Investment and Development (EBID) failed: Token expired.
+2025-10-19T00:23:33.098Z - Company Ministry of Infrastructure and Land Transport and Opening up failed: Token expired.
+2025-10-19T00:23:35.354Z - Company Qatar Airways failed: Token expired.
+2025-10-19T00:23:38.004Z - Company Eastern International L.L.C. failed: Token expired.
+2025-10-19T00:23:40.464Z - Company China Geo-Engineering Corporation (CGC), Rwanda failed: Token expired.
+2025-10-19T00:23:42.822Z - Company African Resources Corporation (ARC) failed: Token expired.
+2025-10-19T00:23:45.082Z - Company Jovena, Madagascar failed: Token expired.
+2025-10-19T00:23:47.629Z - Company SN Power AS failed: Token expired.
+2025-10-19T00:23:49.990Z - Company GE Renewable Energy failed: Token expired.
+2025-10-19T00:23:52.667Z - Company Elecnor, Cameroon failed: Token expired.
+2025-10-19T00:23:55.025Z - Company Urban Community of Yaoundé failed: Token expired.
+2025-10-19T00:23:55.031Z - Company UCR Kigali Company Ltd failed: Token expired.
+2025-10-19T00:23:57.044Z - Company NLE failed: Token expired.
+2025-10-19T00:23:58.885Z - Company Integrated Logistics Solution Group failed: Token expired.
+2025-10-19T00:24:01.053Z - Company Opresnik Engineering Consultants Inc. failed: Token expired.
+2025-10-19T00:24:04.222Z - Company Gibb Africa failed: Token expired.
+2025-10-19T00:24:06.688Z - Company Danida Sustainable Infrastructure Finance (DSIF) failed: Token expired.
+2025-10-19T00:24:09.340Z - Company Tractionel Enterprise failed: Token expired.
+2025-10-19T00:24:12.304Z - Company Enza Civils, South Africa failed: Token expired.
+2025-10-19T00:24:14.800Z - Company Rand Merchant Bank (RMB), South Africa failed: Token expired.
+2025-10-19T00:24:17.428Z - Company Lepelle Northern Water failed: Token expired.
+2025-10-19T00:24:19.988Z - Company Standard Bank, South Africa failed: Token expired.
+2025-10-19T00:24:22.244Z - Company DE.TALES failed: Token expired.
+2025-10-19T00:24:24.928Z - Company Jiangsu Etern Company Limited failed: Token expired.
+2025-10-19T00:24:26.960Z - Company GOPA - International Energy Consultants failed: Token expired.
+2025-10-19T00:24:28.810Z - Company SGI Studio Galli Ingegneria S.R.L. failed: Token expired.
+2025-10-19T00:24:30.902Z - Company  Urban Choreography failed: Token expired.
+2025-10-19T00:24:33.302Z - Company Webber Consulting Structural Engineers (WCSE) failed: Token expired.
+2025-10-19T00:24:35.663Z - Company Smart Consulting Engineers PLC failed: Token expired.
+2025-10-19T00:24:37.811Z - Company CPCS Transcom Limited failed: Token expired.
+2025-10-19T00:24:40.472Z - Company Foster & Partners failed: Token expired.
+2025-10-19T00:24:42.619Z - Company Agritecture failed: Token expired.
+2025-10-19T00:24:44.777Z - Company PRWD, Chile failed: Token expired.
+2025-10-19T00:24:47.399Z - Company MIC-Hub  failed: Token expired.
+2025-10-19T00:24:50.039Z - Company Frost & Sullivan, Africa failed: Token expired.
+2025-10-19T00:24:51.941Z - Company Pegasys Consulting  failed: Token expired.
+2025-10-19T00:24:53.786Z - Company Buro Happold failed: Token expired.
+2025-10-19T00:24:56.862Z - Company  Sasaki Associates failed: Token expired.
+2025-10-19T00:24:59.113Z - Company T.E.A.M. Nigeria Ltd failed: Token expired.
+2025-10-19T00:25:01.268Z - Company Fortescue failed: Token expired.
+2025-10-19T00:25:04.021Z - Company China Three Gorges Corporation failed: Token expired.
+2025-10-19T00:25:07.103Z - Company AEE Power, Democratic Republic of the Congo failed: Token expired.
+2025-10-19T00:25:09.670Z - Company Société Nationale d'Electricité (SNEL) failed: Token expired.
+2025-10-19T00:25:13.250Z - Company Advanced Engineering Solutions (AES) failed: Token expired.
+2025-10-19T00:25:15.432Z - Company Abubaker Technical Services and General Supplies Ltd (ATSGSL) failed: Token expired.
+2025-10-19T00:25:17.660Z - Company Asokh Energy (Eranove) failed: Token expired.
+2025-10-19T00:25:20.415Z - Company EDF, Cameroon failed: Token expired.
+2025-10-19T00:25:23.439Z - Company HHO Consulting Engineers  failed: Token expired.
+2025-10-19T00:25:25.444Z - Company Cavalli Business & Investment Group failed: Token expired.
+2025-10-19T00:25:28.092Z - Company Isipani Construction failed: Token expired.
+2025-10-19T00:25:30.246Z - Company Ana Designs Studio Pvt. Ltd failed: Token expired.
+2025-10-19T00:25:32.020Z - Company Tri-Star Construction failed: Token expired.
+2025-10-19T00:25:34.136Z - Company Kikot - Mbebe Hydro Power Company (KHPC) failed: Token expired.
+2025-10-19T00:25:37.312Z - Company Dogon Group Properties failed: Token expired.
+2025-10-19T00:25:40.073Z - Company Gardner Property Solutions failed: Token expired.
+2025-10-19T00:25:42.734Z - Company APIX failed: Token expired.
+2025-10-19T00:25:45.703Z - Company Subsolar, South Africa failed: Token expired.
+2025-10-19T00:25:48.056Z - Company DSA Architects Intl failed: Token expired.
+2025-10-19T00:25:50.111Z - Company Amlad Group failed: Token expired.
+2025-10-19T00:25:52.151Z - Company Asl Contractors failed: Token expired.
+2025-10-19T00:25:53.589Z - Company I&M Group PLC, Kenya failed: Token expired.
+2025-10-19T00:25:53.596Z - Company Libi Homes failed: Token expired.
+2025-10-19T00:25:53.603Z - Company Ikona Developments Pty Ltd  failed: Token expired.
+2025-10-19T00:25:53.609Z - Company The Milton failed: Token expired.
+2025-10-19T00:25:56.347Z - Company Shelter Afrique, Kenya failed: Token expired.
+2025-10-19T00:25:56.356Z - Company Makhathini Projects, Durban failed: Token expired.
+2025-10-19T00:25:56.369Z - Company Life Bay View Private Hospital failed: Token expired.
+2025-10-19T00:25:56.381Z - Company Amandla Construction failed: Token expired.
+2025-10-19T00:25:56.392Z - Company Tambo Memorial Hospital failed: Token expired.
+2025-10-19T00:25:56.399Z - Company AlleyRoads failed: Token expired.
+2025-10-19T00:25:56.406Z - Company EMalahleni Local Municipality failed: Token expired.
+2025-10-19T00:25:56.414Z - Company Dark Moon Rising Ltd  failed: Token expired.
+2025-10-19T00:25:56.421Z - Company Theewaterskloof Municipality failed: Token expired.
+2025-10-19T00:25:56.427Z - Company uMngeni Local Municipality failed: Token expired.
+2025-10-19T00:25:58.089Z - Company Webber Design failed: Token expired.
+2025-10-19T00:26:00.682Z - Company Mi Vida Homes failed: Token expired.
+2025-10-19T00:26:02.807Z - Company Taifa Mining and Civil Limited failed: Token expired.
+2025-10-19T00:26:05.441Z - Company Devki Group of Companies, Kenya failed: Token expired.
+2025-10-19T00:26:07.813Z - Company Paix, Djibouti failed: Token expired.
+2025-10-19T00:26:10.073Z - Company Ethiopian Railways Corporation failed: Token expired.
+2025-10-19T00:26:12.496Z - Company Edo State Development and Property Corporation (ESDPC) failed: Token expired.
+2025-10-19T00:26:12.504Z - Company MaxImpact Global Ventures Limited failed: Token expired.
+2025-10-19T00:26:14.072Z - Company Department of Transport, South Africa failed: Token expired.
+2025-10-19T00:26:16.208Z - Company Dubai Investments failed: Token expired.
+2025-10-19T00:26:18.027Z - Company Murray & Roberts failed: Token expired.
+2025-10-19T00:26:19.340Z - Company South African Reserve Bank (SARB) failed: Token expired.
+2025-10-19T00:26:19.347Z - Company Ministry of Infrastructure and Public Works, Guinea failed: Token expired.
+2025-10-19T00:26:21.339Z - Company ERSA Construction failed: Token expired.
+2025-10-19T00:26:23.183Z - Company National Water Company of Senegal - SONES failed: Token expired.
+2025-10-19T00:26:25.262Z - Company ECE Engineers failed: Token expired.
+2025-10-19T00:26:27.887Z - Company KfW Development Bank failed: Token expired.
+2025-10-19T00:26:30.057Z - Company NETWAS Tanzania failed: Token expired.
+2025-10-19T00:26:33.121Z - Company German International Cooperation (GIZ) failed: Token expired.
+2025-10-19T00:26:34.962Z - Company Dorsch International Consultants failed: Token expired.
+2025-10-19T00:26:37.726Z - Company Boogertman + Partners failed: Token expired.
+2025-10-19T00:26:40.285Z - Company Ruwacon (Pty) Ltd failed: Token expired.
+2025-10-19T00:26:43.049Z - Company Motus Ford, Cape Town failed: Token expired.
+2025-10-19T00:26:46.119Z - Company Botswana Railways  failed: Token expired.
+2025-10-19T00:26:47.962Z - Company Wsp, Johannesburg failed: Token expired.
+2025-10-19T00:26:50.880Z - Company Botswana Power Corporation failed: Token expired.
+2025-10-19T00:26:53.431Z - Company De Leeuw Group, Johannesburg failed: Token expired.
+2025-10-19T00:26:56.152Z - Company 2802 Architects, Johannesburg failed: Token expired.
+2025-10-19T00:26:59.335Z - Company Contracta Construction UK Limited, London failed: Token expired.
+2025-10-19T00:26:59.343Z - Company Derou & Partners failed: Token expired.
+2025-10-19T00:26:59.351Z - Company Ayeh & Ayeh failed: Token expired.
+2025-10-19T00:27:01.273Z - Company Shah Technical Consultants Pvt. Ltd failed: Token expired.
+2025-10-19T00:27:01.280Z - Company Ministry of Infrastructure and Housing Development (MIH), Gaborone failed: Token expired.
+2025-10-19T00:27:01.288Z - Company China Airport Construction Company (CACC) failed: Token expired.
+2025-10-19T00:27:03.856Z - Company Community Safety Roads and Transport, Bloemfontein failed: Token expired.
+2025-10-19T00:27:06.600Z - Company Architizer failed: Token expired.
+2025-10-19T00:27:09.888Z - Company Goldkey Properties failed: Token expired.
+2025-10-19T00:27:09.902Z - Company Cmi Engineering failed: Token expired.
+2025-10-19T00:27:09.917Z - Company Lsp Construction failed: Token expired.
+2025-10-19T00:27:09.929Z - Company Mandilas Nigeria failed: Token expired.
+2025-10-19T00:27:12.438Z - Company ENERTRAG South Africa (Pty) Ltd failed: Token expired.
+2025-10-19T00:27:12.448Z - Company Nicholas Holdings Limited  failed: Token expired.
+2025-10-19T00:27:14.539Z - Company Calgro M3 failed: Token expired.
+2025-10-19T00:27:15.920Z - Company Airports Company South Africa (ACSA) failed: Token expired.
+2025-10-19T00:27:18.070Z - Company Gabiere A Group (GAG)  failed: Token expired.
+2025-10-19T00:27:21.043Z - Company WSP Africa, Cape Town failed: Token expired.
+2025-10-19T00:27:22.985Z - Company Thika Water and Sewerage Company (THIWASCO) failed: Token expired.
+2025-10-19T00:27:25.542Z - Company  Bank of Ghana failed: Token expired.
+2025-10-19T00:27:28.414Z - Company Rango Construction Company Limited failed: Token expired.
+2025-10-19T00:27:30.359Z - Company Associated Consultants (Acon) failed: Token expired.
+2025-10-19T00:27:32.072Z - Company  Gauff Engineering, Uganda failed: Token expired.
+2025-10-19T00:27:34.444Z - Company Coppieters failed: Token expired.
+2025-10-19T00:27:35.802Z - Company Lagos State Waterways Authority (LASWA) failed: Token expired.
+2025-10-19T00:27:39.069Z - Company JG Afrika failed: Token expired.
+2025-10-19T00:27:41.168Z - Company City of Cape Town failed: Token expired.
+2025-10-19T00:27:43.363Z - Company Department of Infrastructure (DOI), Western Cape failed: Token expired.
+2025-10-19T00:27:45.112Z - Company Zanzibar Investment Promotion Authority (ZIPA) failed: Token expired.
+2025-10-19T00:27:47.560Z - Company Moi Teaching and Referral Hospital failed: Token expired.
+2025-10-19T00:27:50.623Z - Company Groupe CSE failed: Token expired.
+2025-10-19T00:27:52.347Z - Company PFO Africa failed: Token expired.
+2025-10-19T00:27:54.009Z - Company Yellow Door Energy failed: Token expired.
+2025-10-19T00:27:56.295Z - Company Impact Water Solutions failed: Token expired.
+2025-10-19T00:27:57.975Z - Company Norland Construction failed: Token expired.
+2025-10-19T00:27:59.411Z - Company Saldanha Bay Municipality failed: Token expired.
+2025-10-19T00:28:01.490Z - Company Bushbuckridge Local Municipality failed: Token expired.
+2025-10-19T00:28:05.078Z - Company Umgeni Waterworks failed: Token expired.
+2025-10-19T00:28:07.121Z - Company Orca Group  failed: Token expired.
+2025-10-19T00:28:09.788Z - Company Bsmart System Solutions failed: Token expired.
+2025-10-19T00:28:09.795Z - Company Sherbro Alliance Partners (SAP) failed: Token expired.
+2025-10-19T00:28:12.150Z - Company Aéroport International Blaise Diagne SA (AIBD - SA) failed: Token expired.
+2025-10-19T00:28:14.704Z - Company Ministry of Roads and Bridges, South Sudan failed: Token expired.
+2025-10-19T00:28:17.879Z - Company Ministry of Energy, Ghana failed: Token expired.
+2025-10-19T00:28:19.726Z - Company Zoetic Global failed: Token expired.
+2025-10-19T00:28:21.125Z - Company Amoco Construction Group failed: Token expired.
+2025-10-19T00:28:23.306Z - Company Megamound Investment Limited (Megamound) failed: Token expired.
+2025-10-19T00:28:25.106Z - Company Arcs & Glass Ltd failed: Token expired.
+2025-10-19T00:28:27.163Z - Company Pace Consultants failed: Token expired.
+2025-10-19T00:28:28.931Z - Company Foreshore Waters Limited failed: Token expired.
+2025-10-19T00:28:30.973Z - Company Mitsulift Nigeria Ltd failed: Token expired.
+2025-10-19T00:28:33.024Z - Company Victoria and Alfred V&A Waterfront failed: Token expired.
+2025-10-19T00:28:35.180Z - Company Ministry of Trade and Industry, South Sudan failed: Token expired.
+2025-10-19T00:28:35.192Z - Company Wolf Architects failed: Token expired.
+2025-10-19T00:28:37.841Z - Company Cleec Designs failed: Token expired.
+2025-10-19T00:28:37.847Z - Company Siemens Energy failed: Token expired.
+2025-10-19T00:28:37.854Z - Company Top Choice Surveillance Limited failed: Token expired.
+2025-10-19T00:28:37.862Z - Company Enval Ltd failed: Token expired.
+2025-10-19T00:28:37.869Z - Company Empresarios Agrupados failed: Token expired.
+2025-10-19T00:28:41.231Z - Company The Eranove Group failed: Token expired.
+2025-10-19T00:28:43.888Z - Company Kaduna State Development and Property Company Limited failed: Token expired.
+2025-10-19T00:28:46.349Z - Company Darycet International Limited  failed: Token expired.
+2025-10-19T00:28:46.356Z - Company HS+E Consultancy Ghana failed: Token expired.
+2025-10-19T00:28:46.362Z - Company Green Power Capital failed: Token expired.
+2025-10-19T00:28:48.899Z - Company Harry Gwala District Municipality failed: Token expired.
+2025-10-19T00:28:48.907Z - Company Architrave Design Group, Zimbabwe failed: Token expired.
+2025-10-19T00:28:51.767Z - Company Ethekwini Metropolitan Municipality failed: Token expired.
+2025-10-19T00:28:54.949Z - Company Emthanjeni Local Municipality failed: Token expired.
+2025-10-19T00:28:57.147Z - Company Mkaka Construction failed: Token expired.
+2025-10-19T00:28:57.154Z - Company Cachez Turnkey Projects failed: Token expired.
+2025-10-19T00:28:59.237Z - Company Okavango District Council failed: Token expired.
+2025-10-19T00:29:01.806Z - Company Pixley Ka Seme District Municipality failed: Token expired.
+2025-10-19T00:29:04.108Z - Company Ubuntu Local Municipality failed: Token expired.
+2025-10-19T00:29:06.568Z - Company Nkomazi Local Municipality failed: Token expired.
+2025-10-19T00:29:09.173Z - Company Empire Domus failed: Token expired.
+2025-10-19T00:29:09.180Z - Company Actis Egypt failed: Token expired.
+2025-10-19T00:29:09.186Z - Company Improvon failed: Token expired.
+2025-10-19T00:29:09.193Z - Company Uganda Martyrs Housing and Construction Company Ltd failed: Token expired.
+2025-10-19T00:29:09.200Z - Company Serefaco Consultants Ltd failed: Token expired.
+2025-10-19T00:29:09.207Z - Company Beza Consulting Engineers PLC failed: Token expired.
+2025-10-19T00:29:09.215Z - Company Eko Pearl Nig Ltd failed: Token expired.
+2025-10-19T00:29:09.223Z - Company Ismail and Partners failed: Token expired.
+2025-10-19T00:29:09.229Z - Company FTD Limited failed: Token expired.
+2025-10-19T00:29:09.236Z - Company Builders Craft Limited failed: Token expired.
+2025-10-19T00:29:11.126Z - Company Godmade Homes failed: Token expired.
+2025-10-19T00:29:11.132Z - Company Renfame Limited failed: Token expired.
+2025-10-19T00:29:11.138Z - Company  God's Compass Engineering Limited failed: Token expired.
+2025-10-19T00:29:13.793Z - Company Stepris Nigeria Limited failed: Token expired.
+2025-10-19T00:29:13.804Z - Company Olatunji Abisoye Associates failed: Token expired.
+2025-10-19T00:29:13.811Z - Company Detailed Designs failed: Token expired.
+2025-10-19T00:29:13.818Z - Company Labana Global Ventures, Lagos failed: Token expired.
+2025-10-19T00:29:13.825Z - Company Great Northern International Construction Limited failed: Token expired.
+2025-10-19T00:29:16.037Z - Company Eptisa Servicios de Ingeniería failed: Token expired.
+2025-10-19T00:29:18.088Z - Company Belmond failed: Token expired.
+2025-10-19T00:29:21.154Z - Company University of Yaoundé failed: Token expired.
+2025-10-19T00:29:23.330Z - Company Mutare City Council failed: Token expired.
+2025-10-19T00:29:23.336Z - Company Goromonzi Agro Industrial Company (Pvt) Limited failed: Token expired.
+2025-10-19T00:29:24.718Z - Company STRABAG International GmbH failed: Token expired.
+2025-10-19T00:29:26.990Z - Company Necotrans failed: Token expired.
+2025-10-19T00:29:26.997Z - Company Gilbo Construction Ltd failed: Token expired.
+2025-10-19T00:29:27.007Z - Company Hoa Binh Construction Group failed: Token expired.
+2025-10-19T00:29:30.169Z - Company PLAY in Architecture Ltd failed: Token expired.
+2025-10-19T00:29:32.109Z - Company MH Engineering Plc failed: Token expired.
+2025-10-19T00:29:35.077Z - Company Enugu State Government failed: Token expired.
+2025-10-19T00:29:36.979Z - Company Dzimuzwo Consulting failed: Token expired.
+2025-10-19T00:29:39.584Z - Company Ziyanda Energy failed: Token expired.
+2025-10-19T00:29:42.146Z - Company Pieach Ltd failed: Token expired.
+2025-10-19T00:29:42.152Z - Company Webb Uronu & Partners failed: Token expired.
+2025-10-19T00:29:42.158Z - Company Knippers Helbig Engineering failed: Token expired.
+2025-10-19T00:29:42.165Z - Company Birk Heilmeyer und Frenzel Architekten failed: Token expired.
+2025-10-19T00:29:44.666Z - Company Studio OMT Architects failed: Token expired.
+2025-10-19T00:29:47.360Z - Company Zimre Property Investments failed: Token expired.
+2025-10-19T00:29:47.367Z - Company Leander Moons Inc failed: Token expired.
+2025-10-19T00:29:49.413Z - Company CPS Zanzibar Ltd  failed: Token expired.
+2025-10-19T00:29:51.981Z - Company Nyatsanza Architects failed: Token expired.
+2025-10-19T00:29:54.240Z - Company Civil Acme Limited failed: Token expired.
+2025-10-19T00:29:56.317Z - Company Aerial Consult failed: Token expired.
+2025-10-19T00:29:58.843Z - Company Central Bank of Nigeria failed: Token expired.
+2025-10-19T00:30:01.105Z - Company Blue Square Limited failed: Token expired.
+2025-10-19T00:30:03.080Z - Company Mazoe Rural District Council (MRDC) failed: Token expired.
+2025-10-19T00:30:03.089Z - Company Nanchang Investment Company failed: Token expired.
+2025-10-19T00:30:06.110Z - Company Homs Group International failed: Token expired.
+2025-10-19T00:30:07.943Z - Company RMCK Construction failed: Token expired.
+2025-10-19T00:30:09.898Z - Company FOAB Partnership failed: Token expired.
+2025-10-19T00:30:12.360Z - Company The Building Practice Limited failed: Token expired.
+2025-10-19T00:30:15.235Z - Company Mvurwi Town Council  failed: Token expired.
+2025-10-19T00:30:15.242Z - Company Architectural & Design Office (ADO) failed: Token expired.
+2025-10-19T00:30:17.582Z - Company  AL Mansour Engineering & Contracting Ltd  failed: Token expired.
+2025-10-19T00:30:17.589Z - Company UACL Properties Limited failed: Token expired.
+2025-10-19T00:30:17.597Z - Company Italia Company Limited failed: Token expired.
+2025-10-19T00:30:19.732Z - Company ARM Estates failed: Token expired.
+2025-10-19T00:30:22.395Z - Company Prestigious Homes Limited failed: Token expired.
+2025-10-19T00:30:24.864Z - Company The National Irrigation Authority (Kenya) failed: Token expired.
+2025-10-19T00:30:24.875Z - Company Cement & Concrete SA’s (CCSA) failed: Token expired.
+2025-10-19T00:30:26.754Z - Company Quanticost failed: Token expired.
+2025-10-19T00:30:29.433Z - Company Struxit Projects failed: Token expired.
+2025-10-19T00:30:32.225Z - Company Mike Buyskes Constuction failed: Token expired.
+2025-10-19T00:30:32.233Z - Company D2E Developments failed: Token expired.
+2025-10-19T00:30:34.586Z - Company Attacq Limited failed: Token expired.
+2025-10-19T00:30:37.246Z - Company Waterval Islamic Institute failed: Token expired.
+2025-10-19T00:30:39.410Z - Company Ecobank failed: Token expired.
+2025-10-19T00:30:42.991Z - Company Advanxa Projects Limited failed: Token expired.
+2025-10-19T00:30:43.002Z - Company SAS Space Design failed: Token expired.
+2025-10-19T00:30:45.162Z - Company Hillary Construction (Pty) Ltd failed: Token expired.
+2025-10-19T00:30:47.579Z - Company AtkinsRéalis UK International Limited failed: Token expired.
+2025-10-19T00:30:47.585Z - Company Omatapalo failed: Token expired.
+2025-10-19T00:30:47.592Z - Company Sherbo Alliance Partners failed: Token expired.
+2025-10-19T00:30:50.952Z - Company Ehrlich Architects failed: Token expired.
+2025-10-19T00:30:53.214Z - Company Sua Kay Arquitectos failed: Token expired.
+2025-10-19T00:30:53.225Z - Company Ministry Of Higher Education Of Angola failed: Token expired.
+2025-10-19T00:30:55.496Z - Company Ministry Of Water And Sanitation, Senegal failed: Token expired.
+2025-10-19T00:30:57.301Z - Company South African National Defence Force (SANDF) failed: Token expired.
+2025-10-19T00:30:59.868Z - Company Government of Nigeria failed: Token expired.
+2025-10-19T00:31:02.121Z - Company Investimo failed: Token expired.
+2025-10-19T00:31:02.128Z - Company Octopus Energy failed: Token expired.
+2025-10-19T00:31:04.885Z - Company Binga Rural District Council (BRDC) failed: Token expired.
+2025-10-19T00:31:06.851Z - Company Shapoorji Pallonji Group failed: Token expired.
+2025-10-19T00:31:09.603Z - Company Jite Projekts Limited failed: Token expired.
+2025-10-19T00:31:09.612Z - Company H K Designs and Properties failed: Token expired.
+2025-10-19T00:31:11.953Z - Company Lagos State Government Ministry of Works & Infrastructure failed: Token expired.
+2025-10-19T00:31:13.899Z - Company Mobus Property Ghana failed: Token expired.
+2025-10-19T00:31:16.467Z - Company SigmaSpec Electromechanical Ltd failed: Token expired.
+2025-10-19T00:31:18.907Z - Company WhiteBricks failed: Token expired.
+2025-10-19T00:31:18.914Z - Company Novarc Architects and Designs Ltd failed: Token expired.
+2025-10-19T00:31:20.439Z - Company Hdv Nigeria Limited failed: Token expired.
+2025-10-19T00:31:22.274Z - Company CKR Consulting Engineers failed: Token expired.
+2025-10-19T00:31:24.420Z - Company SVA Architects failed: Token expired.
+2025-10-19T00:31:26.291Z - Company Office of Public-Private Partnerships, Lagos State, Nigeria failed: Token expired.
+2025-10-19T00:31:28.543Z - Company CMED  failed: Token expired.
+2025-10-19T00:31:31.718Z - Company Quantum Properties Limited (QPL) failed: Token expired.
+2025-10-19T00:31:33.963Z - Company XBD Collective failed: Token expired.
+2025-10-19T00:31:36.326Z - Company Quantum Capital Partners failed: Token expired.
+2025-10-19T00:31:36.332Z - Company Omnium des Industries et de la Promotion (O.I.P.) failed: Token expired.
+2025-10-19T00:31:36.339Z - Company Vavaki Architects failed: Token expired.
+2025-10-19T00:31:39.287Z - Company Ministry of Transport and Infrastructure Development, Zimbabwe failed: Token expired.
+2025-10-19T00:31:41.347Z - Company Ministry of Water Energy and Minerals, Zanzibar failed: Token expired.
+2025-10-19T00:31:44.107Z - Company Zanzibar Electricity Corporation (ZECO) failed: Token expired.
+2025-10-19T00:31:46.096Z - Company Matla Africa failed: Token expired.
+2025-10-19T00:31:48.408Z - Company IKOTWE Construction failed: Token expired.
+2025-10-19T00:31:50.686Z - Company Streng Consulting Engineers (Pty) Ltd failed: Token expired.
+2025-10-19T00:31:53.328Z - Company Ingplan Consulting Engineers failed: Token expired.
+2025-10-19T00:31:55.361Z - Company Etco Nigeria failed: Token expired.
+2025-10-19T00:31:58.341Z - Company PrimeTech Design and Engineering Nigeria Limited failed: Token expired.
+2025-10-19T00:32:01.003Z - Company Northwest Petroleum & Gas Company Limited failed: Token expired.
+2025-10-19T00:32:03.877Z - Company Ehitech Global Services, Nigeria failed: Token expired.
+2025-10-19T00:32:06.537Z - Company LVL Engineering Group  failed: Token expired.
+2025-10-19T00:32:08.586Z - Company Building Estimator failed: Token expired.
+2025-10-19T00:32:11.758Z - Company Archico Consultants failed: Token expired.
+2025-10-19T00:32:14.577Z - Company August Crossing, Nigeria failed: Token expired.
+2025-10-19T00:32:16.164Z - Company Retail Africa failed: Token expired.
+2025-10-19T00:32:18.006Z - Company IDOM  failed: Token expired.
+2025-10-19T00:32:21.283Z - Company Gateway Mortgage Bank failed: Token expired.
+2025-10-19T00:32:23.633Z - Company Karpowership failed: Token expired.
+2025-10-19T00:32:26.498Z - Company China Jiangxi International (Namibia) Pty Ltd failed: Token expired.
+2025-10-19T00:32:29.263Z - Company Homefin Properties CC failed: Token expired.
+2025-10-19T00:32:31.311Z - Company Manantali Energy Management Company (SOGEM) failed: Token expired.
+2025-10-19T00:32:33.159Z - Company Energiedu Mali (EDM SA) failed: Token expired.
+2025-10-19T00:32:35.350Z - Company Mauritanian Electricity Company (SOMELEC) failed: Token expired.
+2025-10-19T00:32:37.425Z - Company PhD Capital Group failed: Token expired.
+2025-10-19T00:32:39.716Z - Company JA Solar Technology Co., Ltd, Beijing failed: Token expired.
+2025-10-19T00:32:42.484Z - Company Zimplats Holdings Limited, Zimbabwe failed: Token expired.
+2025-10-19T00:32:45.049Z - Company Hitech Construction Company Ltd failed: Token expired.
+2025-10-19T00:32:47.690Z - Company Stellenbosch University failed: Token expired.
+2025-10-19T00:32:55.001Z - Company Trina Solar failed: Token expired.
+2025-10-19T00:32:57.020Z - Company Ohlthaver & List (O&L) failed: Token expired.
+2025-10-19T00:32:59.450Z - Company Gruner Stucky failed: Token expired.
+2025-10-19T00:33:01.930Z - Company Capic failed: Token expired.
+2025-10-19T00:33:04.098Z - Company Minbos Resources Limited  failed: Token expired.
+2025-10-19T00:33:06.575Z - Company R & N Master Builders Cape Pty Ltd failed: Token expired.
+2025-10-19T00:33:08.997Z - Company Beatty Development Group failed: Token expired.
+2025-10-19T00:33:11.365Z - Company James Cubbitt Architects failed: Token expired.
+2025-10-19T00:33:11.374Z - Company Afro Architectural failed: Token expired.
+2025-10-19T00:33:13.464Z - Company City of Cape Town's Water and Sanitation Department failed: Token expired.
+2025-10-19T00:33:16.078Z - Company CWP Global failed: Token expired.
+2025-10-19T00:33:18.518Z - Company Green Giant Energy (GGE)  failed: Token expired.
+2025-10-19T00:33:18.527Z - Company Du-Franc And Partners failed: Token expired.
+2025-10-19T00:33:21.089Z - Company Crown TECH - CONSULT failed: Token expired.
+2025-10-19T00:33:21.095Z - Company Cheil Engineering Co. Ltd failed: Token expired.
+2025-10-19T00:33:23.248Z - Company Real Contractors failed: Token expired.
+2025-10-19T00:33:25.316Z - Company NPD Cotraco failed: Token expired.
+2025-10-19T00:33:25.322Z - Company AMBICON ENGINEERING LTD failed: Token expired.
+2025-10-19T00:33:27.398Z - Company Mariswe failed: Token expired.
+2025-10-19T00:33:27.405Z - Company William Lee Associates failed: Token expired.
+2025-10-19T00:33:29.640Z - Company CISTRUS Consultants failed: Token expired.
+2025-10-19T00:33:31.091Z - Company Lesedi Consulting Engineers failed: Token expired.
+2025-10-19T00:33:31.098Z - Company Pula failed: Token expired.
+2025-10-19T00:33:32.471Z - Company Nigerian Railway Corporation (NRC) failed: Token expired.
+2025-10-19T00:33:34.606Z - Company Abcon Developments failed: Token expired.
+2025-10-19T00:33:37.564Z - Company Tiber Construction  failed: Token expired.
+2025-10-19T00:33:39.734Z - Company Cooperativa Muratori e Cementisti (CMC di Ravenna) failed: Token expired.
+2025-10-19T00:33:43.214Z - Company Ochieng Abuodha and Associates Limited failed: Token expired.
+2025-10-19T00:33:45.463Z - Company Sai Consulting Engineers Pvt Ltd failed: Token expired.
+2025-10-19T00:33:47.580Z - Company Mitsubishi Corporation (MC), Kenya failed: Token expired.
+2025-10-19T00:33:50.391Z - Company Olkaria Ecocloud failed: Token expired.
+2025-10-19T00:33:51.993Z - Company G42 failed: Token expired.
+2025-10-19T00:33:51.999Z - Company HDF Energy Ltd, Namibia failed: Token expired.
+2025-10-19T00:33:52.008Z - Company West Trading and Alugodhi Trading failed: Token expired.
+2025-10-19T00:33:52.015Z - Company Tangeni OM Trading Enterprises CC  failed: Token expired.
+2025-10-19T00:33:53.412Z - Company Ino Investment Holdings failed: Token expired.
+2025-10-19T00:33:55.278Z - Company SMEC, Namibia failed: Token expired.
+2025-10-19T00:33:55.294Z - Company Linxon failed: Token expired.
+2025-10-19T00:33:57.330Z - Company DB Engineering & Consulting failed: Token expired.
+2025-10-19T00:33:59.381Z - Company Solgenics Limited failed: Token expired.
+2025-10-19T00:34:01.332Z - Company Oswal Investments Ltd failed: Token expired.
+2025-10-19T00:34:03.889Z - Company Hydrogène de France (HDF) Energy failed: Token expired.
+2025-10-19T00:34:06.391Z - Company DECO Construction Company failed: Token expired.
+2025-10-19T00:34:09.411Z - Company Direct Aid Association failed: Token expired.
+2025-10-19T00:34:10.765Z - Company KBK Engineers failed: Token expired.
+2025-10-19T00:34:12.893Z - Company SABA Engineering Plc failed: Token expired.
+2025-10-19T00:34:16.385Z - Company Nandhra Engineering and Construction Company failed: Token expired.
+2025-10-19T00:34:19.574Z - Company DIT Institute Consultancy Bureau failed: Token expired.
+2025-10-19T00:34:21.762Z - Company Tanzania Bureau of Standards (TBS) failed: Token expired.
+2025-10-19T00:34:23.114Z - Company Aqua Services and Engineering (Pty) Ltd failed: Token expired.
+2025-10-19T00:34:23.120Z - Company Element Consulting Engineers (Pty) Ltd failed: Token expired.
+2025-10-19T00:34:24.543Z - Company Ferwafa failed: Token expired.
+2025-10-19T00:34:25.876Z - Company  Federation Internationale de Football Association (FIFA) failed: Token expired.
+2025-10-19T00:34:27.861Z - Company TYPSA failed: Token expired.
+2025-10-19T00:34:30.513Z - Company African Finance Corporation (AFC) failed: Token expired.
+2025-10-19T00:34:32.651Z - Company Kenya Fishing Industries Corporation (KFIC) failed: Token expired.
+2025-10-19T00:34:32.660Z - Company Blue Economy failed: Token expired.
+2025-10-19T00:34:32.668Z - Company Aquaculture failed: Token expired.
+2025-10-19T00:34:32.675Z - Company Blue Economy failed: Token expired.
+2025-10-19T00:34:34.917Z - Company State Department for Fisheries and Blue Economy failed: Token expired.
+2025-10-19T00:34:37.580Z - Company Topklan Engineering Services failed: Token expired.
+2025-10-19T00:34:40.338Z - Company Baron Architecture failed: Token expired.
+2025-10-19T00:34:42.087Z - Company Megawatts Nigeria Limited failed: Token expired.
+2025-10-19T00:34:44.137Z - Company Bridge Joints and Rehabilitation Contractors (Pty) Ltd failed: Token expired.
+2025-10-19T00:34:46.491Z - Company Post Tensioning and Structural Solutions (Pty) Ltd failed: Token expired.
+2025-10-19T00:34:46.497Z - Company NPD failed: Token expired.
+2025-10-19T00:34:49.153Z - Company AIM Consultants Ltd failed: Token expired.
+2025-10-19T00:34:50.566Z - Company Vacc Technical Limited failed: Token expired.
+2025-10-19T00:34:52.033Z - Company Hancock Ogundiya & Partners failed: Token expired.
+2025-10-19T00:34:53.392Z - Company Setec failed: Token expired.
+2025-10-19T00:34:54.774Z - Company Kenya Defense Forces (KDF) failed: Token expired.
+2025-10-19T00:34:57.032Z - Company Gateway Real Estate Africa failed: Token expired.
+2025-10-19T00:34:59.606Z - Company Zimbabwe Global Investments failed: Token expired.
+2025-10-19T00:35:01.956Z - Company Negmar failed: Token expired.
+2025-10-19T00:35:03.970Z - Company Black Females in Architecture failed: Token expired.
+2025-10-19T00:35:05.846Z - Company Arkland Structures failed: Token expired.
+2025-10-19T00:35:05.853Z - Company Autonomous Port of Kribi failed: Token expired.
+2025-10-19T00:35:05.862Z - Company Ingénierie Louis Choulet failed: Token expired.
+2025-10-19T00:35:07.792Z - Company Architecturestudio failed: Token expired.
+2025-10-19T00:35:10.558Z - Company The Institute of Directors South Africa failed: Token expired.
+2025-10-19T00:35:12.302Z - Company JUWI Renewable Energies, South Africa failed: Token expired.
+2025-10-19T00:35:14.343Z - Company Agro Climatic Resilience in Semi-Arid Landscape (ACReSAL) failed: Token expired.
+2025-10-19T00:35:17.312Z - Company Elalan Construction Limited failed: Token expired.
+2025-10-19T00:35:20.067Z - Company PowerChina Guizhou Engineering Co Ltd failed: Token expired.
+2025-10-19T00:35:22.837Z - Company DEC CONSTRUCTION LTD failed: Token expired.
+2025-10-19T00:35:25.292Z - Company Ministry of Transport, Angola failed: Token expired.
+2025-10-19T00:35:27.583Z - Company Adamawa State Government failed: Token expired.
+2025-10-19T00:35:29.411Z - Company Actophambili Roads (Pty) Ltd failed: Token expired.
+2025-10-19T00:35:29.418Z - Company State of Cameroon failed: Token expired.
+2025-10-19T00:35:31.855Z - Company Ministry of Infrastructure, Land Transport, and Openness  failed: Token expired.
+2025-10-19T00:35:34.452Z - Company Eiffage failed: Token expired.
+2025-10-19T00:35:36.873Z - Company AGEROUTE Senegal failed: Token expired.
+2025-10-19T00:35:38.818Z - Company Gibb  failed: Token expired.
+2025-10-19T00:35:41.180Z - Company  Nyeleti Consulting (Pty) Ltd failed: Token expired.
+2025-10-19T00:35:44.235Z - Company Bigen Africa Group Holdings failed: Token expired.
+2025-10-19T00:35:46.600Z - Company Monte Rosa Construction failed: Token expired.
+2025-10-19T00:35:46.607Z - Company AIHG failed: Token expired.
+2025-10-19T00:35:50.181Z - Company Engie Africa failed: Token expired.
+2025-10-19T00:35:53.148Z - Company Windlab failed: Token expired.
+2025-10-19T00:35:55.434Z - Company Vestas Wind Systems failed: Token expired.
+2025-10-19T00:35:57.985Z - Company United Nations Office at Nairobi (UNON) failed: Token expired.
+2025-10-19T00:36:00.424Z - Company Transnet failed: Token expired.
+2025-10-19T00:36:00.430Z - Company Electricite Holdings failed: Token expired.
+2025-10-19T00:36:00.436Z - Company Total Gaz failed: Token expired.
+2025-10-19T00:36:02.262Z - Company The Port Authority of Cotonou failed: Token expired.
+2025-10-19T00:36:04.719Z - Company Tensor systems Pvt Ltd failed: Token expired.
+2025-10-19T00:36:04.726Z - Company Sutherland Wind Farm failed: Token expired.
+2025-10-19T00:36:07.083Z - Company Sun Africa failed: Token expired.
+2025-10-19T00:36:07.090Z - Company Sterling and Wilson failed: Token expired.
+2025-10-19T00:36:09.836Z - Company Spie Batignolles Foundations failed: Token expired.
+2025-10-19T00:36:09.844Z - Company Sonangol failed: Token expired.
+2025-10-19T00:36:12.202Z - Company Solarcentury Africa failed: Token expired.
+2025-10-19T00:36:12.208Z - Company Sojem Consult failed: Token expired.
+2025-10-19T00:36:12.215Z - Company Siyakhula Sonke Empowerment Corporation (SSC) failed: Token expired.
+2025-10-19T00:36:14.324Z - Company Sichuan Yahua Industrial failed: Token expired.
+2025-10-19T00:36:17.853Z - Company Shumba Energy failed: Token expired.
+2025-10-19T00:36:21.110Z - Company Seriti Resources Holdings failed: Token expired.
+2025-10-19T00:36:22.955Z - Company Sentinel Hospitality Limited failed: Token expired.
+2025-10-19T00:36:22.963Z - Company Renewable Energy Services Africa (RESA) failed: Token expired.
+2025-10-19T00:36:25.822Z - Company Paratus Group failed: Token expired.
+2025-10-19T00:36:27.871Z - Company Optate Africa failed: Token expired.
+2025-10-19T00:36:31.251Z - Company Omimaj Konsult failed: Token expired.
+2025-10-19T00:36:31.259Z - Company Odebrecht Engineering and Construction (OEC) failed: Token expired.
+2025-10-19T00:36:32.729Z - Company National Water Collection and Storage Authority (NWHSA) failed: Token expired.
+2025-10-19T00:36:32.735Z - Company Mulilo Total Hydra Storage Pty failed: Token expired.
+2025-10-19T00:36:32.742Z - Company Mulilo Renewable Energy failed: Token expired.
+2025-10-19T00:36:32.752Z - Company Monbos Resources failed: Token expired.
+2025-10-19T00:36:34.164Z - Company Ministry of Infrastructure Public Works & Reconstruction, DRC failed: Token expired.
+2025-10-19T00:36:36.973Z - Company Mbeya University of Science & Technology failed: Token expired.
+2025-10-19T00:36:36.980Z - Company Madagascar Hydroelectric Company failed: Token expired.
+2025-10-19T00:36:39.532Z - Company Mace YMR LLP failed: Token expired.
+2025-10-19T00:36:39.545Z - Company LYT Architecture failed: Token expired.
+2025-10-19T00:36:41.461Z - Company Volt Renewable Energy failed: Token expired.
+2025-10-19T00:36:44.146Z - Company Jearrard Energy Resources (JER) failed: Token expired.
+2025-10-19T00:36:44.155Z - Company CIGenCo failed: Token expired.
+2025-10-19T00:36:46.304Z - Company Greenshare  failed: Token expired.
+2025-10-19T00:36:46.311Z - Company HySHiFT Consortium failed: Token expired.
+2025-10-19T00:36:48.646Z - Company Howard Humphreys East Africa Ltd failed: Token expired.
+2025-10-19T00:36:51.624Z - Company Shelter Suites and Hotels failed: Token expired.
+2025-10-19T00:36:54.184Z - Company Guizhou Highway Engineering Group Co. Ltd failed: Token expired.
+2025-10-19T00:36:56.281Z - Company Global Property Partners failed: Token expired.
+2025-10-19T00:36:59.382Z - Company Gassim failed: Token expired.
+2025-10-19T00:37:01.311Z - Company Exodus & Company failed: Token expired.
+2025-10-19T00:37:03.481Z - Company EMMS UF-A failed: Token expired.
+2025-10-19T00:37:06.076Z - Company Eiffage Génie Civil Marine failed: Token expired.
+2025-10-19T00:37:08.511Z - Company DOTT Services Limited failed: Token expired.
+2025-10-19T00:37:10.712Z - Company Department of Water and Sanitation, South Africa failed: Token expired.
+2025-10-19T00:37:12.716Z - Company Cruxstone Development & Investment Limited failed: Token expired.
+2025-10-19T00:37:14.776Z - Company Consultants Collaborative Partnership (CCP) failed: Token expired.
+2025-10-19T00:37:14.783Z - Company Connect Plus Energy failed: Token expired.
+2025-10-19T00:37:14.790Z - Company Gibbon (ECO) failed: Token expired.
+2025-10-19T00:37:14.796Z - Company Masinya Emtateni Empowerment Group failed: Token expired.
+2025-10-19T00:37:16.588Z - Company Cooperativa Muratori & Cementisti – C.M.C. di Ravenna failed: Token expired.
+2025-10-19T00:37:18.543Z - Company CMB.TECH failed: Token expired.
+2025-10-19T00:37:20.598Z - Company Cleanergy Solutions Namibia failed: Token expired.
+2025-10-19T00:37:22.547Z - Company Cimentos de Moçambique S.A failed: Token expired.
+2025-10-19T00:37:22.554Z - Company Checunda Investimentos failed: Token expired.
+2025-10-19T00:37:24.708Z - Company Charterhouse failed: Token expired.
+2025-10-19T00:37:27.449Z - Company Camrail failed: Token expired.
+2025-10-19T00:37:30.015Z - Company Bundesanstalt fuer Materialforschung und -pruefung (BAM) failed: Token expired.
+2025-10-19T00:37:32.377Z - Company Bulwark Construction failed: Token expired.
+2025-10-19T00:37:35.855Z - Company Botswana Civil Servants Pension Fund failed: Token expired.
+2025-10-19T00:37:37.709Z - Company Bitumen World failed: Token expired.
+2025-10-19T00:37:39.891Z - Company Aveng Rail failed: Token expired.
+2025-10-19T00:37:39.897Z - Company Raytek-Ircon failed: Token expired.
+2025-10-19T00:37:42.737Z - Company Grinaker-LTA failed: Token expired.
+2025-10-19T00:37:44.273Z - Company Archtion Group failed: Token expired.
+2025-10-19T00:37:46.036Z - Company Anglo American South Africa failed: Token expired.
+2025-10-19T00:37:48.350Z - Company African Rainbow Minerals (ARM) failed: Token expired.
+2025-10-19T00:37:50.314Z - Company Africa CDC failed: Token expired.
+2025-10-19T00:37:52.252Z - Company ACWA Power failed: Token expired.
+2025-10-19T00:37:54.501Z - Company ACTOM Energy failed: Token expired.
+2025-10-19T00:37:57.154Z - Company Sandstone failed: Token expired.
+2025-10-19T00:37:57.161Z - Company SRSA failed: Token expired.
+2025-10-19T00:37:57.167Z - Company TC’s Energy failed: Token expired.
+2025-10-19T00:37:57.173Z - Company Hyosung Heavy Industries failed: Token expired.
+2025-10-19T00:37:57.180Z - Company Xiamen Ongoing Construction Group Co.,Ltd failed: Token expired.
+2025-10-19T00:37:57.187Z - Company Utility EDF failed: Token expired.
+2025-10-19T00:37:57.194Z - Company Twin City failed: Token expired.
+2025-10-19T00:37:57.201Z - Company The Pinggao Group’s failed: Token expired.
+2025-10-19T00:37:59.315Z - Company Government of Ekiti State, Nigeria failed: Token expired.
+2025-10-19T00:38:01.255Z - Company Teraco failed: Token expired.
+2025-10-19T00:38:03.315Z - Company Solar Century Africa Limited failed: Token expired.
+2025-10-19T00:38:05.963Z - Company SkyPower failed: Token expired.
+2025-10-19T00:38:05.969Z - Company Shengxiang Investments (Pvt) Limited failed: Token expired.
+2025-10-19T00:38:08.108Z - Company Sasol failed: Token expired.
+2025-10-19T00:38:08.115Z - Company Power Construction failed: Token expired.
+2025-10-19T00:38:10.580Z - Company Adenco Construction failed: Token expired.
+2025-10-19T00:38:12.136Z - Company Perpetua Investment Managers (Pty) Ltd  failed: Token expired.
+2025-10-19T00:38:12.143Z - Company Neotrend failed: Token expired.
+2025-10-19T00:38:12.149Z - Company Moolman Group failed: Token expired.
+2025-10-19T00:38:14.261Z - Company MDS Architects failed: Token expired.
+2025-10-19T00:38:16.363Z - Company Mask Architects S.r.l.s failed: Token expired.
+2025-10-19T00:38:16.369Z - Company KENHARDT SOLAR PV PROJECT 5 (PTY) LTD failed: Token expired.
+2025-10-19T00:38:18.050Z - Company JB Holdings failed: Token expired.
+2025-10-19T00:38:21.013Z - Company Green Giraffe failed: Token expired.
+2025-10-19T00:38:24.089Z - Company  Ogun State Government failed: Token expired.
+2025-10-19T00:38:24.098Z - Company Energy & National Resource Corporation (ENRC) failed: Token expired.
+2025-10-19T00:38:26.763Z - Company Enel Green Power failed: Token expired.
+2025-10-19T00:38:29.008Z - Company EDF Renewables, South Africa  failed: Token expired.
+2025-10-19T00:38:32.094Z - Company Dorpstraat failed: Token expired.
+2025-10-19T00:38:32.101Z - Company Department of Mineral Resources (DMRE) failed: Token expired.
+2025-10-19T00:38:32.107Z - Company Copenhagen Infrastructure Partners (CIP) failed: Token expired.
+2025-10-19T00:38:34.207Z - Company City of Tshwane Roads and Transport failed: Token expired.
+2025-10-19T00:38:37.294Z - Company China Road & Bridge Corporation (CRBC) failed: Token expired.
+2025-10-19T00:38:39.467Z - Company China Jiangxi International Economic and Technical Cooperation Co. Ltd (CJIC) failed: Token expired.
+2025-10-19T00:38:42.844Z - Company China Harbour Engineering Company Nigeria Limited (CHEC) failed: Token expired.
+2025-10-19T00:38:46.217Z - Company China Energy Engineering Corporation (CEEC) failed: Token expired.
+2025-10-19T00:38:49.070Z - Company Bouygues Energies & Services failed: Token expired.
+2025-10-19T00:38:51.328Z - Company Groupe Atepa failed: Token expired.
+2025-10-19T00:38:54.191Z - Company Airtel Africa failed: Token expired.
+2025-10-19T00:38:57.064Z - Company Air Liquide failed: Token expired.
+2025-10-19T00:39:00.466Z - Company Abu Dhabi Future Energy Company (Masdar) failed: Token expired.
+2025-10-19T00:39:02.666Z - Company Abland Property Developers failed: Token expired.
+2025-10-19T00:39:02.675Z - Company Abbeydale failed: Token expired.
+2025-10-19T00:39:05.148Z - Company ZF DEVCO failed: Token expired.
+2025-10-19T00:39:07.547Z - Company Zanzibar Ports Corporation (ZPC) failed: Token expired.
+2025-10-19T00:39:09.962Z - Company Western Cape Department of Health and Wellness failed: Token expired.
+2025-10-19T00:39:09.973Z - Company Vestas failed: Token expired.
+2025-10-19T00:39:12.012Z - Company Vecturis failed: Token expired.
+2025-10-19T00:39:12.019Z - Company TC's Energy USA failed: Token expired.
+2025-10-19T00:39:12.025Z - Company ShieldVax Enterprise failed: Token expired.
+2025-10-19T00:39:14.160Z - Company Shandong Luqiao Group failed: Token expired.
+2025-10-19T00:39:16.009Z - Company SANY Southern Africa failed: Token expired.
+2025-10-19T00:39:17.953Z - Company Roads Authority (RA), Malawi failed: Token expired.
+2025-10-19T00:39:20.626Z - Company Road Development Agency (RDA), Zambia failed: Token expired.
+2025-10-19T00:39:22.659Z - Company Red Rocket South Africa Pty Ltd failed: Token expired.
+2025-10-19T00:39:22.665Z - Company Raubex Group failed: Token expired.
+2025-10-19T00:39:22.672Z - Company Power China Huadong Engineering Corporation Ltd failed: Token expired.
+2025-10-19T00:39:25.324Z - Company National Road Administration (ANE) failed: Token expired.
+2025-10-19T00:39:27.482Z - Company National Housing And Construction Company Limited, Uganda failed: Token expired.
+2025-10-19T00:39:27.489Z - Company National Enterprise Corporation (NEC) failed: Token expired.
+2025-10-19T00:39:27.496Z - Company Lutembwe Consulting Company failed: Token expired.
+2025-10-19T00:39:29.939Z - Company Sun International failed: Token expired.
+2025-10-19T00:39:29.946Z - Company Labenmon Investments failed: Token expired.
+2025-10-19T00:39:32.604Z - Company Kenya Rural Roads Authority (KeRRA) failed: Token expired.
+2025-10-19T00:39:35.472Z - Company Hyosung Heavy Industries, South Africa failed: Token expired.
+2025-10-19T00:39:35.478Z - Company Guangxi Hydroelectric Construction Bureau K Limited failed: Token expired.
+2025-10-19T00:39:38.651Z - Company Government of Zanzibar failed: Token expired.
+2025-10-19T00:39:38.659Z - Company Electricity Company of Ghana (ECG) failed: Token expired.
+2025-10-19T00:39:40.311Z - Company Dunlop, South Africa failed: Token expired.
+2025-10-19T00:39:41.922Z - Company Department of Public Works and Infrastructure (DPWI), South Africa failed: Token expired.
+2025-10-19T00:39:44.269Z - Company China Railway No.3 Engineering Group Co Ltd failed: Token expired.
+2025-10-19T00:39:47.241Z - Company Carnival City East Village failed: Token expired.
+2025-10-19T00:39:49.793Z - Company BMW SA failed: Token expired.
+2025-10-19T00:39:51.872Z - Company Balwin Properties failed: Token expired.
+2025-10-19T00:39:53.208Z - Company Arcelor Mittal Group failed: Token expired.
+2025-10-19T00:39:53.215Z - Company Fridough Limited failed: Token expired.
+2025-10-19T00:39:53.222Z - Company Test Comp failed: Token expired.
+2025-10-19T00:39:55.739Z - Company Ministry of Water Development & Sanitation, Zambia  failed: Token expired.
+2025-10-19T00:39:58.704Z - Company University of Ghana School of Law (UGSoL) failed: Token expired.
+2025-10-19T00:40:00.157Z - Company Sinohydro Corporation Ltd failed: Token expired.
+2025-10-19T00:40:01.578Z - Company Government of Turkana failed: Token expired.
+2025-10-19T00:40:05.056Z - Company Government of Sierra Leone failed: Token expired.
+2025-10-19T00:40:06.479Z - Company Government of Senegalese failed: Token expired.
+2025-10-19T00:40:08.131Z - Company Ministry of Railways Development, Ghana failed: Token expired.
+2025-10-19T00:40:10.276Z - Company General Construction and Development Limited failed: Token expired.
+2025-10-19T00:40:12.032Z - Company Federal Ministry of Education (FME), Nigeria failed: Token expired.
+2025-10-19T00:40:14.204Z - Company Ethiopian Road Authority (ERA) failed: Token expired.
+2025-10-19T00:40:16.056Z - Company Roko Construction Limited failed: Token expired.
+2025-10-19T00:40:16.062Z - Company Energoprojekt-Niskogrannja A.D failed: Token expired.
+2025-10-19T00:40:17.408Z - Company Razel-Bec failed: Token expired.
+2025-10-19T00:40:17.415Z - Company Private Developer failed: Token expired.
+2025-10-19T00:40:17.422Z - Company Coordination and Management Committee (CICMC) failed: Token expired.
+2025-10-19T00:40:19.801Z - Company Chongqing International Construction Corporation (CICO) failed: Token expired.
+2025-10-19T00:40:19.810Z - Company Powercon Corporation failed: Token expired.
+2025-10-19T00:40:22.773Z - Company China Railway 19th Bureau Group Co Ltd failed: Token expired.
+2025-10-19T00:40:22.781Z - Company Polat Yol Yapi failed: Token expired.
+2025-10-19T00:40:25.553Z - Company China City Construction Third Engineering Bureau failed: Token expired.
+2025-10-19T00:40:25.560Z - Company Bryan Acheampong failed: Token expired.
+2025-10-19T00:40:28.816Z - Company Black Females in Architecture failed: Token expired.
+2025-10-19T00:40:28.823Z - Company BENIJ Nigeria Limited failed: Token expired.
+2025-10-19T00:40:28.832Z - Company Ashanti Ports Services Limited (APSL) failed: Token expired.
+2025-10-19T00:40:31.030Z - Company Arezki Group failed: Token expired.
+2025-10-19T00:40:33.584Z - Company National Roads Authority (Gambia) failed: Token expired.
+2025-10-19T00:40:36.500Z - Company Manufacturers Association of Nigeria (MAN) failed: Token expired.
+2025-10-19T00:40:38.947Z - Company Magnora ASA failed: Token expired.
+2025-10-19T00:40:41.211Z - Company Lurra Capital AG failed: Token expired.
+2025-10-19T00:40:43.865Z - Company Kilifi County Government. failed: Token expired.
+2025-10-19T00:40:43.872Z - Company Kakama Company Limited failed: Token expired.
+2025-10-19T00:40:43.880Z - Company Investment LTD failed: Token expired.
+2025-10-19T00:40:43.888Z - Company East African Holding Co|West International Holding Co failed: Token expired.
+2025-10-19T00:40:46.328Z - Company STUDI International failed: Token expired.
+2025-10-19T00:40:49.092Z - Company Zomba City Council failed: Token expired.
+2025-10-19T00:40:49.102Z - Company Zhengtai Group failed: Token expired.
+2025-10-19T00:40:49.110Z - Company WSM Group (Pty) Ltd failed: Token expired.
+2025-10-19T00:40:51.207Z - Company Wonda World Estates failed: Token expired.
+2025-10-19T00:40:51.214Z - Company Witputz Energy (Pty) Ltd failed: Token expired.
+2025-10-19T00:40:51.222Z - Company Wilson Bayly Holmes (Pty) Ltd failed: Token expired.
+2025-10-19T00:40:53.103Z - Company East African Holding Co failed: Token expired.
+2025-10-19T00:40:53.110Z - Company West International Holding Co failed: Token expired.
+2025-10-19T00:40:55.414Z - Company WATG failed: Token expired.
+2025-10-19T00:40:57.448Z - Company Vinci Concessions failed: Token expired.
+2025-10-19T00:40:57.456Z - Company Meridian Infrastructure Africa Fund failed: Token expired.
+2025-10-19T00:40:57.464Z - Company US Government failed: Token expired.
+2025-10-19T00:40:57.470Z - Company UPDF Engineering Brigade failed: Token expired.
+2025-10-19T00:40:57.477Z - Company University of the Witwatersrand (Wits) failed: Token expired.
+2025-10-19T00:40:57.485Z - Company United Nations Development Programme (Nigeria) failed: Token expired.
+2025-10-19T00:40:57.491Z - Company UNIK -DIPHATSE failed: Token expired.
+2025-10-19T00:40:57.498Z - Company UK Export Finance1 (UKEF) failed: Token expired.
+2025-10-19T00:40:57.505Z - Company Tsingshan Holdings Group Limited failed: Token expired.
+2025-10-19T00:40:59.544Z - Company TS Elino GmbH failed: Token expired.
+2025-10-19T00:40:59.550Z - Company Transitec failed: Token expired.
+2025-10-19T00:40:59.557Z - Company Toronto Raptors failed: Token expired.
+2025-10-19T00:40:59.564Z - Company Themis failed: Token expired.
+2025-10-19T00:41:02.505Z - Company Thebe Investment Corporation failed: Token expired.
+2025-10-19T00:41:02.511Z - Company The Volobe General Hydroelectric Company (CGHV) failed: Token expired.
+2025-10-19T00:41:02.518Z - Company Minister of Transportation failed: Token expired.
+2025-10-19T00:41:02.525Z - Company The Institute of African Knowledge (INSTAK) failed: Token expired.
+2025-10-19T00:41:04.959Z - Company Department of Mineral Resources and Energy (DMRE), South Africa failed: Token expired.
+2025-10-19T00:41:07.067Z - Company Tau Pele Construction (Pty) Ltd failed: Token expired.
+2025-10-19T00:41:09.364Z - Company Tanzania-Zambia Railway Authority (TAZARA) failed: Token expired.
+2025-10-19T00:41:09.371Z - Company Tanzania Rural and Urban Roads Agency (Tarura) failed: Token expired.
+2025-10-19T00:41:11.417Z - Company Zhejiang Communications Construction Group failed: Token expired.
+2025-10-19T00:41:13.867Z - Company Zambia Road Development Agency failed: Token expired.
+2025-10-19T00:41:16.027Z - Company Water and Sanitation Corporation of Rwanda (WASAC) failed: Token expired.
+2025-10-19T00:41:16.035Z - Company Tolaram Group failed: Token expired.
+2025-10-19T00:41:18.010Z - Company Tingo Foods failed: Token expired.
+2025-10-19T00:41:18.016Z - Company The Kwara State Executive Council failed: Token expired.
+2025-10-19T00:41:19.908Z - Company Stefanutti Stocks Construction failed: Token expired.
+2025-10-19T00:41:21.968Z - Company Standites Nigeria Limited failed: Token expired.
+2025-10-19T00:41:24.032Z - Company Beijing Sino - Aero Construction Engineering Company failed: Token expired.
+2025-10-19T00:41:24.042Z - Company Puratos and the Adegunwa Family failed: Token expired.
+2025-10-19T00:41:24.050Z - Company Presidential Infrastructure Initiative (OPII) of Sierra Leone failed: Token expired.
+2025-10-19T00:41:25.954Z - Company Sharps Construction failed: Token expired.
+2025-10-19T00:41:27.288Z - Company Shaanxi Construction Engineering Group Corporation failed: Token expired.
+2025-10-19T00:41:27.299Z - Company Salini Costruttori S.p.A failed: Token expired.
+2025-10-19T00:41:27.306Z - Company Sabtech Towers Nigeria Limited failed: Token expired.
+2025-10-19T00:41:27.315Z - Company Road Trackers Construction (RTC) failed: Token expired.
+2025-10-19T00:41:29.429Z - Company Tanzania Airports Authority (TAA) failed: Token expired.
+2025-10-19T00:41:29.435Z - Company Sumitomo Corporation failed: Token expired.
+2025-10-19T00:41:29.443Z - Company Standard Bank Group and Rand Merchant Bank failed: Token expired.
+2025-10-19T00:41:29.449Z - Company Sonoma International Engineering Co failed: Token expired.
+2025-10-19T00:41:31.388Z - Company SMEC, Rwanda failed: Token expired.
+2025-10-19T00:41:34.083Z - Company SLR Consulting failed: Token expired.
+2025-10-19T00:41:35.814Z - Company Skidmore, Owings & Merrill (SOM) failed: Token expired.
+2025-10-19T00:41:35.820Z - Company Sibley Consulting Services CC failed: Token expired.
+2025-10-19T00:41:35.826Z - Company Shah Family failed: Token expired.
+2025-10-19T00:41:35.834Z - Company SEPCO1 failed: Token expired.
+2025-10-19T00:41:35.840Z - Company Scope Enterprise  Africell Gambia Ltd failed: Token expired.
+2025-10-19T00:41:35.846Z - Company Scatec ASA failed: Token expired.
+2025-10-19T00:41:37.843Z - Company Saudi Fund for Development (SDF) failed: Token expired.
+2025-10-19T00:41:37.850Z - Company Salum Motors Transport Company Ltd. (Samota) failed: Token expired.
+2025-10-19T00:41:40.102Z - Company Rumdel (Pty) Ltd failed: Token expired.
+2025-10-19T00:41:40.112Z - Company Roadmac Surfing (PTY) Ltd failed: Token expired.
+2025-10-19T00:41:40.119Z - Company Richards Bay Minerals (RBM) Voltalia of France			 failed: Token expired.
+2025-10-19T00:41:40.126Z - Company Raw Renewables failed: Token expired.
+2025-10-19T00:41:40.132Z - Company RAUBEX CONSTRUCTION PTY LTD failed: Token expired.
+2025-10-19T00:41:42.208Z - Company Raubex Construction (Pty) Ltd failed: Token expired.
+2025-10-19T00:41:44.389Z - Company Pan-China Construction Group Co., Ltd failed: Token expired.
+2025-10-19T00:41:44.397Z - Company Palabora Mining Company failed: Token expired.
+2025-10-19T00:41:47.161Z - Company PAC Capital Limited failed: Token expired.
+2025-10-19T00:41:47.170Z - Company Rand Water failed: Token expired.
+2025-10-19T00:41:50.222Z - Company Plem Construction Ltd failed: Token expired.
+2025-10-19T00:41:52.371Z - Company Pentecost International Worship Center (PIWC) failed: Token expired.
+2025-10-19T00:41:54.617Z - Company Peculiar Ultimate Concerns Limited failed: Token expired.
+2025-10-19T00:41:54.627Z - Company Oswal Investment failed: Token expired.
+2025-10-19T00:41:57.033Z - Company Ondo State Government failed: Token expired.
+2025-10-19T00:41:58.546Z - Company North East Development Commission (NEDC) failed: Token expired.
+2025-10-19T00:42:00.785Z - Company Namibia Water Corporation Limited (NamWater) failed: Token expired.
+2025-10-19T00:42:00.792Z - Company Otesa failed: Token expired.
+2025-10-19T00:42:02.245Z - Company Ministry of Transport and Road Development, Somalia failed: Token expired.
+2025-10-19T00:42:02.253Z - Company Oji River Local Government failed: Token expired.
+2025-10-19T00:42:03.641Z - Company Nyanza Roads Work Ltd (NRWL) failed: Token expired.
+2025-10-19T00:42:05.681Z - Company Ministry Of Finance and Economic Affairs (MOFEA) Gambia failed: Token expired.
+2025-10-19T00:42:05.689Z - Company Nicholas Plewman Architects failed: Token expired.
+2025-10-19T00:42:08.191Z - Company National Social Security Authority (NSSA) failed: Token expired.
+2025-10-19T00:42:08.202Z - Company Messrs Fab Confidential Ltd failed: Token expired.
+2025-10-19T00:42:08.209Z - Company Namibia Roads Authority failed: Token expired.
+2025-10-19T00:42:08.216Z - Company Mawusi Limited failed: Token expired.
+2025-10-19T00:42:10.662Z - Company Mzansi Energy Solutions and Innovations failed: Token expired.
+2025-10-19T00:42:12.542Z - Company Maputo Port Development Company (MPDC) failed: Token expired.
+2025-10-19T00:42:15.481Z - Company Mulk International failed: Token expired.
+2025-10-19T00:42:15.488Z - Company Msenge Emoyeni(RF) (Pty) Ltd failed: Token expired.
+2025-10-19T00:42:15.494Z - Company Mphanda Nkuwa Hydroelectric Project Implementation Office (GMNK) failed: Token expired.
+2025-10-19T00:42:17.574Z - Company Gabriel Cuoto failed: Token expired.
+2025-10-19T00:42:19.628Z - Company Energoprojekt failed: Token expired.
+2025-10-19T00:42:19.638Z - Company Moseba Building Construction Pty Ltd failed: Token expired.
+2025-10-19T00:42:21.426Z - Company Morgan Omonitan & Abe Ltd failed: Token expired.
+2025-10-19T00:42:24.156Z - Company Lagos Metropolitan Area Transport Authority (LAMATA) failed: Token expired.
+2025-10-19T00:42:24.163Z - Company MOA Construction failed: Token expired.
+2025-10-19T00:42:26.049Z - Company L&T Power and Transmission failed: Token expired.
+2025-10-19T00:42:26.056Z - Company Ministry of Sports, Culture and Tourism failed: Token expired.
+2025-10-19T00:42:26.062Z - Company Ministry of Public Works, Urbanism and Housing (MOPWU&H) of Angola failed: Token expired.
+2025-10-19T00:42:27.914Z - Company Ministry of Public Works, Cameroon failed: Token expired.
+2025-10-19T00:42:27.920Z - Company Ministry of Information, Culture, Arts and Sports failed: Token expired.
+2025-10-19T00:42:29.964Z - Company Ministry of Higher Education, Science, Technology and Innovation (MESCTI), Angola failed: Token expired.
+2025-10-19T00:42:32.414Z - Company Kalpataru Power Transmission Limited, Tanzania failed: Token expired.
+2025-10-19T00:42:34.141Z - Company Ministry of Finance (MOF), (Ethiopia)  failed: Token expired.
+2025-10-19T00:42:36.213Z - Company Joshob Construction Company Limited failed: Token expired.
+2025-10-19T00:42:36.222Z - Company Ministry of Energy failed: Token expired.
+2025-10-19T00:42:36.231Z - Company Ministry of Agriculture, Water & Land Reform failed: Token expired.
+2025-10-19T00:42:36.239Z - Company MIBP Consulting Engineers failed: Token expired.
+2025-10-19T00:42:38.467Z - Company Metag Insaat Ticaret failed: Token expired.
+2025-10-19T00:42:40.811Z - Company Jiangxi Construction Engineering Group Co Ltd failed: Token expired.
+2025-10-19T00:42:42.489Z - Company Inyatsi Construction failed: Token expired.
+2025-10-19T00:42:44.711Z - Company INTEGEMS failed: Token expired.
+2025-10-19T09:44:32.337Z - Company Husk Power Systems failed: Token expired.
+2025-10-19T09:44:34.494Z - Company  Hitachi Energy failed: Token expired.
+2025-10-19T09:44:35.916Z - Company H.E. Jackson Engineering Ltd failed: Token expired.
+2025-10-19T09:44:37.852Z - Company Government of Liberia failed: Token expired.
+2025-10-19T09:44:39.501Z - Company GIS Transport Ltd failed: Token expired.
+2025-10-19T09:44:41.084Z - Company Ghana Highway Authority (GHA) failed: Token expired.
+2025-10-19T09:44:44.059Z - Company Benue State Government failed: Token expired.
+2025-10-19T09:44:47.078Z - Company Beijing Construction Engineering Group International Co.Ltd (BCEG) failed: Token expired.
+2025-10-19T09:44:48.692Z - Company Anambra State Government failed: Token expired.
+2025-10-19T09:44:50.655Z - Company Albayrak Construction  failed: Token expired.
+2025-10-19T09:44:52.689Z - Company Agence Congolaise des Grands Travaux failed: Token expired.
+2025-10-19T09:44:54.354Z - Company African Continental Free Trade Area (AfCFTA) failed: Token expired.
+2025-10-19T09:44:54.362Z - Company Meinhardt (South Africa) failed: Token expired.
+2025-10-19T09:44:56.594Z - Company MDS Architecture failed: Token expired.
+2025-10-19T09:44:58.653Z - Company McCormick Property Development failed: Token expired.
+2025-10-19T09:45:00.802Z - Company Martin & East (Pty) Ltd failed: Token expired.
+2025-10-19T09:45:03.474Z - Company AG Vision Construction Nig. Ltd failed: Token expired.
+2025-10-19T09:45:03.480Z - Company Mahesh and Tirth Construction failed: Token expired.
+2025-10-19T09:45:03.487Z - Company EXR Joint Venture failed: Token expired.
+2025-10-19T09:45:05.556Z - Company LTE Consulting Engineers failed: Token expired.
+2025-10-19T09:45:07.046Z - Company European Union failed: Token expired.
+2025-10-19T09:45:09.301Z - Company LEMI National Cement PLC failed: Token expired.
+2025-10-19T09:45:09.309Z - Company Lekki Design Group (LDG) and JLL Design failed: Token expired.
+2025-10-19T09:45:13.208Z - Company Lagos State Development Property Company ( LSDPC) failed: Token expired.
+2025-10-19T09:45:15.175Z - Company KwaZulu-Natal Department of Transport failed: Token expired.
+2025-10-19T09:45:17.104Z - Company KOA Consultants Ltd failed: Token expired.
+2025-10-19T09:45:19.255Z - Company UN Habitat failed: Token expired.
+2025-10-19T09:45:19.263Z - Company Keller South Africa failed: Token expired.
+2025-10-19T09:45:19.270Z - Company Kansai Electric Power failed: Token expired.
+2025-10-19T09:45:21.895Z - Company Kampf LSF GmbH failed: Token expired.
+2025-10-19T09:45:24.354Z - Company Jiangxi Water and Hydropower Construction Co Ltd (JWHC), Kenya  failed: Token expired.
+2025-10-19T09:45:26.136Z - Company Institute of Directors, Nigeria  failed: Token expired.
+2025-10-19T09:45:26.143Z - Company Instak failed: Token expired.
+2025-10-19T09:45:26.150Z - Company Haw & Inglis failed: Token expired.
+2025-10-19T09:45:28.053Z - Company H&I Engineering (Pty) Ltd failed: Token expired.
+2025-10-19T09:45:30.325Z - Company Government of Lagos State, Nigeria failed: Token expired.
+Companies fetch failed on page 1: Request failed with status code 404
+
+
+=== COMPANY MIGRATION FAILED ===
+2025-10-19T10:26:02.895Z
+Request failed with status code 404
+AxiosError: Request failed with status code 404
+    at settle (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/node_modules/axios/dist/node/axios.cjs:2097:12)
+    at IncomingMessage.handleStreamEnd (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/node_modules/axios/dist/node/axios.cjs:3305:11)
+    at IncomingMessage.emit (node:events:531:35)
+    at endReadableNT (node:internal/streams/readable:1696:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+    at Axios.request (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/node_modules/axios/dist/node/axios.cjs:4483:41)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async fetchCompanies (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/company.js:52:30)
+    at async migrateCompaniesToDirectus (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/company.js:416:27)
+Companies fetch failed on page 1: Request failed with status code 404
+
+
+=== COMPANY MIGRATION FAILED ===
+2025-10-19T10:28:21.691Z
+Request failed with status code 404
+AxiosError: Request failed with status code 404
+    at settle (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/node_modules/axios/dist/node/axios.cjs:2097:12)
+    at IncomingMessage.handleStreamEnd (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/node_modules/axios/dist/node/axios.cjs:3305:11)
+    at IncomingMessage.emit (node:events:531:35)
+    at endReadableNT (node:internal/streams/readable:1696:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+    at Axios.request (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/node_modules/axios/dist/node/axios.cjs:4483:41)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async fetchCompanies (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/company.js:52:30)
+    at async migrateCompaniesToDirectus (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/company.js:416:27)
+Companies fetch failed on page 1: Request failed with status code 404
+
+
+=== COMPANY MIGRATION FAILED ===
+2025-10-19T10:30:11.686Z
+Request failed with status code 404
+AxiosError: Request failed with status code 404
+    at settle (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/node_modules/axios/dist/node/axios.cjs:2097:12)
+    at IncomingMessage.handleStreamEnd (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/node_modules/axios/dist/node/axios.cjs:3305:11)
+    at IncomingMessage.emit (node:events:531:35)
+    at endReadableNT (node:internal/streams/readable:1696:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+    at Axios.request (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/node_modules/axios/dist/node/axios.cjs:4483:41)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async fetchCompanies (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/company.js:54:30)
+    at async migrateCompaniesToDirectus (/home/mrprotocoll/Documents/projects/constructafrica-directus-cms/migrations/scripts/company.js:418:27)

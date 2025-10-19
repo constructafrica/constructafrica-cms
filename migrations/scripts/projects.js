@@ -5,8 +5,8 @@ const { v4: uuidv4 } = require('uuid');
 const { getDirectus } = require('../helpers/upload-image');
 const { getAuthenticatedApi, resetAuth } = require('../helpers/auth');
 const { uploadImage } = require('../helpers/upload-image');
-const { escapeCsv, fetchMediaEntity } = require('../helpers/index');
-const { readItems, createItems, updateItems } = require('@directus/sdk');
+const { escapeCsv, fetchMediaEntity, loadTaxonomyMapping, getUserId } = require('../helpers/index');
+const { readItems, createItems, updateItems, readUsers} = require('@directus/sdk');
 
 // Company relationship fields mapping
 const COMPANY_RELATIONSHIP_FIELDS = [
@@ -45,11 +45,11 @@ async function fetchProjects() {
     const api = await getAuthenticatedApi(true);
     let allData = [];
     let includedData = [];
-    let nextUrl = '/node/projects?include=field_listing_image,field_gallery_,field_key_contacts,field_news_updates_paragraph,field_stages,' + COMPANY_RELATIONSHIP_FIELDS.join(',');
+    let nextUrl = '/node/projects?sort=-created&include=field_listing_image,field_gallery_,field_key_contacts,field_news_updates_paragraph,field_stages,' + COMPANY_RELATIONSHIP_FIELDS.join(',');
     let page = 1;
 
     const params = {
-        'page[limit]': 2,
+        'page[limit]': 3,
     };
 
     try {
@@ -89,10 +89,11 @@ async function fetchProjects() {
 async function fetchParagraph(paragraphId, paragraphType) {
     const api = await getAuthenticatedApi();
     try {
-        const response = await api.get(`/paragraph/${paragraphType}/${paragraphId}?include=field_stage,field_photo,field_key_contact_company`);
+        // const response = await api.get(`/paragraph/${paragraphType}/${paragraphId}?include=field_stage,field_photo,field_key_contact_company`);
+        const response = await api.get(`/paragraph/${paragraphType}/${paragraphId}`);
         return response.data;
     } catch (error) {
-        console.error(`❌ Failed to fetch paragraph ${paragraphId}:`, error.message);
+        console.error(`❌ Failed to fetch paragraph ${paragraphId}:`, error);
         return null;
     }
 }
@@ -105,7 +106,6 @@ function transformProject(drupalProject) {
     return {
         id: drupalProject.id,
         drupal_id: attr.drupal_internal__nid,
-        drupal_vid: attr.drupal_internal__vid,
         drupal_uuid: drupalProject.id,
         title: attr.title || '',
         slug: attr.path?.alias?.replace('/project/', '') || '',
@@ -195,7 +195,8 @@ function transformProject(drupalProject) {
 
         date_created: attr.created || null,
         date_updated: attr.changed || null,
-        user_created: rel.uid.data.id
+        user_created: rel.uid.data.id,
+        published_by: rel.uid.data.id
     };
 }
 
@@ -223,7 +224,7 @@ async function createOrUpdateProject(directus, projectData) {
         }
     } catch (error) {
         const errorMessage = error.message || error;
-        console.error(`❌ Error processing project ${projectData.title}: ${errorMessage}`);
+        console.error(`❌ Error creating project ${projectData.title}: ${errorMessage}`);
         fs.appendFileSync('logs/migration_errors.log', `${new Date().toISOString()} - Project ${projectData.title} failed: ${errorMessage}\n`);
         return { success: false, error: errorMessage };
     }
@@ -232,6 +233,8 @@ async function createOrUpdateProject(directus, projectData) {
 // Create project contacts
 async function createProjectContacts(directus, drupalContacts, projectId, companyMapping) {
     const contacts = [];
+
+    console.log('Creating project contact')
 
     if (!drupalContacts || drupalContacts.length === 0) return [];
 
@@ -247,7 +250,7 @@ async function createProjectContacts(directus, drupalContacts, projectId, compan
             // Upload photo if exists
             let photoId = null;
             if (rel.field_photo?.data?.id) {
-                photoId = await uploadImage(rel.field_photo.data.id, 'project_contacts', true);
+                photoId = await uploadImage(rel.field_photo.data.id, 'contacts', true);
             }
 
             const contact = {
@@ -267,7 +270,7 @@ async function createProjectContacts(directus, drupalContacts, projectId, compan
             };
 
             const newContact = await directus.request(
-                createItems('project_contacts', contact)
+                createItems('contacts', contact)
             );
             contacts.push(newContact);
             console.log(`  ✅ Created contact: ${contact.name}`);
@@ -387,43 +390,6 @@ async function createProjectNewsUpdates(directus, drupalNews, projectId) {
 }
 
 // Create project gallery
-async function createProjectGalleryOld(directus, drupalGallery, projectId) {
-    const galleryItems = [];
-
-    if (!drupalGallery || drupalGallery.length === 0) return [];
-
-    let sortOrder = 1;
-    for (const mediaRef of drupalGallery) {
-        try {
-            // Upload image
-            const imageId = await uploadImage(mediaRef.id, 'project_gallery', true);
-            if (!imageId) continue;
-
-            const mediaItem = {
-                id: uuidv4(),
-                drupal_id: mediaRef.meta?.drupal_internal__target_id,
-                drupal_uuid: mediaRef.id,
-                type: 'image',
-                file: imageId,
-                project: projectId,
-                sort: sortOrder++,
-                status: 'published'
-            };
-
-            const newMedia = await directus.request(
-                createItems('media_gallery', mediaItem)
-            );
-            galleryItems.push(newMedia);
-            console.log(`  ✅ Created gallery item`);
-        } catch (error) {
-            console.error(`  ❌ Failed to create gallery item:`, error.message);
-        }
-    }
-
-    return galleryItems;
-}
-
-// Create project gallery
 async function createProjectGallery(directus, drupalGallery, projectId) {
     const galleryItems = [];
 
@@ -491,19 +457,13 @@ async function createCompanyRelationships(directus, project, relationships, comp
         const relationshipData = relationships[fieldName]?.data;
         if (!relationshipData || relationshipData.length === 0) continue;
 
-        const directusFieldName = fieldName.replace('field_', '');
-        const junctionTable = `projects_companies_${directusFieldName}`;
+        let directusFieldName = fieldName.replace('field_', '');
+
+        const junctionTable = `projects_${directusFieldName}`;
 
         for (const companyRef of relationshipData) {
             try {
-                const companyId = companyMapping[companyRef.id];
-                if (!companyId) {
-                    console.log(`  ⚠️  Company not found in mapping: ${companyRef.id}`);
-                    continue;
-                }
-
                 const relationData = {
-                    id: uuidv4(),
                     projects_id: project.id,
                     companies_id: companyId
                 };
@@ -513,7 +473,7 @@ async function createCompanyRelationships(directus, project, relationships, comp
                 );
                 createdRelations.push({ field: directusFieldName, companyId });
             } catch (error) {
-                console.error(`  ❌ Failed to create ${directusFieldName} relationship:`, error.message);
+                console.error(`  ❌ Failed to create ${junctionTable} relationship:`, error);
             }
         }
     }
@@ -523,119 +483,83 @@ async function createCompanyRelationships(directus, project, relationships, comp
 
 // Create taxonomy relationships
 async function createTaxonomyRelationships(directus, projectId, attr, taxonomyMapping) {
-    const relations = [];
+    const taxonomyRelations = [];
 
     // Countries
-    // if (attr.field_country && Array.isArray(attr.field_country) && attr.field_country.length > 0) {
-    //     const countryCode = attr.field_country[0]; // Take first country only
-    //     const countryId = taxonomyMapping.countries[countryCode];
-    //     if (countryId) {
-    //         try {
-    //             // Update the project directly with the country ID (O2M relationship)
-    //             await directus.request(
-    //                 updateItems('projects', projectId, {
-    //                     country: countryId
-    //                 })
-    //             );
-    //             relations.push({ type: 'country', id: countryId });
-    //             console.log(`  ✅ Linked country: ${countryCode}`);
-    //
-    //             // Warn if multiple countries exist
-    //             if (attr.field_country.length > 1) {
-    //                 console.log(`  ⚠️  Multiple countries found, using first: ${countryCode} (Others: ${attr.field_country.slice(1).join(', ')})`);
-    //             }
-    //         } catch (error) {
-    //             console.error(`  ❌ Failed to link country:`, error.message);
-    //         }
-    //     }
-    // }
+    if (attr.field_country && Array.isArray(attr.field_country)) {
+        for (const countryCode of attr.field_country) {
+            const countryId = taxonomyMapping.countries[countryCode];
+            if (countryId) {
+                taxonomyRelations.push({
+                    collection: 'projects_countries',
+                    data: {
+                        projects_id: projectId,
+                        countries_id: countryId
+                    }
+                });
+            }
+        }
+    }
 
-    // Region (O2M - Single value)
-    // if (attr.field_region && Array.isArray(attr.field_region) && attr.field_region.length > 0) {
-    //     const regionCode = attr.field_region[0]; // Take first region only
-    //     const regionId = taxonomyMapping.regions[regionCode];
-    //     if (regionId) {
-    //         try {
-    //             // Update the project directly with the region ID (O2M relationship)
-    //             await directus.request(
-    //                 updateItems('projects', projectId, {
-    //                     region: regionId
-    //                 })
-    //             );
-    //             relations.push({ type: 'region', id: regionId });
-    //             console.log(`  ✅ Linked region: ${regionCode}`);
-    //
-    //             // Warn if multiple regions exist
-    //             if (attr.field_region.length > 1) {
-    //                 console.log(`  ⚠️  Multiple regions found, using first: ${regionCode} (Others: ${attr.field_region.slice(1).join(', ')})`);
-    //             }
-    //         } catch (error) {
-    //             console.error(`  ❌ Failed to link region:`, error.message);
-    //         }
-    //     }
-    // }
+    // Regions
+    if (attr.field_region && Array.isArray(attr.field_region)) {
+        for (const regionCode of attr.field_region) {
+            const regionId = taxonomyMapping.regions[regionCode];
+            if (regionId) {
+                taxonomyRelations.push({
+                    collection: 'projects_regions',
+                    data: {
+                        projects_id: projectId,
+                        regions_id: regionId
+                    }
+                });
+            }
+        }
+    }
 
-    // Sector (O2M - Single value)
-    // if (attr.field_sector && Array.isArray(attr.field_sector) && attr.field_sector.length > 0) {
-    //     const sectorCode = attr.field_sector[0]; // Take first sector only
-    //     const sectorId = taxonomyMapping.sectors[sectorCode];
-    //     if (sectorId) {
-    //         try {
-    //             // Update the project directly with the sector ID (O2M relationship)
-    //             await directus.request(
-    //                 updateItems('projects', projectId, {
-    //                     sector: sectorId
-    //                 })
-    //             );
-    //             relations.push({ type: 'sector', id: sectorId });
-    //             console.log(`  ✅ Linked sector: ${sectorCode}`);
-    //
-    //             // Warn if multiple sectors exist
-    //             if (attr.field_sector.length > 1) {
-    //                 console.log(`  ⚠️  Multiple sectors found, using first: ${sectorCode} (Others: ${attr.field_sector.slice(1).join(', ')})`);
-    //             }
-    //         } catch (error) {
-    //             console.error(`  ❌ Failed to link sector:`, error.message);
-    //         }
-    //     }
-    // }
+    // Sectors
+    if (attr.field_sector && Array.isArray(attr.field_sector)) {
+        for (const sectorCode of attr.field_sector) {
+            const sectorId = taxonomyMapping.sectors[sectorCode];
+            if (sectorId) {
+                taxonomyRelations.push({
+                    collection: 'projects_sectors',
+                    data: {
+                        projects_id: projectId,
+                        sectors_id: sectorId
+                    }
+                });
+            }
+        }
+    }
 
     // Project Types
     if (attr.field_type && Array.isArray(attr.field_type)) {
         for (const typeCode of attr.field_type) {
             const typeId = taxonomyMapping.projectTypes[typeCode];
             if (typeId) {
-                try {
-                    await directus.request(
-                        updateItems('projects', projectId, {
-                            types: typeId
-                        })
-                    );
-                    relations.push({ type: 'project_type', id: typeId });
-                } catch (error) {
-                    console.error(`  ⚠️  Failed to link project type:`, error.message);
-                }
+                taxonomyRelations.push({
+                    collection: 'projects_types',
+                    data: {
+                        projects_id: projectId,
+                        types_id: typeId
+                    }
+                });
             }
         }
     }
 
-    return relations;
-}
-
-// Load taxonomy mapping
-function loadTaxonomyMapping() {
-    const csvDir = path.join(__dirname, '../csv');
-    try {
-        const countries = JSON.parse(fs.readFileSync(path.join(csvDir, 'countries_mapping.json'), 'utf8'));
-        const regions = JSON.parse(fs.readFileSync(path.join(csvDir, 'regions_mapping.json'), 'utf8'));
-        const sectors = JSON.parse(fs.readFileSync(path.join(csvDir, 'sectors_mapping.json'), 'utf8'));
-        const projectTypes = JSON.parse(fs.readFileSync(path.join(csvDir, 'project_types_mapping.json'), 'utf8'));
-
-        return { countries, regions, sectors, projectTypes };
-    } catch (error) {
-        console.error('⚠️  Could not load taxonomy mapping, taxonomies will not be linked');
-        return { countries: {}, regions: {}, sectors: {}, projectTypes: {} };
+    for (const relation of taxonomyRelations) {
+        try {
+            await directus.request(
+                createItems(relation.collection, relation.data)
+            );
+        } catch (error) {
+            console.error(`  ⚠️  Failed to create taxonomy relation:`, error);
+        }
     }
+
+    // return taxonomyRelations;
 }
 
 // Main migration function
@@ -674,11 +598,6 @@ async function migrateProjectsToDirectus() {
 
     // Fetch projects from Drupal
     const projectsData = await fetchProjects();
-
-    // Setup CSV files
-    if (!fs.existsSync(csvDir)) {
-        fs.mkdirSync(csvDir, { recursive: true });
-    }
 
     const projectsCsvHeaders = [
         'id', 'drupal_id', 'drupal_uuid', 'title', 'slug', 'status',
@@ -726,11 +645,17 @@ async function migrateProjectsToDirectus() {
                 }
             }
 
+
+            const userId = await getUserId(directus, attr.field_email);
+
+            projectData.published_by = userId;
+            projectData.user_created = userId;
+
             // Create or update project
             const result = await createOrUpdateProject(directus, projectData);
 
             if (result.success) {
-                if (result.action === 'created') {
+                // if (result.action === 'created') {
                     projectCount++;
                     createdCount++;
                     migrationStatus = 'success';
@@ -779,12 +704,12 @@ async function migrateProjectsToDirectus() {
                     }
 
                     // Create news updates
-                    // const news = await createProjectNewsUpdates(
-                    //     directus,
-                    //     rel.field_news_updates_paragraph?.data,
-                    //     result.projectId
-                    // );
-                    // newsCount += news.length;
+                    const news = await createProjectNewsUpdates(
+                        directus,
+                        rel.field_news_updates_paragraph?.data,
+                        result.projectId
+                    );
+                    newsCount += news.length;
 
                     // Create gallery
                     const gallery = await createProjectGallery(
@@ -821,11 +746,11 @@ async function migrateProjectsToDirectus() {
                         taxonomyMapping
                     );
 
-                } else if (result.action === 'skipped') {
-                    skippedCount++;
-                    migrationStatus = 'skipped';
-                    migrationAction = 'skipped';
-                }
+                // } else if (result.action === 'skipped') {
+                //     skippedCount++;
+                //     migrationStatus = 'skipped';
+                //     migrationAction = 'skipped';
+                // }
             } else {
                 failedCount++;
                 migrationStatus = 'failed';

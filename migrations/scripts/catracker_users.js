@@ -4,9 +4,8 @@ const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const { getDirectus } = require('../helpers/upload-image');
 const { getAuthenticatedApi, resetAuth } = require('../helpers/auth');
-const { uploadImage } = require('../helpers/upload-image');
-const { escapeCsv, formatDateTimeForCsv } = require('../helpers/index');
-const { readUsers, createUser, updateUser, readItems, createItems, updateItems, readRoles } = require('@directus/sdk');
+const { escapeCsv, } = require('../helpers/index');
+const { readItems, createItems } = require('@directus/sdk');
 const {csvDir} = require("../helpers");
 
 // Fetch all users from Drupal
@@ -18,7 +17,7 @@ async function fetchUsers() {
     let page = 1;
 
     const params = {
-        'page[limit]': 5,
+        'page[limit]': 50,
     };
 
     try {
@@ -58,7 +57,7 @@ async function createOrUpdateUser(directus, userData) {
         // Check if user exists by email
         const existingUsers = await directus.request(
             readItems('catracker_users', {
-                filter: { name: { _eq: userData.name } },
+                filter: { email: { _eq: userData.email } },
                 limit: 1
             })
         );
@@ -71,7 +70,7 @@ async function createOrUpdateUser(directus, userData) {
             const newUser = await directus.request(
                 createItems('catracker_users', userData)
             );
-            console.log(`✅ Created user: ${userData.name}`);
+            console.log(`✅ Created user: ${userData.email}`);
             return { success: true, action: 'created', userId: newUser.id };
         }
     } catch (error) {
@@ -100,7 +99,8 @@ async function migrateUsersToDirectus() {
     const usersData = await fetchUsers();
 
     const usersCsvHeaders = [
-        'id', 'name', 'migration_status', 'migration_action'
+        'id', 'first_name', 'last_name', 'email', 'role', 'status', 'username',
+        'company', 'country', 'phone', 'subscribe_email', 'migration_status', 'migration_action'
     ];
     const usersCsv = [usersCsvHeaders.join(',')];
 
@@ -118,13 +118,12 @@ async function migrateUsersToDirectus() {
         try {
             const attributes = user.attributes || {};
 
-            console.log('User Data', user);
             // Prepare user data
             const userData = {
                 id: user.id,
-                username: attributes.display_name || '',
-                first_name: attributes.field_user_first_name || '',
-                last_name: attributes.field_user_last_name || '',
+                username: attributes.name || '',
+                first_name: attributes.field_first_name || '',
+                last_name: attributes.field_last_name || '',
                 email: attributes.mail,
                 role: user.relationships?.roles?.data[0]?.meta.drupal_internal__target_id,
                 company: attributes.field_company || '',
@@ -134,7 +133,7 @@ async function migrateUsersToDirectus() {
                 drupal_id: attributes.drupal_internal__uid || null,
                 status: attributes.status ? 'active' : 'suspended',
                 date_created: attributes.created,
-                date_updated: attributes.changed
+                date_updated: attributes.changed,
             };
 
             // Create or update user
@@ -156,7 +155,16 @@ async function migrateUsersToDirectus() {
             // Add to CSV backup
             usersCsv.push([
                 user.id,
-                escapeCsv(userData.name),
+                escapeCsv(userData.first_name),
+                escapeCsv(userData.last_name),
+                escapeCsv(userData.email),
+                escapeCsv(userData.role),
+                userData.status,
+                escapeCsv(userData.username),
+                escapeCsv(userData.company),
+                escapeCsv(userData.country),
+                escapeCsv(userData.phone),
+                escapeCsv(userData.subscribe_email),
                 migrationStatus,
                 migrationAction
             ].join(','));

@@ -1,0 +1,4 @@
+id,drupal_id,drupal_uuid,title,slug,status,contract_value_usd,current_stage,location,migration_status,migration_action
+5e1296b7-8207-42cf-8858-845fd3e08a33,5304,"5e1296b7-8207-42cf-8858-845fd3e08a33","Ethiopian Electric Power HQ Building, Ethiopia","5304",published,445,"eoi","",success,created
+8def9c47-f644-4c69-bec3-a26bb364f06f,10213,"8def9c47-f644-4c69-bec3-a26bb364f06f","Deepwater Tano Cape Three Points (DWT/CTP), Ghana","10213",published,4,"studyfeasibility","",success,created
+9ae8685b-f11b-4f18-bd6c-863ee2573661,10210,"9ae8685b-f11b-4f18-bd6c-863ee2573661","Tendrara Production Concession, Morocco","10210",published,330,"executionunderconstruction","",success,created

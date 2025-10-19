@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { getDirectus } = require("../helpers/upload-image");
 const { readItems, createItems } = require('@directus/sdk');
-const {csvDir, logDir} = require('../helpers/index');
+const {csvDir} = require('../helpers/index');
 
 // Hardcoded project types from Drupal allowed_values
 const projectTypes = [
@@ -62,12 +62,13 @@ const projectTypes = [
     { value: 'geothermalenergy', label: 'Geothermal Energy' },
     { value: 'biomassenergy', label: 'Biomass Energy' }
 ];
+const projectTypeMapping = {};
 
 // Function to check if project type already exists
 async function checkExistingProjectType(directus, key) {
     try {
         const existing = await directus.request(
-            readItems('project_types', {
+            readItems('types', {
                 filter: { name: { _eq: key } },
                 fields: ['id'],
                 limit: 1
@@ -75,7 +76,7 @@ async function checkExistingProjectType(directus, key) {
         );
         return existing && existing.length > 0 ? existing[0] : null;
     } catch (error) {
-        console.error(`❌ Error checking existing project type ${key}:`, error.message);
+        console.error(`❌ Error checking existing project type ${key}:`, error);
         return null;
     }
 }
@@ -98,7 +99,7 @@ async function createProjectType(directus, type) {
         };
 
         const newItem = await directus.request(
-            createItems('project_types', itemData)
+            createItems('types', itemData)
         );
 
         console.log(`  ✅ Created project type: ${type.label}`);
@@ -136,8 +137,10 @@ async function migrateProjectTypes() {
 
         if (result.action === 'created') {
             results.created++;
+            projectTypeMapping[type.value] = result.id;
         } else if (result.action === 'skipped') {
             results.skipped++;
+            projectTypeMapping[type.value] = result.id;
         } else if (result.action === 'failed') {
             results.failed++;
         }
@@ -152,7 +155,9 @@ async function migrateProjectTypes() {
 
     // Write success log
     const successMessage = `${new Date().toISOString()} - Successfully migrated ${results.created} project types (${results.skipped} skipped, ${results.failed} failed)\n`;
-    fs.appendFileSync(path.join(__dirname, 'logs/migration_success.log'), successMessage);
+    fs.appendFileSync(path.join('logs/migration_success.log'), successMessage);
+    fs.writeFileSync(path.join(csvDir, 'types_mapping.json'), JSON.stringify(projectTypeMapping, null, 2), 'utf8');
+
 
     if (results.failed > 0) {
         throw new Error(`${results.failed} project types failed to migrate`);
@@ -168,8 +173,8 @@ async function migrateProjectTypes() {
         await migrateProjectTypes();
         console.log('✅ Migration complete');
     } catch (error) {
-        console.error('❌ Migration failed:', error.message);
-        fs.appendFileSync(path.join(__dirname, 'logs/migration_errors.log'), `${new Date().toISOString()} - Migration failed: ${error.message}\n`);
+        console.error('❌ Migration failed:', error);
+        fs.appendFileSync(path.join('logs/migration_errors.log'), `${new Date().toISOString()} - Migration failed: ${error}\n`);
         process.exit(1);
     }
 })();

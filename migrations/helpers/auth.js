@@ -20,9 +20,27 @@ async function getAuthenticatedApi(cat = false) {
 async function authenticateDrupal(cat = false) {
     console.log('🔐 Attempting to authenticate with Drupal...');
 
-    // Method 1: Try Basic Auth first (most reliable)
+    // const loginResponse = await axios.post(
+    //     `${process.env.DRUPAL_BASE_URL}/user/login?_format=json`,
+    //     {
+    //         name: process.env.DRUPAL_USERNAME,
+    //         pass: process.env.DRUPAL_PASSWORD
+    //     },
+    //     {
+    //         headers: { 'Content-Type': 'application/json' },
+    //         withCredentials: true
+    //     }
+    // );
+    //
+    // // 2. Extract session cookie
+    // const cookies = loginResponse.headers['set-cookie'];
+    // const sessionCookie = cookies.map(cookie => cookie.split(';')[0]).join('; ');
+    // console.log('Got session cookie:', sessionCookie);
+
+    const sessionCookie = 'SSESS117369e51959f1fef7bb3c3ef61b3278=f9n16FFQBI52avza7A0Z49NtmEhmnyT7IMu0EYJmekg7JN4g'
     const credentials = btoa(`${DRUPAL_USERNAME}:${DRUPAL_PASSWORD}`);
     const url = cat ? process.env.DRUPAL_CAT_API_URL : BASE_URL;
+    console.log('URL', url);
     try {
         console.log('🔄 Trying Basic Authentication...');
         authClient = axios.create({
@@ -30,12 +48,13 @@ async function authenticateDrupal(cat = false) {
             headers: {
                 'Accept': 'application/vnd.api+json',
                 'Content-Type': 'application/vnd.api+json',
-                'Authorization': `Basic ${credentials}`,
+                // 'Authorization': `Basic ${credentials}`,
+                'Cookie': sessionCookie,
             },
-            auth: {
-                username: DRUPAL_USERNAME,
-                password: DRUPAL_PASSWORD
-            },
+            // auth: {
+            //     username: DRUPAL_USERNAME,
+            //     password: DRUPAL_PASSWORD
+            // },
             timeout: 30000,
             httpsAgent: new https.Agent({
                 family: 4,

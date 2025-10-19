@@ -5,8 +5,9 @@ const { v4: uuidv4 } = require('uuid');
 const { getDirectus } = require('../helpers/upload-image');
 const { getAuthenticatedApi, resetAuth } = require('../helpers/auth');
 const { uploadImage } = require('../helpers/upload-image');
-const { escapeCsv, fetchMediaEntity, fetchParagraph, galleryImageExists} = require('../helpers/index');
-const { readItems, createItems, updateItems, readItem } = require('@directus/sdk');
+const { escapeCsv, fetchMediaEntity, fetchParagraph, galleryImageExists, csvDir} = require('../helpers/index');
+const { readItems, createItems, updateItems, readItem, createItem } = require('@directus/sdk');
+const {loadTaxonomyMapping} = require("../helpers");
 
 // Fetch all companies from Drupal
 async function fetchCompanies() {
@@ -18,12 +19,12 @@ async function fetchCompanies() {
     let page = 1;
 
     const params = {
-        'page[limit]': 10,
+        'page[limit]': 50,
     };
 
     try {
         console.log('📥 Fetching all companies with relationships...');
-        // while (nextUrl) {
+        while (nextUrl) {
             console.log(`📄 Fetching page ${page}...`);
             const response = await api.get(nextUrl, {
                 params: page === 1 ? params : {}
@@ -36,10 +37,10 @@ async function fetchCompanies() {
             }
             console.log(`✅ Page ${page}: ${records.length} companies`);
 
-            // nextUrl = response.data.links?.next?.href?.replace(api.defaults.baseURL, '') || null;
-            // page++;
-            // await new Promise(resolve => setTimeout(resolve, 300));
-        // }
+            nextUrl = response.data.links?.next?.href?.replace(api.defaults.baseURL, '') || null;
+            page++;
+            await new Promise(resolve => setTimeout(resolve, 300));
+        }
         console.log(`🎉 Fetched ${allData.length} companies across ${page} pages`);
         return { data: allData, included: includedData };
     } catch (error) {
@@ -54,42 +55,12 @@ async function fetchCompanies() {
     }
 }
 
-// Fetch all taxonomy terms
-async function fetchTaxonomyTerms(vocabularyId) {
-    const api = await getAuthenticatedApi();
-    let allData = [];
-    let nextUrl = `/taxonomy_term/${vocabularyId}`;
-    let page = 1;
-
-    try {
-        console.log(`📥 Fetching taxonomy: ${vocabularyId}...`);
-        while (nextUrl) {
-            const response = await api.get(nextUrl, {
-                params: { 'page[limit]': 100 }
-            });
-
-            const records = response.data.data || [];
-            allData = allData.concat(records);
-
-            nextUrl = response.data.links?.next?.href?.replace(api.defaults.baseURL, '') || null;
-            page++;
-            await new Promise(resolve => setTimeout(resolve, 200));
-        }
-        console.log(`✅ Fetched ${allData.length} terms for ${vocabularyId}`);
-        return allData;
-    } catch (error) {
-        console.error(`❌ Taxonomy fetch failed for ${vocabularyId}:`, error.message);
-        return [];
-    }
-}
-
 // Create company gallery
 async function createCompanyGallery(directus, drupalGallery, companyId) {
     const galleryItems = [];
 
-    console.log('Uploading company gallery=====')
     if (!drupalGallery || !drupalGallery.id) {
-        console.log('No gallery found for the company', drupalGallery)
+        console.log('No gallery found for the company', companyId)
         return [];
     }
 
@@ -241,7 +212,7 @@ async function createOrUpdateCompany(directus, companyData) {
         // Check if company exists by drupal_id
         const existingCompanies = await directus.request(
             readItems('companies', {
-                filter: { drupal_id: { _eq: companyData.drupal_id } },
+                filter: { drupal_uuid: { _eq: companyData.drupal_uuid } },
                 limit: 1
             })
         );
@@ -265,6 +236,50 @@ async function createOrUpdateCompany(directus, companyData) {
     }
 }
 
+async function createCompanyAwardsAndCertifications(directus, drupalKey, drupalValue, companyId) {
+    const awardUpdates = [];
+    console.log('creating company ', drupalKey)
+
+    if (!drupalValue || drupalValue.length === 0) return [];
+
+    for (const award of drupalValue) {
+        try {
+            const data = await fetchParagraph(award.id, 'image_with_link');
+            if (!data) continue;
+
+            const attr = data.attributes || {};
+            const rel = data.relationships || {};
+
+            // Upload photo if exists
+            let photoId = null;
+            if (rel.field_logo?.data?.id) {
+                photoId = await uploadImage(rel.field_logo.data.id, 'company_awards_certifications', true);
+            }
+
+            const awards = {
+                id: data.id,
+                drupal_id: attr.drupal_internal__id,
+                drupal_uuid: data.id,
+                name: attr.relationships?.field_logo?.data?.meta?.alt || '',
+                link: attr.field_link?.uri || null,
+                type: drupalKey,
+                company: companyId,
+                logo: photoId,
+                status: attr.status ? 'published' : 'draft'
+            };
+
+            const newAward = await directus.request(
+                createItems('company_awards', awards)
+            );
+            awardUpdates.push(newAward);
+            console.log(`  ✅ Created award update: ${awards.name}`);
+        } catch (error) {
+            console.error(`  ❌ Failed to create award update:`, error.message);
+        }
+    }
+
+    return awardUpdates;
+}
 // Create company contacts
 async function createCompanyContacts(directus, drupalContacts, companyId, includedData) {
     const contacts = [];
@@ -340,19 +355,19 @@ async function createCompanyTeamMembers(directus, drupalTeam, companyId, include
                 drupal_id: attr.drupal_internal__id,
                 drupal_uuid: memberData.id,
                 name: attr.field_name || '',
-                position: attr.field_role || '',
+                role: attr.field_role || '',
                 email: attr.field_email || '',
                 phone: attr.field_phone || '',
                 facebook: attr.field_facebook || '',
                 twitter: attr.field_twitter || '',
                 linkedin: attr.field_linkedin || '',
                 photo: photoId,
-                company: companyId,
+                company_team: companyId,
                 status: 'published'
             };
 
             const newMember = await directus.request(
-                createItems('company_team_members', member)
+                createItems('contacts', member)
             );
             teamMembers.push(newMember);
             console.log(`  ✅ Created team member: ${member.name}`);
@@ -403,37 +418,6 @@ async function createCompanyNewsUpdates(directus, drupalNews, companyId) {
     return newsUpdates;
 }
 
-// Create taxonomy or get existing
-async function createOrGetTaxonomy(directus, collection, code, name, description = '') {
-    try {
-        // Check if exists
-        const existing = await directus.request(
-            readItems(collection, {
-                filter: { name: { _eq: name } },
-                limit: 1
-            })
-        );
-
-        if (existing && existing.length > 0) {
-            return existing[0].id;
-        }
-
-        // Create new
-        const newItem = await directus.request(
-            createItems(collection, {
-                id: uuidv4(),
-                name: name,
-                description: description
-            })
-        );
-
-        return newItem.id;
-    } catch (error) {
-        console.error(`❌ Error creating taxonomy ${collection}/${code}:`, error.message);
-        return null;
-    }
-}
-
 // Main migration function
 async function migrateCompaniesToDirectus() {
     console.log('\n🚀 Starting company migration process...\n');
@@ -450,71 +434,13 @@ async function migrateCompaniesToDirectus() {
 
     // Fetch taxonomies from Drupal
     console.log('\n📚 Fetching taxonomies...');
-    // const countries = await fetchTaxonomyTerms('country');
-    // const regions = await fetchTaxonomyTerms('region');
-    // const sectors = await fetchTaxonomyTerms('sector');
-    // const companyTypes = await fetchTaxonomyTerms('company_type');
 
-    // Create taxonomy mappings
-    const countryMapping = {};
-    const regionMapping = {};
-    const sectorMapping = {};
     const companyTypeMapping = {};
-
-    // console.log('\n🗂️  Creating taxonomy records...');
-
-    // for (const country of countries) {
-    //     const id = await createOrGetTaxonomy(
-    //         directus,
-    //         'countries',
-    //         country.id,
-    //         country.attributes.name || '',
-    //         country.attributes.description?.processed || ''
-    //     );
-    //     countryMapping[country.id] = id;
-    // }
-    //
-    // for (const region of regions) {
-    //     const id = await createOrGetTaxonomy(
-    //         directus,
-    //         'regions',
-    //         region.attributes.drupal_internal__tid?.toString() || region.id,
-    //         region.attributes.name || '',
-    //         region.attributes.description?.processed || ''
-    //     );
-    //     regionMapping[region.id] = id;
-    // }
-    //
-    // for (const sector of sectors) {
-    //     const id = await createOrGetTaxonomy(
-    //         directus,
-    //         'sectors',
-    //         sector.attributes.drupal_internal__tid?.toString() || sector.id,
-    //         sector.attributes.name || '',
-    //         sector.attributes.description?.processed || ''
-    //     );
-    //     sectorMapping[sector.id] = id;
-    // }
-
-    // for (const type of companyTypes) {
-    //     const id = await createOrGetTaxonomy(
-    //         directus,
-    //         'project_types',
-    //         type.attributes.drupal_internal__tid?.toString() || type.id,
-    //         type.attributes.name || '',
-    //         type.attributes.description?.processed || ''
-    //     );
-    //     companyTypeMapping[type.id] = id;
-    // }
 
     // Fetch companies from Drupal
     const companiesData = await fetchCompanies();
 
-    // Setup CSV files
-    const csvDir = path.join(__dirname, '../csv');
-    if (!fs.existsSync(csvDir)) {
-        fs.mkdirSync(csvDir, { recursive: true });
-    }
+    const taxonomyMapping = loadTaxonomyMapping();
 
     const companiesCsvHeaders = [
         'id', 'drupal_id', 'drupal_uuid', 'name', 'slug', 'status', 'description',
@@ -538,6 +464,8 @@ async function migrateCompaniesToDirectus() {
     let teamMembersCount = 0;
     let newsCount = 0;
     let galleryCount = 0;
+    let awardCount = 0;
+    let certificationCount = 0;
 
     const companyMapping = {}; // Store drupal UUID to Directus ID mapping
 
@@ -596,26 +524,26 @@ async function migrateCompaniesToDirectus() {
                     }
 
                     // Create team members
-                    // const teamMembers = await createCompanyTeamMembers(
-                    //     directus,
-                    //     rel.field_team?.data,
-                    //     result.companyId,
-                    //     companiesData.included
-                    // );
-                    // teamMembersCount += teamMembers.length;
+                    const teamMembers = await createCompanyTeamMembers(
+                        directus,
+                        rel.field_team?.data,
+                        result.companyId,
+                        companiesData.included
+                    );
+                    teamMembersCount += teamMembers.length;
                     //
                     // // Add team members to CSV
-                    // for (const member of teamMembers) {
-                    //     teamMembersCsv.push([
-                    //         member.id,
-                    //         member.drupal_id || '',
-                    //         escapeCsv(member.name),
-                    //         escapeCsv(member.position),
-                    //         escapeCsv(member.email),
-                    //         result.companyId,
-                    //         'success'
-                    //     ].join(','));
-                    // }
+                    for (const member of teamMembers) {
+                        teamMembersCsv.push([
+                            member.id,
+                            member.drupal_id || '',
+                            escapeCsv(member.name),
+                            escapeCsv(member.position),
+                            escapeCsv(member.email),
+                            result.companyId,
+                            'success'
+                        ].join(','));
+                    }
 
                     // Create news updates
                     const news = await createCompanyNewsUpdates(
@@ -624,6 +552,26 @@ async function migrateCompaniesToDirectus() {
                         result.companyId
                     );
                     newsCount += news.length;
+
+                // Create awards
+                const awards = await createCompanyAwardsAndCertifications(
+                    directus,
+                    'award',
+                    rel.field_awards_companies?.data,
+                    result.companyId
+                );
+
+                awardCount += awards.length;
+
+                // Create certifications
+                const certifications = await createCompanyAwardsAndCertifications(
+                    directus,
+                    'certification',
+                    rel.field_certifications_companies?.data,
+                    result.companyId
+                );
+
+                certificationCount += certifications.length;
 
                     // Create gallery
                     const gallery = await createCompanyGallery(
@@ -638,77 +586,93 @@ async function migrateCompaniesToDirectus() {
                     const taxonomyRelations = [];
 
                     // Countries
-                    // if (attr.field_country && Array.isArray(attr.field_country)) {
-                    //     for (const countryCode of attr.field_country) {
-                    //         const countryId = countryMapping[countryCode];
-                    //         if (countryId) {
-                    //             taxonomyRelations.push({
-                    //                 collection: 'companies_countries',
-                    //                 data: {
-                    //                     companies_id: result.companyId,
-                    //                     countries_id: countryId
-                    //                 }
-                    //             });
-                    //         }
-                    //     }
-                    // }
+                    if (attr.field_country && Array.isArray(attr.field_country)) {
+                        for (const countryCode of attr.field_country) {
+                            const countryId = taxonomyMapping.countries[countryCode];
+                            if (countryId) {
+                                taxonomyRelations.push({
+                                    collection: 'companies_countries',
+                                    data: {
+                                        companies_id: result.companyId,
+                                        countries_id: countryId
+                                    }
+                                });
+                            }
+                        }
+                    }
 
                     // Regions
-                    // if (attr.field_region && Array.isArray(attr.field_region)) {
-                    //     for (const regionCode of attr.field_region) {
-                    //         const regionId = regionMapping[regionCode];
-                    //         if (regionId) {
-                    //             taxonomyRelations.push({
-                    //                 collection: 'companies_regions',
-                    //                 data: {
-                    //                     companies_id: result.companyId,
-                    //                     regions_id: regionId
-                    //                 }
-                    //             });
-                    //         }
-                    //     }
-                    // }
+                    if (attr.field_region && Array.isArray(attr.field_region)) {
+                        for (const regionCode of attr.field_region) {
+                            const regionId = taxonomyMapping.regions[regionCode];
+                            if (regionId) {
+                                taxonomyRelations.push({
+                                    collection: 'companies_regions',
+                                    data: {
+                                        companies_id: result.companyId,
+                                        regions_id: regionId
+                                    }
+                                });
+                            }
+                        }
+                    }
 
                     // Sectors
-                    // if (attr.field_sector && Array.isArray(attr.field_sector)) {
-                    //     for (const sectorCode of attr.field_sector) {
-                    //         const sectorId = sectorMapping[sectorCode];
-                    //         if (sectorId) {
-                    //             taxonomyRelations.push({
-                    //                 collection: 'companies_sectors',
-                    //                 data: {
-                    //                     companies_id: result.companyId,
-                    //                     sectors_id: sectorId
-                    //                 }
-                    //             });
-                    //         }
-                    //     }
-                    // }
+                    if (attr.field_sector && Array.isArray(attr.field_sector)) {
+                        for (const sectorCode of attr.field_sector) {
+                            const sectorId = taxonomyMapping.sectors[sectorCode];
+                            if (sectorId) {
+                                taxonomyRelations.push({
+                                    collection: 'companies_sectors',
+                                    data: {
+                                        companies_id: result.companyId,
+                                        sectors_id: sectorId
+                                    }
+                                });
+                            }
+                        }
+                    }
 
                     // Company Types
-                    // if (attr.field_type && Array.isArray(attr.field_type)) {
-                    //     for (const typeCode of attr.field_type) {
-                    //         const typeId = companyTypeMapping[typeCode];
-                    //         if (typeId) {
-                    //             taxonomyRelations.push({
-                    //                 collection: 'companies_company_types',
-                    //                 data: {
-                    //                     companies_id: result.companyId,
-                    //                     company_types_id: typeId
-                    //                 }
-                    //             });
-                    //         }
-                    //     }
-                    // }
+                    if (attr.field_type && Array.isArray(attr.field_type)) {
+                        for (const typeCode of attr.field_type) {
+                            const typeId = taxonomyMapping.projectTypes[typeCode];
+                            if (typeId) {
+                                taxonomyRelations.push({
+                                    collection: 'companies_types',
+                                    data: {
+                                        companies_id: result.companyId,
+                                        types_id: typeId
+                                    }
+                                });
+                            }
+                        }
+                    }
 
                     // Create all taxonomy relations
-                    // for (const relation of taxonomyRelations) {
-                    //     try {
-                    //         await directus.request(
-                    //             createItems(relation.collection, relation.data)
-                    //         );
-                    //     } catch (error) {
-                    //         console.error(`  ⚠️  Failed to create taxonomy relation:`, error.message);
+                    for (const relation of taxonomyRelations) {
+                        try {
+                            await directus.request(
+                                createItems(relation.collection, relation.data)
+                            );
+                        } catch (error) {
+                            console.error(`  ⚠️  Failed to create taxonomy relation:`, error.message);
+                        }
+                    }
+
+                    // company projects
+                    // if (rel.field_projects.data && Array.isArray(rel.field_projects.data)) {
+                    //     for (const project of rel.field_projects.data) {
+                    //         try {
+                    //             await directus.request(
+                    //                 createItem('companies_projects', {
+                    //                     companies_id: result.companyId,
+                    //                     projects_id: project.id
+                    //                 } )
+                    //             );
+                    //         } catch (error) {
+                    //             console.error(`  ⚠️  Failed to create company project:`, error);
+                    //         }
                     //     }
                     // }
 
