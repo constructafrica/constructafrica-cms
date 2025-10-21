@@ -1,7 +1,0 @@
-drupal_id,drupal_uuid,directus_id,code,name,status,action
-90,"93303208-4040-464b-b8bc-eb04c6c97d20",32,"90","Central Africa",success,updated
-91,"0919d277-f46e-49c1-adcc-730ac45fd157",33,"91","Eastern Africa",success,updated
-92,"9f8ba6ab-cb96-495a-bf71-b9e8a3990a78",49,"92","Northern Africa",success,updated
-93,"166231b4-ef44-445f-ab10-67975d43f477",,"93","Outside Africa",success,not_found
-94,"6176db06-3d1c-4b94-b911-8cc9ed7ada38",55,"94","Southern Africa",success,updated
-95,"3f48ed76-49b6-4829-b942-0d0bd8abd546",66,"95","Western Africa",success,updated

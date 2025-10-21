@@ -1,9 +1,0 @@
-id,name,icon,description,drupal_role,is_admin,app_access
-52ed01b4-6121-4a52-a894-ddbb6f233ca2,"Administrator",admin_panel_settings,"administrator",true,true
-863d9cf5-ae28-4bcc-83ea-07ca7aceec70,"Public",group,"anonymous",false,true
-782138f5-cedc-470b-bdd7-765006443840,"Authenticated",group,"authenticated",false,true
-c1b82663-2377-4ac9-acbd-98db582b866f,"Content Editor",group,"basic_content_editor",false,true
-f3696cc1-f059-4ade-9955-2a5626c6ea02,"Coordinator",group,"coordinator",false,true
-c0adcd1e-297a-42ee-92e2-ee48dbd242bc,"Editor",group,"editor",false,true
-ad12a1b0-a15a-40eb-acc7-cda7b4c543d0,"Subscriber",group,"paid_corporate",false,true
-817613c8-f74f-442a-ac84-247ffb13ebca,"Super Editor",group,"super_editor",false,true
