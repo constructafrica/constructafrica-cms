@@ -1,10 +1,13 @@
 require('dotenv').config();
 const fs = require('fs');
 const { createDirectus, rest, authentication, uploadFiles, readFile, readFiles } = require('@directus/sdk');
-const { getAuthenticatedApi } = require('../helpers/auth');
+const { getAuthenticatedApi } = require('./auth');
+const { getDirectus } = require("./directus-auth");
+
 
 const axios = require("axios");
 const https = require("https");
+const {directusClient} = require("./directus-auth");
 
 // Environment variables
 const DIRECTUS_URL = process.env.DIRECTUS_URL || 'http://localhost:8055';
@@ -14,29 +17,26 @@ const DIRECTUS_PASSWORD = process.env.DIRECTUS_PASSWORD;
 let directusInstance = null;
 let imageMap = {};
 
-/**
- * Initialize Directus client with REST and authentication
- * @returns {Promise<Client>} Directus client instance
- */
-async function getDirectus() {
-    if (!directusInstance) {
-        directusInstance = createDirectus(DIRECTUS_URL)
-            .with(authentication())
-            .with(rest());
 
-        try {
-            await directusInstance.login({
-                email: DIRECTUS_EMAIL,
-                password: DIRECTUS_PASSWORD
-            });
-            console.log('🔐 Logged into Directus successfully');
-        } catch (error) {
-            console.error('❌ Login failed:', error);
-            throw error;
-        }
-    }
-    return directusInstance;
-}
+// async function getDirectus() {
+//     if (!directusInstance) {
+//         directusInstance = createDirectus(DIRECTUS_URL)
+//             .with(authentication())
+//             .with(rest());
+//
+//         try {
+//             await directusInstance.login({
+//                 email: DIRECTUS_EMAIL,
+//                 password: DIRECTUS_PASSWORD
+//             });
+//             console.log('🔐 Logged into Directus successfully');
+//         } catch (error) {
+//             console.error('❌ Login failed:', error);
+//             throw error;
+//         }
+//     }
+//     return directusInstance;
+// }
 
 /**
  * Load existing image map from file
@@ -48,6 +48,39 @@ function loadImageMap() {
         }
     } catch {
         console.warn('⚠️ Failed to load existing image_map.json, starting fresh.');
+    }
+}
+
+/**
+ * Get or create a folder in Directus
+ */
+async function getOrCreateFolder(directus, folderName) {
+    try {
+        // Try to find existing folder
+        const folders = await directus.request(
+            readItems('directus_folders', {
+                filter: { name: { _eq: folderName } },
+                limit: 1
+            })
+        );
+
+        if (folders && folders.length > 0) {
+            return folders[0].id;
+        }
+
+        // Create new folder
+        const newFolder = await directus.request(
+            createItem('directus_folders', {
+                name: folderName,
+                parent: null
+            })
+        );
+
+        console.log(`📁 Created folder: ${folderName}`);
+        return newFolder.id;
+    } catch (error) {
+        console.error(`❌ Failed to get/create folder ${folderName}:`, error.message);
+        return null;
     }
 }
 
@@ -125,24 +158,6 @@ async function uploadImage(fileUuid, folder = '', isCat = false) {
     const api = await getAuthenticatedApi(isCat);
 
     // Check if file already exists in Directus by drupal_uuid
-    // try {
-    //     const existingFiles = await directus.request(readFiles({
-    //         filter: {
-    //             drupal_uuid: {
-    //                 _eq: fileUuid
-    //             }
-    //         },
-    //         limit: 1
-    //     }));
-    //
-    //     if (existingFiles.data && existingFiles.data.length > 0) {
-    //         const existingFile = existingFiles.data[0];
-    //         console.log(`✅ Reusing existing image by drupal_uuid: ${fileUuid} → ${existingFile.id}`);
-    //         return existingFile.id;
-    //     }
-    // } catch (error) {
-    //     console.log(`📝 No existing file found with drupal_uuid: ${fileUuid}, will upload new file`);
-    // }
 
     if (imageMap[fileUuid]) {
         console.log(`✅ Reusing existing image: ${fileUuid} → ${imageMap[fileUuid]}`);
@@ -157,7 +172,7 @@ async function uploadImage(fileUuid, folder = '', isCat = false) {
     }
 
     const filename = file.fileName || `file-${fileUuid}`;
-    const maxRetries = 2;
+    const maxRetries = 1;
     let attempt = 1;
 
     while (attempt <= maxRetries) {

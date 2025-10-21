@@ -174,16 +174,27 @@ function loadTaxonomyMapping() {
     }
 }
 
-async function getUserId(directus, email) {
-    const user = await directus.request(
-        readUsers({
-            filter: { email: { _eq: email } },
+async function getUserId(directus, catUserId) {
+
+    const catUser = await directus.request(
+        readItems('catracker_users', {
+            filter: { email: { _eq: userData.email } },
             limit: 1
         })
     );
 
-    if (user && user.length > 0) {
-        return existingProjects[0].id;
+    if(catUser && catUser.length > 0) {
+        const email = catUser[0].email;
+        const user = await directus.request(
+            readUsers({
+                filter: { email: { _eq: email } },
+                limit: 1
+            })
+        );
+
+        if (user && user.length > 0) {
+            return user[0].id;
+        }
     }
 
     return null

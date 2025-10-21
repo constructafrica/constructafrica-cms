@@ -160,3 +160,870 @@ LEFT JOIN node__field_project_manager pm ON n.nid = pm.entity_id
 WHERE nfd.type = 'projects';
 "
 ) | tr '\t' ',' > projects.csv
+
+
+  - collection: contacts
+    field: user_created
+    related_collection: directus_users
+    meta:
+      junction_field: null
+      many_collection: contacts
+      many_field: user_created
+      one_allowed_collections: null
+      one_collection: directus_users
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+  - collection: contacts
+    field: user_updated
+    related_collection: directus_users
+    meta:
+      junction_field: null
+      many_collection: contacts
+      many_field: user_updated
+      one_allowed_collections: null
+      one_collection: directus_users
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+  - collection: contacts
+    field: photo
+    related_collection: directus_files
+    meta:
+      junction_field: null
+      many_collection: contacts
+      many_field: photo
+      one_allowed_collections: null
+      one_collection: directus_files
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+  - collection: contacts
+    field: project
+    related_collection: projects
+    meta:
+      junction_field: null
+      many_collection: contacts
+      many_field: project
+      one_allowed_collections: null
+      one_collection: projects
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+
+  - collection: contacts
+    field: user_created
+    related_collection: directus_users
+    meta:
+      junction_field: null
+      many_collection: contacts
+      many_field: user_created
+      one_allowed_collections: null
+      one_collection: directus_users
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+  - collection: contacts
+    field: user_updated
+    related_collection: directus_users
+    meta:
+      junction_field: null
+      many_collection: contacts
+      many_field: user_updated
+      one_allowed_collections: null
+      one_collection: directus_users
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+  - collection: contacts
+    field: photo
+    related_collection: directus_files
+    meta:
+      junction_field: null
+      many_collection: contacts
+      many_field: photo
+      one_allowed_collections: null
+      one_collection: directus_files
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+
+
+   - collection: projects
+     field: contacts
+     related_collection: contacts
+     meta:
+       junction_field: null
+       many_collection: projects
+       many_field: contacts
+       one_allowed_collections: null
+       one_collection: contacts
+       one_collection_field: null
+       one_deselect_action: nullify
+       one_field: null
+       sort_field: null
+     schema:
+       table: projects
+       column: contacts
+       foreign_key_table: contacts
+       foreign_key_column: id
+       constraint_name: null
+       on_update: NO ACTION
+       on_delete: SET NULL
+
+
+
+         - collection: projects_companies_1
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_1
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_1
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_1
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_10
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_10
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_10
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_10
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_11
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_11
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_11
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_11
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_12
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_12
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_12
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_12
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_13
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_13
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_13
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_13
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_14
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_14
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_14
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_14
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_15
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_15
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_15
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_15
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_16
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_16
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_16
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_16
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_17
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_17
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_17
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_17
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_18
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_18
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_18
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_18
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_19
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_19
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_19
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_19
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_2
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_2
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_2
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_2
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_20
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_20
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_20
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_20
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_21
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_21
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_21
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_21
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_22
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_22
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_22
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_22
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_23
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_23
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_23
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_23
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_24
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_24
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_24
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_24
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_25
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_25
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_25
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_25
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_26
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_26
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_26
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_26
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_27
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_27
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_27
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_27
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_3
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_3
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_3
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_3
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_4
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_4
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_4
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_4
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_5
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_5
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_5
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_5
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_6
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_6
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_6
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_6
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_7
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_7
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_7
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_7
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_8
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_8
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_8
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_8
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_9
+           field: companies_id
+           related_collection: companies
+           meta:
+             junction_field: projects_id
+             many_collection: projects_companies_9
+             many_field: companies_id
+             one_allowed_collections: null
+             one_collection: companies
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+         - collection: projects_companies_9
+           field: projects_id
+           related_collection: projects
+           meta:
+             junction_field: companies_id
+             many_collection: projects_companies_9
+             many_field: projects_id
+             one_allowed_collections: null
+             one_collection: projects
+             one_collection_field: null
+             one_deselect_action: nullify
+             one_field: null
+             sort_field: null
+
+
+               - collection: regions
+                 field: name
+                 related_collection: projects
+                 meta:
+                   junction_field: null
+                   many_collection: regions
+                   many_field: name
+                   one_allowed_collections: null
+                   one_collection: projects
+                   one_collection_field: null
+                   one_deselect_action: nullify
+                   one_field: null
+                   sort_field: null
+                 schema:
+                   table: regions
+                   column: name
+                   foreign_key_table: projects
+                   foreign_key_column: id
+                   constraint_name: null
+                   on_update: NO ACTION
+                   on_delete: SET NULL
+
+                     - collection: sectors
+                       field: name
+                       related_collection: projects
+                       meta:
+                         junction_field: null
+                         many_collection: sectors
+                         many_field: name
+                         one_allowed_collections: null
+                         one_collection: projects
+                         one_collection_field: null
+                         one_deselect_action: nullify
+                         one_field: null
+                         sort_field: null
+                       schema:
+                         table: sectors
+                         column: name
+                         foreign_key_table: projects
+                         foreign_key_column: id
+                         constraint_name: null
+                         on_update: NO ACTION
+                         on_delete: SET NULL

@@ -1,0 +1,2363 @@
+{
+  "data": [
+    {
+      "type": "node--company",
+      "id": "9c550515-2ac6-4197-8b84-66277130234a",
+      "links": {
+        "self": {
+          "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a?resourceVersion=id%3A44045"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 7737,
+        "drupal_internal__vid": 44045,
+        "langcode": "en",
+        "revision_timestamp": "2025-01-24T10:27:49+00:00",
+        "status": true,
+        "title": "Dar al-Handasah",
+        "created": "2025-01-24T10:27:49+00:00",
+        "changed": "2025-05-22T11:31:59+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "moderation_state": "published",
+        "metatag": [
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "title",
+              "content": "Dar al-Handasah | Project Pipeline"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "keywords",
+              "content": "Construction Projects Africa ConstructAfrica"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "robots",
+              "content": "index, follow"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "canonical",
+              "href": "https://dev-catracker.pantheonsite.io/company/7737"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "author",
+              "content": "ConstructAfrica"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "image_src",
+              "href": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:site_name",
+              "content": "Project Pipeline"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:type",
+              "content": "Company"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:url",
+              "content": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:url",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:secure_url",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:pages",
+              "content": "404566354176048"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:admins",
+              "content": "1775015036060245"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:app_id",
+              "content": "404566354176048"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:card",
+              "content": "summary_large_image"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:site",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:creator",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:image",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          }
+        ],
+        "path": {
+          "alias": "/company/7737",
+          "pid": 13456,
+          "langcode": "en"
+        },
+        "body": null,
+        "field_activities": null,
+        "field_address": null,
+        "field_awards": null,
+        "field_certifications": null,
+        "field_company_email": null,
+        "field_company_role": null,
+        "field_country": [],
+        "field_email": "beirut@dar.com",
+        "field_employees": null,
+        "field_facebook": null,
+        "field_fax": null,
+        "field_free_company": null,
+        "field_headquater": "LB",
+        "field_linkedin": null,
+        "field_location_details": {
+          "value": "<p>Verdun Street<br>Dar Al-Handasah Bldg.<br>P.O. Box: 11-7159<br>Beirut 1107 2230<br>Lebanon</p>",
+          "format": "basic_html",
+          "processed": "<p>Verdun Street<br>Dar Al-Handasah Bldg.<br>P.O. Box: 11-7159<br>Beirut 1107 2230<br>Lebanon</p>"
+        },
+        "field_location_geo": [],
+        "field_map_iframe": null,
+        "field_news": [],
+        "field_on_going_projects": null,
+        "field_phone": "+961 1 790 002 | +20 2 3531 8000",
+        "field_projects_completed": null,
+        "field_region": [],
+        "field_sector": [],
+        "field_twitter": null,
+        "field_type": [],
+        "field_website": "https://www.dar.com/"
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "5674f638-9fc8-459a-b418-2e1feb60abb7",
+            "meta": {
+              "drupal_internal__target_id": "company"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/node_type?resourceVersion=id%3A44045"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/relationships/node_type?resourceVersion=id%3A44045"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "fa162084-0664-4fe7-a00e-0680402c3c37",
+            "meta": {
+              "drupal_internal__target_id": 822
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/revision_uid?resourceVersion=id%3A44045"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/relationships/revision_uid?resourceVersion=id%3A44045"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "fa162084-0664-4fe7-a00e-0680402c3c37",
+            "meta": {
+              "drupal_internal__target_id": 822
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/uid?resourceVersion=id%3A44045"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/relationships/uid?resourceVersion=id%3A44045"
+            }
+          }
+        },
+        "field_awards_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/field_awards_companies?resourceVersion=id%3A44045"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/relationships/field_awards_companies?resourceVersion=id%3A44045"
+            }
+          }
+        },
+        "field_certifications_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/field_certifications_companies?resourceVersion=id%3A44045"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/relationships/field_certifications_companies?resourceVersion=id%3A44045"
+            }
+          }
+        },
+        "field_gallery": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/field_gallery?resourceVersion=id%3A44045"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/relationships/field_gallery?resourceVersion=id%3A44045"
+            }
+          }
+        },
+        "field_key_contacts_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/field_key_contacts_companies?resourceVersion=id%3A44045"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/relationships/field_key_contacts_companies?resourceVersion=id%3A44045"
+            }
+          }
+        },
+        "field_logo": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/field_logo?resourceVersion=id%3A44045"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/relationships/field_logo?resourceVersion=id%3A44045"
+            }
+          }
+        },
+        "field_news_updates_paragraph_com": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/field_news_updates_paragraph_com?resourceVersion=id%3A44045"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/relationships/field_news_updates_paragraph_com?resourceVersion=id%3A44045"
+            }
+          }
+        },
+        "field_projects": {
+          "data": [
+            {
+              "type": "node--projects",
+              "id": "06a567a6-9ea1-4715-9e89-2859d488ecd5",
+              "meta": {
+                "drupal_internal__target_id": 7720
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "dd7ba385-5d40-40f4-a159-564486aeb918",
+              "meta": {
+                "drupal_internal__target_id": 9146
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "5687336c-3f4d-4287-8b61-c6256a0d0144",
+              "meta": {
+                "drupal_internal__target_id": 9452
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "a025ab2a-07f0-4007-b952-8b27c6bbc111",
+              "meta": {
+                "drupal_internal__target_id": 9442
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "2ec3ab46-398a-47aa-b050-3742bf905074",
+              "meta": {
+                "drupal_internal__target_id": 5402
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "b917d26e-e347-4d69-a000-96c393eb8df7",
+              "meta": {
+                "drupal_internal__target_id": 6792
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "5c47de03-2417-4555-8817-99a0cf7d684c",
+              "meta": {
+                "drupal_internal__target_id": 5987
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "3624968d-3baa-40c0-ab33-b94b3b84598e",
+              "meta": {
+                "drupal_internal__target_id": 9857
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "df93cc6b-e045-41d3-af33-890bd7cffeb5",
+              "meta": {
+                "drupal_internal__target_id": 10003
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "f1cc9a09-bd28-4a2e-9439-56d7f81e3b9d",
+              "meta": {
+                "drupal_internal__target_id": 10056
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "eb2bbee7-55b6-4f3c-936d-9f3a4d8a029d",
+              "meta": {
+                "drupal_internal__target_id": 10163
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "5e1296b7-8207-42cf-8858-845fd3e08a33",
+              "meta": {
+                "drupal_internal__target_id": 5304
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/field_projects?resourceVersion=id%3A44045"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/relationships/field_projects?resourceVersion=id%3A44045"
+            }
+          }
+        },
+        "field_tags_company": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/field_tags_company?resourceVersion=id%3A44045"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/relationships/field_tags_company?resourceVersion=id%3A44045"
+            }
+          }
+        },
+        "field_team": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/field_team?resourceVersion=id%3A44045"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/9c550515-2ac6-4197-8b84-66277130234a/relationships/field_team?resourceVersion=id%3A44045"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--company",
+      "id": "1f93933f-e56d-4967-9673-a4437c6461ce",
+      "links": {
+        "self": {
+          "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce?resourceVersion=id%3A44049"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 9592,
+        "drupal_internal__vid": 44049,
+        "langcode": "en",
+        "revision_timestamp": "2025-04-15T08:57:15+00:00",
+        "status": true,
+        "title": "Geothermal Risk Mitigation Facility (GRMF)",
+        "created": "2025-04-15T08:48:49+00:00",
+        "changed": "2025-05-22T12:02:58+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "moderation_state": "published",
+        "metatag": [
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "title",
+              "content": "Geothermal Risk Mitigation Facility (GRMF) | Project Pipeline"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "description",
+              "content": "The Geothermal Risk Mitigation Facility (GRMF) was established in 2012 to fund, facilitate, and accelerate geothermal development in Eastern Africa. The overall objective of the GRMF is to encourage public and private sector investment in geothermal power generation. The GRMF therefore acts as a catalyst in establishing geothermal energy as a strategic option for power generation capacity expansion in twelve partner countries in the Eastern African Rift region."
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "keywords",
+              "content": "Construction Projects Africa ConstructAfrica"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "robots",
+              "content": "index, follow"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "canonical",
+              "href": "https://dev-catracker.pantheonsite.io/company/9592"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "author",
+              "content": "ConstructAfrica"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "image_src",
+              "href": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:site_name",
+              "content": "Project Pipeline"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:type",
+              "content": "Company"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:url",
+              "content": "https://dev-catracker.pantheonsite.io/jsonapi/node/company"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:url",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:secure_url",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:pages",
+              "content": "404566354176048"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:admins",
+              "content": "1775015036060245"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:app_id",
+              "content": "404566354176048"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:card",
+              "content": "summary_large_image"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:site",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:creator",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:image",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          }
+        ],
+        "path": {
+          "alias": "/company/9592",
+          "pid": 15267,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "<p>The Geothermal Risk Mitigation Facility (GRMF) was established in 2012 to fund, facilitate, and accelerate geothermal development in Eastern Africa. The overall objective of the GRMF is to encourage public and private sector investment in geothermal power generation. The GRMF therefore acts as a catalyst in establishing geothermal energy as a strategic option for power generation capacity expansion in twelve partner countries in the Eastern African Rift region.</p><p>The facility co-finances Surface Studies and Drilling Programmes aimed at developing geothermal energy projects – being a largely untapped indigenous and renewable energy resource. The GRMF comprises approximately US$131 million of awarded funds.</p><p>In 2022, the GRMF Oversight Committee decided to expand the facility to include the promotion of geothermal direct use. For this purpose, the new GRMF HEAT funding programme was introduced.</p><p>GRMF offers funding in 12 eligible East African countries: Burundi, Comoros, Democratic Republic of the Congo, Djibouti, Eritrea, Ethiopia, Kenya, Rwanda, Somalia, Tanzania, Uganda, and Zambia</p><p>For further information, please contact:</p><p>Bezayit Eyoel | Department of Infrastructure and Energy| African Union Commission | Mobile: &nbsp;+251913223288 | E-mail: BezayitE@africa-union.org|</p><p>Molalet Tsedeke | Information and Communication Directorate | African Union Commission | mobile+251 (0) 911630631 | E-mail: MolalettT@africa-union.org|</p><p>Information and Communication Directorate | African Union Commission I E-mail: DIC@african-union.org I Website: www.au.int I Addis Ababa | Ethiopia&nbsp;</p><p>&nbsp;</p><p><em>(Source: African Union)</em></p><p>&nbsp;</p>",
+          "format": "basic_html",
+          "processed": "<p>The Geothermal Risk Mitigation Facility (GRMF) was established in 2012 to fund, facilitate, and accelerate geothermal development in Eastern Africa. The overall objective of the GRMF is to encourage public and private sector investment in geothermal power generation. The GRMF therefore acts as a catalyst in establishing geothermal energy as a strategic option for power generation capacity expansion in twelve partner countries in the Eastern African Rift region.</p><p>The facility co-finances Surface Studies and Drilling Programmes aimed at developing geothermal energy projects – being a largely untapped indigenous and renewable energy resource. The GRMF comprises approximately US$131 million of awarded funds.</p><p>In 2022, the GRMF Oversight Committee decided to expand the facility to include the promotion of geothermal direct use. For this purpose, the new GRMF HEAT funding programme was introduced.</p><p>GRMF offers funding in 12 eligible East African countries: Burundi, Comoros, Democratic Republic of the Congo, Djibouti, Eritrea, Ethiopia, Kenya, Rwanda, Somalia, Tanzania, Uganda, and Zambia</p><p>For further information, please contact:</p><p>Bezayit Eyoel | Department of Infrastructure and Energy| African Union Commission | Mobile: &nbsp;+251913223288 | E-mail: BezayitE@africa-union.org|</p><p>Molalet Tsedeke | Information and Communication Directorate | African Union Commission | mobile+251 (0) 911630631 | E-mail: MolalettT@africa-union.org|</p><p>Information and Communication Directorate | African Union Commission I E-mail: DIC@african-union.org I Website: www.au.int I Addis Ababa | Ethiopia&nbsp;</p><p>&nbsp;</p><p><em>(Source: African Union)</em></p><p>&nbsp;</p>",
+          "summary": ""
+        },
+        "field_activities": null,
+        "field_address": null,
+        "field_awards": null,
+        "field_certifications": null,
+        "field_company_email": null,
+        "field_company_role": null,
+        "field_country": [],
+        "field_email": "grmf@africa-union.org",
+        "field_employees": null,
+        "field_facebook": null,
+        "field_fax": null,
+        "field_free_company": false,
+        "field_headquater": "ET",
+        "field_linkedin": null,
+        "field_location_details": {
+          "value": "<p>Additional email addresses: <a href=\"mailto:grmf@roedl.com\">grmf@roedl.com</a> | <a href=\"mailto:kazaurak@africa-union.org\">kazaurak@africa-union.org</a>&nbsp;</p>",
+          "format": "basic_html",
+          "processed": "<p>Additional email addresses: <a href=\"mailto:grmf@roedl.com\">grmf@roedl.com</a> | <a href=\"mailto:kazaurak@africa-union.org\">kazaurak@africa-union.org</a>&nbsp;</p>"
+        },
+        "field_location_geo": [],
+        "field_map_iframe": null,
+        "field_news": [],
+        "field_on_going_projects": null,
+        "field_phone": null,
+        "field_projects_completed": null,
+        "field_region": [],
+        "field_sector": [
+          "energypower"
+        ],
+        "field_twitter": null,
+        "field_type": [
+          "geothermalenergy"
+        ],
+        "field_website": "https://grmf-eastafrica.org/"
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "5674f638-9fc8-459a-b418-2e1feb60abb7",
+            "meta": {
+              "drupal_internal__target_id": "company"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/node_type?resourceVersion=id%3A44049"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/relationships/node_type?resourceVersion=id%3A44049"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "fa162084-0664-4fe7-a00e-0680402c3c37",
+            "meta": {
+              "drupal_internal__target_id": 822
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/revision_uid?resourceVersion=id%3A44049"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/relationships/revision_uid?resourceVersion=id%3A44049"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "fa162084-0664-4fe7-a00e-0680402c3c37",
+            "meta": {
+              "drupal_internal__target_id": 822
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/uid?resourceVersion=id%3A44049"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/relationships/uid?resourceVersion=id%3A44049"
+            }
+          }
+        },
+        "field_awards_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/field_awards_companies?resourceVersion=id%3A44049"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/relationships/field_awards_companies?resourceVersion=id%3A44049"
+            }
+          }
+        },
+        "field_certifications_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/field_certifications_companies?resourceVersion=id%3A44049"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/relationships/field_certifications_companies?resourceVersion=id%3A44049"
+            }
+          }
+        },
+        "field_gallery": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/field_gallery?resourceVersion=id%3A44049"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/relationships/field_gallery?resourceVersion=id%3A44049"
+            }
+          }
+        },
+        "field_key_contacts_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/field_key_contacts_companies?resourceVersion=id%3A44049"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/relationships/field_key_contacts_companies?resourceVersion=id%3A44049"
+            }
+          }
+        },
+        "field_logo": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/field_logo?resourceVersion=id%3A44049"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/relationships/field_logo?resourceVersion=id%3A44049"
+            }
+          }
+        },
+        "field_news_updates_paragraph_com": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/field_news_updates_paragraph_com?resourceVersion=id%3A44049"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/relationships/field_news_updates_paragraph_com?resourceVersion=id%3A44049"
+            }
+          }
+        },
+        "field_projects": {
+          "data": [
+            {
+              "type": "node--projects",
+              "id": "24ad71c3-297a-4077-b59e-301561169f4f",
+              "meta": {
+                "drupal_internal__target_id": 9590
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "711a02c7-aafc-4a1c-9eb4-7df659715b1c",
+              "meta": {
+                "drupal_internal__target_id": 9591
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "edae0456-ce41-4a09-ac5e-0cf936c8917b",
+              "meta": {
+                "drupal_internal__target_id": 9593
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "a1566cd5-21ec-41cf-8084-0bc9d3602db5",
+              "meta": {
+                "drupal_internal__target_id": 9594
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "c7c364b5-d53b-494c-bf50-a38872458d78",
+              "meta": {
+                "drupal_internal__target_id": 9595
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "e6f689c0-3c89-4a3e-a423-369f43fc26b7",
+              "meta": {
+                "drupal_internal__target_id": 10186
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/field_projects?resourceVersion=id%3A44049"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/relationships/field_projects?resourceVersion=id%3A44049"
+            }
+          }
+        },
+        "field_tags_company": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/field_tags_company?resourceVersion=id%3A44049"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/relationships/field_tags_company?resourceVersion=id%3A44049"
+            }
+          }
+        },
+        "field_team": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/field_team?resourceVersion=id%3A44049"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/1f93933f-e56d-4967-9673-a4437c6461ce/relationships/field_team?resourceVersion=id%3A44049"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--company",
+      "id": "bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8",
+      "links": {
+        "self": {
+          "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8?resourceVersion=id%3A44055"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 10212,
+        "drupal_internal__vid": 44055,
+        "langcode": "en",
+        "revision_timestamp": "2025-05-22T12:46:51+00:00",
+        "status": true,
+        "title": "Pecan Energies",
+        "created": "2025-05-22T12:45:18+00:00",
+        "changed": "2025-05-22T12:54:25+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "moderation_state": "published",
+        "metatag": [
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "title",
+              "content": "Pecan Energies | Project Pipeline"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "keywords",
+              "content": "Construction Projects Africa ConstructAfrica"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "robots",
+              "content": "index, follow"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "canonical",
+              "href": "https://dev-catracker.pantheonsite.io/company/10212"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "author",
+              "content": "ConstructAfrica"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "image_src",
+              "href": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:site_name",
+              "content": "Project Pipeline"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:type",
+              "content": "Company"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:url",
+              "content": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:url",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:secure_url",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:pages",
+              "content": "404566354176048"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:admins",
+              "content": "1775015036060245"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:app_id",
+              "content": "404566354176048"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:card",
+              "content": "summary_large_image"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:site",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:creator",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:image",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          }
+        ],
+        "path": {
+          "alias": "/company/10212",
+          "pid": 15886,
+          "langcode": "en"
+        },
+        "body": null,
+        "field_activities": null,
+        "field_address": null,
+        "field_awards": null,
+        "field_certifications": null,
+        "field_company_email": null,
+        "field_company_role": null,
+        "field_country": [
+          "ghana"
+        ],
+        "field_email": null,
+        "field_employees": null,
+        "field_facebook": null,
+        "field_fax": null,
+        "field_free_company": false,
+        "field_headquater": "NO",
+        "field_linkedin": "https://www.linkedin.com/company/pecanenergies/",
+        "field_location_details": {
+          "value": "<p>3E, Strandveien 50, 1366 Lysaker, Norway</p>",
+          "format": "basic_html",
+          "processed": "<p>3E, Strandveien 50, 1366 Lysaker, Norway</p>"
+        },
+        "field_location_geo": [],
+        "field_map_iframe": null,
+        "field_news": [],
+        "field_on_going_projects": null,
+        "field_phone": null,
+        "field_projects_completed": null,
+        "field_region": [
+          "westernafrica"
+        ],
+        "field_sector": [],
+        "field_twitter": null,
+        "field_type": [],
+        "field_website": "https://pecanenergies.com"
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "5674f638-9fc8-459a-b418-2e1feb60abb7",
+            "meta": {
+              "drupal_internal__target_id": "company"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/node_type?resourceVersion=id%3A44055"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/relationships/node_type?resourceVersion=id%3A44055"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "48c951a8-ca51-4688-bdf8-294c65124121",
+            "meta": {
+              "drupal_internal__target_id": 2330
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/revision_uid?resourceVersion=id%3A44055"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/relationships/revision_uid?resourceVersion=id%3A44055"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "48c951a8-ca51-4688-bdf8-294c65124121",
+            "meta": {
+              "drupal_internal__target_id": 2330
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/uid?resourceVersion=id%3A44055"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/relationships/uid?resourceVersion=id%3A44055"
+            }
+          }
+        },
+        "field_awards_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/field_awards_companies?resourceVersion=id%3A44055"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/relationships/field_awards_companies?resourceVersion=id%3A44055"
+            }
+          }
+        },
+        "field_certifications_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/field_certifications_companies?resourceVersion=id%3A44055"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/relationships/field_certifications_companies?resourceVersion=id%3A44055"
+            }
+          }
+        },
+        "field_gallery": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/field_gallery?resourceVersion=id%3A44055"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/relationships/field_gallery?resourceVersion=id%3A44055"
+            }
+          }
+        },
+        "field_key_contacts_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/field_key_contacts_companies?resourceVersion=id%3A44055"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/relationships/field_key_contacts_companies?resourceVersion=id%3A44055"
+            }
+          }
+        },
+        "field_logo": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/field_logo?resourceVersion=id%3A44055"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/relationships/field_logo?resourceVersion=id%3A44055"
+            }
+          }
+        },
+        "field_news_updates_paragraph_com": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/field_news_updates_paragraph_com?resourceVersion=id%3A44055"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/relationships/field_news_updates_paragraph_com?resourceVersion=id%3A44055"
+            }
+          }
+        },
+        "field_projects": {
+          "data": [
+            {
+              "type": "node--projects",
+              "id": "8def9c47-f644-4c69-bec3-a26bb364f06f",
+              "meta": {
+                "drupal_internal__target_id": 10213
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/field_projects?resourceVersion=id%3A44055"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/relationships/field_projects?resourceVersion=id%3A44055"
+            }
+          }
+        },
+        "field_tags_company": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/field_tags_company?resourceVersion=id%3A44055"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/relationships/field_tags_company?resourceVersion=id%3A44055"
+            }
+          }
+        },
+        "field_team": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/field_team?resourceVersion=id%3A44055"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/bb0c3f2c-6ff5-4818-a45b-a293d93ce0a8/relationships/field_team?resourceVersion=id%3A44055"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--company",
+      "id": "5b8b8232-4e78-45f8-a9ed-e974baad8a45",
+      "links": {
+        "self": {
+          "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45?resourceVersion=id%3A44056"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 6604,
+        "drupal_internal__vid": 44056,
+        "langcode": "en",
+        "revision_timestamp": "2024-05-07T15:24:31+00:00",
+        "status": true,
+        "title": "African Finance Corporation (AFC)",
+        "created": "2024-04-10T14:47:44+00:00",
+        "changed": "2025-05-22T12:54:25+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "moderation_state": "published",
+        "metatag": [
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "title",
+              "content": "African Finance Corporation (AFC) | Project Pipeline"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "description",
+              "content": "AFC is a multilateral financial institution, created by African sovereign states to provide pragmatic solutions to Africa’s infrastructure deficit and challenging operating environment."
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "keywords",
+              "content": "Construction Projects Africa ConstructAfrica"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "robots",
+              "content": "index, follow"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "canonical",
+              "href": "https://dev-catracker.pantheonsite.io/company/6604"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "author",
+              "content": "ConstructAfrica"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "image_src",
+              "href": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:site_name",
+              "content": "Project Pipeline"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:type",
+              "content": "Company"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:url",
+              "content": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:url",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:secure_url",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:pages",
+              "content": "404566354176048"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:admins",
+              "content": "1775015036060245"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:app_id",
+              "content": "404566354176048"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:card",
+              "content": "summary_large_image"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:site",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:creator",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:image",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          }
+        ],
+        "path": {
+          "alias": "/company/6604",
+          "pid": 12394,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "<p>AFC is a multilateral financial institution, created by African sovereign states to provide pragmatic solutions to Africa’s infrastructure deficit and challenging operating environment.</p>\r\n",
+          "format": "full_html",
+          "processed": "<p>AFC is a multilateral financial institution, created by African sovereign states to provide pragmatic solutions to Africa’s infrastructure deficit and challenging operating environment.</p>\n",
+          "summary": ""
+        },
+        "field_activities": null,
+        "field_address": null,
+        "field_awards": null,
+        "field_certifications": null,
+        "field_company_email": null,
+        "field_company_role": null,
+        "field_country": [],
+        "field_email": "contact@africafc.org",
+        "field_employees": null,
+        "field_facebook": null,
+        "field_fax": null,
+        "field_free_company": null,
+        "field_headquater": null,
+        "field_linkedin": null,
+        "field_location_details": {
+          "value": "<p>HQ : 3a Osborne Road, Ikoyi Lagos State, Nigeria</p>\r\n\r\n<p>16a Temple Road, Ikoyi Lagos State, Nigeria</p>\r\n",
+          "format": "full_html",
+          "processed": "<p>HQ : 3a Osborne Road, Ikoyi Lagos State, Nigeria</p>\n\n<p>16a Temple Road, Ikoyi Lagos State, Nigeria</p>\n"
+        },
+        "field_location_geo": [],
+        "field_map_iframe": null,
+        "field_news": [],
+        "field_on_going_projects": null,
+        "field_phone": "+234 1 279 9600",
+        "field_projects_completed": null,
+        "field_region": [],
+        "field_sector": [],
+        "field_twitter": null,
+        "field_type": [],
+        "field_website": "https://www.africafc.org"
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "5674f638-9fc8-459a-b418-2e1feb60abb7",
+            "meta": {
+              "drupal_internal__target_id": "company"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/node_type?resourceVersion=id%3A44056"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/relationships/node_type?resourceVersion=id%3A44056"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "3b7f8ef0-9030-4c88-aef2-506124b3d308",
+            "meta": {
+              "drupal_internal__target_id": 970
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/revision_uid?resourceVersion=id%3A44056"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/relationships/revision_uid?resourceVersion=id%3A44056"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "3b7f8ef0-9030-4c88-aef2-506124b3d308",
+            "meta": {
+              "drupal_internal__target_id": 970
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/uid?resourceVersion=id%3A44056"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/relationships/uid?resourceVersion=id%3A44056"
+            }
+          }
+        },
+        "field_awards_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/field_awards_companies?resourceVersion=id%3A44056"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/relationships/field_awards_companies?resourceVersion=id%3A44056"
+            }
+          }
+        },
+        "field_certifications_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/field_certifications_companies?resourceVersion=id%3A44056"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/relationships/field_certifications_companies?resourceVersion=id%3A44056"
+            }
+          }
+        },
+        "field_gallery": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/field_gallery?resourceVersion=id%3A44056"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/relationships/field_gallery?resourceVersion=id%3A44056"
+            }
+          }
+        },
+        "field_key_contacts_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/field_key_contacts_companies?resourceVersion=id%3A44056"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/relationships/field_key_contacts_companies?resourceVersion=id%3A44056"
+            }
+          }
+        },
+        "field_logo": {
+          "data": {
+            "type": "file--file",
+            "id": "ad25f4a9-643f-476b-9d0b-8b78c266e288",
+            "meta": {
+              "alt": "",
+              "title": "",
+              "width": 441,
+              "height": 114,
+              "drupal_internal__target_id": 3679
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/field_logo?resourceVersion=id%3A44056"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/relationships/field_logo?resourceVersion=id%3A44056"
+            }
+          }
+        },
+        "field_news_updates_paragraph_com": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/field_news_updates_paragraph_com?resourceVersion=id%3A44056"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/relationships/field_news_updates_paragraph_com?resourceVersion=id%3A44056"
+            }
+          }
+        },
+        "field_projects": {
+          "data": [
+            {
+              "type": "node--projects",
+              "id": "420ab95f-2923-4a65-a7bd-bbbb2eff227a",
+              "meta": {
+                "drupal_internal__target_id": 6272
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "ea511453-bd63-468b-9690-8ecab6e66187",
+              "meta": {
+                "drupal_internal__target_id": 6659
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "8be07b3c-df34-4cc9-ae9b-3a785ae99519",
+              "meta": {
+                "drupal_internal__target_id": 6660
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "31dce2f7-a810-448c-9bc7-8e8e15fcae79",
+              "meta": {
+                "drupal_internal__target_id": 6661
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "bbb405b3-8aab-4264-9adb-cb0acba9b9fa",
+              "meta": {
+                "drupal_internal__target_id": 9328
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "19393acc-79e3-44a3-9e17-dcb6492004e3",
+              "meta": {
+                "drupal_internal__target_id": 8763
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "8def9c47-f644-4c69-bec3-a26bb364f06f",
+              "meta": {
+                "drupal_internal__target_id": 10213
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/field_projects?resourceVersion=id%3A44056"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/relationships/field_projects?resourceVersion=id%3A44056"
+            }
+          }
+        },
+        "field_tags_company": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/field_tags_company?resourceVersion=id%3A44056"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/relationships/field_tags_company?resourceVersion=id%3A44056"
+            }
+          }
+        },
+        "field_team": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/field_team?resourceVersion=id%3A44056"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/5b8b8232-4e78-45f8-a9ed-e974baad8a45/relationships/field_team?resourceVersion=id%3A44056"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--company",
+      "id": "a524d4dd-81db-4724-b418-56938ee96c3c",
+      "links": {
+        "self": {
+          "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c?resourceVersion=id%3A44057"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 10214,
+        "drupal_internal__vid": 44057,
+        "langcode": "en",
+        "revision_timestamp": "2025-05-22T12:57:25+00:00",
+        "status": true,
+        "title": "Lukoil",
+        "created": "2025-05-22T12:55:58+00:00",
+        "changed": "2025-05-22T12:57:25+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "moderation_state": "published",
+        "metatag": [
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "title",
+              "content": "Lukoil | Project Pipeline"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "keywords",
+              "content": "Construction Projects Africa ConstructAfrica"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "robots",
+              "content": "index, follow"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "canonical",
+              "href": "https://dev-catracker.pantheonsite.io/company/10214"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "author",
+              "content": "ConstructAfrica"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "image_src",
+              "href": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:site_name",
+              "content": "Project Pipeline"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:type",
+              "content": "Company"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:url",
+              "content": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:url",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:secure_url",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:pages",
+              "content": "404566354176048"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:admins",
+              "content": "1775015036060245"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:app_id",
+              "content": "404566354176048"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:card",
+              "content": "summary_large_image"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:site",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:creator",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:image",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          }
+        ],
+        "path": {
+          "alias": "/company/10214",
+          "pid": 15888,
+          "langcode": "en"
+        },
+        "body": null,
+        "field_activities": null,
+        "field_address": null,
+        "field_awards": null,
+        "field_certifications": null,
+        "field_company_email": null,
+        "field_company_role": null,
+        "field_country": [],
+        "field_email": "lukoil@lukoil.com",
+        "field_employees": null,
+        "field_facebook": null,
+        "field_fax": null,
+        "field_free_company": false,
+        "field_headquater": null,
+        "field_linkedin": null,
+        "field_location_details": {
+          "value": "<p>11, Sretensky blvd, Moscow, Russia, 101000</p>",
+          "format": "basic_html",
+          "processed": "<p>11, Sretensky blvd, Moscow, Russia, 101000</p>"
+        },
+        "field_location_geo": [],
+        "field_map_iframe": null,
+        "field_news": [],
+        "field_on_going_projects": null,
+        "field_phone": "+7 49 5627 4444 | +7 49 5628 9841",
+        "field_projects_completed": null,
+        "field_region": [],
+        "field_sector": [],
+        "field_twitter": null,
+        "field_type": [],
+        "field_website": null
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "5674f638-9fc8-459a-b418-2e1feb60abb7",
+            "meta": {
+              "drupal_internal__target_id": "company"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/node_type?resourceVersion=id%3A44057"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/relationships/node_type?resourceVersion=id%3A44057"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "48c951a8-ca51-4688-bdf8-294c65124121",
+            "meta": {
+              "drupal_internal__target_id": 2330
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/revision_uid?resourceVersion=id%3A44057"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/relationships/revision_uid?resourceVersion=id%3A44057"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "48c951a8-ca51-4688-bdf8-294c65124121",
+            "meta": {
+              "drupal_internal__target_id": 2330
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/uid?resourceVersion=id%3A44057"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/relationships/uid?resourceVersion=id%3A44057"
+            }
+          }
+        },
+        "field_awards_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/field_awards_companies?resourceVersion=id%3A44057"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/relationships/field_awards_companies?resourceVersion=id%3A44057"
+            }
+          }
+        },
+        "field_certifications_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/field_certifications_companies?resourceVersion=id%3A44057"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/relationships/field_certifications_companies?resourceVersion=id%3A44057"
+            }
+          }
+        },
+        "field_gallery": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/field_gallery?resourceVersion=id%3A44057"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/relationships/field_gallery?resourceVersion=id%3A44057"
+            }
+          }
+        },
+        "field_key_contacts_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/field_key_contacts_companies?resourceVersion=id%3A44057"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/relationships/field_key_contacts_companies?resourceVersion=id%3A44057"
+            }
+          }
+        },
+        "field_logo": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/field_logo?resourceVersion=id%3A44057"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/relationships/field_logo?resourceVersion=id%3A44057"
+            }
+          }
+        },
+        "field_news_updates_paragraph_com": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/field_news_updates_paragraph_com?resourceVersion=id%3A44057"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/relationships/field_news_updates_paragraph_com?resourceVersion=id%3A44057"
+            }
+          }
+        },
+        "field_projects": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/field_projects?resourceVersion=id%3A44057"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/relationships/field_projects?resourceVersion=id%3A44057"
+            }
+          }
+        },
+        "field_tags_company": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/field_tags_company?resourceVersion=id%3A44057"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/relationships/field_tags_company?resourceVersion=id%3A44057"
+            }
+          }
+        },
+        "field_team": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/field_team?resourceVersion=id%3A44057"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/a524d4dd-81db-4724-b418-56938ee96c3c/relationships/field_team?resourceVersion=id%3A44057"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--company",
+      "id": "ff900815-541b-4344-811d-70a21a6d1153",
+      "links": {
+        "self": {
+          "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153?resourceVersion=id%3A44058"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 6981,
+        "drupal_internal__vid": 44058,
+        "langcode": "en",
+        "revision_timestamp": "2024-06-26T12:11:27+00:00",
+        "status": true,
+        "title": "Ministry of Energy, Ghana",
+        "created": "2024-05-10T10:42:48+00:00",
+        "changed": "2025-05-22T12:58:41+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "moderation_state": "published",
+        "metatag": [
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "title",
+              "content": "Ministry of Energy, Ghana | Project Pipeline"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "description",
+              "content": "The Ministry of Energy is responsible for developing and ensuring the provision of reliable, high-quality energy services at the lowest possible cost to all sectors of the economy. This is achieved through the formulation, implementation, monitoring, and evaluation of policies within the energy sector. Aligned with the overarching vision of the energy sector, the primary objective is to ensure universal access to energy services while maintaining environmental sustainability. This involves making energy services readily available to all while minimizing negative environmental impacts."
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "keywords",
+              "content": "Construction Projects Africa ConstructAfrica"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "robots",
+              "content": "index, follow"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "canonical",
+              "href": "https://dev-catracker.pantheonsite.io/company/6981"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "author",
+              "content": "ConstructAfrica"
+            }
+          },
+          {
+            "tag": "link",
+            "attributes": {
+              "rel": "image_src",
+              "href": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:site_name",
+              "content": "Project Pipeline"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:type",
+              "content": "Company"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:url",
+              "content": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:url",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "og:image:secure_url",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:pages",
+              "content": "404566354176048"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:admins",
+              "content": "1775015036060245"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "property": "fb:app_id",
+              "content": "404566354176048"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:card",
+              "content": "summary_large_image"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:site",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:creator",
+              "content": "@africaconstruct"
+            }
+          },
+          {
+            "tag": "meta",
+            "attributes": {
+              "name": "twitter:image",
+              "content": "https://projects.constructafrica.com/sites/default/files/2025-05/New%20Project.jpg"
+            }
+          }
+        ],
+        "path": {
+          "alias": "/company/6981",
+          "pid": 12739,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "<p>The Ministry of Energy is responsible for developing and ensuring the provision of reliable, high-quality energy services at the lowest possible cost to all sectors of the economy. This is achieved through the formulation, implementation, monitoring, and evaluation of policies within the energy sector. Aligned with the overarching vision of the energy sector, the primary objective is to ensure universal access to energy services while maintaining environmental sustainability. This involves making energy services readily available to all while minimizing negative environmental impacts.</p>\r\n",
+          "format": "full_html",
+          "processed": "<p>The Ministry of Energy is responsible for developing and ensuring the provision of reliable, high-quality energy services at the lowest possible cost to all sectors of the economy. This is achieved through the formulation, implementation, monitoring, and evaluation of policies within the energy sector. Aligned with the overarching vision of the energy sector, the primary objective is to ensure universal access to energy services while maintaining environmental sustainability. This involves making energy services readily available to all while minimizing negative environmental impacts.</p>\n",
+          "summary": ""
+        },
+        "field_activities": null,
+        "field_address": null,
+        "field_awards": null,
+        "field_certifications": null,
+        "field_company_email": null,
+        "field_company_role": null,
+        "field_country": [],
+        "field_email": "info@energymin.gov.gh",
+        "field_employees": null,
+        "field_facebook": null,
+        "field_fax": "+233 302 668262 ",
+        "field_free_company": null,
+        "field_headquater": null,
+        "field_linkedin": null,
+        "field_location_details": {
+          "value": "<p>&nbsp;P. O. Box SD40,<br />\r\n<br />\r\nStadium Post Office Accra, Ghana.<br />\r\n<br />\r\n+233 276502239</p>\r\n",
+          "format": "full_html",
+          "processed": "<p>&nbsp;P. O. Box SD40,<br>\n<br>\nStadium Post Office Accra, Ghana.<br>\n<br>\n+233 276502239</p>\n"
+        },
+        "field_location_geo": [],
+        "field_map_iframe": {
+          "value": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7942.411561624741!2d-0.20069600000000004!3d5.536468886303547!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf909a012b6cc5%3A0x1a59c9aed38b6bee!2sMinistry%20of%20Energy!5e0!3m2!1sen!2sus!4v1715337952834!5m2!1sen!2sus\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+          "format": "full_html",
+          "processed": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7942.411561624741!2d-0.20069600000000004!3d5.536468886303547!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf909a012b6cc5%3A0x1a59c9aed38b6bee!2sMinistry%20of%20Energy!5e0!3m2!1sen!2sus!4v1715337952834!5m2!1sen!2sus\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
+        },
+        "field_news": [],
+        "field_on_going_projects": null,
+        "field_phone": "+233 302683961/3",
+        "field_projects_completed": null,
+        "field_region": [],
+        "field_sector": [],
+        "field_twitter": null,
+        "field_type": [],
+        "field_website": "https://energymin.gov.gh/"
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "5674f638-9fc8-459a-b418-2e1feb60abb7",
+            "meta": {
+              "drupal_internal__target_id": "company"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/node_type?resourceVersion=id%3A44058"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/relationships/node_type?resourceVersion=id%3A44058"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "3b7f8ef0-9030-4c88-aef2-506124b3d308",
+            "meta": {
+              "drupal_internal__target_id": 970
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/revision_uid?resourceVersion=id%3A44058"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/relationships/revision_uid?resourceVersion=id%3A44058"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "ea417f70-7882-4493-8c47-d69f082be866",
+            "meta": {
+              "drupal_internal__target_id": 1399
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/uid?resourceVersion=id%3A44058"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/relationships/uid?resourceVersion=id%3A44058"
+            }
+          }
+        },
+        "field_awards_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/field_awards_companies?resourceVersion=id%3A44058"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/relationships/field_awards_companies?resourceVersion=id%3A44058"
+            }
+          }
+        },
+        "field_certifications_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/field_certifications_companies?resourceVersion=id%3A44058"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/relationships/field_certifications_companies?resourceVersion=id%3A44058"
+            }
+          }
+        },
+        "field_gallery": {
+          "data": null,
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/field_gallery?resourceVersion=id%3A44058"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/relationships/field_gallery?resourceVersion=id%3A44058"
+            }
+          }
+        },
+        "field_key_contacts_companies": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/field_key_contacts_companies?resourceVersion=id%3A44058"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/relationships/field_key_contacts_companies?resourceVersion=id%3A44058"
+            }
+          }
+        },
+        "field_logo": {
+          "data": {
+            "type": "file--file",
+            "id": "f78c3e98-2fb1-442a-b221-fcc90c972d76",
+            "meta": {
+              "alt": "",
+              "title": "",
+              "width": 335,
+              "height": 200,
+              "drupal_internal__target_id": 4457
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/field_logo?resourceVersion=id%3A44058"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/relationships/field_logo?resourceVersion=id%3A44058"
+            }
+          }
+        },
+        "field_news_updates_paragraph_com": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/field_news_updates_paragraph_com?resourceVersion=id%3A44058"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/relationships/field_news_updates_paragraph_com?resourceVersion=id%3A44058"
+            }
+          }
+        },
+        "field_projects": {
+          "data": [
+            {
+              "type": "node--projects",
+              "id": "8a253191-be42-4e63-aac8-fca595c7ff90",
+              "meta": {
+                "drupal_internal__target_id": 7023
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "13bb5269-4bae-4f56-83de-53424e86397e",
+              "meta": {
+                "drupal_internal__target_id": 9668
+              }
+            },
+            {
+              "type": "node--projects",
+              "id": "8def9c47-f644-4c69-bec3-a26bb364f06f",
+              "meta": {
+                "drupal_internal__target_id": 10213
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/field_projects?resourceVersion=id%3A44058"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/relationships/field_projects?resourceVersion=id%3A44058"
+            }
+          }
+        },
+        "field_tags_company": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/field_tags_company?resourceVersion=id%3A44058"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/relationships/field_tags_company?resourceVersion=id%3A44058"
+            }
+          }
+        },
+        "field_team": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/field_team?resourceVersion=id%3A44058"
+            },
+            "self": {
+              "href": "https://dev-catracker.pantheonsite.io/jsonapi/node/company/ff900815-541b-4344-811d-70a21a6d1153/relationships/field_team?resourceVersion=id%3A44058"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "included": []
+}

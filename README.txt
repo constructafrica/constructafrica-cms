@@ -16,35 +16,36 @@ It runs inside Docker and is connected to GitHub with SSH for version control.
 🚀 Setup Instructions
 ------------------------------------------------
 
-1. Clone Repository
--------------------
-    git clone git@github-directus:devconstructafrica-ctrl/constructafrica-directus-cms.git
-    cd constructafrica-directus-cms
+## First Time Setup
 
-2. Docker Compose Config
-------------------------
-Create `docker-compose.yml`:
+1. Clone the repository
+2. Copy environment file: `cp .env.example .env`
+3. Start services: `docker-compose up -d`
+4. Wait 30 seconds for database initialization
+5. Apply schema: `npm run snapshot:apply`
+6. Access Directus: http://localhost:8055
 
-    services:
-      directus:
-        image: directus/directus:11.5.1
-        ports:
-          - "8055:8055"
-        volumes:
-          - ./database:/directus/database
-          - ./uploads:/directus/uploads
-          - ./extensions:/directus/extensions
-        environment:
-          SECRET: "replace-with-long-random-string"
-          ADMIN_EMAIL: "admin@example.com"
-          ADMIN_PASSWORD: "d1r3ctu5"
-          DB_CLIENT: "sqlite3"
-          DB_FILENAME: "/directus/database/data.db"
-          WEBSOCKETS_ENABLED: "true"
+## Daily Development
 
-Start services:
+- Start: `npm run dev`
+- Stop: `npm run down`
+- Logs: `npm run logs`
 
-    docker compose up -d
+## When Schema Changes
+
+After making changes in Directus UI:
+```bash
+npm run snapshot
+git add snapshots/snapshot.yaml
+git commit -m "Description of changes"
+git push
+```
+
+When pulling schema changes:
+```bash
+git pull
+npm run snapshot:apply
+```
 
 Access admin UI: http://localhost:8055
 

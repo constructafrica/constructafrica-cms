@@ -1,0 +1,1101 @@
+  openapi: 3.0.3
+  info:
+    title: Directus API for Companies and Projects
+    description: API documentation for a Directus CMS managing companies, projects, and related data migrated from Drupal.
+    version: 1.0.0
+  servers:
+    - url: http://your-directus-instance.com
+      description: Directus instance
+  components:
+    securitySchemes:
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+    schemas:
+      Company:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: "d2528f73-502c-445b-b9ac-88a72f838a05"
+          drupal_id:
+            type: integer
+            example: 1234
+          drupal_uuid:
+            type: string
+            format: uuid
+            example: "d2528f73-502c-445b-b9ac-88a72f838a05"
+          name:
+            type: string
+            example: "Total Energy"
+          slug:
+            type: string
+            example: "total-energy"
+          status:
+            type: string
+            enum: [published, draft]
+            example: "published"
+          description:
+            type: string
+            example: "Leading energy company in Africa."
+          activities:
+            type: string
+            example: "Oil exploration, renewable energy."
+          company_role:
+            type: string
+            example: "Operator"
+          headquarters:
+            type: string
+            example: "Lagos, Nigeria"
+          employees:
+            type: integer
+            nullable: true
+            example: 5000
+          projects_completed:
+            type: integer
+            nullable: true
+            example: 20
+          ongoing_projects:
+            type: integer
+            nullable: true
+            example: 5
+          address:
+            type: string
+            example: "123 Energy Road, Lagos"
+          location_details:
+            type: string
+            example: "Located near the business district."
+          latitude:
+            type: number
+            nullable: true
+            example: 6.5244
+          longitude:
+            type: number
+            nullable: true
+            example: 3.3792
+          map_iframe:
+            type: string
+            example: "<iframe src='https://maps.google.com/...'></iframe>"
+          phone:
+            type: string
+            example: "+2348098132222"
+          fax:
+            type: string
+            nullable: true
+            example: "+2348098132223"
+          email:
+            type: string
+            nullable: true
+            example: "contact@totalenergy.com"
+          company_email:
+            type: string
+            nullable: true
+            example: "info@totalenergy.com"
+          website:
+            type: string
+            nullable: true
+            example: "https://www.totalenergy.com"
+          facebook:
+            type: string
+            nullable: true
+            example: "https://facebook.com/totalenergy"
+          twitter:
+            type: string
+            nullable: true
+            example: "https://twitter.com/totalenergy"
+          linkedin:
+            type: string
+            nullable: true
+            example: "https://linkedin.com/company/totalenergy"
+          awards:
+            type: string
+            example: "Best Energy Company 2023"
+          certifications:
+            type: string
+            example: "ISO 9001, ISO 14001"
+          is_free_company:
+            type: boolean
+            example: false
+          date_created:
+            type: string
+            format: date-time
+            example: "2022-01-01T10:00:00Z"
+          date_updated:
+            type: string
+            format: date-time
+            example: "2025-01-01T10:00:00Z"
+          user_created:
+            type: string
+            format: uuid
+            example: "user-uuid-123"
+          logo:
+            type: string
+            format: uuid
+            nullable: true
+            example: "17020242-fde8-469d-9ac2-562ec7013bd9"
+        required: [id, name, status]
+      Project:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: "project-uuid-123"
+          drupal_id:
+            type: integer
+            example: 5678
+          drupal_uuid:
+            type: string
+            format: uuid
+            example: "project-uuid-123"
+          title:
+            type: string
+            example: "Trans-Africa Railway"
+          slug:
+            type: string
+            example: "trans-africa-railway"
+          status:
+            type: string
+            enum: [published, draft]
+            example: "published"
+          body:
+            type: string
+            example: "A major railway project spanning multiple countries."
+          summary:
+            type: string
+            example: "Connecting Africa through rail."
+          contract_value_usd:
+            type: number
+            nullable: true
+            example: 500000000
+          estimated_project_value_usd:
+            type: number
+            nullable: true
+            example: 600000000
+          revised_budget_value_usd:
+            type: number
+            nullable: true
+            example: 550000000
+          value_range:
+            type: string
+            example: "500M-1B"
+          project_launch_at:
+            type: string
+            format: date-time
+            nullable: true
+            example: "2023-01-01T00:00:00Z"
+          pq_issue_date:
+            type: string
+            format: date-time
+            nullable: true
+          pq_document_submission_date:
+            type: string
+            format: date-time
+            nullable: true
+          tender_advertised_at:
+            type: string
+            format: date-time
+            nullable: true
+          main_contract_tender_issue_date:
+            type: string
+            format: date-time
+            nullable: true
+          main_contract_bid_submission_date:
+            type: string
+            format: date-time
+            nullable: true
+          prequalification_consultant_date:
+            type: string
+            format: date-time
+            nullable: true
+          prequalification_contractor_date:
+            type: string
+            format: date-time
+            nullable: true
+          consultant_awarded_at:
+            type: string
+            format: date-time
+            nullable: true
+          contract_awarded_at:
+            type: string
+            format: date-time
+            nullable: true
+          main_contract_award_date:
+            type: string
+            format: date-time
+            nullable: true
+          financial_close_date:
+            type: string
+            format: date-time
+            nullable: true
+          design_completion_date:
+            type: string
+            format: date-time
+            nullable: true
+          construction_start_date:
+            type: string
+            format: date-time
+            nullable: true
+          construction_completion_date:
+            type: string
+            format: date-time
+            nullable: true
+          estimated_completion_date:
+            type: string
+            format: date-time
+            nullable: true
+          study_completion_date:
+            type: string
+            format: date-time
+            nullable: true
+          commissioning_date:
+            type: string
+            format: date-time
+            nullable: true
+          handover_date:
+            type: string
+            format: date-time
+            nullable: true
+          completed_at:
+            type: string
+            format: date-time
+            nullable: true
+          in_operation:
+            type: string
+            format: date-time
+            nullable: true
+          cancelled_at:
+            type: string
+            format: date-time
+            nullable: true
+          address:
+            type: string
+            example: "Main Railway Hub, Lagos"
+          location:
+            type: string
+            example: "Lagos to Accra"
+          gps_coordinates:
+            type: string
+            example: "6.5244,3.3792"
+          map_iframe:
+            type: string
+            example: "<iframe src='https://maps.google.com/...'></iframe>"
+          latitude:
+            type: number
+            nullable: true
+            example: 6.5244
+          longitude:
+            type: number
+            nullable: true
+            example: 3.3792
+          specifications:
+            type: array
+            items:
+              type: string
+            example: ["High-speed rail", "Electrified"]
+          gross_floor_area_m2:
+            type: number
+            nullable: true
+            example: 100000
+          total_built_up_area_m2:
+            type: array
+            items:
+              type: string
+            example: ["50000", "50000"]
+          volume_concrete_m3:
+            type: number
+            nullable: true
+            example: 100000
+          total_cement_bags:
+            type: integer
+            nullable: true
+            example: 50000
+          total_steel_weight:
+            type: number
+            nullable: true
+            example: 10000
+          total_cement_tonnage:
+            type: number
+            nullable: true
+            example: 5000
+          cost_cement_per_ton:
+            type: number
+            nullable: true
+            example: 100
+          cost_steel_per_ton:
+            type: number
+            nullable: true
+            example: 500
+          airport_passengers_million:
+            type: array
+            items:
+              type: string
+            example: []
+          airport_terminal_area_m2:
+            type: array
+            items:
+              type: string
+            example: []
+          pipeline_km:
+            type: array
+            items:
+              type: string
+            example: []
+          rail_km:
+            type: array
+            items:
+              type: string
+            example: ["1000"]
+          road_km:
+            type: array
+            items:
+              type: string
+            example: []
+          seaport_water_depth:
+            type: number
+            nullable: true
+          current_stage:
+            type: string
+            example: "Construction"
+          moderation_state:
+            type: string
+            example: "approved"
+          is_free_project:
+            type: boolean
+            example: false
+          in_planning:
+            type: boolean
+            example: false
+          under_construction:
+            type: boolean
+            example: true
+          bid_evaluation:
+            type: string
+            example: ""
+          call_for_eoi:
+            type: string
+            example: ""
+          phone:
+            type: string
+            example: "+2348098132222"
+          fax:
+            type: string
+            nullable: true
+          email:
+            type: string
+            nullable: true
+            example: "project@transafrica.com"
+          website:
+            type: string
+            nullable: true
+            example: "https://transafrica.com"
+          facebook:
+            type: string
+            nullable: true
+            example: "https://facebook.com/transafrica"
+          twitter:
+            type: string
+            nullable: true
+            example: "https://twitter.com/transafrica"
+          linkedin:
+            type: string
+            nullable: true
+            example: "https://linkedin.com/company/transafrica"
+          editor_notes:
+            type: string
+            example: "Critical infrastructure project."
+          transport:
+            type: string
+            example: "Rail"
+          consultant:
+            type: string
+            example: "Engineering Corp"
+          main_contractor_note:
+            type: string
+            example: "Main contractor: XYZ Ltd"
+          keywords:
+            type: string
+            example: "railway, infrastructure, Africa"
+          meta_description:
+            type: string
+            example: "Trans-Africa Railway connects multiple countries."
+          date_created:
+            type: string
+            format: date-time
+            example: "2022-01-01T10:00:00Z"
+          date_updated:
+            type: string
+            format: date-time
+            example: "2025-01-01T10:00:00Z"
+          user_created:
+            type: string
+            format: uuid
+            example: "user-uuid-123"
+          published_by:
+            type: string
+            format: uuid
+            example: "user-uuid-123"
+          featured_image:
+            type: string
+            format: uuid
+            nullable: true
+            example: "17020242-fde8-469d-9ac2-562ec7013bd9"
+        required: [id, title, status]
+      Contact:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: "contact-uuid-123"
+          drupal_id:
+            type: integer
+            example: 7677
+          drupal_uuid:
+            type: string
+            format: uuid
+            example: "contact-uuid-123"
+          name:
+            type: string
+            example: "Obinna Okonkwo"
+          role:
+            type: string
+            example: "Project Manager"
+          email:
+            type: string
+            nullable: true
+            example: "obinna@transafrica.com"
+          phone:
+            type: string
+            nullable: true
+            example: "+2348098132222"
+          facebook:
+            type: string
+            nullable: true
+          twitter:
+            type: string
+            nullable: true
+          linkedin:
+            type: string
+            nullable: true
+            example: "https://linkedin.com/in/obinna-okonkwo"
+          photo:
+            type: string
+            format: uuid
+            nullable: true
+            example: "17020242-fde8-469d-9ac2-562ec7013bd9"
+          company:
+            type: string
+            format: uuid
+            nullable: true
+            example: "d2528f73-502c-445b-b9ac-88a72f838a05"
+          project:
+            type: string
+            format: uuid
+            nullable: true
+            example: "project-uuid-123"
+          status:
+            type: string
+            enum: [published, draft]
+            example: "published"
+        required: [id, name, role]
+      CompanyAward:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: "award-uuid-123"
+          drupal_id:
+            type: integer
+            example: 123
+          drupal_uuid:
+            type: string
+            format: uuid
+            example: "award-uuid-123"
+          name:
+            type: string
+            example: "Best Energy Company 2023"
+          link:
+            type: string
+            nullable: true
+            example: "https://award.com"
+          type:
+            type: string
+            enum: [award, certification]
+            example: "award"
+          company:
+            type: string
+            format: uuid
+            example: "d2528f73-502c-445b-b9ac-88a72f838a05"
+          logo:
+            type: string
+            format: uuid
+            nullable: true
+            example: "17020242-fde8-469d-9ac2-562ec7013bd9"
+          status:
+            type: string
+            enum: [published, draft]
+            example: "published"
+        required: [id, name, type, company]
+      MediaGallery:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: "gallery-uuid-123"
+          drupal_id:
+            type: integer
+            nullable: true
+            example: 456
+          drupal_uuid:
+            type: string
+            format: uuid
+            example: "gallery-uuid-123"
+          type:
+            type: string
+            example: "image"
+          name:
+            type: string
+            example: "Project Image 1"
+          caption:
+            type: string
+            example: "Construction site view"
+          alt_text:
+            type: string
+            example: "Construction site"
+          file:
+            type: string
+            format: uuid
+            nullable: true
+            example: "17020242-fde8-469d-9ac2-562ec7013bd9"
+          company:
+            type: string
+            format: uuid
+            nullable: true
+            example: "d2528f73-502c-445b-b9ac-88a72f838a05"
+          project:
+            type: string
+            format: uuid
+            nullable: true
+            example: "project-uuid-123"
+          sort:
+            type: integer
+            example: 1
+          status:
+            type: string
+            enum: [published, draft]
+            example: "published"
+        required: [id, type, name]
+      NewsUpdate:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: "news-uuid-123"
+          drupal_id:
+            type: integer
+            nullable: true
+            example: 789
+          drupal_uuid:
+            type: string
+            format: uuid
+            example: "news-uuid-123"
+          title:
+            type: string
+            example: "Project Milestone Reached"
+          content:
+            type: string
+            example: "The railway project reached a major milestone."
+          author:
+            type: string
+            example: "John Doe"
+          date:
+            type: string
+            format: date-time
+            nullable: true
+            example: "2025-01-01T10:00:00Z"
+          company:
+            type: string
+            format: uuid
+            nullable: true
+            example: "d2528f73-502c-445b-b9ac-88a72f838a05"
+          project:
+            type: string
+            format: uuid
+            nullable: true
+            example: "project-uuid-123"
+          status:
+            type: string
+            enum: [published, draft]
+            example: "published"
+        required: [id, title]
+      ProjectStage:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: "stage-uuid-123"
+          drupal_id:
+            type: integer
+            nullable: true
+            example: 101
+          drupal_uuid:
+            type: string
+            format: uuid
+            example: "stage-uuid-123"
+          name:
+            type: string
+            example: "Design Phase"
+          total_sub_stages:
+            type: integer
+            example: 3
+          project:
+            type: string
+            format: uuid
+            example: "project-uuid-123"
+        required: [id, name, project]
+      Stage:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+            example: "substage-uuid-123"
+          drupal_id:
+            type: integer
+            nullable: true
+            example: 102
+          drupal_uuid:
+            type: string
+            format: uuid
+            example: "substage-uuid-123"
+          date:
+            type: string
+            format: date-time
+            nullable: true
+            example: "2025-01-01T10:00:00Z"
+          info:
+            type: string
+            example: "Completed design review"
+          project_stage:
+            type: string
+            format: uuid
+            example: "stage-uuid-123"
+        required: [id, project_stage]
+      CompaniesProjects:
+        type: object
+        properties:
+          companies_id:
+            type: string
+            format: uuid
+            example: "d2528f73-502c-445b-b9ac-88a72f838a05"
+          projects_id:
+            type: string
+            format: uuid
+            example: "project-uuid-123"
+        required: [companies_id, projects_id]
+  paths:
+    /items/companies:
+      get:
+        summary: List Companies
+        description: Retrieve a list of companies with optional filtering and relations (e.g., projects, contacts).
+        security:
+          - bearerAuth: []
+        parameters:
+          - name: fields
+            in: query
+            description: Fields to return (e.g., id,name,projects.*).
+            schema:
+              type: string
+              example: "id,name,description,projects.title,contacts.name"
+          - name: filter
+            in: query
+            description: Filter companies (e.g., by status).
+            schema:
+              type: string
+              example: "filter[status]=published"
+        responses:
+          '200':
+            description: Successful response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Company'
+      post:
+        summary: Create Company
+        description: Create a new company.
+        security:
+          - bearerAuth: []
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+        responses:
+          '201':
+            description: Company created
+    /items/projects:
+      get:
+        summary: List Projects
+        description: Retrieve projects with optional relations (e.g., companies, countries).
+        security:
+          - bearerAuth: []
+        parameters:
+          - name: fields
+            in: query
+            description: Fields to return (e.g., id,title,companies.*).
+            schema:
+              type: string
+              example: "id,title,contract_value_usd,companies.name,countries.name"
+          - name: filter
+            in: query
+            description: Filter projects (e.g., by current_stage).
+            schema:
+              type: string
+              example: "filter[current_stage]=Construction"
+        responses:
+          '200':
+            description: Successful response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Project'
+      post:
+        summary: Create Project
+        description: Create a new project.
+        security:
+          - bearerAuth: []
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        responses:
+          '201':
+            description: Project created
+    /items/contacts:
+      get:
+        summary: List Contacts
+        description: Retrieve contacts linked to companies or projects.
+        security:
+          - bearerAuth: []
+        parameters:
+          - name: fields
+            in: query
+            description: Fields to return (e.g., id,name,company.*).
+            schema:
+              type: string
+              example: "id,name,role,company.name,project.title"
+          - name: filter
+            in: query
+            description: Filter contacts (e.g., by company).
+            schema:
+              type: string
+              example: "filter[company][id]=d2528f73-502c-445b-b9ac-88a72f838a05"
+        responses:
+          '200':
+            description: Successful response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Contact'
+      post:
+        summary: Create Contact
+        description: Create a new contact.
+        security:
+          - bearerAuth: []
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        responses:
+          '201':
+            description: Contact created
+    /items/company_awards:
+      get:
+        summary: List Company Awards/Certifications
+        description: Retrieve awards or certifications for a company.
+        security:
+          - bearerAuth: []
+        parameters:
+          - name: fields
+            in: query
+            description: Fields to return.
+            schema:
+              type: string
+              example: "id,name,type,company.name"
+          - name: filter
+            in: query
+            description: Filter by type (award/certification).
+            schema:
+              type: string
+              example: "filter[type]=award"
+        responses:
+          '200':
+            description: Successful response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/CompanyAward'
+      post:
+        summary: Create Award/Certification
+        description: Create a new award or certification.
+        security:
+          - bearerAuth: []
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyAward'
+        responses:
+          '201':
+            description: Award/Certification created
+    /items/media_gallery:
+      get:
+        summary: List Media Gallery Items
+        description: Retrieve media items for companies or projects.
+        security:
+          - bearerAuth: []
+        parameters:
+          - name: fields
+            in: query
+            description: Fields to return.
+            schema:
+              type: string
+              example: "id,name,file,company.name,project.title"
+          - name: filter
+            in: query
+            description: Filter by company or project.
+            schema:
+              type: string
+              example: "filter[project][id]=project-uuid-123"
+        responses:
+          '200':
+            description: Successful response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/MediaGallery'
+      post:
+        summary: Create Media Gallery Item
+        description: Create a new media gallery item.
+        security:
+          - bearerAuth: []
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaGallery'
+        responses:
+          '201':
+            description: Media gallery item created
+    /items/news_updates:
+      get:
+        summary: List News Updates
+        description: Retrieve news updates for companies or projects.
+        security:
+          - bearerAuth: []
+        parameters:
+          - name: fields
+            in: query
+            description: Fields to return.
+            schema:
+              type: string
+              example: "id,title,company.name,project.title"
+          - name: filter
+            in: query
+            description: Filter by company or project.
+            schema:
+              type: string
+              example: "filter[company][id]=d2528f73-502c-445b-b9ac-88a72f838a05"
+        responses:
+          '200':
+            description: Successful response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/NewsUpdate'
+      post:
+        summary: Create News Update
+        description: Create a new news update.
+        security:
+          - bearerAuth: []
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsUpdate'
+        responses:
+          '201':
+            description: News update created
+    /items/project_stages:
+      get:
+        summary: List Project Stages
+        description: Retrieve stages for projects.
+        security:
+          - bearerAuth: []
+        parameters:
+          - name: fields
+            in: query
+            description: Fields to return.
+            schema:
+              type: string
+              example: "id,name,project.title"
+          - name: filter
+            in: query
+            description: Filter by project.
+            schema:
+              type: string
+              example: "filter[project][id]=project-uuid-123"
+        responses:
+          '200':
+            description: Successful response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/ProjectStage'
+      post:
+        summary: Create Project Stage
+        description: Create a new project stage.
+        security:
+          - bearerAuth: []
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectStage'
+        responses:
+          '201':
+            description: Project stage created
+    /items/stages:
+      get:
+        summary: List Stage Details
+        description: Retrieve sub-stage details for project stages.
+        security:
+          - bearerAuth: []
+        parameters:
+          - name: fields
+            in: query
+            description: Fields to return.
+            schema:
+              type: string
+              example: "id,info,project_stage.name"
+          - name: filter
+            in: query
+            description: Filter by project stage.
+            schema:
+              type: string
+              example: "filter[project_stage][id]=stage-uuid-123"
+        responses:
+          '200':
+            description: Successful response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Stage'
+      post:
+        summary: Create Stage Detail
+        description: Create a new stage detail.
+        security:
+          - bearerAuth: []
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stage'
+        responses:
+          '201':
+            description: Stage detail created
+    /items/companies_projects:
+      get:
+        summary: List Company-Project Relationships
+        description: Retrieve M2M relationships between companies and projects.
+        security:
+          - bearerAuth: []
+        parameters:
+          - name: fields
+            in: query
+            description: Fields to return.
+            schema:
+              type: string
+              example: "companies_id,projects_id"
+          - name: filter
+            in: query
+            description: Filter by company or project.
+            schema:
+              type: string
+              example: "filter[companies_id]=d2528f73-502c-445b-b9ac-88a72f838a05"
+        responses:
+          '200':
+            description: Successful response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/CompaniesProjects'
+      post:
+        summary: Create Company-Project Relationship
+        description: Create a new M2M relationship between a company and a project.
+        security:
+          - bearerAuth: []
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompaniesProjects'
+        responses:
+          '201':
+            description: Relationship created
+  security:
+    - bearerAuth: []

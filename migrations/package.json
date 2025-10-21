@@ -14,8 +14,9 @@
     "migrate:sponsors": "node scripts/sponsors_delegates.js",
     "migrate:events": "node scripts/events.js",
     "migrate:project-status": "node scripts/project_status.js",
-    "migrate:companies": "node scripts/companies.js",
-    "migrate:projects": "node scripts/projects.js",
+    "migrate:companies": "node scripts/companies.js --use-json",
+    "migrate:projects": "node scripts/projects.js --use-json",
+    "migrate:company-projects": "node scripts/company-projects.js --use-json",
     "data:clear": "node helpers/clear-data.js"
   },
   "keywords": [
