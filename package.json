@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "docker compose up -d",
     "stop": "docker compose down",
-    "restart": "docker compose down && docker compose up -d",
+    "restart": "./build-extensions.sh && docker compose down && docker compose up -d",
     "logs": "docker compose logs -f directus",
 
     "snapshot": "docker compose exec directus npx directus schema snapshot /directus/snapshots/snapshot.yaml --yes",
