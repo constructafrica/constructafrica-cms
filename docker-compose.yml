@@ -39,7 +39,11 @@ services:
       - ./uploads:/directus/uploads
       - ./extensions:/directus/extensions
       - ./snapshots:/directus/snapshots
+      - ./endpoints:/directus/extensions/endpoints
     environment:
+      LOG_LEVEL: "debug"
+      EXTENSIONS_AUTO_RELOAD: "true"
+      EXTENSIONS_PATH: "/directus/extensions"
       SECRET: "${SECRET}"
       ADMIN_EMAIL: "${ADMIN_EMAIL}"
       ADMIN_PASSWORD: "${ADMIN_PASSWORD}"

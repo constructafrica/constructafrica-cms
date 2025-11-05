@@ -1,0 +1,47 @@
+{
+	"name": "directus-extension-my-bundle",
+	"version": "1.0.0",
+	"type": "module",
+	"directus:extension": {
+		"host": "^10.1.10",
+		"type": "bundle",
+		"path": {
+			"app": "dist/app.js",
+			"api": "dist/api.js"
+		},
+		"entries": [
+			{
+				"type": "endpoint",
+				"name": "projects",
+				"source": "src/endpoints/projects/index.js"
+			},
+			{
+				"type": "endpoint",
+				"name": "test",
+				"source": "src/endpoints/test/index.js"
+			},
+			{
+				"type": "hook",
+				"name": "my-hook",
+				"source": "src/hooks/my-hook/index.js"
+			}
+		]
+	},
+	"description": "Please enter a description for your extension",
+	"icon": "extension",
+	"keywords": [
+		"directus",
+		"directus-extension",
+		"directus-custom-bundle"
+	],
+	"scripts": {
+		"build": "directus-extension build",
+		"dev": "directus-extension build -w --no-minify",
+		"link": "directus-extension link",
+		"add": "directus-extension add"
+	},
+	"devDependencies": {
+		"@directus/extensions-sdk": "12.1.4",
+		"vue": "^3.5.13"
+	}
+}
