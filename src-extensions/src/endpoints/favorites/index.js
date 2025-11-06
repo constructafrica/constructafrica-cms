@@ -3,10 +3,142 @@ export default (router, { services, exceptions, database }) => {
         const { ForbiddenException, InvalidPayloadException, ServiceUnavailableException } = exceptions;
         const allowedCollections = ['projects', 'companies', 'main_news'];
 
+    // ============================================
+    // 3. GET USER'S FAVORITES
+    // ============================================
+        router.get('/', async (req, res) => {
+            try {
+            const { accountability } = req;
+            const {
+                collection: filterCollection,
+                limit = 50,
+                offset = 0,
+                sort = '-date_created',
+            } = req.query;
+
+            if (!accountability?.user) {
+                throw new ForbiddenException('You must be authenticated to view favorites');
+            }
+
+            const favoritesService = new ItemsService('favorites', {
+                schema: req.schema,
+                accountability: req.accountability,
+            });
+
+            // Build filter
+            const filter = {
+                user_created: { _eq: accountability.user },
+            };
+
+            if (filterCollection) {
+                const allowedCollections = ['projects', 'companies', 'news'];
+                if (!allowedCollections.includes(filterCollection)) {
+                    return res.status(400).json({
+                        success: false,
+                        error: `Invalid collection filter. Must be one of: ${allowedCollections.join(', ')}`,
+                    });
+                }
+                filter.collection = { _eq: filterCollection };
+            }
+
+            // Get favorites with pagination
+            const favorites = await favoritesService.readByQuery({
+                filter,
+                sort: [sort],
+                limit: parseInt(limit),
+                offset: parseInt(offset),
+                fields: ['*'],
+            });
+
+            // Get total count
+            const totalCount = await favoritesService.readByQuery({
+                filter,
+                aggregate: { count: '*' },
+            });
+
+            // Group by collection and fetch actual items with details
+            const grouped = {
+                projects: [],
+                companies: [],
+                news: [],
+            };
+
+            const collectionCounts = {
+                projects: 0,
+                companies: 0,
+                news: 0,
+            };
+
+            for (const fav of favorites) {
+                if (!grouped[fav.collection]) continue;
+
+                try {
+                    const itemService = new ItemsService(fav.collection, {
+                        schema: req.schema,
+                        accountability: req.accountability,
+                    });
+
+                    // Fetch the item with specific fields based on collection
+                    let fields = ['id', 'status', 'date_created', 'date_updated', 'favorites_count'];
+
+                    if (fav.collection === 'projects') {
+                        fields.push('title', 'slug', 'summary', 'featured_image', 'contract_value_usd', 'current_stage');
+                    } else if (fav.collection === 'companies') {
+                        fields.push('name', 'slug', 'company_type', 'logo', 'description');
+                    } else if (fav.collection === 'main_news') {
+                        fields.push('title', 'slug', 'excerpt', 'featured_image', 'published_at');
+                    }
+
+                    const item = await itemService.readOne(fav.item_id, {
+                        fields,
+                    });
+
+                    grouped[fav.collection].push({
+                        // Favorite metadata
+                        favorite_id: fav.id,
+                        favorite_date: fav.date_created,
+                        favorite_notes: fav.notes,
+                        favorite_tags: fav.tags,
+                        // Item data
+                        ...item,
+                    });
+
+                    collectionCounts[fav.collection]++;
+                } catch (error) {
+                    // Item might be deleted or user doesn't have access
+                    console.warn(`Could not fetch ${fav.collection} item ${fav.item_id}:`, error.message);
+                }
+            }
+
+            return res.json({
+                success: true,
+                total: totalCount[0]?.count || 0,
+                limit: parseInt(limit),
+                offset: parseInt(offset),
+                counts: collectionCounts,
+                favorites: grouped,
+            });
+        } catch (error) {
+                console.error('Get favorites error:', error);
+
+                if (error instanceof ForbiddenException) {
+                    return res.status(403).json({
+                        success: false,
+                        error: error.message,
+                    });
+                }
+
+                return res.status(500).json({
+                    success: false,
+                    error: 'Failed to fetch favorites',
+                    details: error.message,
+                });
+            }
+        });
         // ============================================
         // 1. TOGGLE FAVORITE
         // ============================================
-        router.post('favorites/toggle', async (req, res) => {
+        router.post('/toggle', async (req, res) => {
             try {
                 const { collection, item_id } = req.body;
                 const { accountability } = req;
@@ -117,7 +249,7 @@ export default (router, { services, exceptions, database }) => {
         // ============================================
         // 2. CHECK IF ITEM IS FAVORITED
         // ============================================
-        router.get('/favorites/:collection/:item_id/check', async (req, res) => {
+        router.get('/:collection/:item_id/check', async (req, res) => {
             try {
                 const { collection, item_id } = req.params;
                 const { accountability } = req;
@@ -174,146 +306,11 @@ export default (router, { services, exceptions, database }) => {
         });
 
         // ============================================
-        // 3. GET USER'S FAVORITES
-        // GET /custom/favorites/my-favorites
-        // Query params: ?collection=projects&limit=20&offset=0
-        // ============================================
-        router.get('/favorites', async (req, res) => {
-            try {
-                const { accountability } = req;
-                const {
-                    collection: filterCollection,
-                    limit = 50,
-                    offset = 0,
-                    sort = '-date_created',
-                } = req.query;
-
-                if (!accountability?.user) {
-                    throw new ForbiddenException('You must be authenticated to view favorites');
-                }
-
-                const favoritesService = new ItemsService('favorites', {
-                    schema: req.schema,
-                    accountability: req.accountability,
-                });
-
-                // Build filter
-                const filter = {
-                    user_created: { _eq: accountability.user },
-                };
-
-                if (filterCollection) {
-                    const allowedCollections = ['projects', 'companies', 'news'];
-                    if (!allowedCollections.includes(filterCollection)) {
-                        return res.status(400).json({
-                            success: false,
-                            error: `Invalid collection filter. Must be one of: ${allowedCollections.join(', ')}`,
-                        });
-                    }
-                    filter.collection = { _eq: filterCollection };
-                }
-
-                // Get favorites with pagination
-                const favorites = await favoritesService.readByQuery({
-                    filter,
-                    sort: [sort],
-                    limit: parseInt(limit),
-                    offset: parseInt(offset),
-                    fields: ['*'],
-                });
-
-                // Get total count
-                const totalCount = await favoritesService.readByQuery({
-                    filter,
-                    aggregate: { count: '*' },
-                });
-
-                // Group by collection and fetch actual items with details
-                const grouped = {
-                    projects: [],
-                    companies: [],
-                    news: [],
-                };
-
-                const collectionCounts = {
-                    projects: 0,
-                    companies: 0,
-                    news: 0,
-                };
-
-                for (const fav of favorites) {
-                    if (!grouped[fav.collection]) continue;
-
-                    try {
-                        const itemService = new ItemsService(fav.collection, {
-                            schema: req.schema,
-                            accountability: req.accountability,
-                        });
-
-                        // Fetch the item with specific fields based on collection
-                        let fields = ['id', 'status', 'date_created', 'date_updated', 'favorites_count'];
-
-                        if (fav.collection === 'projects') {
-                            fields.push('title', 'slug', 'summary', 'featured_image', 'contract_value_usd', 'current_stage');
-                        } else if (fav.collection === 'companies') {
-                            fields.push('name', 'slug', 'company_type', 'logo', 'description');
-                        } else if (fav.collection === 'main_news') {
-                            fields.push('title', 'slug', 'excerpt', 'featured_image', 'published_at');
-                        }
-
-                        const item = await itemService.readOne(fav.item_id, {
-                            fields,
-                        });
-
-                        grouped[fav.collection].push({
-                            // Favorite metadata
-                            favorite_id: fav.id,
-                            favorite_date: fav.date_created,
-                            favorite_notes: fav.notes,
-                            favorite_tags: fav.tags,
-                            // Item data
-                            ...item,
-                        });
-
-                        collectionCounts[fav.collection]++;
-                    } catch (error) {
-                        // Item might be deleted or user doesn't have access
-                        console.warn(`Could not fetch ${fav.collection} item ${fav.item_id}:`, error.message);
-                    }
-                }
-
-                return res.json({
-                    success: true,
-                    total: totalCount[0]?.count || 0,
-                    limit: parseInt(limit),
-                    offset: parseInt(offset),
-                    counts: collectionCounts,
-                    favorites: grouped,
-                });
-            } catch (error) {
-                console.error('Get favorites error:', error);
-
-                if (error instanceof ForbiddenException) {
-                    return res.status(403).json({
-                        success: false,
-                        error: error.message,
-                    });
-                }
-
-                return res.status(500).json({
-                    success: false,
-                    error: 'Failed to fetch favorites',
-                    details: error.message,
-                });
-            }
-        });
-
-        // ============================================
         // 4. GET POPULAR ITEMS (MOST FAVORITED)
         // GET /custom/favorites/popular/:collection
         // Query params: ?limit=10&period=all
         // ============================================
-        router.get('/favorites/popular/:collection', async (req, res) => {
+        router.get('/popular/:collection', async (req, res) => {
             try {
                 const { collection } = req.params;
                 const {
@@ -503,7 +500,7 @@ export default (router, { services, exceptions, database }) => {
         // 6. BONUS: GET FAVORITE STATISTICS
         // GET /custom/favorites/stats
         // ============================================
-        router.get('/favorites/stats', async (req, res) => {
+        router.get('/stats', async (req, res) => {
             try {
                 const { accountability } = req;
 
@@ -587,7 +584,7 @@ export default (router, { services, exceptions, database }) => {
         // DELETE /custom/favorites/clear
         // Query params: ?collection=projects (optional)
         // ============================================
-        router.delete('/favorites/clear', async (req, res) => {
+        router.delete('/clear', async (req, res) => {
             try {
                 const { accountability } = req;
                 const { collection } = req.query;

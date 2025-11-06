@@ -17,11 +17,6 @@
 			},
 			{
 				"type": "endpoint",
-				"name": "test",
-				"source": "src/endpoints/test/index.js"
-			},
-			{
-				"type": "endpoint",
 				"name": "favorites",
 				"source": "src/endpoints/favorites/index.js"
 			},
