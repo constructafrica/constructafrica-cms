@@ -21,6 +21,11 @@
 				"source": "src/endpoints/favorites/index.js"
 			},
 			{
+				"type": "endpoint",
+				"name": "favourites",
+				"source": "src/endpoints/favourites/index.js"
+			},
+			{
 				"type": "hook",
 				"name": "my-hook",
 				"source": "src/hooks/my-hook/index.js"
