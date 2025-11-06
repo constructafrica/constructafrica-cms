@@ -1,13 +1,12 @@
-export default {
-    id: 'favorites',
-    handler: (router, { services, exceptions, database }) => {
+export default (router, { services, exceptions, database }) => {
         const { ItemsService } = services;
         const { ForbiddenException, InvalidPayloadException, ServiceUnavailableException } = exceptions;
+        const allowedCollections = ['projects', 'companies', 'main_news'];
 
         // ============================================
         // 1. TOGGLE FAVORITE
         // ============================================
-        router.post('/toggle', async (req, res) => {
+        router.post('favorites/toggle', async (req, res) => {
             try {
                 const { collection, item_id } = req.body;
                 const { accountability } = req;
@@ -23,7 +22,7 @@ export default {
                 }
 
                 // Validate collection name
-                const allowedCollections = ['projects', 'companies', 'news'];
+
                 if (!allowedCollections.includes(collection)) {
                     throw new InvalidPayloadException(
                         `Invalid collection. Must be one of: ${allowedCollections.join(', ')}`
@@ -117,9 +116,8 @@ export default {
 
         // ============================================
         // 2. CHECK IF ITEM IS FAVORITED
-        // GET /custom/favorites/check/:collection/:item_id
         // ============================================
-        router.get('/check/:collection/:item_id', async (req, res) => {
+        router.get('/favorites/:collection/:item_id/check', async (req, res) => {
             try {
                 const { collection, item_id } = req.params;
                 const { accountability } = req;
@@ -134,7 +132,6 @@ export default {
                 }
 
                 // Validate collection
-                const allowedCollections = ['projects', 'companies', 'news'];
                 if (!allowedCollections.includes(collection)) {
                     return res.status(400).json({
                         success: false,
@@ -181,7 +178,7 @@ export default {
         // GET /custom/favorites/my-favorites
         // Query params: ?collection=projects&limit=20&offset=0
         // ============================================
-        router.get('/my-favorites', async (req, res) => {
+        router.get('/favorites', async (req, res) => {
             try {
                 const { accountability } = req;
                 const {
@@ -260,7 +257,7 @@ export default {
                             fields.push('title', 'slug', 'summary', 'featured_image', 'contract_value_usd', 'current_stage');
                         } else if (fav.collection === 'companies') {
                             fields.push('name', 'slug', 'company_type', 'logo', 'description');
-                        } else if (fav.collection === 'news') {
+                        } else if (fav.collection === 'main_news') {
                             fields.push('title', 'slug', 'excerpt', 'featured_image', 'published_at');
                         }
 
@@ -316,7 +313,7 @@ export default {
         // GET /custom/favorites/popular/:collection
         // Query params: ?limit=10&period=all
         // ============================================
-        router.get('/popular/:collection', async (req, res) => {
+        router.get('/favorites/popular/:collection', async (req, res) => {
             try {
                 const { collection } = req.params;
                 const {
@@ -431,7 +428,6 @@ export default {
                 }
 
                 // Validate all items
-                const allowedCollections = ['projects', 'companies', 'news'];
                 for (const item of items) {
                     if (!item.collection || !item.item_id) {
                         return res.status(400).json({
@@ -507,7 +503,7 @@ export default {
         // 6. BONUS: GET FAVORITE STATISTICS
         // GET /custom/favorites/stats
         // ============================================
-        router.get('/stats', async (req, res) => {
+        router.get('/favorites/stats', async (req, res) => {
             try {
                 const { accountability } = req;
 
@@ -540,7 +536,7 @@ export default {
                 const newsFavorites = await favoritesService.readByQuery({
                     filter: {
                         user_created: { _eq: accountability.user },
-                        collection: { _eq: 'news' },
+                        collection: { _eq: 'main_news' },
                     },
                     aggregate: { count: '*' },
                 });
@@ -591,7 +587,7 @@ export default {
         // DELETE /custom/favorites/clear
         // Query params: ?collection=projects (optional)
         // ============================================
-        router.delete('/clear', async (req, res) => {
+        router.delete('/favorites/clear', async (req, res) => {
             try {
                 const { accountability } = req;
                 const { collection } = req.query;
@@ -684,5 +680,5 @@ export default {
                 });
             }
         });
-    },
+
 };
