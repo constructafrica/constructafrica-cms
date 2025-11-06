@@ -39,7 +39,7 @@ export default (router, context) => {
                 });
             }
 
-            const favoritesService = new ItemsService('favorites', {
+            const favoritesService = new ItemsService('favourites', {
                 schema: req.schema,
                 accountability: req.accountability,
             });
@@ -325,7 +325,7 @@ export default (router, context) => {
                 });
             }
 
-            const favoritesService = new ItemsService('favorites', {
+            const favoritesService = new ItemsService('favourites', {
                 schema: req.schema,
                 accountability: req.accountability,
             });
@@ -415,7 +415,7 @@ export default (router, context) => {
                 });
             }
 
-            const favoritesService = new ItemsService('favorites', {
+            const favoritesService = new ItemsService('favourites', {
                 schema: req.schema,
                 accountability: req.accountability,
             });
@@ -464,7 +464,7 @@ export default (router, context) => {
                 });
             }
 
-            const favoritesService = new ItemsService('favorites', {
+            const favoritesService = new ItemsService('favourites', {
                 schema: req.schema,
                 accountability: req.accountability,
             });
@@ -566,7 +566,7 @@ export default (router, context) => {
                 });
             }
 
-            const favoritesService = new ItemsService('favorites', {
+            const favoritesService = new ItemsService('favourites', {
                 schema: req.schema,
                 accountability: req.accountability,
             });
@@ -629,9 +629,9 @@ export default (router, context) => {
                     if (fav.collection === 'projects') {
                         fields.push('title', 'slug', 'summary', 'featured_image.*', 'contract_value_usd', 'current_stage');
                     } else if (fav.collection === 'companies') {
-                        fields.push('name', 'slug', 'company_type', 'logo.*', 'description');
+                        fields.push('name', 'slug', 'company_role', 'logo.*', 'description');
                     } else if (fav.collection === 'main_news') {
-                        fields.push('title', 'slug', 'excerpt', 'featured_image.*', 'published_at');
+                        fields.push('title', 'slug', 'excerpt', 'featured_image.*');
                     }
 
                     const item = await itemService.readOne(fav.item_id, {
