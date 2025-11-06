@@ -120,12 +120,32 @@ export default (router, { services, exceptions }) => {
             if (groupBy) {
                 const grouped = groupProjects(transformedProjects, groupBy);
 
+                // res.json({
+                //     data: grouped,
+                //     meta: {
+                //         total: transformedProjects.length,
+                //         groupBy: groupBy,
+                //         groups: grouped.length
+                //     }
+                // });
+                // Pagination for groups
+                const groupLimit = parseInt(req.query.limit) || 5; // Default 5 groups per page
+                const groupPage = parseInt(req.query.page) || 1;
+
+                const totalGroups = grouped.length;
+                const start = (groupPage - 1) * groupLimit;
+                const end = start + groupLimit;
+
+                const paginatedGroups = grouped.slice(start, end);
+
                 res.json({
-                    data: grouped,
+                    data: paginatedGroups,
                     meta: {
-                        total: transformedProjects.length,
+                        total_groups: totalGroups,
                         groupBy: groupBy,
-                        groups: grouped.length
+                        page: groupPage,
+                        limit: groupLimit,
+                        page_count: Math.ceil(totalGroups / groupLimit)
                     }
                 });
             } else {
