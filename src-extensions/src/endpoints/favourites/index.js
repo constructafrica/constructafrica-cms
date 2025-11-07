@@ -1,4 +1,6 @@
-export default (router, { services, exceptions, database }) => {
+export default (router, context) => {
+    // Properly destructure from context for bundles
+    const { services, exceptions, database, env, logger, getSchema } = context;
     const { ItemsService } = services;
     const { ForbiddenException, InvalidPayloadException, ServiceUnavailableException } = exceptions;
 
@@ -15,28 +17,35 @@ export default (router, { services, exceptions, database }) => {
 
             // Validate authentication
             if (!accountability?.user) {
-                throw new ForbiddenException('You must be authenticated to manage favorites');
+                return res.status(403).json({
+                    success: false,
+                    error: 'You must be authenticated to manage favorites',
+                });
             }
 
             // Validate required fields
             if (!collection || !item_id) {
-                throw new InvalidPayloadException('Collection and item_id are required');
+                return res.status(400).json({
+                    success: false,
+                    error: 'Collection and item_id are required',
+                });
             }
 
             // Validate collection name
             if (!allowedCollections.includes(collection)) {
-                throw new InvalidPayloadException(
-                    `Invalid collection. Must be one of: ${allowedCollections.join(', ')}`
-                );
+                return res.status(400).json({
+                    success: false,
+                    error: `Invalid collection. Must be one of: ${allowedCollections.join(', ')}`,
+                });
             }
 
-            const favoritesService = new ItemsService('favorites', {
-                schema: req.schema,
+            const favoritesService = new ItemsService('favourites', {
+                schema: await getSchema(),
                 accountability: req.accountability,
             });
 
             const collectionService = new ItemsService(collection, {
-                schema: req.schema,
+                schema: await getSchema(),
                 accountability: req.accountability,
             });
 
@@ -108,13 +117,6 @@ export default (router, { services, exceptions, database }) => {
         } catch (error) {
             console.error('Toggle favorite error:', error);
 
-            if (error instanceof ForbiddenException || error instanceof InvalidPayloadException) {
-                return res.status(error.status || 400).json({
-                    success: false,
-                    error: error.message,
-                });
-            }
-
             return res.status(500).json({
                 success: false,
                 error: 'Failed to toggle favorite',
@@ -171,7 +173,7 @@ export default (router, { services, exceptions, database }) => {
             }
 
             const favoritesService = new ItemsService('favorites', {
-                schema: req.schema,
+                schema: await getSchema(),
                 accountability: req.accountability,
             });
 
@@ -246,7 +248,7 @@ export default (router, { services, exceptions, database }) => {
             }
 
             const itemService = new ItemsService(collection, {
-                schema: req.schema,
+                schema: await getSchema(),
                 accountability: req.accountability,
             });
 
@@ -317,11 +319,14 @@ export default (router, { services, exceptions, database }) => {
             const { accountability } = req;
 
             if (!accountability?.user) {
-                throw new ForbiddenException('Authentication required');
+                return res.status(403).json({
+                    success: false,
+                    error: 'Authentication required',
+                });
             }
 
-            const favoritesService = new ItemsService('favorites', {
-                schema: req.schema,
+            const favoritesService = new ItemsService('favourites', {
+                schema: await getSchema(),
                 accountability: req.accountability,
             });
 
@@ -376,13 +381,6 @@ export default (router, { services, exceptions, database }) => {
         } catch (error) {
             console.error('Get stats error:', error);
 
-            if (error instanceof ForbiddenException) {
-                return res.status(403).json({
-                    success: false,
-                    error: error.message,
-                });
-            }
-
             return res.status(500).json({
                 success: false,
                 error: 'Failed to fetch statistics',
@@ -417,8 +415,8 @@ export default (router, { services, exceptions, database }) => {
                 });
             }
 
-            const favoritesService = new ItemsService('favorites', {
-                schema: req.schema,
+            const favoritesService = new ItemsService('favourites', {
+                schema: await getSchema(),
                 accountability: req.accountability,
             });
 
@@ -460,11 +458,14 @@ export default (router, { services, exceptions, database }) => {
             const { collection } = req.query;
 
             if (!accountability?.user) {
-                throw new ForbiddenException('Authentication required');
+                return res.status(403).json({
+                    success: false,
+                    error: 'Authentication required',
+                });
             }
 
-            const favoritesService = new ItemsService('favorites', {
-                schema: req.schema,
+            const favoritesService = new ItemsService('favourites', {
+                schema: await getSchema(),
                 accountability: req.accountability,
             });
 
@@ -536,13 +537,6 @@ export default (router, { services, exceptions, database }) => {
         } catch (error) {
             console.error('Clear favorites error:', error);
 
-            if (error instanceof ForbiddenException) {
-                return res.status(403).json({
-                    success: false,
-                    error: error.message,
-                });
-            }
-
             return res.status(500).json({
                 success: false,
                 error: 'Failed to clear favorites',
@@ -552,9 +546,9 @@ export default (router, { services, exceptions, database }) => {
     });
 
     // ============================================
-    // 7. GET USER'S FAVORITES
-    // IMPORTANT: This MUST be last because / matches everything
-    // ============================================
+// 7. GET USER'S FAVORITES
+// IMPORTANT: This MUST be last because / matches everything
+// ============================================
     router.get('/', async (req, res) => {
         try {
             const { accountability } = req;
@@ -566,11 +560,14 @@ export default (router, { services, exceptions, database }) => {
             } = req.query;
 
             if (!accountability?.user) {
-                throw new ForbiddenException('You must be authenticated to view favorites');
+                return res.status(403).json({
+                    success: false,
+                    error: 'You must be authenticated to view favorites',
+                });
             }
 
-            const favoritesService = new ItemsService('favorites', {
-                schema: req.schema,
+            const favoritesService = new ItemsService('favourites', {
+                schema: await getSchema(),  // FIXED: Use getSchema() instead of req.schema
                 accountability: req.accountability,
             });
 
@@ -622,7 +619,7 @@ export default (router, { services, exceptions, database }) => {
 
                 try {
                     const itemService = new ItemsService(fav.collection, {
-                        schema: req.schema,
+                        schema: await getSchema(),  // FIXED: Also fix here
                         accountability: req.accountability,
                     });
 
@@ -632,9 +629,9 @@ export default (router, { services, exceptions, database }) => {
                     if (fav.collection === 'projects') {
                         fields.push('title', 'slug', 'summary', 'featured_image.*', 'contract_value_usd', 'current_stage');
                     } else if (fav.collection === 'companies') {
-                        fields.push('name', 'slug', 'company_type', 'logo.*', 'description');
+                        fields.push('name', 'slug', 'company_role', 'logo.*', 'description');
                     } else if (fav.collection === 'main_news') {
-                        fields.push('title', 'slug', 'excerpt', 'featured_image.*', 'published_at');
+                        fields.push('title', 'slug', 'excerpt', 'featured_image.*');
                     }
 
                     const item = await itemService.readOne(fav.item_id, {
@@ -645,7 +642,7 @@ export default (router, { services, exceptions, database }) => {
                         // Favorite metadata
                         favorite_id: fav.id,
                         favorite_date: fav.date_created,
-                        favorite_notes: fav.notes,
+                        // favorite_notes: fav.notes,
                         favorite_tags: fav.tags,
                         // Item data
                         ...item,
@@ -669,17 +666,10 @@ export default (router, { services, exceptions, database }) => {
         } catch (error) {
             console.error('Get favorites error:', error);
 
-            if (error instanceof ForbiddenException) {
-                return res.status(403).json({
-                    success: false,
-                    error: error.message,
-                });
-            }
-
             return res.status(500).json({
                 success: false,
                 error: 'Failed to fetch favorites',
-                details: error.message,
+                details: error,
             });
         }
     });

@@ -546,9 +546,9 @@ export default (router, context) => {
     });
 
     // ============================================
-    // 7. GET USER'S FAVORITES
-    // IMPORTANT: This MUST be last because / matches everything
-    // ============================================
+// 7. GET USER'S FAVORITES
+// IMPORTANT: This MUST be last because / matches everything
+// ============================================
     router.get('/', async (req, res) => {
         try {
             const { accountability } = req;
@@ -567,7 +567,7 @@ export default (router, context) => {
             }
 
             const favoritesService = new ItemsService('favourites', {
-                schema: req.schema,
+                schema: await getSchema(),  // FIXED: Use getSchema() instead of req.schema
                 accountability: req.accountability,
             });
 
@@ -619,7 +619,7 @@ export default (router, context) => {
 
                 try {
                     const itemService = new ItemsService(fav.collection, {
-                        schema: req.schema,
+                        schema: await getSchema(),  // FIXED: Also fix here
                         accountability: req.accountability,
                     });
 
@@ -642,7 +642,7 @@ export default (router, context) => {
                         // Favorite metadata
                         favorite_id: fav.id,
                         favorite_date: fav.date_created,
-                        favorite_notes: fav.notes,
+                        // favorite_notes: fav.notes,
                         favorite_tags: fav.tags,
                         // Item data
                         ...item,
@@ -669,7 +669,7 @@ export default (router, context) => {
             return res.status(500).json({
                 success: false,
                 error: 'Failed to fetch favorites',
-                details: error.message,
+                details: error,
             });
         }
     });
