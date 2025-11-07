@@ -51,6 +51,7 @@ export default (router, context) => {
 
             // Verify the item exists
             try {
+                console.log("Item", item_id);
                 await collectionService.readOne(item_id);
             } catch (error) {
                 return res.status(404).json({
@@ -546,9 +547,9 @@ export default (router, context) => {
     });
 
     // ============================================
-// 7. GET USER'S FAVORITES
-// IMPORTANT: This MUST be last because / matches everything
-// ============================================
+    // 7. GET USER'S FAVORITES
+    // IMPORTANT: This MUST be last because / matches everything
+    // ============================================
     router.get('/', async (req, res) => {
         try {
             const { accountability } = req;
@@ -566,8 +567,9 @@ export default (router, context) => {
                 });
             }
 
+            const schema = await getSchema();
             const favoritesService = new ItemsService('favourites', {
-                schema: await getSchema(),  // FIXED: Use getSchema() instead of req.schema
+                schema: schema,
                 accountability: req.accountability,
             });
 
@@ -586,20 +588,47 @@ export default (router, context) => {
                 filter.collection = { _eq: filterCollection };
             }
 
-            // Get favorites with pagination
+            console.log('Fetching favorites with filter:', JSON.stringify(filter));
+
+            // Get favorites with pagination - use simpler query first
             const favorites = await favoritesService.readByQuery({
                 filter,
                 sort: [sort],
                 limit: parseInt(limit),
                 offset: parseInt(offset),
-                fields: ['*'],
             });
 
-            // Get total count
-            const totalCount = await favoritesService.readByQuery({
-                filter,
-                aggregate: { count: '*' },
-            });
+            console.log('Favorites result:', favorites);
+
+            // Ensure favorites is an array
+            if (!Array.isArray(favorites)) {
+                console.error('Favorites is not an array:', typeof favorites, favorites);
+                return res.status(500).json({
+                    success: false,
+                    error: 'Invalid response format from favorites service',
+                });
+            }
+
+            // Get total count - use a safer approach
+            let totalCount = 0;
+            try {
+                const countResult = await favoritesService.readByQuery({
+                    filter,
+                    aggregate: { count: ['*'] },
+                });
+
+                // Handle different possible response formats
+                if (Array.isArray(countResult) && countResult.length > 0) {
+                    totalCount = countResult[0]?.count || 0;
+                } else if (countResult && typeof countResult === 'object') {
+                    totalCount = countResult.count || 0;
+                }
+
+                console.log('Total count result:', countResult);
+            } catch (countError) {
+                console.warn('Could not get total count:', countError.message);
+                // Continue without total count
+            }
 
             // Group by collection and fetch actual items with details
             const grouped = {
@@ -614,50 +643,70 @@ export default (router, context) => {
                 main_news: 0,
             };
 
-            for (const fav of favorites) {
-                if (!grouped[fav.collection]) continue;
-
-                try {
-                    const itemService = new ItemsService(fav.collection, {
-                        schema: await getSchema(),  // FIXED: Also fix here
-                        accountability: req.accountability,
-                    });
-
-                    // Fetch the item with specific fields based on collection
-                    let fields = ['id', 'status', 'date_created', 'date_updated', 'favorites_count'];
-
-                    if (fav.collection === 'projects') {
-                        fields.push('title', 'slug', 'summary', 'featured_image.*', 'contract_value_usd', 'current_stage');
-                    } else if (fav.collection === 'companies') {
-                        fields.push('name', 'slug', 'company_role', 'logo.*', 'description');
-                    } else if (fav.collection === 'main_news') {
-                        fields.push('title', 'slug', 'excerpt', 'featured_image.*');
+            // Process favorites if we have any
+            if (favorites.length > 0) {
+                for (const fav of favorites) {
+                    if (!fav.collection || !grouped[fav.collection]) {
+                        console.warn('Invalid favorite item or collection:', fav);
+                        continue;
                     }
 
-                    const item = await itemService.readOne(fav.item_id, {
-                        fields,
-                    });
+                    try {
+                        const itemService = new ItemsService(fav.collection, {
+                            schema: schema,
+                            accountability: req.accountability,
+                        });
 
-                    grouped[fav.collection].push({
-                        // Favorite metadata
-                        favorite_id: fav.id,
-                        favorite_date: fav.date_created,
-                        // favorite_notes: fav.notes,
-                        favorite_tags: fav.tags,
-                        // Item data
-                        ...item,
-                    });
+                        // Fetch the item with specific fields based on collection
+                        let fields = ['id', 'status', 'date_created', 'date_updated'];
 
-                    collectionCounts[fav.collection]++;
-                } catch (error) {
-                    // Item might be deleted or user doesn't have access
-                    console.warn(`Could not fetch ${fav.collection} item ${fav.item_id}:`, error.message);
+                        // Only include favorites_count if it exists in the collection
+                        try {
+                            const collectionSchema = schema.collections[fav.collection];
+                            if (collectionSchema && collectionSchema.fields && collectionSchema.fields.favorites_count) {
+                                fields.push('favorites_count');
+                            }
+                        } catch (schemaError) {
+                            console.warn(`Could not check schema for ${fav.collection}:`, schemaError.message);
+                        }
+
+                        if (fav.collection === 'projects') {
+                            fields.push('title', 'slug', 'summary', 'featured_image', 'contract_value_usd', 'current_stage');
+                        } else if (fav.collection === 'companies') {
+                            fields.push('name', 'slug', 'company_role', 'logo', 'description');
+                        } else if (fav.collection === 'main_news') {
+                            fields.push('title', 'slug', 'excerpt', 'featured_image');
+                        }
+
+                        console.log(`Fetching ${fav.collection} item ${fav.item_id} with fields:`, fields);
+
+                        const item = await itemService.readOne(fav.item_id, {
+                            fields: fields,
+                        });
+
+                        if (item) {
+                            grouped[fav.collection].push({
+                                // Favorite metadata
+                                favorite_id: fav.id,
+                                favorite_date: fav.date_created,
+                                // Item data
+                                ...item,
+                            });
+
+                            collectionCounts[fav.collection]++;
+                        } else {
+                            console.warn(`Item not found: ${fav.collection} - ${fav.item_id}`);
+                        }
+                    } catch (error) {
+                        // Item might be deleted or user doesn't have access
+                        console.warn(`Could not fetch ${fav.collection} item ${fav.item_id}:`, error.message);
+                    }
                 }
             }
 
             return res.json({
                 success: true,
-                total: totalCount[0]?.count || 0,
+                total: totalCount,
                 limit: parseInt(limit),
                 offset: parseInt(offset),
                 counts: collectionCounts,
@@ -669,8 +718,9 @@ export default (router, context) => {
             return res.status(500).json({
                 success: false,
                 error: 'Failed to fetch favorites',
-                details: error,
+                details: error.message,
             });
         }
     });
+
 };

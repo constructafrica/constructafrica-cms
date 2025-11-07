@@ -1,23 +1,4 @@
 services:
-#  database:
-#    image: postgres:15-alpine
-#    container_name: cat-directus-db
-#    volumes:
-#      - ./data/database:/var/lib/postgresql/data
-#    environment:
-#      POSTGRES_USER: "${POSTGRES_USER}"
-#      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-#      POSTGRES_DB: "${POSTGRES_DB}"
-#    ports:
-#      - "5434:5432"
-#    networks:
-#      - directus
-#    healthcheck:
-#      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 5
-
 #  cache:
 #    image: redis:7-alpine
 #    container_name: directus-cache
@@ -36,6 +17,7 @@ services:
     ports:
       - "8055:8055"
     volumes:
+      - ./database:/directus/database
       - ./uploads:/directus/uploads
       - ./extensions:/directus/extensions
       - ./snapshots:/directus/snapshots
@@ -48,13 +30,14 @@ services:
       ADMIN_EMAIL: "${ADMIN_EMAIL}"
       ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
       DB_CLIENT: "${DB_CLIENT}"
-      DB_HOST: "${DB_HOST}"
-      DB_PORT: "${DB_PORT}"
-      DB_DATABASE: "${DB_DATABASE}"
-      DB_USER: "${DB_USER}"
-      DB_PASSWORD: "${DB_PASSWORD}"
-      DB_SSL: "${DB_SSL}"
-      DB_SSL__REJECT_UNAUTHORIZED: "false"
+      DB_FILENAME: "${DB_FILENAME}"
+#      DB_HOST: "${DB_HOST}"
+#      DB_PORT: "${DB_PORT}"
+#      DB_DATABASE: "${DB_DATABASE}"
+#      DB_USER: "${DB_USER}"
+#      DB_PASSWORD: "${DB_PASSWORD}"
+#      DB_SSL: "${DB_SSL}"
+#      DB_SSL__REJECT_UNAUTHORIZED: "false"
 
 #      DB_CLIENT: "${DB_CLIENT}"
 #      DB_FILENAME: "${DB_FILENAME}"
