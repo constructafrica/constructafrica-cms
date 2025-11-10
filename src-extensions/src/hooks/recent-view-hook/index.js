@@ -1,11 +1,11 @@
 export default ({ action }, { services, database, getSchema }) => {
     const { ItemsService } = services;
 
-    action('projects.read', async (meta, { accountability }) => {
+    action('projects.items.read', async (meta, { accountability }) => {
         await trackRecentView('projects', meta.key, accountability);
     });
 
-    action('companies.read', async (meta, { accountability }) => {
+    action('companies.items.read', async (meta, { accountability }) => {
         await trackRecentView('companies', meta.key, accountability);
     });
 
