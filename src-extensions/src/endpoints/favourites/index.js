@@ -675,7 +675,7 @@ export default (router, context) => {
                         } else if (fav.collection === 'companies') {
                             fields.push('name', 'slug', 'company_role', 'logo', 'description');
                         } else if (fav.collection === 'main_news') {
-                            fields.push('title', 'slug', 'excerpt', 'featured_image');
+                            fields.push('title', 'slug', 'summary', 'featured_image');
                         }
 
                         console.log(`Fetching ${fav.collection} item ${fav.item_id} with fields:`, fields);
