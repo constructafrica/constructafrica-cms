@@ -1,16 +1,4 @@
 services:
-#  cache:
-#    image: redis:7-alpine
-#    container_name: directus-cache
-#    restart: unless-stopped
-#    networks:
-#      - directus
-#    healthcheck:
-#      test: ["CMD", "redis-cli", "ping"]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 5
-
   directus:
     image: directus/directus:11.12.0
 #    container_name: directus-app
