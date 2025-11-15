@@ -47,9 +47,6 @@ export default (router, context) => {
                 accountability: req.accountability,
             });
 
-            // SKIP ITEM EXISTENCE CHECK - Assume item exists if we can favorite it
-            // The database constraints will prevent invalid references anyway
-
             console.log(`Proceeding without item existence check for ${collection}:${item_id}`);
 
             // Check if favorite already exists

@@ -2,34 +2,34 @@ export default (router, { services, exceptions }) => {
     const { ItemsService, AssetsService } = services;
     const { ServiceUnavailableException } = exceptions;
 
-    async function getUserAccessibleFilters(accountability) {
-        if (!accountability?.user) {
-            return { regions: [], sectors: [], hasAccess: false };
-        }
-
-        const user = await database('directus_users')
-            .where('id', accountability.user)
-            .first('subscription_type', 'subscription_status', 'active_subscription');
-
-        if (!user || user.subscription_status !== 'active' || user.subscription_type !== 'projects') {
-            return { regions: [], sectors: [], hasAccess: false };
-        }
-
-        const regions = await database('user_subscription_regions')
-            .where('user_subscriptions_id', user.active_subscription)
-            .pluck('regions_id');
-
-        const sectors = await database('user_subscription_sectors')
-            .where('user_subscriptions_id', user.active_subscription)
-            .pluck('types_id');
-
-        return {
-            regions,
-            sectors,
-            hasAccess: true,
-            subscriptionType: user.subscription_type
-        };
-    }
+    // async function getUserAccessibleFilters(accountability) {
+    //     if (!accountability?.user) {
+    //         return { regions: [], sectors: [], hasAccess: false };
+    //     }
+    //
+    //     const user = await database('directus_users')
+    //         .where('id', accountability.user)
+    //         .first('subscription_type', 'subscription_status', 'active_subscription');
+    //
+    //     if (!user || user.subscription_status !== 'active' || user.subscription_type !== 'projects') {
+    //         return { regions: [], sectors: [], hasAccess: false };
+    //     }
+    //
+    //     const regions = await database('user_subscription_regions')
+    //         .where('user_subscriptions_id', user.active_subscription)
+    //         .pluck('regions_id');
+    //
+    //     const sectors = await database('user_subscription_sectors')
+    //         .where('user_subscriptions_id', user.active_subscription)
+    //         .pluck('types_id');
+    //
+    //     return {
+    //         regions,
+    //         sectors,
+    //         hasAccess: true,
+    //         subscriptionType: user.subscription_type
+    //     };
+    // }
 
     // Helper function to apply subscription filters
     function applySubscriptionFilter(baseFilter, userAccess) {
@@ -167,16 +167,16 @@ export default (router, { services, exceptions }) => {
             });
 
             // Get user's access permissions
-            const userAccess = await getUserAccessibleFilters(req.accountability);
+            // const userAccess = await getUserAccessibleFilters(req.accountability);
 
             // Check if user has access
-            if (!userAccess.hasAccess && req.accountability?.user) {
-                return res.status(403).json({
-                    success: false,
-                    error: 'Projects subscription required',
-                    message: 'You need an active Projects subscription to access this content',
-                });
-            }
+            // if (!userAccess.hasAccess && req.accountability?.user) {
+            //     return res.status(403).json({
+            //         success: false,
+            //         error: 'Projects subscription required',
+            //         message: 'You need an active Projects subscription to access this content',
+            //     });
+            // }
 
             // Check if grouping is requested
             const groupBy = req.query.groupBy; // e.g., 'country', 'region', 'type'
@@ -400,7 +400,7 @@ export default (router, { services, exceptions }) => {
         try {
             const projectsService = new ItemsService('projects', {
                 schema: req.schema,
-                accountability: null
+                // accountability: null
             });
 
             // Get limit from query or default to 10
@@ -428,24 +428,24 @@ export default (router, { services, exceptions }) => {
             const projects = result.data || result;
 
             // Transform projects to include full asset URLs
-            const transformedProjects = projects.map(project => {
-                if (project.featured_image && typeof project.featured_image === 'object' && project.featured_image.id) {
-                    project.featured_image = {
-                        id: project.featured_image.id,
-                        url: `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}`,
-                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}?width=400&height=300&fit=cover`,
-                        title: project.featured_image.title
-                    };
-                }
-
-                return {
-                    id: project.id,
-                    title: project.title,
-                    slug: project.slug,
-                    summary: project.summary,
-                    featured_image: project.featured_image
-                };
-            });
+            // const transformedProjects = projects.map(project => {
+            //     if (project.featured_image && typeof project.featured_image === 'object' && project.featured_image.id) {
+            //         project.featured_image = {
+            //             id: project.featured_image.id,
+            //             url: `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}`,
+            //             thumbnail_url: `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}?width=400&height=300&fit=cover`,
+            //             title: project.featured_image.title
+            //         };
+            //     }
+            //
+            //     return {
+            //         id: project.id,
+            //         title: project.title,
+            //         slug: project.slug,
+            //         summary: project.summary,
+            //         featured_image: project.featured_image
+            //     };
+            // });
 
             res.json({
                 data: transformedProjects,
