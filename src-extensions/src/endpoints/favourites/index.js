@@ -5,7 +5,7 @@ export default (router, context) => {
     const { ForbiddenException, InvalidPayloadException, ServiceUnavailableException } = exceptions;
 
     // Use consistent collection names throughout
-    const allowedCollections = ['projects', 'companies', 'main_news'];
+    const allowedCollections = ['projects', 'companies', 'main_news', 'project_tenders'];
 
     // ============================================
     // 1. TOGGLE FAVORITE

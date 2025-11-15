@@ -2,12 +2,181 @@ export default (router, { services, exceptions }) => {
     const { ItemsService, AssetsService } = services;
     const { ServiceUnavailableException } = exceptions;
 
+    async function getUserAccessibleFilters(accountability) {
+        if (!accountability?.user) {
+            return { regions: [], sectors: [], hasAccess: false };
+        }
+
+        const user = await database('directus_users')
+            .where('id', accountability.user)
+            .first('subscription_type', 'subscription_status', 'active_subscription');
+
+        if (!user || user.subscription_status !== 'active' || user.subscription_type !== 'projects') {
+            return { regions: [], sectors: [], hasAccess: false };
+        }
+
+        const regions = await database('user_subscription_regions')
+            .where('user_subscriptions_id', user.active_subscription)
+            .pluck('regions_id');
+
+        const sectors = await database('user_subscription_sectors')
+            .where('user_subscriptions_id', user.active_subscription)
+            .pluck('types_id');
+
+        return {
+            regions,
+            sectors,
+            hasAccess: true,
+            subscriptionType: user.subscription_type
+        };
+    }
+
+    // Helper function to apply subscription filters
+    function applySubscriptionFilter(baseFilter, userAccess) {
+        if (!userAccess.hasAccess) {
+            // No access - return impossible filter
+            return {
+                ...baseFilter,
+                id: { _null: true }, // Will return no results
+            };
+        }
+
+        // Apply region and sector filters (AND logic between them, OR within each)
+        const subscriptionFilter = {
+            _and: [],
+        };
+
+        if (userAccess.regions.length > 0) {
+            subscriptionFilter._and.push({
+                regions: {
+                    regions_id: {
+                        id: { _in: userAccess.regions },
+                    },
+                },
+            });
+        }
+
+        if (userAccess.sectors.length > 0) {
+            subscriptionFilter._and.push({
+                types: {
+                    types_id: {
+                        id: { _in: userAccess.sectors },
+                    },
+                },
+            });
+        }
+
+        // Combine with existing filters
+        if (baseFilter._and) {
+            return {
+                _and: [...baseFilter._and, ...subscriptionFilter._and],
+            };
+        } else if (Object.keys(baseFilter).length > 0) {
+            return {
+                _and: [baseFilter, ...subscriptionFilter._and],
+            };
+        } else {
+            return subscriptionFilter._and.length > 0 ? subscriptionFilter : {};
+        }
+    }
+
+    function groupProjects(projects, groupBy) {
+        const groups = new Map();
+
+        projects.forEach(project => {
+            let groupKeys = [];
+
+            switch (groupBy) {
+                case 'country':
+                    groupKeys = project._originals.countries.map(c => ({
+                        id: c.countries_id?.id,
+                        name: c.countries_id?.name || 'Unknown Country',
+                        data: c.countries_id
+                    }));
+                    break;
+                case 'region':
+                    groupKeys = project._originals.regions.map(r => ({
+                        id: r.regions_id?.id,
+                        name: r.regions_id?.name || 'Unknown Region',
+                        data: r.regions_id
+                    }));
+                    break;
+                case 'type':
+                    groupKeys = project._originals.types.map(t => ({
+                        id: t.types_id?.id,
+                        name: t.types_id?.name || 'Unknown Type',
+                        data: t.types_id
+                    }));
+                    break;
+                case 'company':
+                    groupKeys = project._originals.companies.map(c => ({
+                        id: c.companies_id?.id,
+                        name: c.companies_id?.name || 'Unknown Company',
+                        data: c.companies_id
+                    }));
+                    break;
+                default:
+                    groupKeys = [{ id: 'all', name: 'All Projects', data: null }];
+            }
+
+            // If no group keys found, add to "Unknown" group
+            if (groupKeys.length === 0) {
+                groupKeys = [{ id: 'unknown', name: `Unknown ${groupBy}`, data: null }];
+            }
+
+            // Add project to each group it belongs to
+            groupKeys.forEach(groupKey => {
+                if (!groups.has(groupKey.id)) {
+                    groups.set(groupKey.id, {
+                        id: groupKey.id,
+                        name: groupKey.name,
+                        data: groupKey.data,
+                        projects: [],
+                        count: 0,
+                        totalValue: 0
+                    });
+                }
+
+                const group = groups.get(groupKey.id);
+
+                // Remove _originals before adding to group
+                const cleanProject = { ...project };
+                delete cleanProject._originals;
+
+                group.projects.push(cleanProject);
+                group.count++;
+
+                // Calculate total value if value field exists
+                if (project.contract_value_usd) {
+                    group.totalValue += parseFloat(project.contract_value_usd) || 0;
+                }
+            });
+        });
+
+        // Convert Map to Array and sort by name
+        return Array.from(groups.values()).sort((a, b) =>
+            a.name.localeCompare(b.name)
+        );
+    }
+
     router.get('/', async (req, res, next) => {
         try {
             const projectsService = new ItemsService('projects', {
                 schema: req.schema,
                 accountability: req.accountability
             });
+
+            // Get user's access permissions
+            const userAccess = await getUserAccessibleFilters(req.accountability);
+
+            // Check if user has access
+            if (!userAccess.hasAccess && req.accountability?.user) {
+                return res.status(403).json({
+                    success: false,
+                    error: 'Projects subscription required',
+                    message: 'You need an active Projects subscription to access this content',
+                });
+            }
 
             // Check if grouping is requested
             const groupBy = req.query.groupBy; // e.g., 'country', 'region', 'type'
@@ -166,85 +335,129 @@ export default (router, { services, exceptions }) => {
         }
     });
 
-    // Helper function to group projects
-    function groupProjects(projects, groupBy) {
-        const groups = new Map();
+    router.get('/public/recent', async (req, res, next) => {
+        try {
+            const projectsService = new ItemsService('projects', {
+                schema: req.schema,
+                accountability: null
+            });
 
-        projects.forEach(project => {
-            let groupKeys = [];
+            // Get limit from query or default to 10
+            const limit = Math.min(parseInt(req.query.limit) || 10, 50); // Max 50
 
-            switch (groupBy) {
-                case 'country':
-                    groupKeys = project._originals.countries.map(c => ({
-                        id: c.countries_id?.id,
-                        name: c.countries_id?.name || 'Unknown Country',
-                        data: c.countries_id
-                    }));
-                    break;
-                case 'region':
-                    groupKeys = project._originals.regions.map(r => ({
-                        id: r.regions_id?.id,
-                        name: r.regions_id?.name || 'Unknown Region',
-                        data: r.regions_id
-                    }));
-                    break;
-                case 'type':
-                    groupKeys = project._originals.types.map(t => ({
-                        id: t.types_id?.id,
-                        name: t.types_id?.name || 'Unknown Type',
-                        data: t.types_id
-                    }));
-                    break;
-                case 'company':
-                    groupKeys = project._originals.companies.map(c => ({
-                        id: c.companies_id?.id,
-                        name: c.companies_id?.name || 'Unknown Company',
-                        data: c.companies_id
-                    }));
-                    break;
-                default:
-                    groupKeys = [{ id: 'all', name: 'All Projects', data: null }];
-            }
-
-            // If no group keys found, add to "Unknown" group
-            if (groupKeys.length === 0) {
-                groupKeys = [{ id: 'unknown', name: `Unknown ${groupBy}`, data: null }];
-            }
-
-            // Add project to each group it belongs to
-            groupKeys.forEach(groupKey => {
-                if (!groups.has(groupKey.id)) {
-                    groups.set(groupKey.id, {
-                        id: groupKey.id,
-                        name: groupKey.name,
-                        data: groupKey.data,
-                        projects: [],
-                        count: 0,
-                        totalValue: 0
-                    });
-                }
-
-                const group = groups.get(groupKey.id);
-
-                // Remove _originals before adding to group
-                const cleanProject = { ...project };
-                delete cleanProject._originals;
-
-                group.projects.push(cleanProject);
-                group.count++;
-
-                // Calculate total value if value field exists
-                if (project.contract_value_usd) {
-                    group.totalValue += parseFloat(project.contract_value_usd) || 0;
+            // Fetch recent projects with minimal fields
+            const result = await projectsService.readByQuery({
+                fields: [
+                    'id',
+                    'title',
+                    'slug',
+                    'summary',
+                    'featured_image.id',
+                    'featured_image.filename_disk',
+                    'featured_image.title',
+                ],
+                limit: limit,
+                sort: ['-date_created'], // Most recent first
+                filter: {
+                    status: { _eq: 'published' } // Only show published projects
                 }
             });
-        });
 
-        // Convert Map to Array and sort by name
-        return Array.from(groups.values()).sort((a, b) =>
-            a.name.localeCompare(b.name)
-        );
-    }
+            const projects = result.data || result;
+
+            // Transform projects to include full asset URLs
+            const transformedProjects = projects.map(project => {
+                if (project.featured_image && typeof project.featured_image === 'object' && project.featured_image.id) {
+                    project.featured_image = {
+                        id: project.featured_image.id,
+                        url: `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}`,
+                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}?width=400&height=300&fit=cover`,
+                        title: project.featured_image.title
+                    };
+                }
+
+                return {
+                    id: project.id,
+                    title: project.title,
+                    slug: project.slug,
+                    summary: project.summary,
+                    featured_image: project.featured_image
+                };
+            });
+
+            res.json({
+                data: transformedProjects,
+                meta: {
+                    total: transformedProjects.length
+                }
+            });
+        } catch (error) {
+            next(error);
+        }
+    });
+
+    router.get('/public/trending', async (req, res, next) => {
+        try {
+            const projectsService = new ItemsService('projects', {
+                schema: req.schema,
+                accountability: null
+            });
+
+            // Get limit from query or default to 10
+            const limit = Math.min(parseInt(req.query.limit) || 10, 50); // Max 50
+
+            // Fetch recent projects with minimal fields
+            const result = await projectsService.readByQuery({
+                fields: [
+                    'id',
+                    'title',
+                    'slug',
+                    'summary',
+                    'featured_image.id',
+                    'featured_image.filename_disk',
+                    'featured_image.title',
+                ],
+                limit: limit,
+                sort: ['-date_created'], // Most recent first
+                filter: {
+                    status: { _eq: 'published' },
+                    is_trending: { _eq: true }
+                }
+            });
+
+            const projects = result.data || result;
+
+            // Transform projects to include full asset URLs
+            const transformedProjects = projects.map(project => {
+                if (project.featured_image && typeof project.featured_image === 'object' && project.featured_image.id) {
+                    project.featured_image = {
+                        id: project.featured_image.id,
+                        url: `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}`,
+                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}?width=400&height=300&fit=cover`,
+                        title: project.featured_image.title
+                    };
+                }
+
+                return {
+                    id: project.id,
+                    title: project.title,
+                    slug: project.slug,
+                    summary: project.summary,
+                    featured_image: project.featured_image
+                };
+            });
+
+            res.json({
+                data: transformedProjects,
+                meta: {
+                    total: transformedProjects.length
+                }
+            });
+        } catch (error) {
+            next(error);
+        }
+    });
+
 
     router.get('/:id', async (req, res, next) => {
         try {
