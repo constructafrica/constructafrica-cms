@@ -460,7 +460,6 @@ export default (router, { services, exceptions }) => {
         }
     });
 
-
     router.get('/:id', async (req, res, next) => {
         try {
             const projectsService = new ItemsService('projects', {
