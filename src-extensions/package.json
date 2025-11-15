@@ -24,16 +24,6 @@
 				"type": "endpoint",
 				"name": "recent-views",
 				"source": "src/endpoints/recent-views/index.js"
-			},
-			{
-				"type": "hook",
-				"name": "my-hook",
-				"source": "src/hooks/my-hook/index.js"
-			},
-			{
-				"type": "hook",
-				"name": "recent-view-hook",
-				"source": "src/hooks/recent-view-hook/index.js"
 			}
 		]
 	},
