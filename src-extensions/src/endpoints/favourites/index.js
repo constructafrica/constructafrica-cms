@@ -783,7 +783,6 @@ export default (router, context) => {
                 counts: collectionCounts,
                 data: results,
                 group: grouped,
-                // Also return flat array for easier consumption
             });
         } catch (error) {
             console.error('Get favorites error:', error);

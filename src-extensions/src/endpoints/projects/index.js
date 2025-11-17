@@ -81,41 +81,46 @@ export default (router, { services, exceptions, getSchema}) => {
     }
 
     async function addFavoritesStatus(projects, userId, schema, accountability) {
-        if (projects.length === 0) return projects;
+        if (!projects || projects.length === 0) return projects;
 
-        const favoritesService = new ItemsService('favourites', {
-            schema: schema,
-            accountability: accountability,
-        });
+        try {
+            const favoritesService = new ItemsService('favourites', {
+                schema: schema,
+                accountability: accountability,
+            });
 
-        // Get project IDs
-        const projectIds = projects.map(project => project.id);
+            // Get project IDs
+            const projectIds = projects.map(project => project.id);
 
-        // Get user's favorites for these projects
-        const userFavorites = await favoritesService.readByQuery({
-            filter: {
-                _and: [
-                    { user_created: { _eq: userId } },
-                    { collection: { _eq: 'projects' } },
-                    { item_id: { _in: projectIds } },
-                ],
-            },
-            fields: ['id', 'item_id'],
-            limit: -1
-        });
+            // Get user's favorites for these projects
+            const userFavorites = await favoritesService.readByQuery({
+                filter: {
+                    _and: [
+                        { user_created: { _eq: userId } },
+                        { collection: { _eq: 'projects' } },
+                        { item_id: { _in: projectIds } },
+                    ],
+                },
+                fields: ['id', 'item_id'],
+                limit: -1
+            });
 
-        // Create a map for quick lookup
-        const favoritesMap = new Map();
-        userFavorites.forEach(fav => {
-            favoritesMap.set(fav.item_id, fav.id);
-        });
+            // Create a map for quick lookup
+            const favoritesMap = new Map();
+            userFavorites.forEach(fav => {
+                favoritesMap.set(fav.item_id, fav.id);
+            });
 
-        // Add is_favorited and favorite_id to each project
-        return projects.map(project => ({
-            ...project,
-            is_favorited: favoritesMap.has(project.id),
-            favorite_id: favoritesMap.get(project.id) || null
-        }));
+            // Add is_favorited and favorite_id to each project
+            return projects.map(project => ({
+                ...project,
+                is_favorited: favoritesMap.has(project.id),
+                favorite_id: favoritesMap.get(project.id) || null
+            }));
+        } catch (error) {
+            console.error('Error in addFavoritesStatus:', error);
+            throw error; // Re-throw to be handled by the caller
+        }
     }
 
     function groupProjects(projects, groupBy) {
@@ -199,23 +204,12 @@ export default (router, { services, exceptions, getSchema}) => {
 
     router.get('/', async (req, res, next) => {
         try {
+            const { accountability } = req; // Get accountability from req
             const schema = await getSchema();
             const projectsService = new ItemsService('projects', {
                 schema: schema,
                 accountability: req.accountability
             });
-
-            // Get user's access permissions
-            // const userAccess = await getUserAccessibleFilters(req.accountability);
-
-            // Check if user has access
-            // if (!userAccess.hasAccess && req.accountability?.user) {
-            //     return res.status(403).json({
-            //         success: false,
-            //         error: 'Projects subscription required',
-            //         message: 'You need an active Projects subscription to access this content',
-            //
-            // }
 
             // Check if grouping is requested
             const groupBy = req.query.groupBy; // e.g., 'country', 'region', 'type'
@@ -308,14 +302,6 @@ export default (router, { services, exceptions, getSchema}) => {
             if (groupBy) {
                 const grouped = groupProjects(transformedProjects, groupBy);
 
-                // res.json({
-                //     data: grouped,
-                //     meta: {
-                //         total: transformedProjects.length,
-                //         groupBy: groupBy,
-                //         groups: grouped.length
-                //     }
-                // });
                 // Pagination for groups
                 const groupLimit = parseInt(req.query.limit) || 5; // Default 5 groups per page
                 const groupPage = parseInt(req.query.page) || 1;
@@ -337,22 +323,35 @@ export default (router, { services, exceptions, getSchema}) => {
                     }
                 });
             } else {
-                // Return paginated response
-                const projectsWithFavorites = await addFavoritesStatus(
-                    transformedProjects,
-                    accountability.user,
-                    schema,
-                    req.accountability
-                );
+                // Return paginated response - only add favorites if user is authenticated
+                let finalProjects = transformedProjects;
+
+                if (accountability?.user) {
+                    // User is authenticated, add favorites status
+                    finalProjects = await addFavoritesStatus(
+                        transformedProjects,
+                        accountability.user,
+                        schema,
+                        req.accountability
+                    );
+                } else {
+                    // User is not authenticated, add default favorite status
+                    finalProjects = transformedProjects.map(project => ({
+                        ...project,
+                        is_favorited: false,
+                        favorite_id: null
+                    }));
+                }
 
                 res.json({
-                    data: projectsWithFavorites,
+                    data: finalProjects,
                     meta: {
                         total_count: meta.total_count || meta.filter_count || transformedProjects.length,
                         filter_count: meta.filter_count || transformedProjects.length,
                         page: page,
                         limit: limit,
-                        page_count: Math.ceil((meta.filter_count || transformedProjects.length) / limit)
+                        page_count: Math.ceil((meta.filter_count || transformedProjects.length) / limit),
+                        authenticated: !!accountability?.user
                     }
                 });
             }
@@ -491,13 +490,16 @@ export default (router, { services, exceptions, getSchema}) => {
     router.get('/:id', async (req, res, next) => {
         try {
             const schema = await getSchema();
+            const { accountability } = req;
+            const projectId = req.params.id; // Get the ID from params
+
             const projectsService = new ItemsService('projects', {
                 schema: schema,
                 accountability: req.accountability
             });
 
             // Fetch ALL data for single project endpoint
-            const project = await projectsService.readOne(req.params.id, {
+            const project = await projectsService.readOne(projectId, {
                 fields: [
                     '*',
                     'countries.countries_id.*',
@@ -537,8 +539,6 @@ export default (router, { services, exceptions, getSchema}) => {
                     'transaction_advisor.companies_id.name',
                     'study_consultant.companies_id.id',
                     'study_consultant.companies_id.name',
-                    // 'funding.companies_id.id',
-                    // 'funding.companies_id.name',
                     'main_contractor.companies_id.id',
                     'main_contractor.companies_id.name',
                     'main_contract_bidder.companies_id.id',
@@ -637,39 +637,51 @@ export default (router, { services, exceptions, getSchema}) => {
             project.operator = flattenRelationships(project.operator, 'companies');
             project.feed = flattenRelationships(project.feed, 'companies');
 
+            // Handle favorites status
             let is_favorited = false;
             let favorite_id = null;
-            const favoritesService = new ItemsService('favourites', {
-                schema: schema,
-                accountability: req.accountability,
-            });
 
-            const existingFavorite = await favoritesService.readByQuery({
-                filter: {
-                    _and: [
-                        { user_created: { _eq: accountability.user } },
-                        { collection: { _eq: 'projects' } },
-                        { item_id: { _eq: id } },
-                    ],
-                },
-                limit: 1,
-            });
+            // Only check favorites if user is authenticated
+            if (accountability?.user) {
+                try {
+                    const favoritesService = new ItemsService('favourites', {
+                        schema: schema,
+                        accountability: accountability,
+                    });
 
-            if (existingFavorite.length > 0) {
-                is_favorited = true;
-                favorite_id = existingFavorite[0].id;
+                    const existingFavorite = await favoritesService.readByQuery({
+                        filter: {
+                            _and: [
+                                { user_created: { _eq: accountability.user } },
+                                { collection: { _eq: 'projects' } },
+                                { item_id: { _eq: projectId } }, // Use projectId variable
+                            ],
+                        },
+                        limit: 1,
+                    });
+
+                    if (existingFavorite.length > 0) {
+                        is_favorited = true;
+                        favorite_id = existingFavorite[0].id;
+                    }
+                } catch (favoritesError) {
+                    console.warn('Failed to fetch favorite status:', favoritesError.message);
+                    // Continue without favorite status - don't break the entire request
+                }
             }
 
             const projectWithFavorite = {
                 ...project,
                 is_favorited,
-                favorite_id
+                favorite_id,
+                authenticated: !!accountability?.user
             };
 
-            res.json({
+            return res.json({
                 data: projectWithFavorite
             });
         } catch (error) {
+            console.error('Project by ID error:', error);
             next(error);
         }
     });
