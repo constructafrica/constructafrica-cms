@@ -9,6 +9,18 @@ export default ({ action }, { services, database, getSchema }) => {
         await trackRecentView('companies', meta.key, accountability);
     });
 
+    action('projects_tenders.items.read', async (meta, { accountability }) => {
+        await trackRecentView('projects_tenders', meta.key, accountability);
+    });
+
+    action('main_news.items.read', async (meta, { accountability }) => {
+        await trackRecentView('main_news', meta.key, accountability);
+    });
+
+    action('experts_analysts.items.read', async (meta, { accountability }) => {
+        await trackRecentView('experts_analysts', meta.key, accountability);
+    });
+
     async function trackRecentView(collection, itemId, accountability) {
         try {
             // Only track for authenticated users

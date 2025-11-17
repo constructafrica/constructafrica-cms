@@ -24,6 +24,16 @@
 				"type": "endpoint",
 				"name": "recent-views",
 				"source": "src/endpoints/recent-views/index.js"
+			},
+			{
+				"type": "hook",
+				"name": "recent-view-hook",
+				"source": "src/hooks/recent-view-hook/index.js"
+			},
+			{
+				"type": "hook",
+				"name": "favorites-counter",
+				"source": "src/hooks/favorites-counter/index.js"
 			}
 		]
 	},

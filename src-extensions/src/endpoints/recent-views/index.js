@@ -9,7 +9,7 @@ export default (router, context) => {
     // ============================================
 
     // Allowed collections for recent views
-    const recentViewCollections = ['projects', 'companies'];
+    const recentViewCollections = ['projects', 'companies', 'main_news', 'projects_tenders'];
 
 
     // ============================================

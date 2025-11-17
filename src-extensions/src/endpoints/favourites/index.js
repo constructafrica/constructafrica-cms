@@ -5,7 +5,7 @@ export default (router, context) => {
     const { ForbiddenException, InvalidPayloadException, ServiceUnavailableException } = exceptions;
 
     // Use consistent collection names throughout
-    const allowedCollections = ['projects', 'companies', 'main_news', 'project_tenders'];
+    const allowedCollections = ['projects', 'companies', 'main_news', 'projects_tenders', 'blog', 'experts_analysts'];
 
     // ============================================
     // 1. TOGGLE FAVORITE
@@ -552,7 +552,7 @@ export default (router, context) => {
             const { accountability } = req;
             const {
                 collection: filterCollection,
-                limit = 50,
+                limit = 100,
                 offset = 0,
                 sort = '-date_created',
             } = req.query;
@@ -671,6 +671,12 @@ export default (router, context) => {
                             fields.push('title', 'slug', 'summary', 'featured_image', 'contract_value_usd', 'current_stage');
                         } else if (fav.collection === 'companies') {
                             fields.push('name', 'slug', 'company_role', 'logo', 'description');
+                        } else if (fav.collection === 'projects_tenders') {
+                            fields.push('title', 'slug', 'summary', 'featured_image');
+                        }else if (fav.collection === 'experts_analysts') {
+                            fields.push('name', 'title', 'bio', 'photo', 'slug');
+                        }else if (fav.collection === 'blog') {
+                            fields.push('title', 'slug', 'summary', 'featured_image');
                         } else if (fav.collection === 'main_news') {
                             fields.push('title', 'slug', 'summary', 'featured_image');
                         }
