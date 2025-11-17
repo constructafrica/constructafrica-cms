@@ -587,15 +587,16 @@ export default (router, context) => {
 
             console.log('Fetching favorites with filter:', JSON.stringify(filter));
 
-            // Get favorites with pagination - use simpler query first
+            // Get favorites with pagination
             const favorites = await favoritesService.readByQuery({
                 filter,
                 sort: [sort],
                 limit: parseInt(limit),
                 offset: parseInt(offset),
+                fields: ['*'] // Ensure we get all favorite fields
             });
 
-            console.log('Favorites result:', favorites);
+            console.log('Favorites result count:', favorites.length);
 
             // Ensure favorites is an array
             if (!Array.isArray(favorites)) {
@@ -606,7 +607,7 @@ export default (router, context) => {
                 });
             }
 
-            // Get total count - use a safer approach
+            // Get total count
             let totalCount = 0;
             try {
                 const countResult = await favoritesService.readByQuery({
@@ -614,37 +615,32 @@ export default (router, context) => {
                     aggregate: { count: ['*'] },
                 });
 
-                // Handle different possible response formats
                 if (Array.isArray(countResult) && countResult.length > 0) {
                     totalCount = countResult[0]?.count || 0;
                 } else if (countResult && typeof countResult === 'object') {
                     totalCount = countResult.count || 0;
                 }
-
-                console.log('Total count result:', countResult);
+                console.log('Total count:', totalCount);
             } catch (countError) {
                 console.warn('Could not get total count:', countError.message);
-                // Continue without total count
+                totalCount = favorites.length; // Fallback to current result count
             }
 
-            // Group by collection and fetch actual items with details
-            const grouped = {
-                projects: [],
-                companies: [],
-                main_news: [],
-            };
-
+            // Process favorites and fetch actual items with standardized format
+            const results = [];
             const collectionCounts = {
                 projects: 0,
                 companies: 0,
                 main_news: 0,
+                projects_tenders: 0,
+                experts_analysts: 0,
+                blog: 0
             };
 
-            // Process favorites if we have any
             if (favorites.length > 0) {
                 for (const fav of favorites) {
-                    if (!fav.collection || !grouped[fav.collection]) {
-                        console.warn('Invalid favorite item or collection:', fav);
+                    if (!fav.collection || !fav.item_id) {
+                        console.warn('Invalid favorite item:', fav);
                         continue;
                     }
 
@@ -654,31 +650,61 @@ export default (router, context) => {
                             accountability: req.accountability,
                         });
 
-                        // Fetch the item with specific fields based on collection
-                        let fields = ['id', 'status', 'date_created', 'date_updated'];
+                        // Define fields based on collection type with standardized field mapping
+                        let fields = ['id', 'status'];
 
-                        // Only include favorites_count if it exists in the collection
-                        try {
-                            const collectionSchema = schema.collections[fav.collection];
-                            if (collectionSchema && collectionSchema.fields && collectionSchema.fields.favorites_count) {
-                                fields.push('favorites_count');
+                        // Collection-specific field mapping
+                        const fieldMappings = {
+                            'projects': {
+                                title: 'title',
+                                type: 'project',
+                                image: 'featured_image',
+                                summary: 'summary',
+                                slug: 'slug'
+                            },
+                            'companies': {
+                                title: 'name',
+                                type: 'company',
+                                image: 'logo',
+                                summary: 'description',
+                                slug: 'slug'
+                            },
+                            'main_news': {
+                                title: 'title',
+                                type: 'news',
+                                image: 'featured_image',
+                                summary: 'summary',
+                                slug: 'slug'
+                            },
+                            'projects_tenders': {
+                                title: 'title',
+                                type: 'tender',
+                                image: 'featured_image',
+                                summary: 'summary',
+                                slug: 'slug'
+                            },
+                            'experts_analysts': {
+                                title: 'name',
+                                type: 'opinions',
+                                image: 'photo',
+                                summary: 'bio',
+                                slug: 'slug'
+                            },
+                            'blog': {
+                                title: 'title',
+                                type: 'blog',
+                                image: 'featured_image',
+                                summary: 'summary',
+                                slug: 'slug'
                             }
-                        } catch (schemaError) {
-                            console.warn(`Could not check schema for ${fav.collection}:`, schemaError.message);
-                        }
+                        };
 
-                        if (fav.collection === 'projects') {
-                            fields.push('title', 'slug', 'summary', 'featured_image', 'contract_value_usd', 'current_stage');
-                        } else if (fav.collection === 'companies') {
-                            fields.push('name', 'slug', 'company_role', 'logo', 'description');
-                        } else if (fav.collection === 'projects_tenders') {
-                            fields.push('title', 'slug', 'summary', 'featured_image');
-                        }else if (fav.collection === 'experts_analysts') {
-                            fields.push('name', 'title', 'bio', 'photo', 'slug');
-                        }else if (fav.collection === 'blog') {
-                            fields.push('title', 'slug', 'summary', 'featured_image');
-                        } else if (fav.collection === 'main_news') {
-                            fields.push('title', 'slug', 'summary', 'featured_image');
+                        // Add collection-specific fields
+                        const mapping = fieldMappings[fav.collection];
+                        if (mapping) {
+                            // Add all fields from mapping (remove duplicates)
+                            const additionalFields = Object.values(mapping);
+                            fields = [...new Set([...fields, ...additionalFields])];
                         }
 
                         console.log(`Fetching ${fav.collection} item ${fav.item_id} with fields:`, fields);
@@ -688,24 +714,66 @@ export default (router, context) => {
                         });
 
                         if (item) {
-                            grouped[fav.collection].push({
-                                // Favorite metadata
+                            // Create standardized response object
+                            const standardizedItem = {
+                                id: item.id,
+                                collection: fav.collection,
                                 favorite_id: fav.id,
                                 favorite_date: fav.date_created,
-                                // Item data
-                                ...item,
+                                title: getFieldValue(item, mapping?.title),
+                                type: mapping?.type,
+                                image: getFieldValue(item, mapping?.image),
+                                summary: getFieldValue(item, mapping?.summary),
+                                slug: getFieldValue(item, mapping?.slug),
+                                status: item.status,
+                                // original_item: item
+                            };
+
+                            // Clean up undefined fields
+                            Object.keys(standardizedItem).forEach(key => {
+                                if (standardizedItem[key] === undefined) {
+                                    delete standardizedItem[key];
+                                }
                             });
 
+                            results.push(standardizedItem);
                             collectionCounts[fav.collection]++;
+
+                            console.log(`Added ${fav.collection} item to results:`, standardizedItem.title);
                         } else {
                             console.warn(`Item not found: ${fav.collection} - ${fav.item_id}`);
                         }
                     } catch (error) {
-                        // Item might be deleted or user doesn't have access
                         console.warn(`Could not fetch ${fav.collection} item ${fav.item_id}:`, error.message);
+
+                        // Even if we can't fetch the item, we can still return basic favorite info
+                        results.push({
+                            id: fav.item_id,
+                            collection: fav.collection,
+                            favorite_id: fav.id,
+                            favorite_date: fav.date_created,
+                            title: `Item ${fav.item_id}`,
+                            type: fav.collection,
+                            status: 'unavailable',
+                            error: 'Item could not be loaded'
+                        });
+                        collectionCounts[fav.collection]++;
                     }
                 }
             }
+
+            // Group results by collection for the response
+            const grouped = {
+                projects: results.filter(item => item.collection === 'projects'),
+                companies: results.filter(item => item.collection === 'companies'),
+                news: results.filter(item => item.collection === 'main_news'),
+                tenders: results.filter(item => item.collection === 'projects_tenders'),
+                opinions: results.filter(item => item.collection === 'experts_analysts'),
+                blog: results.filter(item => item.collection === 'blog')
+            };
+
+            console.log('Final results count:', results.length);
+            console.log('Collection counts:', collectionCounts);
 
             return res.json({
                 success: true,
@@ -713,7 +781,9 @@ export default (router, context) => {
                 limit: parseInt(limit),
                 offset: parseInt(offset),
                 counts: collectionCounts,
-                favorites: grouped,
+                data: results,
+                group: grouped,
+                // Also return flat array for easier consumption
             });
         } catch (error) {
             console.error('Get favorites error:', error);
@@ -725,5 +795,29 @@ export default (router, context) => {
             });
         }
     });
+
+    // Helper function to safely get nested field values
+    function getFieldValue(item, fieldPath) {
+        if (!fieldPath || !item) return undefined;
+
+        try {
+            // Handle nested fields (e.g., 'featured_image.id')
+            const fields = fieldPath.split('.');
+            let value = item;
+
+            for (const field of fields) {
+                if (value && typeof value === 'object' && field in value) {
+                    value = value[field];
+                } else {
+                    return undefined;
+                }
+            }
+
+            return value;
+        } catch (error) {
+            console.warn(`Error getting field ${fieldPath}:`, error);
+            return undefined;
+        }
+    }
 
 };

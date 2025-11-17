@@ -1,35 +1,6 @@
-export default (router, { services, exceptions, getSchema}) => {
+export default (router, { services, exceptions }) => {
     const { ItemsService, AssetsService } = services;
     const { ServiceUnavailableException } = exceptions;
-
-    async function getUserAccessibleFilters(accountability) {
-        if (!accountability?.user) {
-            return { regions: [], sectors: [], hasAccess: false };
-        }
-
-        const user = await database('directus_users')
-            .where('id', accountability.user)
-            .first('subscription_type', 'subscription_status', 'active_subscription');
-
-        if (!user || user.subscription_status !== 'active' || user.subscription_type !== 'projects') {
-            return { regions: [], sectors: [], hasAccess: false };
-        }
-
-        const regions = await database('user_subscription_regions')
-            .where('user_subscriptions_id', user.active_subscription)
-            .pluck('regions_id');
-
-        const sectors = await database('user_subscription_sectors')
-            .where('user_subscriptions_id', user.active_subscription)
-            .pluck('types_id');
-
-        return {
-            regions,
-            sectors,
-            hasAccess: true,
-            subscriptionType: user.subscription_type
-        };
-    }
 
     // Helper function to apply subscription filters
     function applySubscriptionFilter(baseFilter, userAccess) {
@@ -80,24 +51,24 @@ export default (router, { services, exceptions, getSchema}) => {
         }
     }
 
-    async function addFavoritesStatus(projects, userId, schema, accountability) {
-        if (projects.length === 0) return projects;
+    async function addCompaniesFavoritesStatus(companies, userId, schema, accountability) {
+        if (companies.length === 0) return companies;
 
         const favoritesService = new ItemsService('favourites', {
             schema: schema,
             accountability: accountability,
         });
 
-        // Get project IDs
-        const projectIds = projects.map(project => project.id);
+        // Get company IDs
+        const companyIds = companies.map(company => company.id);
 
-        // Get user's favorites for these projects
+        // Get user's favorites for these companies
         const userFavorites = await favoritesService.readByQuery({
             filter: {
                 _and: [
                     { user_created: { _eq: userId } },
-                    { collection: { _eq: 'projects' } },
-                    { item_id: { _in: projectIds } },
+                    { collection: { _eq: 'companies' } },
+                    { item_id: { _in: companyIds } },
                 ],
             },
             fields: ['id', 'item_id'],
@@ -110,15 +81,15 @@ export default (router, { services, exceptions, getSchema}) => {
             favoritesMap.set(fav.item_id, fav.id);
         });
 
-        // Add is_favorited and favorite_id to each project
-        return projects.map(project => ({
-            ...project,
-            is_favorited: favoritesMap.has(project.id),
-            favorite_id: favoritesMap.get(project.id) || null
+        // Add is_favorited and favorite_id to each company
+        return companies.map(company => ({
+            ...company,
+            is_favorited: favoritesMap.has(company.id),
+            favorite_id: favoritesMap.get(company.id) || null
         }));
     }
 
-    function groupProjects(projects, groupBy) {
+    function groupCompanies(projects, groupBy) {
         const groups = new Map();
 
         projects.forEach(project => {
@@ -199,172 +170,101 @@ export default (router, { services, exceptions, getSchema}) => {
 
     router.get('/', async (req, res, next) => {
         try {
+            const { accountability } = req;
+            const {
+                limit = 50,
+                offset = 0,
+                sort = '-date_created',
+                filter = {},
+                search
+            } = req.query;
+
             const schema = await getSchema();
-            const projectsService = new ItemsService('projects', {
+            const companiesService = new ItemsService('companies', {
                 schema: schema,
-                accountability: req.accountability
+                accountability: req.accountability,
             });
 
-            // Get user's access permissions
-            // const userAccess = await getUserAccessibleFilters(req.accountability);
-
-            // Check if user has access
-            // if (!userAccess.hasAccess && req.accountability?.user) {
-            //     return res.status(403).json({
-            //         success: false,
-            //         error: 'Projects subscription required',
-            //         message: 'You need an active Projects subscription to access this content',
-            //
-            // }
-
-            // Check if grouping is requested
-            const groupBy = req.query.groupBy; // e.g., 'country', 'region', 'type'
-
-            // Pagination params
-            const limit = parseInt(req.query.limit) || 25;
-            const page = parseInt(req.query.page) || 1;
-
-            // Fetch projects with only id and name for M2M relations
-            const result = await projectsService.readByQuery({
+            // Build query
+            let query = {
+                limit: parseInt(limit),
+                offset: parseInt(offset),
+                sort: Array.isArray(sort) ? sort : [sort],
                 fields: [
                     'id',
-                    'title',
+                    'name',
                     'slug',
-                    'contract_value_usd',
-                    'summary',
                     'description',
-                    'estimated_project_value_usd',
-                    'value_range',
-                    'construction_start_date',
-                    'location',
-                    'current_stage',
-                    'email',
-                    'countries.countries_id.id',
-                    'countries.countries_id.name',
-                    'regions.regions_id.id',
-                    'regions.regions_id.name',
-                    'types.types_id.id',
-                    'sectors.sectors_id.name',
-                    'sectors.sectors_id.id',
-                    'types.types_id.name',
-                    'featured_image.id',
-                    'featured_image.filename_disk',
-                    'featured_image.title',
-                    'featured_image.filesize',
-                ],
-                limit: groupBy ? -1 : limit, // No limit when grouping
-                page: groupBy ? 1 : page,
-                filter: req.query.filter || {},
-                meta: ['total_count', 'filter_count']
-            });
+                    'logo.*',
+                    'company_role',
+                    'status',
+                    'date_created',
+                    'date_updated',
+                    'favorites_count'
+                ]
+            };
 
-            const projects = result.data || result;
-            const meta = result.meta || {};
+            // Add filters if provided
+            if (filter && Object.keys(filter).length > 0) {
+                query.filter = filter;
+            }
 
-            // Transform the response to include full asset URLs and flatten M2M relations
-            const transformedProjects = projects.map(project => {
-                // Transform featured_image to include full URL
-                if (project.featured_image) {
-                    if (typeof project.featured_image === 'object' && project.featured_image.id) {
-                        project.featured_image.url = `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}`;
-                        project.featured_image.thumbnail_url = `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}?width=400&height=300&fit=cover`;
-                    }
-                }
+            // Add search if provided
+            if (search) {
+                query.search = search;
+            }
 
-                // Store original M2M data before flattening (for grouping)
-                const originalCountries = project.countries ? [...project.countries] : [];
-                const originalRegions = project.regions ? [...project.regions] : [];
-                const originalTypes = project.types ? [...project.types] : [];
-                const originalSectors = project.sectors ? [...project.sectors] : [];
+            // Get companies
+            const companies = await companiesService.readByQuery(query);
 
-                // Flatten M2M relations to return just the related objects (id and name only)
-                if (project.countries && Array.isArray(project.countries)) {
-                    project.countries = project.countries.map(c => c.countries_id).filter(Boolean);
-                }
-                if (project.regions && Array.isArray(project.regions)) {
-                    project.regions = project.regions.map(r => r.regions_id).filter(Boolean);
-                }
-                if (project.types && Array.isArray(project.types)) {
-                    project.types = project.types.map(t => t.types_id).filter(Boolean);
-                }
-                if (project.sectors && Array.isArray(project.sectors)) {
-                    project.sectors = project.sectors.map(t => t.sectors_id).filter(Boolean);
-                }
-
-                // Store originals for grouping
-                if (groupBy) {
-                    project._originals = {
-                        countries: originalCountries,
-                        regions: originalRegions,
-                        types: originalTypes,
-                        sectors: originalSectors,
-                    };
-                }
-
-                return project;
-            });
-
-            // If grouping is requested, group the projects
-            if (groupBy) {
-                const grouped = groupProjects(transformedProjects, groupBy);
-
-                // res.json({
-                //     data: grouped,
-                //     meta: {
-                //         total: transformedProjects.length,
-                //         groupBy: groupBy,
-                //         groups: grouped.length
-                //     }
-                // });
-                // Pagination for groups
-                const groupLimit = parseInt(req.query.limit) || 5; // Default 5 groups per page
-                const groupPage = parseInt(req.query.page) || 1;
-
-                const totalGroups = grouped.length;
-                const start = (groupPage - 1) * groupLimit;
-                const end = start + groupLimit;
-
-                const paginatedGroups = grouped.slice(start, end);
-
-                res.json({
-                    data: paginatedGroups,
-                    meta: {
-                        total_groups: totalGroups,
-                        groupBy: groupBy,
-                        page: groupPage,
-                        limit: groupLimit,
-                        page_count: Math.ceil(totalGroups / groupLimit)
-                    }
-                });
-            } else {
-                // Return paginated response
-                const projectsWithFavorites = await addFavoritesStatus(
-                    transformedProjects,
+            // If user is authenticated, check which companies are favorited
+            if (accountability?.user) {
+                const companiesWithFavorites = await addCompaniesFavoritesStatus(
+                    companies,
                     accountability.user,
                     schema,
                     req.accountability
                 );
 
-                res.json({
-                    data: projectsWithFavorites,
-                    meta: {
-                        total_count: meta.total_count || meta.filter_count || transformedProjects.length,
-                        filter_count: meta.filter_count || transformedProjects.length,
-                        page: page,
-                        limit: limit,
-                        page_count: Math.ceil((meta.filter_count || transformedProjects.length) / limit)
-                    }
+                return res.json({
+                    success: true,
+                    companies: companiesWithFavorites,
+                    total: companies.length,
+                    limit: parseInt(limit),
+                    offset: parseInt(offset),
+                    authenticated: true
                 });
             }
+
+            // For non-authenticated users
+            const companiesWithDefaultFavorites = companies.map(company => ({
+                ...company,
+                is_favorited: false,
+                favorite_id: null
+            }));
+
+            return res.json({
+                success: true,
+                companies: companiesWithDefaultFavorites,
+                total: companies.length,
+                limit: parseInt(limit),
+                offset: parseInt(offset),
+                authenticated: false
+            });
+
         } catch (error) {
-            console.log("projects error: ", error)
-            next(error);
+            console.error('Get companies with favorites error:', error);
+            return res.status(500).json({
+                success: false,
+                error: 'Failed to fetch companies',
+                details: error.message,
+            });
         }
     });
 
     router.get('/public/recent', async (req, res, next) => {
         try {
-            const projectsService = new ItemsService('projects', {
+            const projectsService = new ItemsService('companies', {
                 schema: req.schema,
                 accountability: null
             });
@@ -426,7 +326,7 @@ export default (router, { services, exceptions, getSchema}) => {
 
     router.get('/public/trending', async (req, res, next) => {
         try {
-            const projectsService = new ItemsService('projects', {
+            const projectsService = new ItemsService('companies', {
                 schema: req.schema,
                 accountability: null
             });
@@ -490,9 +390,8 @@ export default (router, { services, exceptions, getSchema}) => {
 
     router.get('/:id', async (req, res, next) => {
         try {
-            const schema = await getSchema();
             const projectsService = new ItemsService('projects', {
-                schema: schema,
+                schema: req.schema,
                 accountability: req.accountability
             });
 

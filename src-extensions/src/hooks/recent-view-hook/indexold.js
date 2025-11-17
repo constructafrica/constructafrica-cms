@@ -1,63 +1,26 @@
-export default ({ filter }, { services, database, getSchema }) => {
+export default ({ action }, { services, database, getSchema }) => {
     const { ItemsService } = services;
 
-    console.log('Recent Views Filter Hook: Registered');
-
-    // Use filter hooks which have access to the actual data
-    filter('projects.items.read', async (payload, meta, { accountability }) => {
-        await handleItemRead('projects', payload, meta, accountability);
-        return payload;
+    action('projects.items.read', async (meta, { accountability }) => {
+        console.log('Projects read meta:', meta);
+        await trackRecentView('projects', meta.key, accountability);
     });
 
-    filter('companies.items.read', async (payload, meta, { accountability }) => {
-        await handleItemRead('companies', payload, meta, accountability);
-        return payload;
+    action('companies.items.read', async (meta, { accountability }) => {
+        await trackRecentView('companies', meta.key, accountability);
     });
 
-    filter('projects_tenders.items.read', async (payload, meta, { accountability }) => {
-        await handleItemRead('projects_tenders', payload, meta, accountability);
-        return payload;
+    action('projects_tenders.items.read', async (meta, { accountability }) => {
+        await trackRecentView('projects_tenders', meta.key, accountability);
     });
 
-    filter('main_news.items.read', async (payload, meta, { accountability }) => {
-        await handleItemRead('main_news', payload, meta, accountability);
-        return payload;
+    action('main_news.items.read', async (meta, { accountability }) => {
+        await trackRecentView('main_news', meta.key, accountability);
     });
 
-    filter('experts_analysts.items.read', async (payload, meta, { accountability }) => {
-        await handleItemRead('experts_analysts', payload, meta, accountability);
-        return payload;
+    action('experts_analysts.items.read', async (meta, { accountability }) => {
+        await trackRecentView('experts_analysts', meta.key, accountability);
     });
-
-    async function handleItemRead(collection, payload, meta, accountability) {
-        try {
-            console.log(`${collection} read - Payload:`, payload);
-            console.log(`${collection} read - Meta:`, meta);
-
-            let itemId = null;
-
-            // Try to get ID from different sources
-            if (payload && payload.id) {
-                itemId = payload.id;
-            } else if (meta && meta.key) {
-                itemId = meta.key;
-            } else if (meta && meta.keys && meta.keys.length > 0) {
-                // Handle multiple items
-                for (const key of meta.keys) {
-                    await trackRecentView(collection, key, accountability);
-                }
-                return;
-            }
-
-            if (itemId) {
-                await trackRecentView(collection, itemId, accountability);
-            } else {
-                console.log(`Could not determine item ID for ${collection}`);
-            }
-        } catch (error) {
-            console.error(`Error handling ${collection} read:`, error);
-        }
-    }
 
     async function trackRecentView(collection, itemId, accountability) {
         try {
