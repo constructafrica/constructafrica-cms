@@ -4,28 +4,30 @@ export default ({ action }, { services, database, getSchema }) => {
     console.log('Recent Views Action Hook: Registered');
 
     // Use action hooks for better context
-    action('projects.items.read', async (meta, accountability) => {
-        await handleItemRead('projects', meta, accountability);
+    action('projects.items.read', async (meta, context) => {
+        await handleItemRead('projects', meta, context.accountability);
     });
 
-    action('companies.items.read', async (meta, accountability) => {
-        await handleItemRead('companies', meta, accountability);
+    action('companies.items.read', async (meta, context) => {
+        await handleItemRead('companies', meta, context.accountability);
     });
 
-    action('projects_tenders.items.read', async (meta, accountability) => {
-        await handleItemRead('projects_tenders', meta, accountability);
+    action('projects_tenders.items.read', async (meta, context) => {
+        await handleItemRead('projects_tenders', meta, context.accountability);
     });
 
-    action('main_news.items.read', async (meta, accountability) => {
-        await handleItemRead('main_news', meta, accountability);
+    action('main_news.items.read', async (meta, context) => {
+        await handleItemRead('main_news', meta, context.accountability);
     });
 
-    action('experts_analysts.items.read', async (meta, accountability) => {
-        await handleItemRead('experts_analysts', meta, accountability);
+    action('experts_analysts.items.read', async (meta, context) => {
+        await handleItemRead('experts_analysts', meta, context.accountability);
     });
 
     async function handleItemRead(collection, meta, accountability) {
         try {
+            // console.log('Accountability object:', JSON.stringify(accountability, null, 2));
+
             const { payload, query } = meta;
 
             // Check if this is a single item read by examining the query filter
@@ -53,7 +55,7 @@ export default ({ action }, { services, database, getSchema }) => {
 
     async function trackRecentView(collection, itemId, accountability) {
         try {
-            console.log('trackRecentView called with:', { collection, itemId, user: accountability?.user });
+            // console.log('trackRecentView called with:', { collection, itemId, user: accountability?.user });
 
             // Only track for authenticated users
             if (!accountability?.user) {
@@ -62,7 +64,7 @@ export default ({ action }, { services, database, getSchema }) => {
             }
 
             const schema = await getSchema();
-            console.log('Schema retrieved');
+            // console.log('Schema retrieved');
 
             // Create recent views service
             const recentViewsService = new ItemsService('recent_views', {
@@ -82,19 +84,19 @@ export default ({ action }, { services, database, getSchema }) => {
                 },
                 limit: 1,
             });
-            console.log('Existing view check result:', existingView);
+            // console.log('Existing view check result:', existingView);
 
             const now = new Date().toISOString();
 
             if (existingView.length > 0) {
-                console.log('Updating existing view:', existingView[0].id);
+                // console.log('Updating existing view:', existingView[0].id);
                 // Update the timestamp of existing view
                 const updated = await recentViewsService.updateOne(existingView[0].id, {
                     date_updated: now,
                 });
                 console.log(`Updated recent view for ${collection}:${itemId}`, updated);
             } else {
-                console.log('Creating new view');
+                // console.log('Creating new view');
                 // Create new recent view
                 const created = await recentViewsService.createOne({
                     collection,
