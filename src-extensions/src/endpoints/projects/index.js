@@ -144,6 +144,13 @@ export default (router, { services, exceptions, getSchema}) => {
                         data: r.regions_id
                     }));
                     break;
+                case 'sector':
+                    groupKeys = project._originals.sectors.map(r => ({
+                        id: r.sectors_id?.id,
+                        name: r.sectors_id?.name || 'Unknown Region',
+                        data: r.sectors_id
+                    }));
+                    break;
                 case 'type':
                     groupKeys = project._originals.types.map(t => ({
                         id: t.types_id?.id,

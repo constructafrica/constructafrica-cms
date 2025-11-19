@@ -657,42 +657,42 @@ export default (router, context) => {
                         const fieldMappings = {
                             'projects': {
                                 title: 'title',
-                                type: 'project',
+                                // type: 'project',
                                 image: 'featured_image',
                                 summary: 'summary',
                                 slug: 'slug'
                             },
                             'companies': {
                                 title: 'name',
-                                type: 'company',
+                                // type: 'company',
                                 image: 'logo',
                                 summary: 'description',
                                 slug: 'slug'
                             },
                             'main_news': {
                                 title: 'title',
-                                type: 'news',
+                                // type: 'news',
                                 image: 'featured_image',
                                 summary: 'summary',
                                 slug: 'slug'
                             },
                             'projects_tenders': {
                                 title: 'title',
-                                type: 'tender',
+                                // type: 'tender',
                                 image: 'featured_image',
                                 summary: 'summary',
                                 slug: 'slug'
                             },
                             'experts_analysts': {
                                 title: 'name',
-                                type: 'opinions',
+                                // type: 'opinions',
                                 image: 'photo',
                                 summary: 'bio',
                                 slug: 'slug'
                             },
                             'blog': {
                                 title: 'title',
-                                type: 'blog',
+                                // type: 'blog',
                                 image: 'featured_image',
                                 summary: 'summary',
                                 slug: 'slug'
@@ -721,7 +721,7 @@ export default (router, context) => {
                                 favorite_id: fav.id,
                                 favorite_date: fav.date_created,
                                 title: getFieldValue(item, mapping?.title),
-                                type: mapping?.type,
+                                // type: mapping?.type,
                                 image: getFieldValue(item, mapping?.image),
                                 summary: getFieldValue(item, mapping?.summary),
                                 slug: getFieldValue(item, mapping?.slug),

@@ -71,7 +71,7 @@ export default ({ action }, { services, database, getSchema }) => {
                 schema: schema,
                 accountability: accountability,
             });
-            console.log('Recent views service created');
+            console.log('Recent views service created', accountability.user, collection, itemId);
 
             // Check if view already exists for this user and item
             const existingView = await recentViewsService.readByQuery({
@@ -84,7 +84,9 @@ export default ({ action }, { services, database, getSchema }) => {
                 },
                 limit: 1,
             });
-            // console.log('Existing view check result:', existingView);
+
+
+            console.log('Existing view check result:', existingView);
 
             const now = new Date().toISOString();
 
