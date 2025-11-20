@@ -31,6 +31,16 @@
 				"source": "src/endpoints/search/index.js"
 			},
 			{
+				"type": "endpoint",
+				"name": "news",
+				"source": "src/endpoints/news/index.js"
+			},
+			{
+				"type": "endpoint",
+				"name": "companies",
+				"source": "src/endpoints/companies/index.js"
+			},
+			{
 				"type": "hook",
 				"name": "recent-view-hook",
 				"source": "src/hooks/recent-view-hook/index.js"
@@ -39,6 +49,11 @@
 				"type": "hook",
 				"name": "favorites-counter",
 				"source": "src/hooks/favorites-counter/index.js"
+			},
+			{
+				"type": "hook",
+				"name": "slug",
+				"source": "src/hooks/slug/index.js"
 			}
 		]
 	},

@@ -89,10 +89,10 @@ export default (router, { services, exceptions }) => {
         }));
     }
 
-    function groupCompanies(projects, groupBy) {
+    function groupCompanies(companies, groupBy) {
         const groups = new Map();
 
-        projects.forEach(project => {
+        companies.forEach(project => {
             let groupKeys = [];
 
             switch (groupBy) {
@@ -125,7 +125,7 @@ export default (router, { services, exceptions }) => {
                     }));
                     break;
                 default:
-                    groupKeys = [{ id: 'all', name: 'All Projects', data: null }];
+                    groupKeys = [{ id: 'all', name: 'All companies', data: null }];
             }
 
             // If no group keys found, add to "Unknown" group
@@ -140,7 +140,7 @@ export default (router, { services, exceptions }) => {
                         id: groupKey.id,
                         name: groupKey.name,
                         data: groupKey.data,
-                        projects: [],
+                        companies: [],
                         count: 0,
                         totalValue: 0
                     });
@@ -152,7 +152,7 @@ export default (router, { services, exceptions }) => {
                 const cleanProject = { ...project };
                 delete cleanProject._originals;
 
-                group.projects.push(cleanProject);
+                group.companies.push(cleanProject);
                 group.count++;
 
                 // Calculate total value if value field exists
@@ -264,7 +264,7 @@ export default (router, { services, exceptions }) => {
 
     router.get('/public/recent', async (req, res, next) => {
         try {
-            const projectsService = new ItemsService('companies', {
+            const companiesService = new ItemsService('companies', {
                 schema: req.schema,
                 accountability: null
             });
@@ -272,35 +272,34 @@ export default (router, { services, exceptions }) => {
             // Get limit from query or default to 10
             const limit = Math.min(parseInt(req.query.limit) || 10, 50); // Max 50
 
-            // Fetch recent projects with minimal fields
-            const result = await projectsService.readByQuery({
+            // Fetch recent companies with minimal fields
+            const result = await companiesService.readByQuery({
                 fields: [
                     'id',
-                    'title',
+                    'name',
                     'slug',
-                    'summary',
                     'description',
-                    'featured_image.id',
-                    'featured_image.filename_disk',
-                    'featured_image.title',
+                    'logo.id',
+                    'logo.filename_disk',
+                    'logo.title',
                 ],
                 limit: limit,
                 sort: ['-date_created'], // Most recent first
                 filter: {
-                    status: { _eq: 'published' } // Only show published projects
+                    status: { _eq: 'published' } // Only show published companies
                 }
             });
 
-            const projects = result.data || result;
+            const companies = result.data || result;
 
-            // Transform projects to include full asset URLs
-            const transformedProjects = projects.map(project => {
-                if (project.featured_image && typeof project.featured_image === 'object' && project.featured_image.id) {
-                    project.featured_image = {
-                        id: project.featured_image.id,
-                        url: `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}`,
-                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}?width=400&height=300&fit=cover`,
-                        title: project.featured_image.title
+            // Transform companies to include full asset URLs
+            const transformedcompanies = companies.map(project => {
+                if (project.logo && typeof project.logo === 'object' && project.logo.id) {
+                    project.logo = {
+                        id: project.logo.id,
+                        url: `${process.env.PUBLIC_URL}/assets/${project.logo.id}`,
+                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${project.logo.id}?width=400&height=300&fit=cover`,
+                        title: project.logo.title
                     };
                 }
 
@@ -309,14 +308,14 @@ export default (router, { services, exceptions }) => {
                     title: project.title,
                     slug: project.slug,
                     summary: project.summary,
-                    featured_image: project.featured_image
+                    logo: project.logo
                 };
             });
 
             res.json({
-                data: transformedProjects,
+                data: transformedcompanies,
                 meta: {
-                    total: transformedProjects.length
+                    total: transformedcompanies.length
                 }
             });
         } catch (error) {
@@ -326,7 +325,7 @@ export default (router, { services, exceptions }) => {
 
     router.get('/public/trending', async (req, res, next) => {
         try {
-            const projectsService = new ItemsService('companies', {
+            const companiesService = new ItemsService('companies', {
                 schema: req.schema,
                 accountability: null
             });
@@ -334,17 +333,16 @@ export default (router, { services, exceptions }) => {
             // Get limit from query or default to 10
             const limit = Math.min(parseInt(req.query.limit) || 10, 50); // Max 50
 
-            // Fetch recent projects with minimal fields
-            const result = await projectsService.readByQuery({
+            // Fetch recent companies with minimal fields
+            const result = await companiesService.readByQuery({
                 fields: [
                     'id',
-                    'title',
+                    'name',
                     'slug',
-                    'summary',
                     'description',
-                    'featured_image.id',
-                    'featured_image.filename_disk',
-                    'featured_image.title',
+                    'logo.id',
+                    'logo.filename_disk',
+                    'logo.title',
                 ],
                 limit: limit,
                 sort: ['-date_created'],
@@ -354,16 +352,16 @@ export default (router, { services, exceptions }) => {
                 }
             });
 
-            const projects = result.data || result;
+            const companies = result.data || result;
 
-            // Transform projects to include full asset URLs
-            const transformedProjects = projects.map(project => {
-                if (project.featured_image && typeof project.featured_image === 'object' && project.featured_image.id) {
-                    project.featured_image = {
-                        id: project.featured_image.id,
-                        url: `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}`,
-                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}?width=400&height=300&fit=cover`,
-                        title: project.featured_image.title
+            // Transform companies to include full asset URLs
+            const transformedcompanies = companies.map(project => {
+                if (project.logo && typeof project.logo === 'object' && project.logo.id) {
+                    project.logo = {
+                        id: project.logo.id,
+                        url: `${process.env.PUBLIC_URL}/assets/${project.logo.id}`,
+                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${project.logo.id}?width=400&height=300&fit=cover`,
+                        title: project.logo.title
                     };
                 }
 
@@ -372,14 +370,77 @@ export default (router, { services, exceptions }) => {
                     title: project.title,
                     slug: project.slug,
                     summary: project.summary,
-                    featured_image: project.featured_image
+                    logo: project.logo
                 };
             });
 
             res.json({
-                data: transformedProjects,
+                data: transformedcompanies,
                 meta: {
-                    total: projects.length
+                    total: companies.length
+                }
+            });
+        } catch (error) {
+            console.log("trending error: ", error)
+            next(error);
+        }
+    });
+    
+    router.get('/public/free', async (req, res, next) => {
+        try {
+            const companiesService = new ItemsService('companies', {
+                schema: req.schema,
+                accountability: null
+            });
+
+            // Get limit from query or default to 10
+            const limit = Math.min(parseInt(req.query.limit) || 10, 50);
+
+            // Fetch recent companies with minimal fields
+            const result = await companiesService.readByQuery({
+                fields: [
+                    'id',
+                    'name',
+                    'slug',
+                    'description',
+                    'logo.id',
+                    'logo.filename_disk',
+                    'logo.title',
+                ],
+                limit: limit,
+                sort: ['-date_created'],
+                filter: {
+                    status: { _eq: 'published' },
+                    is_trending: { _eq: true }
+                }
+            });
+
+            const companies = result.data || result;
+
+            // Transform companies to include full asset URLs
+            const transformedcompanies = companies.map(project => {
+                if (project.logo && typeof project.logo === 'object' && project.logo.id) {
+                    project.logo = {
+                        id: project.logo.id,
+                        url: `${process.env.PUBLIC_URL}/assets/${project.logo.id}`,
+                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${project.logo.id}?width=400&height=300&fit=cover`,
+                        title: project.logo.title
+                    };
+                }
+
+                return {
+                    id: project.id,
+                    title: project.title,
+                    slug: project.slug,
+                    summary: project.summary,
+                    logo: project.logo
+                };
+            });
+
+            res.json({
+                data: transformedcompanies,
+                meta: {
+                    total: companies.length
                 }
             });
         } catch (error) {
@@ -390,13 +451,13 @@ export default (router, { services, exceptions }) => {
 
     router.get('/:id', async (req, res, next) => {
         try {
-            const projectsService = new ItemsService('projects', {
+            const companiesService = new ItemsService('companies', {
                 schema: req.schema,
                 accountability: req.accountability
             });
 
             // Fetch ALL data for single project endpoint
-            const project = await projectsService.readOne(req.params.id, {
+            const project = await companiesService.readOne(req.params.id, {
                 fields: [
                     '*',
                     'countries.countries_id.*',
@@ -458,7 +519,7 @@ export default (router, { services, exceptions }) => {
                     'operator.companies_id.name',
                     'feed.companies_id.id',
                     'feed.companies_id.name',
-                    'featured_image.*'
+                    'logo.*'
                 ]
             });
 
@@ -479,10 +540,10 @@ export default (router, { services, exceptions }) => {
                     .filter(Boolean);
             };
 
-            // Transform featured_image
-            if (project.featured_image && typeof project.featured_image === 'object' && project.featured_image.id) {
-                project.featured_image.url = `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}`;
-                project.featured_image.thumbnail_url = `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}?width=400&height=300&fit=cover`;
+            // Transform logo
+            if (project.logo && typeof project.logo === 'object' && project.logo.id) {
+                project.logo.url = `${process.env.PUBLIC_URL}/assets/${project.logo.id}`;
+                project.logo.thumbnail_url = `${process.env.PUBLIC_URL}/assets/${project.logo.id}?width=400&height=300&fit=cover`;
             }
 
             // Flatten M2M relations
@@ -547,7 +608,7 @@ export default (router, { services, exceptions }) => {
                 filter: {
                     _and: [
                         { user_created: { _eq: accountability.user } },
-                        { collection: { _eq: 'projects' } },
+                        { collection: { _eq: 'companies' } },
                         { item_id: { _eq: id } },
                     ],
                 },

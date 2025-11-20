@@ -37,7 +37,7 @@ export default (router, context) => {
     // ============================================
     // 2. GET USER'S CURRENT SUBSCRIPTION
     // ============================================
-    router.get('/my-subscription', async (req, res) => {
+    router.get('/me', async (req, res) => {
         try {
             const { accountability } = req;
 
@@ -61,10 +61,6 @@ export default (router, context) => {
                 fields: [
                     '*',
                     'subscription_plan.*',
-                    'regions.regions_id.id',
-                    'regions.regions_id.name',
-                    'sectors.types_id.id',
-                    'sectors.types_id.name',
                 ],
                 limit: 1,
             });
