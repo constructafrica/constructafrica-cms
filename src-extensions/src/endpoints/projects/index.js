@@ -248,6 +248,7 @@ export default (router, { services, exceptions, getSchema}) => {
                     'sectors.sectors_id.name',
                     'sectors.sectors_id.id',
                     'types.types_id.name',
+                    'featured_image',
                     'featured_image.id',
                     'featured_image.filename_disk',
                     'featured_image.title',
@@ -256,11 +257,13 @@ export default (router, { services, exceptions, getSchema}) => {
                 limit: groupBy ? -1 : limit, // No limit when grouping
                 page: groupBy ? 1 : page,
                 filter: req.query.filter || {},
-                meta: ['total_count', 'filter_count']
+                meta: 'total_count,filter_count',
             });
 
             const projects = result.data || result;
             const meta = result.meta || {};
+
+            console.log('Directus meta:', meta);
 
             // Transform the response to include full asset URLs and flatten M2M relations
             const transformedProjects = projects.map(project => {
@@ -350,14 +353,25 @@ export default (router, { services, exceptions, getSchema}) => {
                     }));
                 }
 
+                // res.json({
+                //     data: finalProjects,
+                //     meta: {
+                //         total_count: meta.total_count || meta.filter_count || transformedProjects.length,
+                //         filter_count: meta.filter_count || transformedProjects.length,
+                //         page: page,
+                //         limit: limit,
+                //         page_count: Math.ceil((meta.filter_count || transformedProjects.length) / limit),
+                //         authenticated: !!accountability?.user
+                //     }
+                // });
                 res.json({
                     data: finalProjects,
                     meta: {
-                        total_count: meta.total_count || meta.filter_count || transformedProjects.length,
-                        filter_count: meta.filter_count || transformedProjects.length,
-                        page: page,
-                        limit: limit,
-                        page_count: Math.ceil((meta.filter_count || transformedProjects.length) / limit),
+                        total_count: meta.total_count,
+                        filter_count: meta.filter_count,
+                        page,
+                        limit,
+                        page_count: Math.ceil(meta.total_count / limit),
                         authenticated: !!accountability?.user
                     }
                 });
@@ -509,9 +523,16 @@ export default (router, { services, exceptions, getSchema}) => {
             const project = await projectsService.readOne(projectId, {
                 fields: [
                     '*',
-                    'countries.countries_id.*',
-                    'regions.regions_id.*',
-                    'types.types_id.*',
+
+                    'countries.countries_id.id',
+                    'countries.countries_id.name',
+                    'regions.regions_id.id',
+                    'regions.regions_id.name',
+                    'types.types_id.id',
+                    'sectors.sectors_id.name',
+                    'sectors.sectors_id.id',
+                    'types.types_id.name',
+
                     'funding.funding_id.*',
                     'client_owner.companies_id.*',
                     'developer.companies_id.*',
