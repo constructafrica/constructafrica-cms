@@ -660,43 +660,50 @@ export default (router, context) => {
                                 // type: 'project',
                                 image: 'featured_image',
                                 summary: 'summary',
-                                slug: 'slug'
+                                slug: 'slug',
+                                date: 'date_created'
                             },
                             'companies': {
                                 title: 'name',
                                 // type: 'company',
                                 image: 'logo',
                                 summary: 'description',
-                                slug: 'slug'
+                                slug: 'slug',
+                                date: 'date_created'
                             },
                             'main_news': {
                                 title: 'title',
                                 // type: 'news',
                                 image: 'featured_image',
                                 summary: 'summary',
-                                slug: 'slug'
+                                slug: 'slug',
+                                date: 'date_created'
+
                             },
                             'projects_tenders': {
                                 title: 'title',
                                 // type: 'tender',
                                 image: 'featured_image',
                                 summary: 'summary',
-                                slug: 'slug'
+                                slug: 'slug',
+                                date: 'date_created'
                             },
                             'experts_analysts': {
                                 title: 'name',
                                 // type: 'opinions',
                                 image: 'photo',
                                 summary: 'bio',
-                                slug: 'slug'
-                            },
-                            'blog': {
-                                title: 'title',
-                                // type: 'blog',
-                                image: 'featured_image',
-                                summary: 'summary',
-                                slug: 'slug'
+                                slug: 'slug',
+                                date: 'date_created'
                             }
+                            // 'blog': {
+                            //     title: 'title',
+                            //     // type: 'blog',
+                            //     image: 'featured_image',
+                            //     summary: 'summary',
+                            //     slug: 'slug',
+                            //     date: 'date_created'
+                            // }
                         };
 
                         // Add collection-specific fields
@@ -726,6 +733,7 @@ export default (router, context) => {
                                 summary: getFieldValue(item, mapping?.summary),
                                 slug: getFieldValue(item, mapping?.slug),
                                 status: item.status,
+                                date_created: getFieldValue(item, mapping?.date),
                                 // original_item: item
                             };
 

@@ -31,55 +31,6 @@ export default (router, { services, exceptions, getSchema}) => {
         };
     }
 
-    // Helper function to apply subscription filters
-    function applySubscriptionFilter(baseFilter, userAccess) {
-        if (!userAccess.hasAccess) {
-            // No access - return impossible filter
-            return {
-                ...baseFilter,
-                id: { _null: true }, // Will return no results
-            };
-        }
-
-        // Apply region and sector filters (AND logic between them, OR within each)
-        const subscriptionFilter = {
-            _and: [],
-        };
-
-        if (userAccess.regions.length > 0) {
-            subscriptionFilter._and.push({
-                regions: {
-                    regions_id: {
-                        id: { _in: userAccess.regions },
-                    },
-                },
-            });
-        }
-
-        if (userAccess.sectors.length > 0) {
-            subscriptionFilter._and.push({
-                types: {
-                    types_id: {
-                        id: { _in: userAccess.sectors },
-                    },
-                },
-            });
-        }
-
-        // Combine with existing filters
-        if (baseFilter._and) {
-            return {
-                _and: [...baseFilter._and, ...subscriptionFilter._and],
-            };
-        } else if (Object.keys(baseFilter).length > 0) {
-            return {
-                _and: [baseFilter, ...subscriptionFilter._and],
-            };
-        } else {
-            return subscriptionFilter._and.length > 0 ? subscriptionFilter : {};
-        }
-    }
-
     async function addFavoritesStatus(projects, userId, schema, accountability) {
         if (!projects || projects.length === 0) return projects;
 
@@ -248,6 +199,9 @@ export default (router, { services, exceptions, getSchema}) => {
                     'sectors.sectors_id.name',
                     'sectors.sectors_id.id',
                     'types.types_id.name',
+                    'countries.countries_id.slug',
+                    'sectors.sectors_id.slug',
+                    'regions.regions_id.slug',
                     'featured_image',
                     'featured_image.id',
                     'featured_image.filename_disk',
@@ -526,6 +480,9 @@ export default (router, { services, exceptions, getSchema}) => {
 
                     'countries.countries_id.id',
                     'countries.countries_id.name',
+                    'countries.countries_id.slug',
+                    'sectors.sectors_id.slug',
+                    'regions.regions_id.slug',
                     'regions.regions_id.id',
                     'regions.regions_id.name',
                     'types.types_id.id',
@@ -587,7 +544,8 @@ export default (router, { services, exceptions, getSchema}) => {
                     'operator.companies_id.name',
                     'feed.companies_id.id',
                     'feed.companies_id.name',
-                    'featured_image.*'
+                    'featured_image.*',
+                    'news.*'
                 ]
             });
 
