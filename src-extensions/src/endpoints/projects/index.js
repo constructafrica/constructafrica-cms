@@ -160,6 +160,23 @@ export default (router, { services, exceptions, getSchema}) => {
         );
     }
 
+    function flattenRelationships (relationArray, idField = 'id') {
+        if (!relationArray || !Array.isArray(relationArray)) return [];
+
+        return relationArray
+            .map(item => {
+                // Extract the related object (handles both direct and nested structures)
+                const relatedObj = item[`${idField}_id`] || item;
+                if (!relatedObj || !relatedObj.id) return null;
+
+                return {
+                    id: relatedObj.id,
+                    name: relatedObj.name || 'Unnamed'
+                };
+            })
+            .filter(Boolean);
+    };
+
     router.get('/', async (req, res, next) => {
         try {
             const { accountability } = req; // Get accountability from req
@@ -354,6 +371,17 @@ export default (router, { services, exceptions, getSchema}) => {
                     'slug',
                     'summary',
                     'description',
+                    'current_stage',
+                    'contract_value_usd',
+                    'sectors.sectors_id.name',
+                    'sectors.sectors_id.id',
+                    'sectors.sectors_id.slug',
+                    'countries.countries_id.id',
+                    'countries.countries_id.name',
+                    'countries.countries_id.slug',
+                    'countries.countries_id.flag',
+                    'regions.regions_id.id',
+                    'regions.regions_id.name',
                     'featured_image.id',
                     'featured_image.filename_disk',
                     'featured_image.title',
@@ -378,12 +406,24 @@ export default (router, { services, exceptions, getSchema}) => {
                     };
                 }
 
+                const sectors = flattenRelationships(project.sectors, 'sectors');
+                const countries = flattenRelationships(project.countries, 'countries');
+                const regions = flattenRelationships(project.regions, 'regions');
+
                 return {
                     id: project.id,
                     title: project.title,
                     slug: project.slug,
                     summary: project.summary,
-                    featured_image: project.featured_image
+                    description: project.description,
+                    current_stage: project.current_stage,
+                    contract_value_usd: project.contract_value_usd,
+                    location: project.location,
+                    date_created: project.date_created,
+                    featured_image: project.featured_image,
+                    sectors: sectors,
+                    countries: countries,
+                    regions: regions,
                 };
             });
 
@@ -416,6 +456,17 @@ export default (router, { services, exceptions, getSchema}) => {
                     'slug',
                     'summary',
                     'description',
+                    'current_stage',
+                    'contract_value_usd',
+                    'sectors.sectors_id.name',
+                    'sectors.sectors_id.id',
+                    'sectors.sectors_id.slug',
+                    'countries.countries_id.id',
+                    'countries.countries_id.name',
+                    'countries.countries_id.slug',
+                    'countries.countries_id.flag',
+                    'regions.regions_id.id',
+                    'regions.regions_id.name',
                     'featured_image.id',
                     'featured_image.filename_disk',
                     'featured_image.title',
@@ -441,12 +492,24 @@ export default (router, { services, exceptions, getSchema}) => {
                     };
                 }
 
+                const sectors = flattenRelationships(project.sectors, 'sectors');
+                const countries = flattenRelationships(project.countries, 'countries');
+                const regions = flattenRelationships(project.regions, 'regions');
+
                 return {
                     id: project.id,
                     title: project.title,
                     slug: project.slug,
                     summary: project.summary,
-                    featured_image: project.featured_image
+                    description: project.description,
+                    current_stage: project.current_stage,
+                    contract_value_usd: project.contract_value_usd,
+                    location: project.location,
+                    date_created: project.date_created,
+                    featured_image: project.featured_image,
+                    sectors: sectors,
+                    countries: countries,
+                    regions: regions,
                 };
             });
 
@@ -548,23 +611,6 @@ export default (router, { services, exceptions, getSchema}) => {
                     'news.*'
                 ]
             });
-
-            const flattenRelationships = (relationArray, idField = 'id') => {
-                if (!relationArray || !Array.isArray(relationArray)) return [];
-
-                return relationArray
-                    .map(item => {
-                        // Extract the related object (handles both direct and nested structures)
-                        const relatedObj = item[`${idField}_id`] || item;
-                        if (!relatedObj || !relatedObj.id) return null;
-
-                        return {
-                            id: relatedObj.id,
-                            name: relatedObj.name || 'Unnamed'
-                        };
-                    })
-                    .filter(Boolean);
-            };
 
             // Transform featured_image
             if (project.featured_image && typeof project.featured_image === 'object' && project.featured_image.id) {
