@@ -225,12 +225,8 @@ export default (router, { services, exceptions, getSchema}) => {
                     'featured_image.title',
                     'featured_image.filesize',
                 ],
-                // limit: groupBy ? -1 : limit, // No limit when grouping
-                // page: groupBy ? 1 : page,
-                // filter: req.query.filter || {},
-                // meta: 'total_count,filter_count',
                 limit: groupBy ? -1 : limit,
-                offset: groupBy ? 0 : (page - 1) * limit, // ✅ Use offset instead of page
+                offset: groupBy ? 0 : (page - 1) * limit,
                 filter: req.query.filter || {},
                 meta: ['total_count', 'filter_count'],
             });

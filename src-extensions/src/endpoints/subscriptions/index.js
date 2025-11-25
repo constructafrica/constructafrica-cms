@@ -75,10 +75,10 @@ export default (router, context) => {
 
             // Flatten the M2M relationships
             const sub = subscription[0];
-            sub.subscribed_regions = sub.regions?.map(r => r.regions_id).filter(Boolean) || [];
-            sub.subscribed_sectors = sub.sectors?.map(s => s.types_id).filter(Boolean) || [];
-            delete sub.regions;
-            delete sub.sectors;
+            // sub.subscribed_regions = sub.regions?.map(r => r.regions_id).filter(Boolean) || [];
+            // sub.subscribed_sectors = sub.sectors?.map(s => s.types_id).filter(Boolean) || [];
+            // delete sub.regions;
+            // delete sub.sectors;
 
             return res.json({
                 success: true,
@@ -155,12 +155,12 @@ export default (router, context) => {
                 subscriptionId = existing[0].id;
 
                 // Clear existing regions and sectors
-                await database('user_subscription_regions')
-                    .where('user_subscriptions_id', subscriptionId)
-                    .delete();
-                await database('user_subscription_sectors')
-                    .where('user_subscriptions_id', subscriptionId)
-                    .delete();
+                // await database('user_subscription_regions')
+                //     .where('user_subscriptions_id', subscriptionId)
+                //     .delete();
+                // await database('user_subscription_sectors')
+                //     .where('user_subscriptions_id', subscriptionId)
+                //     .delete();
             } else {
                 // Create new subscription
                 const newSub = await subscriptionsService.createOne({
@@ -177,22 +177,22 @@ export default (router, context) => {
             }
 
             // Add regions (only for projects subscriptions)
-            if (plan.type === 'projects' && regions && regions.length > 0) {
-                const regionRecords = regions.map(regionId => ({
-                    user_subscriptions_id: subscriptionId,
-                    regions_id: regionId,
-                }));
-                await database('user_subscription_regions').insert(regionRecords);
-            }
+            // if (plan.type === 'projects' && regions && regions.length > 0) {
+            //     const regionRecords = regions.map(regionId => ({
+            //         user_subscriptions_id: subscriptionId,
+            //         regions_id: regionId,
+            //     }));
+            //     await database('user_subscription_regions').insert(regionRecords);
+            // }
 
             // Add sectors (only for projects subscriptions)
-            if (plan.type === 'projects' && sectors && sectors.length > 0) {
-                const sectorRecords = sectors.map(sectorId => ({
-                    user_subscriptions_id: subscriptionId,
-                    types_id: sectorId,
-                }));
-                await database('user_subscription_sectors').insert(sectorRecords);
-            }
+            // if (plan.type === 'projects' && sectors && sectors.length > 0) {
+            //     const sectorRecords = sectors.map(sectorId => ({
+            //         user_subscriptions_id: subscriptionId,
+            //         types_id: sectorId,
+            //     }));
+            //     await database('user_subscription_sectors').insert(sectorRecords);
+            // }
 
             // Update user's cached subscription fields
             const usersService = new ItemsService('directus_users', {

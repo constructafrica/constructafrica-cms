@@ -11,72 +11,78 @@ export default (router, context) => {
     // Define searchable collections and their configurations
     const searchableCollections = {
         projects: {
-            fields: ['title', 'summary',],
+            fields: ['title', 'summary', 'id', 'slug'],
             searchFields: ['title', 'summary'],
             displayFields: {
+                id: "id",
                 title: 'title',
                 type: 'project',
-                image: 'featured_image',
+                // image: 'featured_image',
                 summary: 'summary',
                 slug: 'slug'
             },
             weight: 1.0
         },
         companies: {
-            fields: ['name', 'description'],
+            fields: ['name', 'description', 'id', 'slug'],
             searchFields: ['name', 'description'],
             displayFields: {
+                id: "id",
                 title: 'name',
                 type: 'company',
-                image: 'logo',
+                // image: 'logo',
                 summary: 'description',
                 slug: 'slug'
             },
             weight: 0.9
         },
         main_news: {
-            fields: ['title', 'summary'],
+            fields: ['title', 'summary', 'id', 'slug'],
             searchFields: ['title', 'summary'],
             displayFields: {
+                id: "id",
                 title: 'title',
                 type: 'news',
-                image: 'featured_image',
+                // image: 'featured_image',
                 summary: 'summary',
                 slug: 'slug'
             },
             weight: 0.8
         },
         projects_tenders: {
-            fields: ['title', 'summary'],
+            fields: ['title', 'summary', 'id', 'slug'],
             searchFields: ['title', 'summary'],
             displayFields: {
+                id: "id",
                 title: 'title',
                 type: 'tenders',
-                image: 'featured_image',
+                // image: 'featured_image',
                 summary: 'summary',
                 slug: 'slug'
             },
             weight: 0.7
         },
         experts_analysts: {
-            fields: ['name', 'title'],
-            searchFields: ['name', 'title'],
+            fields: ['title', 'id', 'slug'],
+            searchFields: ['title'],
             displayFields: {
-                title: 'name',
-                type: 'opinions',
-                image: 'photo',
+                id: "id",
+                title: 'title',
+                type: 'experts_analysts',
+                // image: 'photo',
                 summary: 'bio',
                 slug: 'slug'
             },
             weight: 0.6
         },
         blog: {
-            fields: ['title', 'summary'],
+            fields: ['title', 'summary', 'id', 'slug'],
             searchFields: ['title', 'summary'],
             displayFields: {
+                id: "id",
                 title: 'title',
                 type: 'blog',
-                image: 'featured_image',
+                // image: 'featured_image',
                 summary: 'summary',
                 slug: 'slug'
             },
@@ -152,11 +158,13 @@ export default (router, context) => {
                     results.total_results += result.value.items.length;
 
                     // Add collection info to each item and add to all_results
+                    console.log('items', result.value.items);
+
                     result.value.items.forEach(item => {
                         results.all_results.push({
                             ...item,
                             collection: collection,
-                            collection_weight: searchableCollections[collection].weight
+                            // collection_weight: searchableCollections[collection].weight
                         });
                     });
                 } else {
