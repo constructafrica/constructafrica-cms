@@ -41,6 +41,16 @@
 				"source": "src/endpoints/companies/index.js"
 			},
 			{
+				"type": "endpoint",
+				"name": "auth",
+				"source": "src/endpoints/auth/index.js"
+			},
+			{
+				"type": "endpoint",
+				"name": "subscriptions",
+				"source": "src/endpoints/subscriptions/index.js"
+			},
+			{
 				"type": "hook",
 				"name": "recent-view-hook",
 				"source": "src/hooks/recent-view-hook/index.js"

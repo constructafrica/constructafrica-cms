@@ -1,6 +1,9 @@
+import {Stripe} from "stripe";
+
 export default (router, context) => {
-    const { services, exceptions, database } = context;
+    const { services, exceptions, env, logger, getSchema, database } = context;
     const { ItemsService } = services;
+    const { InvalidPayloadException, ForbiddenException } = exceptions;
 
     // ============================================
     // 1. GET AVAILABLE SUBSCRIPTION PLANS
@@ -96,10 +99,10 @@ export default (router, context) => {
     // ============================================
     // 3. CREATE/UPDATE SUBSCRIPTION
     // ============================================
-    router.post('/subscribe', async (req, res) => {
+    router.post('/subscribe-old', async (req, res) => {
         try {
             const { accountability } = req;
-            const { plan_id, regions, sectors, payment_method } = req.body;
+            const { plan_id } = req.body;
 
             if (!accountability?.user) {
                 return res.status(403).json({
@@ -127,6 +130,8 @@ export default (router, context) => {
 
             // Verify plan exists
             const plan = await plansService.readOne(plan_id);
+
+
 
             // Check if user already has an active subscription
             const existing = await subscriptionsService.readByQuery({
@@ -218,6 +223,124 @@ export default (router, context) => {
                 success: false,
                 error: 'Failed to create subscription',
                 details: error.message,
+            });
+        }
+    });
+
+    router.post('/subscribe', async (req, res) => {
+        try {
+            // Initialize Stripe
+            const stripe = new Stripe(env.STRIPE_SECRET_KEY);
+
+            const { accountability } = req;
+            const { plan_id , payment_type = 'one_time' } = req.body;
+
+            if (!accountability?.user) {
+                return res.status(403).json({
+                    success: false,
+                    error: 'Authentication required',
+                });
+            }
+
+            if (!plan_id) {
+                return res.status(400).json({
+                    success: false,
+                    error: 'plan_id is required',
+                });
+            }
+
+            const plansService = new ItemsService('subscription_plans', {
+                schema: req.schema,
+                accountability: req.accountability,
+            });
+
+            // Verify plan exists
+            const plan = await plansService.readOne(plan_id);
+
+            const schema = await getSchema();
+            const transactionsService = new ItemsService('transactions', {
+                schema,
+                accountability
+            });
+
+            // Get user email
+            const usersService = new ItemsService('directus_users', { schema });
+            const user = await usersService.readOne(accountability.user, {
+                fields: ['email', 'first_name', 'last_name']
+            });
+
+            // Create session parameters
+            let sessionParams = {
+                customer_email: user.email,
+                mode: payment_type === 'subscription' ? 'subscription' : 'payment',
+                success_url: `${env.STRIPE_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
+                cancel_url: env.STRIPE_CANCEL_URL,
+                metadata: {
+                    user_id: accountability.user,
+                    ...metadata
+                }
+            };
+
+            // Configure line items based on payment type
+            if (payment_type === 'one_time') {
+                sessionParams.line_items = [{
+                    price_data: {
+                        currency: plan.currency.toLowerCase(),
+                        unit_amount: Math.round(plan.amount * 100), // Convert to cents
+                        product_data: {
+                            name: metadata.product_name || 'Payment',
+                            description: metadata.product_description || ''
+                        }
+                    },
+                    quantity: 1
+                }];
+            } else if (payment_type === 'subscription') {
+                sessionParams.line_items = [{
+                    price: price_id,
+                    quantity: 1
+                }];
+            }
+
+            // Create Stripe checkout session
+            const session = await stripe.checkout.sessions.create(sessionParams);
+
+            // Create pending transaction record
+            const transaction = await transactionsService.createOne({
+                user: accountability.user,
+                stripe_session_id: session.id,
+                stripe_customer_id: session.customer || null,
+                amount: payment_type === 'one_time' ? amount : 0, // Will be updated by webhook
+                currency: currency.toLowerCase(),
+                status: 'pending',
+                payment_type,
+                metadata: {
+                    ...metadata,
+                    stripe_session_url: session.url
+                }
+            });
+
+            logger.info(`Checkout session created: ${session.id} for user ${accountability.user}`);
+
+            return res.json({
+                success: true,
+                session_id: session.id,
+                checkout_url: session.url,
+                transaction_id: transaction.id
+            });
+
+        } catch (error) {
+            logger.error('Create checkout session error:', error);
+
+            if (error instanceof InvalidPayloadException || error instanceof ForbiddenException) {
+                return res.status(400).json({
+                    success: false,
+                    message: error.message
+                });
+            }
+
+            return res.status(500).json({
+                success: false,
+                message: 'Failed to create checkout session'
             });
         }
     });
