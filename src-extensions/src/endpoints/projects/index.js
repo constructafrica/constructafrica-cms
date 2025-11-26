@@ -216,6 +216,8 @@ export default (router, { services, exceptions, getSchema}) => {
                     'sectors.sectors_id.name',
                     'sectors.sectors_id.id',
                     'types.types_id.name',
+                    'subsectors.subsectors_id.name',
+                    'subsectors.subsectors_id.id',
                     'countries.countries_id.slug',
                     'sectors.sectors_id.slug',
                     'regions.regions_id.slug',
