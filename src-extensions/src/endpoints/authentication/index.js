@@ -3,7 +3,7 @@ import { createHash, randomBytes } from 'crypto';
 
 export default (router, { services, exceptions, env, logger }) => {
     const { UsersService, MailService } = services;
-    const { InvalidPayloadException, ForbiddenException } = exceptions;
+    // const { InvalidPayloadException, ForbiddenException } = exceptions;
 
     // Helper function to generate verification token
     function generateVerificationToken() {

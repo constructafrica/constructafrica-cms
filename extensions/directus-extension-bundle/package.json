@@ -42,13 +42,13 @@
 			},
 			{
 				"type": "endpoint",
-				"name": "auth",
-				"source": "src/endpoints/auth/index.js"
+				"name": "subscriptions",
+				"source": "src/endpoints/subscriptions/index.js"
 			},
 			{
 				"type": "endpoint",
-				"name": "subscriptions",
-				"source": "src/endpoints/subscriptions/index.js"
+				"name": "test",
+				"source": "src/endpoints/test/index.js"
 			},
 			{
 				"type": "hook",
