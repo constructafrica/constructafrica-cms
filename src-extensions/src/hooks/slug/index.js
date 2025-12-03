@@ -59,6 +59,12 @@ export default ({ action }, { services, getSchema }) => {
             unique: true,
             maxLength: 100
         },
+        subsectors: {
+            sourceField: 'name',
+            slugField: 'slug',
+            unique: true,
+            maxLength: 100
+        },
         regions: {
             sourceField: 'name',
             slugField: 'slug',

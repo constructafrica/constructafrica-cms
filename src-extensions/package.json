@@ -47,9 +47,16 @@
 			},
 			{
 				"type": "endpoint",
+				"name": "auth",
+				"source": "src/endpoints/auth/index.js"
+			},
+			{
+				"type": "endpoint",
 				"name": "test",
 				"source": "src/endpoints/test/index.js"
 			},
+
+
 			{
 				"type": "hook",
 				"name": "recent-view-hook",
@@ -64,6 +71,11 @@
 				"type": "hook",
 				"name": "slug",
 				"source": "src/hooks/slug/index.js"
+			},
+			{
+				"type": "interface",
+				"name": "project-companies-selector",
+				"source": "src/interfaces/project-companies-selector/index.js"
 			}
 		]
 	},

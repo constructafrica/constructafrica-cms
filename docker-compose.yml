@@ -70,14 +70,36 @@ services:
       EMAIL_SMTP_USER: "${EMAIL_SMTP_USER}"
       EMAIL_SMTP_PASSWORD: "${EMAIL_SMTP_PASSWORD}"
       EMAIL_FROM: "${EMAIL_FROM}"
-    #depends_on:
-#      database:
-#        condition: service_healthy
-#      cache:
-#        condition: service_healthy
     networks:
       - directus
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:15
+    container_name: directus-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: directus
+      POSTGRES_USER: directus
+      POSTGRES_PASSWORD: directuspass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - directus
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U directus" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 networks:
   directus:
     driver: bridge
+
+volumes:
+  postgres_data:

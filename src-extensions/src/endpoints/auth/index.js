@@ -22,18 +22,18 @@ export default (router, { services, exceptions, env, logger }) => {
 
             // Validate required fields
             if (!email || !password) {
-                throw new InvalidPayloadException('Email and password are required');
+                return res.status(422).send(`Email and password are required`);
             }
 
             // Validate email format
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-                throw new InvalidPayloadException('Invalid email format');
+                return res.status(422).send(`Invalid email format`);
             }
 
             // Validate password strength (min 8 characters)
             if (password.length < 8) {
-                throw new InvalidPayloadException('Password must be at least 8 characters');
+                return res.status(422).send(`Password must be at least 8 characters`);
             }
 
             const usersService = new UsersService({ schema: req.schema });
@@ -45,7 +45,7 @@ export default (router, { services, exceptions, env, logger }) => {
             });
 
             if (existingUsers.length > 0) {
-                throw new InvalidPayloadException('User with this email already exists');
+                return res.status(422).send(`User with this email already exists`);
             }
 
             // Generate verification token
@@ -56,7 +56,7 @@ export default (router, { services, exceptions, env, logger }) => {
             const authenticatedRoleUuid = env.PUBLIC_REGISTRATION_ROLE;
 
             if (!authenticatedRoleUuid) {
-                throw new Error('PUBLIC_REGISTRATION_ROLE not configured');
+                return res.status(400).send(`PUBLIC_REGISTRATION_ROLE not configured`);
             }
 
             // Create user with unverified status
@@ -98,13 +98,6 @@ export default (router, { services, exceptions, env, logger }) => {
         } catch (error) {
             logger.error('Registration error:', error);
 
-            if (error instanceof InvalidPayloadException || error instanceof ForbiddenException) {
-                return res.status(400).json({
-                    success: false,
-                    message: error.message
-                });
-            }
-
             return res.status(500).json({
                 success: false,
                 message: 'Registration failed. Please try again.'
@@ -118,7 +111,7 @@ export default (router, { services, exceptions, env, logger }) => {
             const { token } = req.body;
 
             if (!token) {
-                throw new InvalidPayloadException('Verification token is required');
+                return res.status(422).send(`Verification token is required`);
             }
 
             const hashedToken = hashToken(token);
@@ -134,7 +127,7 @@ export default (router, { services, exceptions, env, logger }) => {
             });
 
             if (users.length === 0) {
-                throw new InvalidPayloadException('Invalid or expired verification token');
+                return res.status(422).send(`Invalid or expired verification token`);
             }
 
             const user = users[0];
@@ -155,14 +148,6 @@ export default (router, { services, exceptions, env, logger }) => {
 
         } catch (error) {
             logger.error('Verification error:', error);
-
-            if (error instanceof InvalidPayloadException) {
-                return res.status(400).json({
-                    success: false,
-                    message: error.message
-                });
-            }
-
             return res.status(500).json({
                 success: false,
                 message: 'Verification failed. Please try again.'
@@ -176,7 +161,7 @@ export default (router, { services, exceptions, env, logger }) => {
             const { email } = req.body;
 
             if (!email) {
-                throw new InvalidPayloadException('Email is required');
+                return res.status(422).send(`Email is required`);
             }
 
             const usersService = new UsersService({ schema: req.schema });
