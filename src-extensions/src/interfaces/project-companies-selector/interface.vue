@@ -7,23 +7,25 @@
     >
       <!-- Role Dropdown -->
       <v-select
-          v-model="item.role"
+          v-model="item.role_id"
           :items="roleOptions"
           :placeholder="t('select_role')"
+          :loading="loadingRoles"
           class="role-select"
           @update:modelValue="updateValue"
       />
 
-      <!-- Company Dropdown with Search and Create -->
+      <!-- Company Dropdown with Search -->
       <v-select
           v-model="item.company_id"
           :items="companyOptions"
           :placeholder="t('search_or_create_company')"
           :show-deselect="false"
           :allow-other="true"
+          :loading="loadingCompanies"
           class="company-select"
           @update:modelValue="handleCompanyChange(index, $event)"
-          @group-toggle="loadCompanies"
+          @search="searchCompanies"
       >
         <template #prepend>
           <v-icon name="business" small />
@@ -102,7 +104,7 @@
 
 <script>
 import { useApi } from '@directus/extensions-sdk';
-import { ref, computed, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 export default {
@@ -115,6 +117,10 @@ export default {
       type: String,
       default: null,
     },
+    primaryKey: {
+      type: [String, Number],
+      default: null,
+    },
   },
   emits: ['input'],
   setup(props, { emit }) {
@@ -122,10 +128,14 @@ export default {
     const { t } = useI18n();
 
     const internalValue = ref([]);
+    const roleOptions = ref([]);
     const companyOptions = ref([]);
     const showCreateDialog = ref(false);
     const creating = ref(false);
+    const loadingRoles = ref(false);
+    const loadingCompanies = ref(false);
     const pendingCompanyIndex = ref(null);
+    let searchTimeout = null;
 
     const newCompany = ref({
       name: '',
@@ -133,68 +143,165 @@ export default {
       phone: '',
     });
 
-    // Role options - customize based on your needs
-    const roleOptions = [
-      { text: 'Architect', value: 'architect' },
-      { text: 'Developer', value: 'developer' },
-      { text: 'Contractor', value: 'contractor' },
-      { text: 'Consultant', value: 'consultant' },
-      { text: 'Engineer', value: 'engineer' },
-      { text: 'Supplier', value: 'supplier' },
-      { text: 'Project Manager', value: 'project_manager' },
-    ];
-
-    // Initialize internal value
-    watch(
-        () => props.value,
-        (newVal) => {
-          if (newVal && Array.isArray(newVal)) {
-            internalValue.value = newVal.map(item => ({
-              id: item.id || null,
-              role: item.role || null,
-              company_id: typeof item.company_id === 'object'
-                  ? item.company_id?.id
-                  : item.company_id,
-            }));
-          }
-        },
-        { immediate: true }
-    );
-
-    // Load companies from API
-    const loadCompanies = async (searchQuery = '') => {
+    // Load roles from the database
+    const loadRoles = async () => {
+      loadingRoles.value = true;
       try {
-        const filter = searchQuery
-            ? { name: { _contains: searchQuery } }
-            : {};
-
-        const response = await api.get('/items/companies', {
+        const response = await api.get('/items/project_company_roles', {
           params: {
-            fields: ['id', 'name', 'email'],
-            limit: 100,
-            filter,
+            fields: ['id', 'name', 'slug'],
+            limit: -1,
             sort: ['name'],
           },
         });
 
-        companyOptions.value = response.data.data.map(company => ({
+        roleOptions.value = response.data.data.map(role => ({
+          text: role.name,
+          value: role.id,
+        }));
+      } catch (error) {
+        console.error('Error loading roles:', error);
+      } finally {
+        loadingRoles.value = false;
+      }
+    };
+
+    // Load existing project companies when editing
+    const loadExistingData = async () => {
+      if (!props.primaryKey) return;
+
+      try {
+        const response = await api.get('/items/project_companies', {
+          params: {
+            filter: {
+              project_id: { _eq: props.primaryKey }
+            },
+            fields: ['id', 'role_id', 'company_id.id', 'company_id.name'],
+            limit: -1,
+          },
+        });
+
+        if (response.data.data.length > 0) {
+          internalValue.value = response.data.data.map(item => ({
+            id: item.id,
+            role_id: item.role_id,
+            company_id: typeof item.company_id === 'object' ? item.company_id.id : item.company_id,
+          }));
+
+          // Load the companies that are already selected
+          const selectedCompanyIds = response.data.data
+              .map(item => typeof item.company_id === 'object' ? item.company_id.id : item.company_id)
+              .filter(Boolean);
+
+          if (selectedCompanyIds.length > 0) {
+            await loadSelectedCompanies(selectedCompanyIds);
+          }
+        }
+      } catch (error) {
+        console.error('Error loading existing data:', error);
+      }
+    };
+
+    // Load specific companies by IDs (for pre-selected values)
+    const loadSelectedCompanies = async (companyIds) => {
+      try {
+        const response = await api.get('/items/companies', {
+          params: {
+            filter: {
+              id: { _in: companyIds }
+            },
+            fields: ['id', 'name', 'email'],
+            limit: -1,
+          },
+        });
+
+        const selectedCompanies = response.data.data.map(company => ({
           text: company.name,
           value: company.id,
           company: company,
         }));
+
+        // Merge with existing options, avoiding duplicates
+        const existingIds = new Set(companyOptions.value.map(c => c.value));
+        selectedCompanies.forEach(company => {
+          if (!existingIds.has(company.value)) {
+            companyOptions.value.push(company);
+          }
+        });
       } catch (error) {
-        console.error('Error loading companies:', error);
+        console.error('Error loading selected companies:', error);
       }
     };
 
-    // Load companies on mount
-    loadCompanies();
+    // Search companies with debouncing
+    const searchCompanies = async (searchQuery) => {
+      // Clear existing timeout
+      if (searchTimeout) {
+        clearTimeout(searchTimeout);
+      }
+
+      // Debounce search
+      searchTimeout = setTimeout(async () => {
+        loadingCompanies.value = true;
+        try {
+          const filter = searchQuery
+              ? { name: { _icontains: searchQuery } }
+              : {};
+
+          const response = await api.get('/items/companies', {
+            params: {
+              fields: ['id', 'name', 'email'],
+              limit: 50,
+              filter,
+              sort: ['name'],
+            },
+          });
+
+          companyOptions.value = response.data.data.map(company => ({
+            text: company.name,
+            value: company.id,
+            company: company,
+          }));
+        } catch (error) {
+          console.error('Error searching companies:', error);
+        } finally {
+          loadingCompanies.value = false;
+        }
+      }, 300);
+    };
+
+    // Initialize - load roles and check for existing data
+    onMounted(async () => {
+      await loadRoles();
+      await loadExistingData();
+      // Load initial companies
+      await searchCompanies('');
+    });
+
+    // Watch for changes to value prop (in case it updates externally)
+    watch(
+        () => props.value,
+        (newVal) => {
+          if (newVal && Array.isArray(newVal) && newVal.length > 0) {
+            // Only update if we don't already have data loaded
+            if (internalValue.value.length === 0) {
+              internalValue.value = newVal.map(item => ({
+                id: item.id || null,
+                role_id: item.role_id || null,
+                company_id: typeof item.company_id === 'object'
+                    ? item.company_id?.id
+                    : item.company_id,
+              }));
+            }
+          }
+        }
+    );
 
     // Add new item
     const addItem = () => {
       internalValue.value.push({
         id: null,
-        role: null,
+        role_id: null,
         company_id: null,
       });
       updateValue();
@@ -244,7 +351,7 @@ export default {
 
         // Reset and close
         showCreateDialog.value = false;
-        newCompany.value = { name: '', email: '', phone: '' };
+        newCompany.value = {name: '', email: '', phone: ''};
         pendingCompanyIndex.value = null;
       } catch (error) {
         console.error('Error creating company:', error);
@@ -257,7 +364,7 @@ export default {
     // Update parent value
     const updateValue = () => {
       const filtered = internalValue.value.filter(
-          item => item.role && item.company_id
+          item => item.role_id && item.company_id
       );
       emit('input', filtered);
     };
@@ -269,12 +376,14 @@ export default {
       companyOptions,
       showCreateDialog,
       creating,
+      loadingRoles,
+      loadingCompanies,
       newCompany,
       addItem,
       removeItem,
       handleCompanyChange,
       createCompany,
-      loadCompanies,
+      searchCompanies,
       updateValue,
     };
   },

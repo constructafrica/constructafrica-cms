@@ -1,5 +1,7 @@
 
 import { createHash, randomBytes } from 'crypto';
+import { Resend } from 'resend';
+
 
 export default (router, { services, exceptions, env, logger }) => {
     const { UsersService, MailService } = services;
@@ -87,6 +89,31 @@ export default (router, { services, exceptions, env, logger }) => {
 					<p>This link will expire in 24 hours.</p>
 				`
             });
+
+
+            // const resend = new Resend('re_K1N6oyvo_5sMBNiznzGoBdgehKub11JLV');
+            //
+            // await (async function () {
+            //     const {data, error} = await resend.emails.send({
+            //         from: 'onboarding@resend.dev',
+            //         to: email,
+            //         subject: 'Verify your email address',
+            //         html: `
+			// 		<h2>Welcome!</h2>
+			// 		<p>Thank you for registering. Please verify your email address by clicking the link below:</p>
+			// 		<p><a href="${verificationUrl}">Verify Email</a></p>
+			// 		<p>Or copy and paste this link into your browser:</p>
+			// 		<p>${verificationUrl}</p>
+			// 		<p>This link will expire in 24 hours.</p>
+			// 	`
+            //     });
+            //
+            //     if (error) {
+            //         return console.error({error});
+            //     }
+            //
+            //     console.log({data});
+            // })();
 
             logger.info(`Registration email sent to ${email}`);
 

@@ -177,7 +177,7 @@ export default (router, { services, exceptions, getSchema}) => {
             .filter(Boolean);
     };
 
-    router.get('/', async (req, res, next) => {
+    router.get('/old', async (req, res, next) => {
         try {
             const { accountability } = req; // Get accountability from req
             const schema = await getSchema();
@@ -347,6 +347,250 @@ export default (router, { services, exceptions, getSchema}) => {
                         page_count: Math.ceil(meta.total_count / limit),
                         authenticated: !!accountability?.user
                     }
+                });
+            }
+        } catch (error) {
+            console.log("projects error: ", error)
+            next(error);
+        }
+    });
+
+    router.get('/', async (req, res, next) => {
+        try {
+            const { accountability } = req; // Get accountability from req
+            const schema = await getSchema();
+            const projectsService = new ItemsService('projects', {
+                schema: schema,
+                accountability: req.accountability
+            });
+
+            // Check if grouping is requested
+            const groupBy = req.query.groupBy; // e.g., 'country', 'region', 'type'
+
+            // Pagination params
+            const limit = parseInt(req.query.limit) || 25;
+            const page = parseInt(req.query.page) || 1;
+
+            // Fetch projects with companies relationship
+            const result = await projectsService.readByQuery({
+                fields: [
+                    'id',
+                    'title',
+                    'slug',
+                    'contract_value_usd',
+                    'summary',
+                    'description',
+                    'estimated_project_value_usd',
+                    'value_range',
+                    'construction_start_date',
+                    'location',
+                    'current_stage',
+                    'current_status.id',
+                    'current_status.name',
+                    'current_status.slug',
+                    'email',
+                    'countries.countries_id.id',
+                    'countries.countries_id.name',
+                    'countries.countries_id.slug',
+                    'regions.regions_id.id',
+                    'regions.regions_id.name',
+                    'regions.regions_id.slug',
+                    'types.types_id.id',
+                    'types.types_id.name',
+                    'sectors.sectors_id.id',
+                    'sectors.sectors_id.name',
+                    'sectors.sectors_id.slug',
+                    'subsectors.subsectors_id.id',
+                    'subsectors.subsectors_id.name',
+                    'featured_image',
+                    'featured_image.id',
+                    'featured_image.filename_disk',
+                    'featured_image.title',
+                    'featured_image.filesize',
+                    // Companies relationship through junction table
+                    // 'companies.id',
+                    // 'companies.company_id.id',
+                    // 'companies.company_id.name',
+                    // 'companies.company_id.email',
+                    // 'companies.company_id.phone',
+                    // 'companies.role_id.id',
+                    // 'companies.role_id.name',
+                    // 'companies.role_id.slug',
+                    //
+                    // //contacts
+                    // 'contacts.company_contacts_id.id',
+                    // 'contacts.company_contacts_id.name',
+                    // 'contacts.company_contacts_id.email',
+                    // 'contacts.company_contacts_id.phone',
+                ],
+
+                limit: groupBy ? -1 : limit,
+                sort: ['-date_created'],
+                offset: groupBy ? 0 : (page - 1) * limit,
+                filter: req.query.filter || {},
+                meta: ['total_count', 'filter_count'],
+            });
+
+            const projects = result.data || result;
+            // const meta = result.meta || {};
+            const totalCount = await projectsService.readByQuery({
+                // Reuse the same filter to get the accurate filtered count
+                filter: req.query.filter || {},
+                meta: 'total_count',
+                limit: 0, // Request no data, just the count
+            });
+
+            const meta = {
+                total_count: totalCount || projects.length, // Fallback to current page length if count fails
+                filter_count: totalCount || projects.length,
+                limit: limit,
+                page: page,
+            };
+
+            console.log('Directus meta:', totalCount);
+
+            // Transform the response to include full asset URLs and flatten M2M relations
+            const transformedProjects = projects.map(project => {
+                // Transform featured_image to include full URL
+                if (project.featured_image) {
+                    if (typeof project.featured_image === 'object' && project.featured_image.id) {
+                        project.featured_image.url = `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}`;
+                        project.featured_image.thumbnail_url = `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}?width=400&height=300&fit=cover`;
+                    }
+                }
+
+                // Store original M2M data before flattening (for grouping)
+                const originalCountries = project.countries ? [...project.countries] : [];
+                const originalRegions = project.regions ? [...project.regions] : [];
+                const originalTypes = project.types ? [...project.types] : [];
+                const originalSectors = project.sectors ? [...project.sectors] : [];
+
+                // Flatten M2M relations to return just the related objects (id and name only)
+                if (project.countries && Array.isArray(project.countries)) {
+                    project.countries = project.countries.map(c => c.countries_id).filter(Boolean);
+                }
+                if (project.regions && Array.isArray(project.regions)) {
+                    project.regions = project.regions.map(r => r.regions_id).filter(Boolean);
+                }
+                if (project.types && Array.isArray(project.types)) {
+                    project.types = project.types.map(t => t.types_id).filter(Boolean);
+                }
+                if (project.sectors && Array.isArray(project.sectors)) {
+                    project.sectors = project.sectors.map(t => t.sectors_id).filter(Boolean);
+                }
+
+                // Transform companies relationship
+                // if (project.companies && Array.isArray(project.companies)) {
+                //     project.companies = project.companies
+                //         .filter(pc => pc.company_id) // Only include items with valid company
+                //         .map(pc => ({
+                //             id: pc.id,
+                //             company: {
+                //                 id: pc.company_id.id,
+                //                 name: pc.company_id.name,
+                //                 email: pc.company_id.email || null,
+                //                 phone: pc.company_id.phone || null,
+                //             },
+                //             role: pc.role_id ? {
+                //                 id: pc.role_id.id,
+                //                 name: pc.role_id.name,
+                //                 slug: pc.role_id.slug || null,
+                //             } : null,
+                //         }));
+                // } else {
+                //     project.companies = [];
+                // }
+
+                // if (project.contacts && Array.isArray(project.contacts)) {
+                //     project.contacts = project.contacts
+                //         .filter(pc => pc.company_contacts_id) // Only include items with valid company
+                //         .map(pc => ({
+                //             id: pc.company_contacts_id.id,
+                //             name: pc.company_contacts_id.name,
+                //             email: pc.company_contacts_id.email || null,
+                //             phone: pc.company_contacts_id.phone || null,
+                //             role: pc.company_contacts_id.role || null,
+                //             company: pc.company_contacts_id.company_id.name || null,
+                //         }));
+                // } else {
+                //     project.contacts = [];
+                // }
+
+                // Store originals for grouping
+                if (groupBy) {
+                    project._originals = {
+                        countries: originalCountries,
+                        regions: originalRegions,
+                        types: originalTypes,
+                        sectors: originalSectors,
+                    };
+                }
+
+                return project;
+            });
+
+            // If grouping is requested, group the projects
+            if (groupBy) {
+                const grouped = groupProjects(transformedProjects, groupBy);
+
+                // Pagination for groups
+                const groupLimit = parseInt(req.query.limit) || 5; // Default 5 groups per page
+                const groupPage = parseInt(req.query.page) || 1;
+
+                const totalGroups = grouped.length;
+                const start = (groupPage - 1) * groupLimit;
+                const end = start + groupLimit;
+
+                const paginatedGroups = grouped.slice(start, end);
+
+                res.json({
+                    data: paginatedGroups,
+                    meta: {
+                        total_groups: totalGroups,
+                        groupBy: groupBy,
+                        page: groupPage,
+                        limit: groupLimit,
+                        page_count: Math.ceil(totalGroups / groupLimit)
+                    }
+                });
+            } else {
+                // Return paginated response - only add favorites if user is authenticated
+                let finalProjects = transformedProjects;
+
+                if (accountability?.user) {
+                    // User is authenticated, add favorites status
+                    finalProjects = await addFavoritesStatus(
+                        transformedProjects,
+                        accountability.user,
+                        schema,
+                        req.accountability
+                    );
+                } else {
+                    // User is not authenticated, add default favorite status
+                    finalProjects = transformedProjects.map(project => ({
+                        ...project,
+                        is_favorited: false,
+                        favorite_id: null
+                    }));
+                }
+
+                // res.json({
+                //     data: finalProjects,
+                //     meta: {
+                //         total_count: meta.total_count,
+                //         filter_count: meta.filter_count,
+                //         page,
+                //         limit,
+                //         page_count: Math.ceil(meta.total_count / limit),
+                //         authenticated: !!accountability?.user
+                //     }
+                // });
+
+                const totalCount = meta?.total_count ?? 0;
+
+                res.json({
+                    data: finalProjects,
+                    meta: meta
                 });
             }
         } catch (error) {
@@ -553,60 +797,22 @@ export default (router, { services, exceptions, getSchema}) => {
                     'sectors.sectors_id.id',
                     'types.types_id.name',
 
-                    'funding.funding_id.*',
-                    'client_owner.companies_id.*',
-                    'developer.companies_id.*',
-                    'companies.companies_id.*',
-                    'authority.companies_id.id',
-                    'authority.companies_id.name',
-                    'architect.companies_id.id',
-                    'architect.companies_id.name',
-                    'design_consultant.companies_id.id',
-                    'design_consultant.companies_id.name',
-                    'project_manager.companies_id.id',
-                    'project_manager.companies_id.name',
-                    'civil_engineer.companies_id.id',
-                    'civil_engineer.companies_id.name',
-                    'structural_engineer.companies_id.id',
-                    'structural_engineer.companies_id.name',
-                    'mep_engineer.companies_id.id',
-                    'mep_engineer.companies_id.name',
-                    'electrical_engineer.companies_id.id',
-                    'electrical_engineer.companies_id.name',
-                    'geotechnical_engineer.companies_id.id',
-                    'geotechnical_engineer.companies_id.name',
-                    'cost_consultants.companies_id.id',
-                    'cost_consultants.companies_id.name',
-                    'quantity_surveyor.companies_id.id',
-                    'quantity_surveyor.companies_id.name',
-                    'landscape_architect.companies_id.id',
-                    'landscape_architect.companies_id.name',
-                    'legal_adviser.companies_id.id',
-                    'legal_adviser.companies_id.name',
-                    'transaction_advisor.companies_id.id',
-                    'transaction_advisor.companies_id.name',
-                    'study_consultant.companies_id.id',
-                    'study_consultant.companies_id.name',
-                    'main_contractor.companies_id.id',
-                    'main_contractor.companies_id.name',
-                    'main_contract_bidder.companies_id.id',
-                    'main_contract_bidder.companies_id.name',
-                    'main_contract_prequalified.companies_id.id',
-                    'main_contract_prequalified.companies_id.name',
-                    'mep_subcontractor.companies_id.id',
-                    'mep_subcontractor.companies_id.name',
-                    'piling_subcontractor.companies_id.id',
-                    'piling_subcontractor.companies_id.name',
-                    'facade_subcontractor.companies_id.id',
-                    'facade_subcontractor.companies_id.name',
-                    'lift_subcontractor.companies_id.id',
-                    'lift_subcontractor.companies_id.name',
-                    'other_subcontractor.companies_id.id',
-                    'other_subcontractor.companies_id.name',
-                    'operator.companies_id.id',
-                    'operator.companies_id.name',
-                    'feed.companies_id.id',
-                    'feed.companies_id.name',
+                    // Companies relationship through junction table
+                    'companies.id',
+                    'companies.company_id.id',
+                    'companies.company_id.name',
+                    'companies.company_id.email',
+                    'companies.company_id.phone',
+                    'companies.role_id.id',
+                    'companies.role_id.name',
+                    'companies.role_id.slug',
+
+                    //contacts
+                    'contacts.company_contacts_id.id',
+                    'contacts.company_contacts_id.name',
+                    'contacts.company_contacts_id.email',
+                    'contacts.company_contacts_id.phone',
+
                     'featured_image.*',
                     'news.*'
                 ]
@@ -628,46 +834,48 @@ export default (router, { services, exceptions, getSchema}) => {
             if (project.types && Array.isArray(project.types)) {
                 project.types = project.types.map(t => t.types_id).filter(Boolean);
             }
-            if (project.funding && Array.isArray(project.funding)) {
-                project.funding = project.funding.map(f => f.funding_id).filter(Boolean);
-            }
-            if (project.companies && Array.isArray(project.companies)) {
-                project.companies = project.companies.map(c => c.companies_id).filter(Boolean);
-            }
-            if (project.client_owner && Array.isArray(project.client_owner)) {
-                project.client_owner = project.client_owner.map(c => c.companies_id).filter(Boolean);
-            }
-            if (project.developer && Array.isArray(project.developer)) {
-                project.developer = project.developer.map(d => d.companies_id).filter(Boolean);
+            if (project.sectors && Array.isArray(project.sectors)) {
+                project.sectors = project.sectors.map(t => t.sectors_id).filter(Boolean);
             }
 
-            project.developer = flattenRelationships(project.developer, 'companies');
-            project.authority = flattenRelationships(project.authority, 'companies');
-            project.architect = flattenRelationships(project.architect, 'companies');
-            project.design_consultant = flattenRelationships(project.design_consultant, 'companies');
-            project.project_manager = flattenRelationships(project.project_manager, 'companies');
-            project.civil_engineer = flattenRelationships(project.civil_engineer, 'companies');
-            project.structural_engineer = flattenRelationships(project.structural_engineer, 'companies');
-            project.mep_engineer = flattenRelationships(project.mep_engineer, 'companies');
-            project.electrical_engineer = flattenRelationships(project.electrical_engineer, 'companies');
-            project.geotechnical_engineer = flattenRelationships(project.geotechnical_engineer, 'companies');
-            project.cost_consultants = flattenRelationships(project.cost_consultants, 'companies');
-            project.quantity_surveyor = flattenRelationships(project.quantity_surveyor, 'companies');
-            project.landscape_architect = flattenRelationships(project.landscape_architect, 'companies');
-            project.legal_adviser = flattenRelationships(project.legal_adviser, 'companies');
-            project.transaction_advisor = flattenRelationships(project.transaction_advisor, 'companies');
-            project.study_consultant = flattenRelationships(project.study_consultant, 'companies');
-            project.funding = flattenRelationships(project.funding, 'companies');
-            project.main_contractor = flattenRelationships(project.main_contractor, 'companies');
-            project.main_contract_bidder = flattenRelationships(project.main_contract_bidder, 'companies');
-            project.main_contract_prequalified = flattenRelationships(project.main_contract_prequalified, 'companies');
-            project.mep_subcontractor = flattenRelationships(project.mep_subcontractor, 'companies');
-            project.piling_subcontractor = flattenRelationships(project.piling_subcontractor, 'companies');
-            project.facade_subcontractor = flattenRelationships(project.facade_subcontractor, 'companies');
-            project.lift_subcontractor = flattenRelationships(project.lift_subcontractor, 'companies');
-            project.other_subcontractor = flattenRelationships(project.other_subcontractor, 'companies');
-            project.operator = flattenRelationships(project.operator, 'companies');
-            project.feed = flattenRelationships(project.feed, 'companies');
+            // Transform companies relationship
+            if (project.companies && Array.isArray(project.companies)) {
+                project.companies = project.companies
+                    .filter(pc => pc.company_id) // Only include items with valid company
+                    .map(pc => ({
+                        id: pc.id,
+                        company: {
+                            id: pc.company_id.id,
+                            name: pc.company_id.name,
+                            email: pc.company_id.email || null,
+                            phone: pc.company_id.phone || null,
+                        },
+                        role: pc.role_id ? {
+                            id: pc.role_id.id,
+                            name: pc.role_id.name,
+                            slug: pc.role_id.slug || null,
+                        } : null,
+                    }));
+            } else {
+                project.companies = [];
+            }
+
+            if (project.contacts && Array.isArray(project.contacts)) {
+                project.contacts = project.contacts
+                    .filter(pc => pc.company_contacts_id) // Only include items with valid company
+                    .map(pc => ({
+                        id: pc.company_contacts_id.id,
+                        name: pc.company_contacts_id.name,
+                        email: pc.company_contacts_id.email || null,
+                        phone: pc.company_contacts_id.phone || null,
+                        role: pc.company_contacts_id.role || null,
+                        company: pc.company_contacts_id.company_id.name || null,
+                    }));
+            } else {
+                project.contacts = [];
+            }
+
+
 
             // Handle favorites status
             let is_favorited = false;
