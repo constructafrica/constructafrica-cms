@@ -9,6 +9,8 @@
       <v-select
           v-model="item.role_id"
           :items="roleOptions"
+          item-title="text"
+          item-value="value"
           :placeholder="t('select_role')"
           :loading="loadingRoles"
           class="role-select"
@@ -19,6 +21,8 @@
       <v-select
           v-model="item.company_id"
           :items="companyOptions"
+          item-title="text"
+          item-value="value"
           :placeholder="t('search_or_create_company')"
           :show-deselect="false"
           :allow-other="true"
