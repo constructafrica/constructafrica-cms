@@ -239,6 +239,8 @@ export default {
 
     // Search companies with debouncing
     const searchCompanies = async (searchQuery) => {
+      if (!searchQuery || searchQuery.length < 2) return;
+
       // Clear existing timeout
       if (searchTimeout) {
         clearTimeout(searchTimeout);
@@ -255,7 +257,7 @@ export default {
           const response = await api.get('/items/companies', {
             params: {
               fields: ['id', 'name', 'email'],
-              limit: 50,
+              limit: 100,
               filter,
               sort: ['name'],
             },
