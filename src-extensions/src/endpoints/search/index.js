@@ -12,7 +12,7 @@ export default (router, context) => {
     const searchableCollections = {
         projects: {
             fields: ['title', 'summary', 'id', 'slug'],
-            searchFields: ['title', 'summary'],
+            searchFields: ['title'],
             displayFields: {
                 id: "id",
                 title: 'title',
@@ -25,7 +25,7 @@ export default (router, context) => {
         },
         companies: {
             fields: ['name', 'description', 'id', 'slug'],
-            searchFields: ['name', 'description'],
+            searchFields: ['name'],
             displayFields: {
                 id: "id",
                 title: 'name',
@@ -37,7 +37,7 @@ export default (router, context) => {
             weight: 0.9
         },
         main_news: {
-            fields: ['title', 'summary', 'id', 'slug'],
+            fields: ['title'],
             searchFields: ['title', 'summary'],
             displayFields: {
                 id: "id",
@@ -49,9 +49,9 @@ export default (router, context) => {
             },
             weight: 0.8
         },
-        projects_tenders: {
-            fields: ['title', 'summary', 'id', 'slug'],
-            searchFields: ['title', 'summary'],
+        tenders: {
+            fields: ['title', 'summary', 'slug', 'id'],
+            searchFields: ['title'],
             displayFields: {
                 id: "id",
                 title: 'title',
@@ -77,7 +77,7 @@ export default (router, context) => {
         },
         blog: {
             fields: ['title', 'summary', 'id', 'slug'],
-            searchFields: ['title', 'summary'],
+            searchFields: ['title'],
             displayFields: {
                 id: "id",
                 title: 'title',
@@ -192,8 +192,7 @@ export default (router, context) => {
 
             // If include_total is true, get total counts (this can be slow for large datasets)
             if (include_total === 'true') {
-                const totalCounts = await getTotalCounts(collectionsToSearch, searchQuery, schema, accountability);
-                results.total_counts = totalCounts;
+                results.total_counts = await getTotalCounts(collectionsToSearch, searchQuery, schema, accountability);
             }
 
             return res.json({

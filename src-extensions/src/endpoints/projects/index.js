@@ -846,7 +846,7 @@ export default (router, { services, exceptions, getSchema}) => {
                         id: pc.id,
                         company: {
                             id: pc.company_id.id,
-                            name: pc.company_id.name,
+                            name: pc.company_id.name || null,
                             email: pc.company_id.email || null,
                             phone: pc.company_id.phone || null,
                         },
@@ -865,11 +865,11 @@ export default (router, { services, exceptions, getSchema}) => {
                     .filter(pc => pc.company_contacts_id) // Only include items with valid company
                     .map(pc => ({
                         id: pc.company_contacts_id.id,
-                        name: pc.company_contacts_id.name,
+                        name: pc.company_contacts_id.name || null,
                         email: pc.company_contacts_id.email || null,
                         phone: pc.company_contacts_id.phone || null,
                         role: pc.company_contacts_id.role || null,
-                        company: pc.company_contacts_id.company_id.name || null,
+                        // company: pc.company_contacts_id.company_id.name || null,
                     }));
             } else {
                 project.contacts = [];
@@ -925,4 +925,175 @@ export default (router, { services, exceptions, getSchema}) => {
             next(error);
         }
     });
+
+    router.get('/all/projects', async (req, res, next) => {
+        try {
+            const schema = await getSchema();
+            const { accountability } = req;
+
+            // const page = Number(req.query.page ?? 1);
+            // const limit = Number(req.query.limit ?? 25);
+            // const search = req.query.search?.trim() || null;
+            //
+            // const offset = (page - 1) * limit;
+
+            const { limit, offset, page, sort, filter, search, meta } = req.query;
+
+
+            const projectsService = new ItemsService('projects', {
+                schema,
+                accountability
+            });
+
+            // const filter = {};
+
+            if (search) {
+                filter._or = [
+                    { title: { _icontains: search } },
+                    { slug: { _icontains: search } },
+                    { summary: { _icontains: search } },
+                ];
+            }
+
+            const fields = [
+                '*',
+
+                'countries.countries_id.id',
+                'countries.countries_id.name',
+                'countries.countries_id.slug',
+
+                'regions.regions_id.id',
+                'regions.regions_id.name',
+                'regions.regions_id.slug',
+
+                'types.types_id.id',
+                'types.types_id.name',
+
+                'sectors.sectors_id.id',
+                'sectors.sectors_id.name',
+                'sectors.sectors_id.slug',
+
+                // Company relationship
+                'companies.id',
+                'companies.company_id.id',
+                'companies.company_id.name',
+                'companies.company_id.email',
+                'companies.company_id.phone',
+                'companies.role_id.id',
+                'companies.role_id.name',
+                'companies.role_id.slug',
+
+                // Contacts
+                'contacts.company_contacts_id.id',
+                'contacts.company_contacts_id.name',
+                'contacts.company_contacts_id.email',
+                'contacts.company_contacts_id.phone',
+                'contacts.company_contacts_id.company_id.name',
+
+                'featured_image.*',
+                'news.*',
+            ];
+
+            // const result = await projectsService.readByQuery({
+            //     fields: fieldss,
+            //     filter,
+            //     sort: ['-date_created'],
+            //     limit,
+            //     offset,
+            //     meta: ['*'], // REQUIRED for Directus 11+
+            // });
+
+            const result = await projectsService.readByQuery({
+                limit: limit ? parseInt(limit, 10) : 100, // Use default or requested limit
+                offset: offset ? parseInt(offset, 10) : undefined,
+                page: page ? parseInt(page, 10) : undefined,
+                sort,
+                filter,
+                search,
+                fields: fields,
+                meta, // Request metadata like total_count for pagination info
+            });
+
+            const projects = (result.data || []).map(project => {
+                // featured image transform
+                if (project.featured_image?.id) {
+                    project.featured_image.url = `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}`;
+                    project.featured_image.thumbnail_url = `${process.env.PUBLIC_URL}/assets/${project.featured_image.id}?width=400&height=300&fit=cover`;
+                }
+
+                // Flatten relations
+                project.countries = (project.countries || [])
+                    .map(c => c?.countries_id)
+                    .filter(Boolean);
+
+                project.regions = (project.regions || [])
+                    .map(r => r?.regions_id)
+                    .filter(Boolean);
+
+                project.types = (project.types || [])
+                    .map(t => t?.types_id)
+                    .filter(Boolean);
+
+                project.sectors = (project.sectors || [])
+                    .map(s => s?.sectors_id)
+                    .filter(Boolean);
+
+                // Companies
+                project.companies = (project.companies || [])
+                    .filter(pc => pc.company_id)
+                    .map(pc => ({
+                        id: pc.id,
+                        company: {
+                            id: pc.company_id.id,
+                            name: pc.company_id.name,
+                            email: pc.company_id.email || null,
+                            phone: pc.company_id.phone || null,
+                        },
+                        role: pc.role_id
+                            ? {
+                                id: pc.role_id.id,
+                                name: pc.role_id.name,
+                                slug: pc.role_id.slug || null,
+                            }
+                            : null,
+                    }));
+
+                // Contacts
+                project.contacts = (project.contacts || [])
+                    .map(pc => {
+                        const contact = pc.company_contacts_id || {};
+                        return {
+                            id: contact.id || null,
+                            name: contact.name || null,
+                            email: contact.email || null,
+                            phone: contact.phone || null,
+                            role: contact.role || null,
+                            company: contact.company_id?.name || null,
+                        };
+                    });
+
+                return project;
+            });
+
+            const total = result.meta?.total_count ?? 0;
+            const filterCount = result.meta?.filter_count ?? total;
+
+            return res.json({
+                data: projects,
+                meta: {
+                    page,
+                    limit,
+                    total_count: total,
+                    filter_count: filterCount,
+                    page_count: Math.ceil(total / limit),
+                    authenticated: !!accountability?.user,
+                },
+            });
+
+        } catch (error) {
+            console.error("Get all projects error:", error);
+            next(error);
+        }
+    });
+
 };
