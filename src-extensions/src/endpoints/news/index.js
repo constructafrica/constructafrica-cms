@@ -142,8 +142,20 @@ export default (router, { services, database, getSchema}) => {
                     'summary',
                     'content',
                     'date_created',
-                    // 'subsectors.subsectors_id.id',
-                    // 'subsectors.subsectors_id.name',
+
+                    'countries',
+                    'countries.countries_id.id',
+                    'countries.countries_id.name',
+                    'countries.countries_id.slug',
+
+                    'regions.regions_id.slug',
+                    'regions.regions_id.id',
+                    'regions.regions_id.name',
+
+                    'sectors.sectors_id.slug',
+                    'sectors.sectors_id.name',
+                    'sectors.sectors_id.id',
+
                     'featured_image',
                     'featured_image.id',
                     'featured_image.filename_disk',

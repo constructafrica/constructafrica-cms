@@ -92,11 +92,6 @@ export default (router, { services, database, getSchema}) => {
                     }
                 }
 
-                // Store original M2M data before flattening
-                const originalCountries = item.countries ? [...item.countries] : [];
-                const originalRegions = item.regions ? [...item.regions] : [];
-                const originalSectors = item.sectors ? [...item.sectors] : [];
-
                 // Flatten M2M relations
                 if (item.countries && Array.isArray(item.countries)) {
                     item.countries = item.countries.map(c => c.countries_id).filter(Boolean);
