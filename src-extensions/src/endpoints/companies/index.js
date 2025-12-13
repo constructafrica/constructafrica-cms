@@ -618,10 +618,10 @@ export default (router, { services, database, exceptions, getSchema }) => {
                         project: {
                             id: pc.project_id.id,
                             name: pc.project_id.name || null,
-                            current_status: pc.project_id.current_status.name || null,
-                            estimated_project_value_usd: pc.project_id.estimated_project_value_usd || null,
-                            value_range: pc.project_id.value_range || null,
-                            contract_value_usd: pc.project_id.contract_value_usd || null,
+                            current_status: pc.project_id.current_status?.name || null,
+                            estimated_project_value_usd: pc.project_id?.estimated_project_value_usd || null,
+                            value_range: pc.project_id?.value_range || null,
+                            contract_value_usd: pc.project_id?.contract_value_usd || null,
                         },
                         role: pc.role_id ? {
                             id: pc.role_id.id,
