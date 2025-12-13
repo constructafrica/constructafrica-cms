@@ -63,6 +63,16 @@ export default (router, { services, database, getSchema}) => {
                     'photo.filename_disk',
                     'photo.title',
                     'photo.filesize',
+
+                    'created_by.id',
+                    'created_by.first_name',
+                    'created_by.last_name',
+                    'created_by.email',
+                    'created_by.avatar',
+                    'created_by.avatar.id',
+                    'created_by.avatar.filename_disk',
+                    'created_by.avatar.title',
+                    'created_by.avatar.filesize',
                 ],
                 limit: groupBy ? -1 : limit,
                 sort: ['-date_created'],
@@ -153,6 +163,15 @@ export default (router, { services, database, getSchema}) => {
                     'created_by.avatar.filename_disk',
                     'created_by.avatar.title',
                     'created_by.avatar.filesize',
+
+                    // 'user.first_name',
+                    // 'user.last_name',
+                    // 'user.email',
+                    // 'user.avatar',
+                    // 'user.avatar.id',
+                    // 'user.avatar.filename_disk',
+                    // 'user.avatar.title',
+                    // 'user.avatar.filesize',
 
                     'photo.*',
                 ]
