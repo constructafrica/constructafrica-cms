@@ -1,4 +1,4 @@
-import {addFavoritesStatus} from "../../helpers/index.js";
+import {addFavoritesStatus, getFavoriteStatus} from "../../helpers/index.js";
 
 export default (router, { services, database, exceptions, getSchema }) => {
     const { ItemsService, AssetsService } = services;
@@ -533,9 +533,12 @@ export default (router, { services, database, exceptions, getSchema }) => {
     router.get('/:id', async (req, res, next) => {
         try {
             const schema = await getSchema();
+            const { accountability } = req;
+            const itemId = req.params.id;
+
             const companiesService = new ItemsService('companies', {
                 schema: schema,
-                accountability: req.accountability
+                accountability: accountability
             });
 
             // Fetch ALL data for single item endpoint
@@ -611,28 +614,16 @@ export default (router, { services, database, exceptions, getSchema }) => {
                 item.companies = [];
             }
 
-            let is_favorited = false;
-            let favorite_id = null;
-            const favoritesService = new ItemsService('favourites', {
-                schema: schema,
-                accountability: req.accountability,
-            });
-
-            const existingFavorite = await favoritesService.readByQuery({
-                filter: {
-                    _and: [
-                        { user_created: { _eq: accountability.user } },
-                        { collection: { _eq: 'companies' } },
-                        { item_id: { _eq: id } },
-                    ],
-                },
-                limit: 1,
-            });
-
-            if (existingFavorite.length > 0) {
-                is_favorited = true;
-                favorite_id = existingFavorite[0].id;
-            }
+            const { is_favorited, favorite_id } = accountability?.user
+                ? await getFavoriteStatus({
+                    itemId,
+                    collection: 'companies',
+                    userId: accountability.user,
+                    schema,
+                    accountability,
+                    ItemsService
+                })
+                : { is_favorited: false, favorite_id: null };
 
             const itemWithFavorite = {
                 ...item,

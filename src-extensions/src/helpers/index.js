@@ -48,3 +48,56 @@ export async function addFavoritesStatus({
         favorite_id: favoritesMap.get(item[idKey]) ?? null,
     }));
 }
+
+export async function getFavoriteStatus({
+                                            itemId,
+                                            collection,
+                                            userId,
+                                            schema,
+                                            accountability,
+                                            ItemsService
+                                        }) {
+    if (!itemId || !userId) {
+        return {
+            is_favorited: false,
+            favorite_id: null,
+        };
+    }
+
+    try {
+        const favoritesService = new ItemsService('favourites', {
+            schema,
+            accountability,
+        });
+
+        const favorites = await favoritesService.readByQuery({
+            filter: {
+                _and: [
+                    { user_created: { _eq: userId } },
+                    { collection: { _eq: collection } },
+                    { item_id: { _eq: itemId } },
+                ],
+            },
+            fields: ['id'],
+            limit: 1,
+        });
+
+        if (favorites.length > 0) {
+            return {
+                is_favorited: true,
+                favorite_id: favorites[0].id,
+            };
+        }
+
+        return {
+            is_favorited: false,
+            favorite_id: null,
+        };
+    } catch (error) {
+        console.warn('Failed to fetch favorite status:', error.message);
+        return {
+            is_favorited: false,
+            favorite_id: null,
+        };
+    }
+}
