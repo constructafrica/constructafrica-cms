@@ -3,89 +3,6 @@ import {addFavoritesStatus, getFavoriteStatus} from "../../helpers/index.js";
 export default (router, { services, database, getSchema}) => {
     const {ItemsService} = services;
 
-    async function addNewsFavoritesStatus(
-        items,
-        userId,
-        schema,
-        accountability
-    ) {
-        return await addFavoritesStatus({
-            items: items,
-            collection: 'experts_analysts',
-            userId,
-            schema,
-            accountability,
-            ItemsService,
-        });
-    }
-
-    function groupNews(data, groupBy) {
-        const groups = new Map();
-
-        data.forEach(item => {
-            let groupKeys = [];
-
-            switch (groupBy) {
-                case 'country':
-                    groupKeys = item._originals.countries.map(c => ({
-                        id: c.countries_id?.id,
-                        name: c.countries_id?.name || 'Unknown Country',
-                        data: c.countries_id
-                    }));
-                    break;
-                case 'region':
-                    groupKeys = item._originals.regions.map(r => ({
-                        id: r.regions_id?.id,
-                        name: r.regions_id?.name || 'Unknown Region',
-                        data: r.regions_id
-                    }));
-                    break;
-                case 'sector':
-                    groupKeys = item._originals.sectors.map(c => ({
-                        id: c.sectors_id?.id,
-                        name: c.sectors_id?.name || 'Unknown Sector',
-                        data: c.sectors_id
-                    }));
-                    break;
-                default:
-                    groupKeys = [{ id: 'all', name: 'All News', data: null }];
-            }
-
-            // If no group keys found, add to "Unknown" group
-            if (groupKeys.length === 0) {
-                groupKeys = [{ id: 'unknown', name: `Unknown ${groupBy}`, data: null }];
-            }
-
-            // Add item to each group it belongs to
-            groupKeys.forEach(groupKey => {
-                if (!groups.has(groupKey.id)) {
-                    groups.set(groupKey.id, {
-                        id: groupKey.id,
-                        name: groupKey.name,
-                        data: groupKey.data,
-                        news: [],
-                        count: 0,
-                        totalValue: 0
-                    });
-                }
-
-                const group = groups.get(groupKey.id);
-
-                // Remove _originals before adding to group
-                const cleanItem = { ...item };
-                delete cleanItem._originals;
-
-                group.news.push(cleanItem);
-                group.count++;
-            });
-        });
-
-        // Convert Map to Array and sort by name
-        return Array.from(groups.values()).sort((a, b) =>
-            a.name.localeCompare(b.name)
-        );
-    }
-
     router.get('/', async (req, res, next) => {
         try {
             const { accountability } = req;
@@ -191,59 +108,12 @@ export default (router, { services, database, getSchema}) => {
                     item.sectors = item.sectors.map(t => t.sectors_id).filter(Boolean);
                 }
 
-                // Store originals for grouping
-                if (groupBy) {
-                    item._originals = {
-                        countries: originalCountries,
-                        regions: originalRegions,
-                        sectors: originalSectors,
-                    };
-                }
-
                 return item;
             });
 
-            // Handle grouping
-            if (groupBy) {
-                const grouped = groupNews(transformedNews, groupBy);
-                const groupLimit = parseInt(req.query.limit) || 5;
-                const groupPage = parseInt(req.query.page) || 1;
-                const totalGroups = grouped.length;
-                const start = (groupPage - 1) * groupLimit;
-                const end = start + groupLimit;
-                const paginatedGroups = grouped.slice(start, end);
-
-                return res.json({
-                    data: paginatedGroups,
-                    meta: {
-                        total_groups: totalGroups,
-                        groupBy: groupBy,
-                        page: groupPage,
-                        limit: groupLimit,
-                        page_count: Math.ceil(totalGroups / groupLimit)
-                    }
-                });
-            }
-
             // Add favorites status
-            let finalNews;
-            if (accountability?.user) {
-                finalNews = await addNewsFavoritesStatus(
-                    transformedNews,
-                    accountability.user,
-                    schema,
-                    req.accountability
-                );
-            } else {
-                finalNews = transformedNews.map(item => ({
-                    ...item,
-                    is_favorited: false,
-                    favorite_id: null
-                }));
-            }
-
             return res.json({
-                data: finalNews,
+                data: transformedNews,
                 meta: meta
             });
 
@@ -310,27 +180,8 @@ export default (router, { services, database, getSchema}) => {
                 item.sectors = item.sectors.map(t => t.sectors_id).filter(Boolean);
             }
 
-            // Handle favorites
-            const { is_favorited, favorite_id } = accountability?.user
-                ? await getFavoriteStatus({
-                    itemId,
-                    collection: 'experts_analysts',
-                    userId: accountability.user,
-                    schema,
-                    accountability,
-                    ItemsService
-                })
-                : { is_favorited: false, favorite_id: null };
-
-            const itemWithFavorite = {
-                ...item,
-                is_favorited,
-                favorite_id,
-                authenticated: !!accountability?.user
-            };
-
             return res.json({
-                data: itemWithFavorite
+                data: item
             });
         } catch (error) {
             console.error('Tender by ID error:', error);

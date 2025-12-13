@@ -42,6 +42,11 @@
 			},
 			{
 				"type": "endpoint",
+				"name": "opinions",
+				"source": "src/endpoints/opinions/index.js"
+			},
+			{
+				"type": "endpoint",
 				"name": "companies",
 				"source": "src/endpoints/companies/index.js"
 			},
