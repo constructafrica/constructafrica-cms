@@ -1,4 +1,6 @@
-export default (router, { services, exceptions, getSchema }) => {
+import {addFavoritesStatus} from "../../helpers/index.js";
+
+export default (router, { services, database, exceptions, getSchema }) => {
     const { ItemsService, AssetsService } = services;
     const { ServiceUnavailableException } = exceptions;
 
@@ -51,74 +53,52 @@ export default (router, { services, exceptions, getSchema }) => {
         }
     }
 
-    async function addCompaniesFavoritesStatus(companies, userId, schema, accountability) {
-        if (companies.length === 0) return companies;
-
-        const favoritesService = new ItemsService('favourites', {
-            schema: schema,
-            accountability: accountability,
+    async function addCompaniesFavoritesStatus(
+        companies,
+        userId,
+        schema,
+        accountability,
+    ) {
+        return addFavoritesStatus({
+            items: companies,
+            collection: 'companies',
+            userId,
+            schema,
+            accountability,
+            ItemsService,
         });
-
-        // Get company IDs
-        const companyIds = companies.map(company => company.id);
-
-        // Get user's favorites for these companies
-        const userFavorites = await favoritesService.readByQuery({
-            filter: {
-                _and: [
-                    { user_created: { _eq: userId } },
-                    { collection: { _eq: 'companies' } },
-                    { item_id: { _in: companyIds } },
-                ],
-            },
-            fields: ['id', 'item_id'],
-            limit: -1
-        });
-
-        // Create a map for quick lookup
-        const favoritesMap = new Map();
-        userFavorites.forEach(fav => {
-            favoritesMap.set(fav.item_id, fav.id);
-        });
-
-        // Add is_favorited and favorite_id to each company
-        return companies.map(company => ({
-            ...company,
-            is_favorited: favoritesMap.has(company.id),
-            favorite_id: favoritesMap.get(company.id) || null
-        }));
     }
 
     function groupCompanies(companies, groupBy) {
         const groups = new Map();
 
-        companies.forEach(project => {
+        companies.forEach(item => {
             let groupKeys = [];
 
             switch (groupBy) {
                 case 'country':
-                    groupKeys = project._originals.countries.map(c => ({
+                    groupKeys = item._originals.countries.map(c => ({
                         id: c.countries_id?.id,
                         name: c.countries_id?.name || 'Unknown Country',
                         data: c.countries_id
                     }));
                     break;
                 case 'region':
-                    groupKeys = project._originals.regions.map(r => ({
+                    groupKeys = item._originals.regions.map(r => ({
                         id: r.regions_id?.id,
                         name: r.regions_id?.name || 'Unknown Region',
                         data: r.regions_id
                     }));
                     break;
                 case 'type':
-                    groupKeys = project._originals.types.map(t => ({
+                    groupKeys = item._originals.types.map(t => ({
                         id: t.types_id?.id,
                         name: t.types_id?.name || 'Unknown Type',
                         data: t.types_id
                     }));
                     break;
                 case 'company':
-                    groupKeys = project._originals.companies.map(c => ({
+                    groupKeys = item._originals.companies.map(c => ({
                         id: c.companies_id?.id,
                         name: c.companies_id?.name || 'Unknown Company',
                         data: c.companies_id
@@ -133,7 +113,7 @@ export default (router, { services, exceptions, getSchema }) => {
                 groupKeys = [{ id: 'unknown', name: `Unknown ${groupBy}`, data: null }];
             }
 
-            // Add project to each group it belongs to
+            // Add item to each group it belongs to
             groupKeys.forEach(groupKey => {
                 if (!groups.has(groupKey.id)) {
                     groups.set(groupKey.id, {
@@ -149,15 +129,15 @@ export default (router, { services, exceptions, getSchema }) => {
                 const group = groups.get(groupKey.id);
 
                 // Remove _originals before adding to group
-                const cleanProject = { ...project };
+                const cleanProject = { ...item };
                 delete cleanProject._originals;
 
                 group.companies.push(cleanProject);
                 group.count++;
 
                 // Calculate total value if value field exists
-                if (project.contract_value_usd) {
-                    group.totalValue += parseFloat(project.contract_value_usd) || 0;
+                if (item.contract_value_usd) {
+                    group.totalValue += parseFloat(item.contract_value_usd) || 0;
                 }
             });
         });
@@ -172,18 +152,52 @@ export default (router, { services, exceptions, getSchema }) => {
         try {
             const { accountability } = req;
             const {
-                limit = 50,
-                offset = 0,
                 sort = '-date_created',
                 filter = {},
                 search
             } = req.query;
+
+            const groupBy = req.query.groupBy;
+            const limit = parseInt(req.query.limit) || 50;
+            const page = parseInt(req.query.page) || 1;
+            const offset = (page - 1) * limit;
 
             const schema = await getSchema();
             const companiesService = new ItemsService('companies', {
                 schema: schema,
                 accountability: req.accountability,
             });
+
+            let totalCount = 0;
+            let filterCount = 0;
+
+            try {
+
+                const filterObj = req.query.filter || {};
+
+                // Access the database connection through the service
+                const knex = database;
+
+                // Build count query
+                // For now, this gets the total count without filters
+                const totalResult = await knex('companies').count('* as count');
+                totalCount = parseInt(totalResult[0]?.count) || 0;
+
+                // For filtered count, if you have filters, you'd need to apply them
+                // This is a simplified version - expand based on your filter needs
+                if (Object.keys(filterObj).length > 0) {
+                    // You can implement filter logic here or use the service
+                    filterCount = totalCount; // Simplified - same as total for now
+                } else {
+                    filterCount = totalCount;
+                }
+                console.log('Total count from DB:', totalCount);
+            } catch (countError) {
+                console.error('Error getting count:', countError);
+                // Fallback to news length
+                totalCount = companies?.length || 0;
+                filterCount = totalCount;
+            }
 
             // Build query
             let query = {
@@ -200,7 +214,7 @@ export default (router, { services, exceptions, getSchema }) => {
                     'status',
                     'date_created',
                     'date_updated',
-                    'favorites_count'
+                    'favorites_count',
                 ]
             };
 
@@ -217,40 +231,107 @@ export default (router, { services, exceptions, getSchema }) => {
             // Get companies
             const companies = await companiesService.readByQuery(query);
 
-            // If user is authenticated, check which companies are favorited
+            const meta = {
+                total_count: totalCount,
+                filter_count: filterCount,
+                limit: limit,
+                page: page,
+                page_count: Math.ceil(totalCount / limit)
+            };
+
+            const transformedCompanies = companies.map(item => {
+                // Transform featured_image
+                if (item.featured_image) {
+                    if (typeof item.featured_image === 'object' && item.featured_image.id) {
+                        item.featured_image.url = `${process.env.PUBLIC_URL}/assets/${item.featured_image.id}`;
+                        item.featured_image.thumbnail_url = `${process.env.PUBLIC_URL}/assets/${item.featured_image.id}?width=400&height=300&fit=cover`;
+                    }
+                }
+
+                // Store original M2M data before flattening
+                const originalCountries = item.countries ? [...item.countries] : [];
+                const originalRegions = item.regions ? [...item.regions] : [];
+                const originalTypes = item.types ? [...item.types] : [];
+                const originalSectors = item.sectors ? [...item.sectors] : [];
+
+                // Flatten M2M relations
+                if (item.countries && Array.isArray(item.countries)) {
+                    item.countries = item.countries.map(c => c.countries_id).filter(Boolean);
+                }
+                if (item.regions && Array.isArray(item.regions)) {
+                    item.regions = item.regions.map(r => r.regions_id).filter(Boolean);
+                }
+                if (item.types && Array.isArray(item.types)) {
+                    item.types = item.types.map(t => t.types_id).filter(Boolean);
+                }
+                if (item.sectors && Array.isArray(item.sectors)) {
+                    item.sectors = item.sectors.map(t => t.sectors_id).filter(Boolean);
+                }
+
+                // Store originals for grouping
+                if (groupBy) {
+                    item._originals = {
+                        countries: originalCountries,
+                        regions: originalRegions,
+                        types: originalTypes,
+                        sectors: originalSectors,
+                    };
+                }
+
+                return item;
+            });
+
+            // Handle grouping
+            if (groupBy) {
+                const grouped = groupCompanies(transformedCompanies, groupBy);
+                const groupLimit = parseInt(req.query.limit) || 5;
+                const groupPage = parseInt(req.query.page) || 1;
+                const totalGroups = grouped.length;
+                const start = (groupPage - 1) * groupLimit;
+                const end = start + groupLimit;
+                const paginatedGroups = grouped.slice(start, end);
+
+                return res.json({
+                    data: paginatedGroups,
+                    meta: {
+                        total_groups: totalGroups,
+                        groupBy: groupBy,
+                        page: groupPage,
+                        limit: groupLimit,
+                        page_count: Math.ceil(totalGroups / groupLimit)
+                    }
+                });
+            }
+
+            let finalItems;
             if (accountability?.user) {
-                const companiesWithFavorites = await addCompaniesFavoritesStatus(
+                finalItems = await addCompaniesFavoritesStatus(
                     companies,
                     accountability.user,
                     schema,
                     req.accountability
                 );
-
-                return res.json({
-                    success: true,
-                    companies: companiesWithFavorites,
-                    total: companies.length,
-                    limit: parseInt(limit),
-                    offset: parseInt(offset),
-                    authenticated: true
-                });
+            } else {
+                finalItems = transformedCompanies.map(item => ({
+                    ...item,
+                    is_favorited: false,
+                    favorite_id: null
+                }));
             }
 
-            // For non-authenticated users
-            const companiesWithDefaultFavorites = companies.map(company => ({
-                ...company,
-                is_favorited: false,
-                favorite_id: null
-            }));
-
             return res.json({
-                success: true,
-                companies: companiesWithDefaultFavorites,
-                total: companies.length,
-                limit: parseInt(limit),
-                offset: parseInt(offset),
-                authenticated: false
+                data: finalItems,
+                meta: meta
             });
+
+            // return res.json({
+            //     success: true,
+            //     companies: companiesWithFavorites,
+            //     total: companies.length,
+            //     limit: parseInt(limit),
+            //     offset: parseInt(offset),
+            //     authenticated: true
+            // });
 
         } catch (error) {
             console.error('Get companies with favorites error:', error);
@@ -293,22 +374,22 @@ export default (router, { services, exceptions, getSchema }) => {
             const companies = result.data || result;
 
             // Transform companies to include full asset URLs
-            const transformedcompanies = companies.map(project => {
-                if (project.logo && typeof project.logo === 'object' && project.logo.id) {
-                    project.logo = {
-                        id: project.logo.id,
-                        url: `${process.env.PUBLIC_URL}/assets/${project.logo.id}`,
-                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${project.logo.id}?width=400&height=300&fit=cover`,
-                        title: project.logo.title
+            const transformedcompanies = companies.map(item => {
+                if (item.logo && typeof item.logo === 'object' && item.logo.id) {
+                    item.logo = {
+                        id: item.logo.id,
+                        url: `${process.env.PUBLIC_URL}/assets/${item.logo.id}`,
+                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${item.logo.id}?width=400&height=300&fit=cover`,
+                        title: item.logo.title
                     };
                 }
 
                 return {
-                    id: project.id,
-                    title: project.title,
-                    slug: project.slug,
-                    summary: project.summary,
-                    logo: project.logo
+                    id: item.id,
+                    title: item.title,
+                    slug: item.slug,
+                    summary: item.summary,
+                    logo: item.logo
                 };
             });
 
@@ -355,22 +436,22 @@ export default (router, { services, exceptions, getSchema }) => {
             const companies = result.data || result;
 
             // Transform companies to include full asset URLs
-            const transformedcompanies = companies.map(project => {
-                if (project.logo && typeof project.logo === 'object' && project.logo.id) {
-                    project.logo = {
-                        id: project.logo.id,
-                        url: `${process.env.PUBLIC_URL}/assets/${project.logo.id}`,
-                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${project.logo.id}?width=400&height=300&fit=cover`,
-                        title: project.logo.title
+            const transformedcompanies = companies.map(item => {
+                if (item.logo && typeof item.logo === 'object' && item.logo.id) {
+                    item.logo = {
+                        id: item.logo.id,
+                        url: `${process.env.PUBLIC_URL}/assets/${item.logo.id}`,
+                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${item.logo.id}?width=400&height=300&fit=cover`,
+                        title: item.logo.title
                     };
                 }
 
                 return {
-                    id: project.id,
-                    title: project.title,
-                    slug: project.slug,
-                    summary: project.summary,
-                    logo: project.logo
+                    id: item.id,
+                    title: item.title,
+                    slug: item.slug,
+                    summary: item.summary,
+                    logo: item.logo
                 };
             });
 
@@ -418,22 +499,22 @@ export default (router, { services, exceptions, getSchema }) => {
             const companies = result.data || result;
 
             // Transform companies to include full asset URLs
-            const transformedcompanies = companies.map(project => {
-                if (project.logo && typeof project.logo === 'object' && project.logo.id) {
-                    project.logo = {
-                        id: project.logo.id,
-                        url: `${process.env.PUBLIC_URL}/assets/${project.logo.id}`,
-                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${project.logo.id}?width=400&height=300&fit=cover`,
-                        title: project.logo.title
+            const transformedcompanies = companies.map(item => {
+                if (item.logo && typeof item.logo === 'object' && item.logo.id) {
+                    item.logo = {
+                        id: item.logo.id,
+                        url: `${process.env.PUBLIC_URL}/assets/${item.logo.id}`,
+                        thumbnail_url: `${process.env.PUBLIC_URL}/assets/${item.logo.id}?width=400&height=300&fit=cover`,
+                        title: item.logo.title
                     };
                 }
 
                 return {
-                    id: project.id,
-                    title: project.title,
-                    slug: project.slug,
-                    summary: project.summary,
-                    logo: project.logo
+                    id: item.id,
+                    title: item.title,
+                    slug: item.slug,
+                    summary: item.summary,
+                    logo: item.logo
                 };
             });
 
@@ -451,96 +532,84 @@ export default (router, { services, exceptions, getSchema }) => {
 
     router.get('/:id', async (req, res, next) => {
         try {
+            const schema = await getSchema();
             const companiesService = new ItemsService('companies', {
-                schema: req.schema,
+                schema: schema,
                 accountability: req.accountability
             });
 
-            // Fetch ALL data for single project endpoint
-            const project = await companiesService.readOne(req.params.id, {
+            // Fetch ALL data for single item endpoint
+            const item = await companiesService.readOne(req.params.id, {
                 fields: [
                     '*',
-                    'countries.countries_id.*',
-                    'regions.regions_id.*',
-                    'types.types_id.*',
+                    'countries.countries_id.id',
+                    'countries.countries_id.name',
+                    'countries.countries_id.slug',
+                    'regions.regions_id.id',
+                    'regions.regions_id.name',
+                    'regions.regions_id.slug',
+                    'sectors.sectors_id.id',
+                    'sectors.sectors_id.name',
+                    'sectors.sectors_id.slug',
+
+                    'types.types_id.id',
+                    'types.types_id.name',
+
+                    'projects.project_id.id',
+                    'projects.project_id.title',
+                    'projects.project_id.current_status.name',
+                    'projects.project_id.estimated_project_value_usd',
+                    'projects.project_id.value_range',
+                    'projects.role_id.id',
+                    'projects.role_id.name',
+                    'projects.role_id.slug',
 
                     'logo.*'
                 ]
             });
 
-            const flattenRelationships = (relationArray, idField = 'id') => {
-                if (!relationArray || !Array.isArray(relationArray)) return [];
-
-                return relationArray
-                    .map(item => {
-                        // Extract the related object (handles both direct and nested structures)
-                        const relatedObj = item[`${idField}_id`] || item;
-                        if (!relatedObj || !relatedObj.id) return null;
-
-                        return {
-                            id: relatedObj.id,
-                            name: relatedObj.name || 'Unnamed'
-                        };
-                    })
-                    .filter(Boolean);
-            };
-
             // Transform logo
-            if (project.logo && typeof project.logo === 'object' && project.logo.id) {
-                project.logo.url = `${process.env.PUBLIC_URL}/assets/${project.logo.id}`;
-                project.logo.thumbnail_url = `${process.env.PUBLIC_URL}/assets/${project.logo.id}?width=400&height=300&fit=cover`;
+            if (item.logo && typeof item.logo === 'object' && item.logo.id) {
+                item.logo.url = `${process.env.PUBLIC_URL}/assets/${item.logo.id}`;
+                item.logo.thumbnail_url = `${process.env.PUBLIC_URL}/assets/${item.logo.id}?width=400&height=300&fit=cover`;
             }
 
             // Flatten M2M relations
-            if (project.countries && Array.isArray(project.countries)) {
-                project.countries = project.countries.map(c => c.countries_id).filter(Boolean);
+            if (item.countries && Array.isArray(item.countries)) {
+                item.countries = item.countries.map(c => c.countries_id).filter(Boolean);
             }
-            if (project.regions && Array.isArray(project.regions)) {
-                project.regions = project.regions.map(r => r.regions_id).filter(Boolean);
+            if (item.regions && Array.isArray(item.regions)) {
+                item.regions = item.regions.map(r => r.regions_id).filter(Boolean);
             }
-            if (project.types && Array.isArray(project.types)) {
-                project.types = project.types.map(t => t.types_id).filter(Boolean);
-            }
-            if (project.funding && Array.isArray(project.funding)) {
-                project.funding = project.funding.map(f => f.funding_id).filter(Boolean);
-            }
-            if (project.companies && Array.isArray(project.companies)) {
-                project.companies = project.companies.map(c => c.companies_id).filter(Boolean);
-            }
-            if (project.client_owner && Array.isArray(project.client_owner)) {
-                project.client_owner = project.client_owner.map(c => c.companies_id).filter(Boolean);
-            }
-            if (project.developer && Array.isArray(project.developer)) {
-                project.developer = project.developer.map(d => d.companies_id).filter(Boolean);
+            if (item.types && Array.isArray(item.types)) {
+                item.types = item.types.map(t => t.types_id).filter(Boolean);
             }
 
-            project.developer = flattenRelationships(project.developer, 'companies');
-            project.authority = flattenRelationships(project.authority, 'companies');
-            project.architect = flattenRelationships(project.architect, 'companies');
-            project.design_consultant = flattenRelationships(project.design_consultant, 'companies');
-            project.project_manager = flattenRelationships(project.project_manager, 'companies');
-            project.civil_engineer = flattenRelationships(project.civil_engineer, 'companies');
-            project.structural_engineer = flattenRelationships(project.structural_engineer, 'companies');
-            project.mep_engineer = flattenRelationships(project.mep_engineer, 'companies');
-            project.electrical_engineer = flattenRelationships(project.electrical_engineer, 'companies');
-            project.geotechnical_engineer = flattenRelationships(project.geotechnical_engineer, 'companies');
-            project.cost_consultants = flattenRelationships(project.cost_consultants, 'companies');
-            project.quantity_surveyor = flattenRelationships(project.quantity_surveyor, 'companies');
-            project.landscape_architect = flattenRelationships(project.landscape_architect, 'companies');
-            project.legal_adviser = flattenRelationships(project.legal_adviser, 'companies');
-            project.transaction_advisor = flattenRelationships(project.transaction_advisor, 'companies');
-            project.study_consultant = flattenRelationships(project.study_consultant, 'companies');
-            project.funding = flattenRelationships(project.funding, 'companies');
-            project.main_contractor = flattenRelationships(project.main_contractor, 'companies');
-            project.main_contract_bidder = flattenRelationships(project.main_contract_bidder, 'companies');
-            project.main_contract_prequalified = flattenRelationships(project.main_contract_prequalified, 'companies');
-            project.mep_subcontractor = flattenRelationships(project.mep_subcontractor, 'companies');
-            project.piling_subcontractor = flattenRelationships(project.piling_subcontractor, 'companies');
-            project.facade_subcontractor = flattenRelationships(project.facade_subcontractor, 'companies');
-            project.lift_subcontractor = flattenRelationships(project.lift_subcontractor, 'companies');
-            project.other_subcontractor = flattenRelationships(project.other_subcontractor, 'companies');
-            project.operator = flattenRelationships(project.operator, 'companies');
-            project.feed = flattenRelationships(project.feed, 'companies');
+            if (item.sectors && Array.isArray(item.sectors)) {
+                item.sectors = item.sectors.map(t => t.sectors_id).filter(Boolean);
+            }
+
+            if (item.projects && Array.isArray(item.projects)) {
+                item.projects = item.projects
+                    .filter(pc => pc.project_id)
+                    .map(pc => ({
+                        id: pc.id,
+                        project: {
+                            id: pc.project_id.id,
+                            name: pc.project_id.name || null,
+                            current_status: pc.project_id.current_status.name || null,
+                            estimated_project_value_usd: pc.project_id.estimated_project_value_usd || null,
+                            value_range: pc.project_id || null,
+                        },
+                        role: pc.role_id ? {
+                            id: pc.role_id.id,
+                            name: pc.role_id.name,
+                            slug: pc.role_id.slug || null,
+                        } : null,
+                    }));
+            } else {
+                item.companies = [];
+            }
 
             let is_favorited = false;
             let favorite_id = null;
@@ -565,14 +634,14 @@ export default (router, { services, exceptions, getSchema }) => {
                 favorite_id = existingFavorite[0].id;
             }
 
-            const projectWithFavorite = {
-                ...project,
+            const itemWithFavorite = {
+                ...item,
                 is_favorited,
                 favorite_id
             };
 
             res.json({
-                data: projectWithFavorite
+                data: itemWithFavorite
             });
         } catch (error) {
             next(error);

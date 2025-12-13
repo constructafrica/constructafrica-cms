@@ -335,7 +335,7 @@ export default (router, { services, exceptions, getSchema, database}) => {
             }
 
             // Add favorites status
-            let finalProjects = transformedProjects;
+            let finalProjects;
             if (accountability?.user) {
                 finalProjects = await addFavoritesStatus(
                     transformedProjects,
