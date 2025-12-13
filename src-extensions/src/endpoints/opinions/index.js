@@ -64,7 +64,7 @@ export default (router, { services, database, getSchema}) => {
                     'photo.title',
                     'photo.filesize',
 
-                    'created_by.id',
+                    // 'created_by.id',
                     'created_by.first_name',
                     'created_by.last_name',
                     'created_by.email',
@@ -74,6 +74,7 @@ export default (router, { services, database, getSchema}) => {
                     'created_by.avatar.title',
                     'created_by.avatar.filesize',
                 ],
+
                 limit: groupBy ? -1 : limit,
                 sort: ['-date_created'],
                 offset: groupBy ? 0 : offset,
@@ -99,6 +100,14 @@ export default (router, { services, database, getSchema}) => {
                     if (typeof item.photo === 'object' && item.photo.id) {
                         item.photo.url = `${process.env.PUBLIC_URL}/assets/${item.photo.id}`;
                         item.photo.thumbnail_url = `${process.env.PUBLIC_URL}/assets/${item.photo.id}?width=400&height=300&fit=cover`;
+                    }
+                }
+
+                const avatar = item.created_by?.avatar;
+                if (avatar) {
+                    if (typeof avatar === 'object' && avatar.id) {
+                        item.created_by.avatar.url = `${process.env.PUBLIC_URL}/assets/${avatar.id}`;
+                        item.created_by.avatar.thumbnail_url = `${process.env.PUBLIC_URL}/assets/${avatar.id}?width=400&height=300&fit=cover`;
                     }
                 }
 
