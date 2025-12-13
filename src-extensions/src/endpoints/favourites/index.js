@@ -631,7 +631,7 @@ export default (router, context) => {
                 projects: 0,
                 companies: 0,
                 main_news: 0,
-                projects_tenders: 0,
+                tenders: 0,
                 experts_analysts: 0,
                 blog: 0
             };
@@ -694,8 +694,8 @@ export default (router, context) => {
                                 slug: 'slug',
                                 date: 'date_created',
                                 // Additional fields for tenders
-                                countries: 'countries.country_id.*',
-                                sectors: 'sectors.sector_id.*'
+                                countries: 'countries.countries_id.*',
+                                sectors: 'sectors.sectors_id.*'
                             },
                             'experts_analysts': {
                                 title: 'name',
@@ -703,8 +703,6 @@ export default (router, context) => {
                                 summary: 'bio',
                                 slug: 'slug',
                                 date: 'date_created',
-                                title_role: 'title',
-                                expertise: 'expertise'
                             },
                             'blog': {
                                 title: 'title',
@@ -743,10 +741,10 @@ export default (router, context) => {
                                             id: relatedObj.id,
                                             name: relatedObj.name || 'Unnamed',
                                             slug: relatedObj.slug,
-                                            ...(relatedObj.flag && { flag: relatedObj.flag }),
-                                            ...(relatedObj.code && { code: relatedObj.code }),
-                                            ...(relatedObj.icon && { icon: relatedObj.icon }),
-                                            ...(relatedObj.color && { color: relatedObj.color })
+                                            // ...(relatedObj.flag && { flag: relatedObj.flag }),
+                                            // ...(relatedObj.code && { code: relatedObj.code }),
+                                            // ...(relatedObj.icon && { icon: relatedObj.icon }),
+                                            // ...(relatedObj.color && { color: relatedObj.color })
                                         };
                                     })
                                     .filter(Boolean);
@@ -757,7 +755,7 @@ export default (router, context) => {
                             let sectors = [];
                             let regions = [];
 
-                            if (fav.collection === 'projects' || fav.collection === 'projects_tenders' || fav.collection === 'companies') {
+                            if (fav.collection === 'projects' || fav.collection === 'tenders' || fav.collection === 'companies') {
                                 countries = flattenRelationships(item.countries, 'countries');
                                 sectors = flattenRelationships(item.sectors, 'sectors');
 
@@ -802,6 +800,8 @@ export default (router, context) => {
                                 }),
                                 ...(fav.collection === 'companies' && {
                                     company_role: item.company_role,
+                                    employees: item.employees,
+                                    projects_completed: item.projects_completed,
                                     countries: countries,
                                     sectors: sectors,
                                 }),
@@ -864,7 +864,7 @@ export default (router, context) => {
                 projects: results.filter(item => item.collection === 'projects'),
                 companies: results.filter(item => item.collection === 'companies'),
                 news: results.filter(item => item.collection === 'main_news'),
-                tenders: results.filter(item => item.collection === 'projects_tenders'),
+                tenders: results.filter(item => item.collection === 'tenders'),
                 opinions: results.filter(item => item.collection === 'experts_analysts'),
                 blog: results.filter(item => item.collection === 'blog')
             };
