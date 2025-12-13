@@ -686,8 +686,6 @@ export default (router, context) => {
                                 summary: 'summary',
                                 slug: 'slug',
                                 date: 'date_created',
-                                category: 'category_id',
-                                author: 'author_id'
                             },
                             'tenders': {
                                 title: 'title',
@@ -695,10 +693,9 @@ export default (router, context) => {
                                 summary: 'summary',
                                 slug: 'slug',
                                 date: 'date_created',
-                                tender_type: 'tender_type',
                                 // Additional fields for tenders
-                                countries: 'countries.countries_id.*',
-                                sectors: 'sectors.sectors_id.*'
+                                countries: 'countries.country_id.*',
+                                sectors: 'sectors.sector_id.*'
                             },
                             'experts_analysts': {
                                 title: 'name',
@@ -715,8 +712,6 @@ export default (router, context) => {
                                 summary: 'summary',
                                 slug: 'slug',
                                 date: 'date_created',
-                                category: 'category',
-                                author: 'author'
                             }
                         };
 
