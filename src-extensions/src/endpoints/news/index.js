@@ -1,4 +1,4 @@
-import {addFavoritesStatus} from "../../helpers/index.js";
+import {addFavoritesStatus, getFavoriteStatus} from "../../helpers/index.js";
 
 export default (router, { services, database, getSchema}) => {
     const {ItemsService} = services;
@@ -314,35 +314,16 @@ export default (router, { services, database, getSchema}) => {
             }
 
             // Handle favorites
-            let is_favorited = false;
-            let favorite_id = null;
-
-            if (accountability?.user) {
-                try {
-                    const favoritesService = new ItemsService('favourites', {
-                        schema: schema,
-                        accountability: accountability,
-                    });
-
-                    const existingFavorite = await favoritesService.readByQuery({
-                        filter: {
-                            _and: [
-                                { created_by: { _eq: accountability.user } },
-                                { collection: { _eq: 'main_news' } },
-                                { item_id: { _eq: itemId } },
-                            ],
-                        },
-                        limit: 1,
-                    });
-
-                    if (existingFavorite.length > 0) {
-                        is_favorited = true;
-                        favorite_id = existingFavorite[0].id;
-                    }
-                } catch (favoritesError) {
-                    console.warn('Failed to fetch favorite status:', favoritesError.message);
-                }
-            }
+            const { is_favorited, favorite_id } = accountability?.user
+                ? await getFavoriteStatus({
+                    itemId,
+                    collection: 'main_news',
+                    userId: accountability.user,
+                    schema,
+                    accountability,
+                    ItemsService
+                })
+                : { is_favorited: false, favorite_id: null };
 
             const itemWithFavorite = {
                 ...item,

@@ -37,6 +37,11 @@
 			},
 			{
 				"type": "endpoint",
+				"name": "tenders",
+				"source": "src/endpoints/tenders/index.js"
+			},
+			{
+				"type": "endpoint",
 				"name": "companies",
 				"source": "src/endpoints/companies/index.js"
 			},

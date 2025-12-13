@@ -209,12 +209,28 @@ export default (router, { services, database, exceptions, getSchema }) => {
                     'name',
                     'slug',
                     'description',
+                    'projects_completed',
                     'logo.*',
                     'company_role',
                     'status',
                     'date_created',
                     'date_updated',
                     'favorites_count',
+
+                    'countries.countries_id.id',
+                    'countries.countries_id.name',
+                    'countries.countries_id.slug',
+
+                    'regions.regions_id.id',
+                    'regions.regions_id.name',
+                    'regions.regions_id.slug',
+
+                    'sectors.sectors_id.id',
+                    'sectors.sectors_id.name',
+                    'sectors.sectors_id.slug',
+
+                    'types.types_id.id',
+                    'types.types_id.name',
                 ]
             };
 
