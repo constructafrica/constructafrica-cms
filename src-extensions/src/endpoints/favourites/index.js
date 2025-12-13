@@ -590,8 +590,8 @@ export default (router, context) => {
             const favorites = await favoritesService.readByQuery({
                 filter,
                 sort: [sort],
-                limit: parseInt(limit),
-                offset: parseInt(offset),
+                // limit: parseInt(limit),
+                // offset: parseInt(offset),
                 fields: ['*'] // Ensure we get all favorite fields
             });
 

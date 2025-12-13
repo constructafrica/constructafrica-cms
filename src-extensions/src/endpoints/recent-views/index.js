@@ -9,7 +9,7 @@ export default (router, context) => {
     // ============================================
 
     // Allowed collections for recent views
-    const recentViewCollections = ['projects', 'companies', 'main_news', 'projects_tenders'];
+    const recentViewCollections = ['projects', 'companies', 'main_news', 'tenders'];
 
 
     // ============================================
@@ -70,11 +70,15 @@ export default (router, context) => {
             const grouped = {
                 projects: [],
                 companies: [],
+                tenders: [],
+                news: [],
             };
 
             const collectionCounts = {
                 projects: 0,
                 companies: 0,
+                tenders: 0,
+                news: 0,
             };
 
             for (const view of recentViews) {
@@ -90,7 +94,7 @@ export default (router, context) => {
                     let fields = ['id', 'status', 'date_created', 'date_updated'];
 
                     if (view.collection === 'projects') {
-                        fields.push('title', 'slug', 'summary', 'featured_image', 'contract_value_usd', 'current_stage');
+                        fields.push('title', 'slug', 'summary', 'featured_image', 'contract_value_usd', 'current_stage', 'current_status.name');
                     } else if (view.collection === 'companies') {
                         fields.push('name', 'slug', 'company_role', 'logo', 'description');
                     }
