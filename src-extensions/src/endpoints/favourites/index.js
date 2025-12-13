@@ -5,7 +5,7 @@ export default (router, context) => {
     const { ForbiddenException, InvalidPayloadException, ServiceUnavailableException } = exceptions;
 
     // Use consistent collection names throughout
-    const allowedCollections = ['projects', 'companies', 'main_news', 'projects_tenders', 'blog', 'experts_analysts'];
+    const allowedCollections = ['projects', 'companies', 'main_news', 'tenders', 'blog', 'experts_analysts'];
 
     // ============================================
     // 1. TOGGLE FAVORITE
@@ -545,263 +545,6 @@ export default (router, context) => {
 
     // ============================================
     // 7. GET USER'S FAVORITES
-    // IMPORTANT: This MUST be last because / matches everything
-    // ============================================
-    // router.get('/', async (req, res) => {
-    //     try {
-    //         const { accountability } = req;
-    //         const {
-    //             collection: filterCollection,
-    //             limit = 100,
-    //             offset = 0,
-    //             sort = '-date_created',
-    //         } = req.query;
-    //
-    //         if (!accountability?.user) {
-    //             return res.status(403).json({
-    //                 success: false,
-    //                 error: 'You must be authenticated to view favorites',
-    //             });
-    //         }
-    //
-    //         const schema = await getSchema();
-    //         const favoritesService = new ItemsService('favourites', {
-    //             schema: schema,
-    //             accountability: req.accountability,
-    //         });
-    //
-    //         // Build filter
-    //         const filter = {
-    //             user_created: { _eq: accountability.user },
-    //         };
-    //
-    //         if (filterCollection) {
-    //             if (!allowedCollections.includes(filterCollection)) {
-    //                 return res.status(400).json({
-    //                     success: false,
-    //                     error: `Invalid collection filter. Must be one of: ${allowedCollections.join(', ')}`,
-    //                 });
-    //             }
-    //             filter.collection = { _eq: filterCollection };
-    //         }
-    //
-    //         console.log('Fetching favorites with filter:', JSON.stringify(filter));
-    //
-    //         // Get favorites with pagination
-    //         const favorites = await favoritesService.readByQuery({
-    //             filter,
-    //             sort: [sort],
-    //             limit: parseInt(limit),
-    //             offset: parseInt(offset),
-    //             fields: ['*'] // Ensure we get all favorite fields
-    //         });
-    //
-    //         console.log('Favorites result count:', favorites.length);
-    //
-    //         // Ensure favorites is an array
-    //         if (!Array.isArray(favorites)) {
-    //             console.error('Favorites is not an array:', typeof favorites, favorites);
-    //             return res.status(500).json({
-    //                 success: false,
-    //                 error: 'Invalid response format from favorites service',
-    //             });
-    //         }
-    //
-    //         // Get total count
-    //         let totalCount = 0;
-    //         try {
-    //             const countResult = await favoritesService.readByQuery({
-    //                 filter,
-    //                 aggregate: { count: ['*'] },
-    //             });
-    //
-    //             if (Array.isArray(countResult) && countResult.length > 0) {
-    //                 totalCount = countResult[0]?.count || 0;
-    //             } else if (countResult && typeof countResult === 'object') {
-    //                 totalCount = countResult.count || 0;
-    //             }
-    //             console.log('Total count:', totalCount);
-    //         } catch (countError) {
-    //             console.warn('Could not get total count:', countError.message);
-    //             totalCount = favorites.length; // Fallback to current result count
-    //         }
-    //
-    //         // Process favorites and fetch actual items with standardized format
-    //         const results = [];
-    //         const collectionCounts = {
-    //             projects: 0,
-    //             companies: 0,
-    //             main_news: 0,
-    //             projects_tenders: 0,
-    //             experts_analysts: 0,
-    //             blog: 0
-    //         };
-    //
-    //         if (favorites.length > 0) {
-    //             for (const fav of favorites) {
-    //                 if (!fav.collection || !fav.item_id) {
-    //                     console.warn('Invalid favorite item:', fav);
-    //                     continue;
-    //                 }
-    //
-    //                 try {
-    //                     const itemService = new ItemsService(fav.collection, {
-    //                         schema: schema,
-    //                         accountability: req.accountability,
-    //                     });
-    //
-    //                     // Define fields based on collection type with standardized field mapping
-    //                     let fields = ['id', 'status'];
-    //
-    //                     // Collection-specific field mapping
-    //                     const fieldMappings = {
-    //                         'projects': {
-    //                             title: 'title',
-    //                             // type: 'project',
-    //                             image: 'featured_image',
-    //                             summary: 'summary',
-    //                             slug: 'slug',
-    //                             date: 'date_created'
-    //                         },
-    //                         'companies': {
-    //                             title: 'name',
-    //                             // type: 'company',
-    //                             image: 'logo',
-    //                             summary: 'description',
-    //                             slug: 'slug',
-    //                             date: 'date_created'
-    //                         },
-    //                         'main_news': {
-    //                             title: 'title',
-    //                             // type: 'news',
-    //                             image: 'featured_image',
-    //                             summary: 'summary',
-    //                             slug: 'slug',
-    //                             date: 'date_created'
-    //
-    //                         },
-    //                         'projects_tenders': {
-    //                             title: 'title',
-    //                             // type: 'tender',
-    //                             image: 'featured_image',
-    //                             summary: 'summary',
-    //                             slug: 'slug',
-    //                             date: 'date_created'
-    //                         },
-    //                         'experts_analysts': {
-    //                             title: 'name',
-    //                             // type: 'opinions',
-    //                             image: 'photo',
-    //                             summary: 'bio',
-    //                             slug: 'slug',
-    //                             date: 'date_created'
-    //                         }
-    //                         // 'blog': {
-    //                         //     title: 'title',
-    //                         //     // type: 'blog',
-    //                         //     image: 'featured_image',
-    //                         //     summary: 'summary',
-    //                         //     slug: 'slug',
-    //                         //     date: 'date_created'
-    //                         // }
-    //                     };
-    //
-    //                     // Add collection-specific fields
-    //                     const mapping = fieldMappings[fav.collection];
-    //                     if (mapping) {
-    //                         // Add all fields from mapping (remove duplicates)
-    //                         const additionalFields = Object.values(mapping);
-    //                         fields = [...new Set([...fields, ...additionalFields])];
-    //                     }
-    //
-    //                     console.log(`Fetching ${fav.collection} item ${fav.item_id} with fields:`, fields);
-    //
-    //                     const item = await itemService.readOne(fav.item_id, {
-    //                         fields: fields,
-    //                     });
-    //
-    //                     if (item) {
-    //                         // Create standardized response object
-    //                         const standardizedItem = {
-    //                             id: item.id,
-    //                             collection: fav.collection,
-    //                             favorite_id: fav.id,
-    //                             favorite_date: fav.date_created,
-    //                             title: getFieldValue(item, mapping?.title),
-    //                             // type: mapping?.type,
-    //                             image: getFieldValue(item, mapping?.image),
-    //                             summary: getFieldValue(item, mapping?.summary),
-    //                             slug: getFieldValue(item, mapping?.slug),
-    //                             status: item.status,
-    //                             date_created: getFieldValue(item, mapping?.date),
-    //                             // original_item: item
-    //                         };
-    //
-    //                         // Clean up undefined fields
-    //                         Object.keys(standardizedItem).forEach(key => {
-    //                             if (standardizedItem[key] === undefined) {
-    //                                 delete standardizedItem[key];
-    //                             }
-    //                         });
-    //
-    //                         results.push(standardizedItem);
-    //                         collectionCounts[fav.collection]++;
-    //
-    //                         console.log(`Added ${fav.collection} item to results:`, standardizedItem.title);
-    //                     } else {
-    //                         console.warn(`Item not found: ${fav.collection} - ${fav.item_id}`);
-    //                     }
-    //                 } catch (error) {
-    //                     console.warn(`Could not fetch ${fav.collection} item ${fav.item_id}:`, error.message);
-    //
-    //                     // Even if we can't fetch the item, we can still return basic favorite info
-    //                     results.push({
-    //                         id: fav.item_id,
-    //                         collection: fav.collection,
-    //                         favorite_id: fav.id,
-    //                         favorite_date: fav.date_created,
-    //                         title: `Item ${fav.item_id}`,
-    //                         type: fav.collection,
-    //                         status: 'unavailable',
-    //                         error: 'Item could not be loaded'
-    //                     });
-    //                     collectionCounts[fav.collection]++;
-    //                 }
-    //             }
-    //         }
-    //
-    //         // Group results by collection for the response
-    //         const grouped = {
-    //             projects: results.filter(item => item.collection === 'projects'),
-    //             companies: results.filter(item => item.collection === 'companies'),
-    //             news: results.filter(item => item.collection === 'main_news'),
-    //             tenders: results.filter(item => item.collection === 'projects_tenders'),
-    //             opinions: results.filter(item => item.collection === 'experts_analysts'),
-    //             blog: results.filter(item => item.collection === 'blog')
-    //         };
-    //
-    //         console.log('Final results count:', results.length);
-    //         console.log('Collection counts:', collectionCounts);
-    //
-    //         return res.json({
-    //             success: true,
-    //             total: totalCount,
-    //             limit: parseInt(limit),
-    //             offset: parseInt(offset),
-    //             counts: collectionCounts,
-    //             data: results,
-    //             group: grouped,
-    //         });
-    //     } catch (error) {
-    //         console.error('Get favorites error:', error);
-    //
-    //         return res.status(500).json({
-    //             success: false,
-    //             error: 'Failed to fetch favorites',
-    //             details: error.message,
-    //         });
-    //     }
-    // });
 
     router.get('/', async (req, res) => {
         try {
@@ -918,6 +661,7 @@ export default (router, context) => {
                                 slug: 'slug',
                                 date: 'date_created',
                                 current_stage: 'current_stage',
+                                current_status: 'current_status.name',
                                 contract_value_usd: 'contract_value_usd',
                                 location: 'location',
                                 // Additional fields for projects
@@ -942,10 +686,10 @@ export default (router, context) => {
                                 summary: 'summary',
                                 slug: 'slug',
                                 date: 'date_created',
-                                category: 'category',
-                                author: 'author'
+                                category: 'category_id',
+                                author: 'author_id'
                             },
-                            'projects_tenders': {
+                            'tenders': {
                                 title: 'title',
                                 image: 'featured_image',
                                 summary: 'summary',
@@ -1054,39 +798,29 @@ export default (router, context) => {
                                 // Collection-specific additional fields
                                 ...(fav.collection === 'projects' && {
                                     current_stage: item.current_stage,
+                                    current_status: item.current_status,
                                     contract_value_usd: item.contract_value_usd,
                                     location: item.location,
                                     countries: countries,
                                     sectors: sectors,
                                     regions: regions,
-                                    primary_country: countries.length > 0 ? countries[0] : null,
-                                    primary_sector: sectors.length > 0 ? sectors[0] : null
                                 }),
                                 ...(fav.collection === 'companies' && {
                                     company_role: item.company_role,
                                     countries: countries,
                                     sectors: sectors,
-                                    primary_country: countries.length > 0 ? countries[0] : null,
-                                    primary_sector: sectors.length > 0 ? sectors[0] : null
                                 }),
-                                ...(fav.collection === 'projects_tenders' && {
-                                    tender_type: item.tender_type,
+                                ...(fav.collection === 'tenders' && {
                                     countries: countries,
                                     sectors: sectors,
-                                    primary_country: countries.length > 0 ? countries[0] : null,
-                                    primary_sector: sectors.length > 0 ? sectors[0] : null
                                 }),
                                 ...(fav.collection === 'main_news' && {
-                                    category: item.category,
-                                    author: item.author
+                                    category: item.is_trending ? 'Trending News' : 'Main News',
                                 }),
                                 ...(fav.collection === 'experts_analysts' && {
                                     title_role: item.title,
-                                    expertise: item.expertise
                                 }),
                                 ...(fav.collection === 'blog' && {
-                                    category: item.category,
-                                    author: item.author
                                 }),
                                 // Statistics for relationships
                                 ...((countries.length > 0 || sectors.length > 0 || regions.length > 0) && {

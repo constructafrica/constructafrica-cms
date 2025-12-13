@@ -71,6 +71,11 @@
 				"source": "src/hooks/slug/index.js"
 			},
 			{
+				"type": "hook",
+				"name": "project-news-hook",
+				"source": "src/hooks/project-news-hook/index.js"
+			},
+			{
 				"type": "interface",
 				"name": "project-companies-selector",
 				"source": "src/interfaces/project-companies-selector/index.js"

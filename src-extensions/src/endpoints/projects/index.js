@@ -207,6 +207,7 @@ export default (router, { services, exceptions, getSchema, database}) => {
                     'contract_value_usd',
                     'summary',
                     'description',
+                    'news_updated_at',
                     'estimated_project_value_usd',
                     'value_range',
                     'construction_start_date',
@@ -229,6 +230,10 @@ export default (router, { services, exceptions, getSchema, database}) => {
                     'sectors.sectors_id.slug',
                     'subsectors.subsectors_id.id',
                     'subsectors.subsectors_id.name',
+                    'current_status',
+                    'current_status.id',
+                    'current_status.name',
+                    'current_status.slug',
                     'featured_image',
                     'featured_image.id',
                     'featured_image.filename_disk',
@@ -254,6 +259,15 @@ export default (router, { services, exceptions, getSchema, database}) => {
 
             // Transform projects
             const transformedProjects = projects.map(project => {
+                // Check if project has recent news update (within last 30 days)
+                let has_recent_update = false;
+                if (project.news_updated_at) {
+                    const newsUpdateDate = new Date(project.news_updated_at);
+                    const thirtyDaysAgo = new Date();
+                    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                    has_recent_update = newsUpdateDate > thirtyDaysAgo;
+                }
+
                 // Transform featured_image
                 if (project.featured_image) {
                     if (typeof project.featured_image === 'object' && project.featured_image.id) {
@@ -291,6 +305,9 @@ export default (router, { services, exceptions, getSchema, database}) => {
                         sectors: originalSectors,
                     };
                 }
+
+                // Add has_recent_update field
+                project.has_recent_update = has_recent_update;
 
                 return project;
             });
@@ -370,6 +387,9 @@ export default (router, { services, exceptions, getSchema, database}) => {
                     'sectors.sectors_id.name',
                     'sectors.sectors_id.id',
                     'types.types_id.name',
+                    'current_status.id',
+                    'current_status.name',
+                    'current_status.slug',
                     'companies.id',
                     'companies.company_id.id',
                     'companies.company_id.name',
@@ -380,6 +400,7 @@ export default (router, { services, exceptions, getSchema, database}) => {
                     'companies.role_id.slug',
                     'contacts.company_contacts_id.id',
                     'contacts.company_contacts_id.name',
+                    'contacts.company_contacts_id.company',
                     'contacts.company_contacts_id.email',
                     'contacts.company_contacts_id.phone',
                     'featured_image.*',
@@ -436,6 +457,7 @@ export default (router, { services, exceptions, getSchema, database}) => {
                     .map(pc => ({
                         id: pc.company_contacts_id.id,
                         name: pc.company_contacts_id.name || null,
+                        company: pc.company_contacts_id.company || null,
                         email: pc.company_contacts_id.email || null,
                         phone: pc.company_contacts_id.phone || null,
                         role: pc.company_contacts_id.role || null,
