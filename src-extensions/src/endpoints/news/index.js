@@ -511,7 +511,6 @@ export default (router, { services, database, getSchema}) => {
                     'slug',
                     'summary',
                     'content',
-                    'comments_count',
                     'featured_image.id',
                     'featured_image.filename_disk',
                     'featured_image.title',
@@ -554,7 +553,7 @@ export default (router, { services, database, getSchema}) => {
                 }
             });
         } catch (error) {
-            console.log("trending error: ", error)
+            console.log("free error: ", error)
             next(error);
         }
     });
