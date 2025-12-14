@@ -304,7 +304,9 @@ export default {
 
     // Load existing project companies when editing
     const loadExistingData = async () => {
-      if (!props.primaryKey) {
+      // Check if primaryKey is valid (not "+" and not null/undefined)
+      if (!props.primaryKey || props.primaryKey === '+') {
+        console.log('New item or invalid primaryKey, adding empty row');
         if (internalValue.value.length === 0) {
           addItem();
         }
@@ -312,6 +314,7 @@ export default {
       }
 
       try {
+        console.log('Loading existing data for project:', props.primaryKey);
         const response = await api.get('/items/project_companies', {
           params: {
             filter: {
@@ -321,6 +324,8 @@ export default {
             limit: -1,
           },
         });
+
+        console.log('Loaded project_companies:', response.data.data);
 
         if (response.data.data.length > 0) {
           // Clear existing data first
@@ -403,6 +408,26 @@ export default {
           }
         },
         { deep: true }
+    );
+
+    // Watch for changes to primaryKey (when navigating between items)
+    watch(
+        () => props.primaryKey,
+        (newKey, oldKey) => {
+          console.log('PrimaryKey changed from', oldKey, 'to', newKey);
+          // Only reload if the key actually changed and is valid
+          if (newKey !== oldKey && newKey && newKey !== '+') {
+            // Clear existing data
+            internalValue.value = [];
+            Object.keys(searchQueries).forEach(key => delete searchQueries[key]);
+            Object.keys(filteredCompanies).forEach(key => delete filteredCompanies[key]);
+            Object.keys(showDropdown).forEach(key => delete showDropdown[key]);
+            Object.keys(selectedCompanyNames).forEach(key => delete selectedCompanyNames[key]);
+
+            // Reload data
+            loadExistingData();
+          }
+        }
     );
 
     // Add new item
