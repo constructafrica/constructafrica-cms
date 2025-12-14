@@ -140,6 +140,7 @@ export default (router, { services, database, getSchema}) => {
                     'title',
                     'slug',
                     'summary',
+                    'is_free_news',
                     'content',
                     'date_created',
 
@@ -383,6 +384,7 @@ export default (router, { services, database, getSchema}) => {
                     'slug',
                     'summary',
                     'content',
+                    'is_free_news',
                     'featured_image.id',
                     'featured_image.filename_disk',
                     'featured_image.title',
@@ -412,6 +414,7 @@ export default (router, { services, database, getSchema}) => {
                     title: item.title,
                     slug: item.slug,
                     summary: item.summary,
+                    is_free_news: item.is_free_news,
                     comments_count: item.comments_count,
                     featured_image: item.featured_image
                 };
@@ -446,6 +449,7 @@ export default (router, { services, database, getSchema}) => {
                     'slug',
                     'summary',
                     'content',
+                    'is_free_news',
                     'featured_image.id',
                     'featured_image.filename_disk',
                     'featured_image.title',
@@ -476,6 +480,8 @@ export default (router, { services, database, getSchema}) => {
                     title: item.title,
                     slug: item.slug,
                     summary: item.summary,
+                    is_free_news: item.is_free_news,
+
                     comments_count: item.comments_count,
                     featured_image: item.featured_image
                 };
@@ -511,6 +517,7 @@ export default (router, { services, database, getSchema}) => {
                     'slug',
                     'summary',
                     'content',
+                    'is_free_news',
                     'featured_image.id',
                     'featured_image.filename_disk',
                     'featured_image.title',
@@ -540,6 +547,7 @@ export default (router, { services, database, getSchema}) => {
                     id: item.id,
                     title: item.title,
                     slug: item.slug,
+                    is_free_news: item.is_free_news,
                     summary: item.summary,
                     comments_count: item.comments_count,
                     featured_image: item.featured_image
