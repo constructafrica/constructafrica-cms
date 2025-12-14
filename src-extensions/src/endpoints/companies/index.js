@@ -628,7 +628,7 @@ export default (router, { services, database, exceptions, getSchema }) => {
                             name: pc.role_id.name || null,
                             slug: pc.role_id.slug || null,
                         } : null,
-                    }));
+                    }));33
             } else {
                 item.companies = [];
             }
