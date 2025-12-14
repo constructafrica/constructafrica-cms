@@ -343,14 +343,6 @@ export default (router, { services, database, exceptions, getSchema }) => {
                 meta: meta
             });
 
-            // return res.json({
-            //     success: true,
-            //     companies: companiesWithFavorites,
-            //     total: companies.length,
-            //     limit: parseInt(limit),
-            //     offset: parseInt(offset),
-            //     authenticated: true
-            // });
 
         } catch (error) {
             console.error('Get companies with favorites error:', error);
@@ -581,6 +573,7 @@ export default (router, { services, database, exceptions, getSchema }) => {
                     'projects.project_id.title',
                     'projects.project_id.current_status.name',
                     'projects.project_id.estimated_project_value_usd',
+                    'projects.project_id.contract_value_usd',
                     'projects.project_id.value_range',
                     'projects.project_id.countries',
                     'projects.project_id.countries.countries_id.id',
