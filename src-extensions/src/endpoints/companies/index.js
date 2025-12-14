@@ -210,6 +210,7 @@ export default (router, { services, database, exceptions, getSchema }) => {
                     'slug',
                     'description',
                     'projects_completed',
+                    "projects",
                     'logo.*',
                     'company_role',
                     'status',
@@ -293,6 +294,8 @@ export default (router, { services, database, exceptions, getSchema }) => {
                         sectors: originalSectors,
                     };
                 }
+
+                item.projects_completed = (item.projects && Array.isArray(item.projects)) ? item.projects.length : 0;
 
                 return item;
             });
@@ -579,6 +582,10 @@ export default (router, { services, database, exceptions, getSchema }) => {
                     'projects.project_id.current_status.name',
                     'projects.project_id.estimated_project_value_usd',
                     'projects.project_id.value_range',
+                    'projects.project_id.countries',
+                    'projects.project_id.countries.countries_id.id',
+                    'projects.project_id.countries.countries_id.name',
+                    'projects.project_id.countries.countries_id.slug',
                     'projects.role_id.id',
                     'projects.role_id.name',
                     'projects.role_id.slug',
@@ -617,20 +624,21 @@ export default (router, { services, database, exceptions, getSchema }) => {
                         id: pc.id,
                         project: {
                             id: pc.project_id.id,
-                            name: pc.project_id.name || null,
+                            name: pc.project_id.title || null,
                             current_status: pc.project_id.current_status?.name || null,
                             estimated_project_value_usd: pc.project_id?.estimated_project_value_usd || null,
                             value_range: pc.project_id?.value_range || null,
                             contract_value_usd: pc.project_id?.contract_value_usd || null,
+                            countries: pc.project_id?.countries
                         },
                         role: pc.role_id ? {
                             id: pc.role_id.id,
                             name: pc.role_id.name || null,
                             slug: pc.role_id.slug || null,
                         } : null,
-                    }));33
+                    }));
             } else {
-                item.companies = [];
+                item.projects = [];
             }
 
             const { is_favorited, favorite_id } = accountability?.user
