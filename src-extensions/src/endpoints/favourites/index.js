@@ -892,6 +892,113 @@ export default (router, context) => {
         }
     });
 
+    router.get('/:collection', async (req, res) => {
+        try {
+            const { accountability } = req;
+            const {
+                limit = 100,
+                offset = 0,
+                sort = '-date_created',
+            } = req.query;
+
+            const { collection } = req.params;
+
+            if (!accountability?.user) {
+                return res.status(403).json({
+                    success: false,
+                    error: 'You must be authenticated to view favorites',
+                });
+            }
+
+            if (!allowedCollections.includes(collection)) {
+                return res.status(400).json({
+                    success: false,
+                    error: `Invalid collection. Must be one of: ${allowedCollections.join(', ')}`,
+                });
+            }
+
+            const schema = await getSchema();
+
+            const favoritesService = new ItemsService('favourites', {
+                schema,
+                accountability: req.accountability,
+            });
+
+            const filter = {
+                _and: [
+                    { user_created: { _eq: accountability.user } },
+                    { collection: { _eq: collection } },
+                ],
+            };
+
+            const favorites = await favoritesService.readByQuery({
+                filter,
+                sort: [sort],
+                limit: Number(limit),
+                offset: Number(offset),
+                fields: ['*'],
+            });
+
+            // Count
+            const countResult = await favoritesService.readByQuery({
+                filter,
+                aggregate: { count: ['*'] },
+            });
+
+            const total =
+                Array.isArray(countResult) && countResult.length
+                    ? countResult[0].count
+                    : 0;
+
+            const results = [];
+
+            for (const fav of favorites) {
+                try {
+                    const itemService = new ItemsService(fav.collection, {
+                        schema,
+                        accountability: req.accountability,
+                    });
+
+                    const item = await itemService.readOne(fav.item_id, {
+                        fields: ['*'],
+                    });
+
+                    if (!item) continue;
+
+                    results.push({
+                        id: item.id,
+                        collection: fav.collection,
+                        favorite_id: fav.id,
+                        favorite_date: fav.date_created,
+                        title: item.title || item.name,
+                        slug: item.slug,
+                        status: item.status,
+                        date_created: item.date_created,
+                    });
+                } catch (e) {
+                    console.warn(`Failed to load ${fav.collection}:${fav.item_id}`);
+                }
+            }
+
+            return res.json({
+                success: true,
+                collection,
+                total,
+                limit: Number(limit),
+                offset: Number(offset),
+                data: results,
+            });
+        } catch (error) {
+            console.error('Get favorites error:', error);
+
+            return res.status(500).json({
+                success: false,
+                error: 'Failed to fetch favorites',
+                details: error.message,
+            });
+        }
+    });
+
     // Helper function to safely get nested field values
     function getFieldValue(item, fieldPath) {
         if (!fieldPath || !item) return undefined;
