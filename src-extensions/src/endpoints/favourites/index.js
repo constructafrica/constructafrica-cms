@@ -892,16 +892,16 @@ export default (router, context) => {
         }
     });
 
+
     router.get('/:collection', async (req, res) => {
         try {
             const { accountability } = req;
+            const { collection } = req.params; // Get collection from URL params
             const {
                 limit = 100,
                 offset = 0,
                 sort = '-date_created',
             } = req.query;
-
-            const { collection } = req.params;
 
             if (!accountability?.user) {
                 return res.status(403).json({
@@ -910,6 +910,7 @@ export default (router, context) => {
                 });
             }
 
+            // Validate collection parameter
             if (!allowedCollections.includes(collection)) {
                 return res.status(400).json({
                     success: false,
@@ -918,12 +919,12 @@ export default (router, context) => {
             }
 
             const schema = await getSchema();
-
             const favoritesService = new ItemsService('favourites', {
-                schema,
+                schema: schema,
                 accountability: req.accountability,
             });
 
+            // Build filter - only filter by user and collection from URL
             const filter = {
                 _and: [
                     { user_created: { _eq: accountability.user } },
@@ -931,61 +932,278 @@ export default (router, context) => {
                 ],
             };
 
+            console.log('Fetching favorites with filter:', JSON.stringify(filter));
+
+            // Get favorites with pagination
             const favorites = await favoritesService.readByQuery({
                 filter,
                 sort: [sort],
-                limit: Number(limit),
-                offset: Number(offset),
-                fields: ['*'],
+                limit: parseInt(limit),
+                offset: parseInt(offset),
+                fields: ['*'] // Ensure we get all favorite fields
             });
 
-            // Count
-            const countResult = await favoritesService.readByQuery({
-                filter,
-                aggregate: { count: ['*'] },
-            });
+            console.log('Favorites result count:', favorites.length);
 
-            const total =
-                Array.isArray(countResult) && countResult.length
-                    ? countResult[0].count
-                    : 0;
+            // Ensure favorites is an array
+            if (!Array.isArray(favorites)) {
+                console.error('Favorites is not an array:', typeof favorites, favorites);
+                return res.status(500).json({
+                    success: false,
+                    error: 'Invalid response format from favorites service',
+                });
+            }
 
+            // Get total count
+            let totalCount = 0;
+            try {
+                const countResult = await favoritesService.readByQuery({
+                    filter,
+                    aggregate: { count: ['*'] },
+                });
+
+                if (Array.isArray(countResult) && countResult.length > 0) {
+                    totalCount = countResult[0]?.count || 0;
+                } else if (countResult && typeof countResult === 'object') {
+                    totalCount = countResult.count || 0;
+                }
+                console.log('Total count:', totalCount);
+            } catch (countError) {
+                console.warn('Could not get total count:', countError.message);
+                totalCount = favorites.length; // Fallback to current result count
+            }
+
+            // Process favorites and fetch actual items with standardized format
             const results = [];
 
-            for (const fav of favorites) {
-                try {
-                    const itemService = new ItemsService(fav.collection, {
-                        schema,
-                        accountability: req.accountability,
-                    });
+            if (favorites.length > 0) {
+                for (const fav of favorites) {
+                    if (!fav.collection || !fav.item_id) {
+                        console.warn('Invalid favorite item:', fav);
+                        continue;
+                    }
 
-                    const item = await itemService.readOne(fav.item_id, {
-                        fields: ['*'],
-                    });
+                    try {
+                        const itemService = new ItemsService(fav.collection, {
+                            schema: schema,
+                            accountability: req.accountability,
+                        });
 
-                    if (!item) continue;
+                        // Define fields based on collection type with standardized field mapping
+                        let fields = ['id', 'status'];
 
-                    results.push({
-                        id: item.id,
-                        collection: fav.collection,
-                        favorite_id: fav.id,
-                        favorite_date: fav.date_created,
-                        title: item.title || item.name,
-                        slug: item.slug,
-                        status: item.status,
-                        date_created: item.date_created,
-                    });
-                } catch (e) {
-                    console.warn(`Failed to load ${fav.collection}:${fav.item_id}`);
+                        // Collection-specific field mapping
+                        const fieldMappings = {
+                            'projects': {
+                                title: 'title',
+                                image: 'featured_image',
+                                summary: 'summary',
+                                slug: 'slug',
+                                date: 'date_created',
+                                current_stage: 'current_stage',
+                                current_status: 'current_status.name',
+                                contract_value_usd: 'contract_value_usd',
+                                location: 'location',
+                                // Additional fields for projects
+                                countries: 'countries.countries_id.*',
+                                sectors: 'sectors.sectors_id.*',
+                                regions: 'regions.regions_id.*'
+                            },
+                            'companies': {
+                                title: 'name',
+                                image: 'logo',
+                                summary: 'description',
+                                slug: 'slug',
+                                date: 'date_created',
+                                company_role: 'company_role',
+                                // Additional fields for companies
+                                countries: 'countries.countries_id.*',
+                                sectors: 'sectors.sectors_id.*'
+                            },
+                            'main_news': {
+                                title: 'title',
+                                image: 'featured_image',
+                                summary: 'summary',
+                                slug: 'slug',
+                                date: 'date_created',
+                            },
+                            'tenders': {
+                                title: 'title',
+                                image: 'featured_image',
+                                summary: 'summary',
+                                slug: 'slug',
+                                date: 'date_created',
+                                // Additional fields for tenders
+                                countries: 'countries.countries_id.*',
+                                sectors: 'sectors.sectors_id.*'
+                            },
+                            'experts_analysts': {
+                                title: 'name',
+                                image: 'photo',
+                                summary: 'bio',
+                                slug: 'slug',
+                                date: 'date_created',
+                            },
+                            'blog': {
+                                title: 'title',
+                                image: 'featured_image',
+                                summary: 'summary',
+                                slug: 'slug',
+                                date: 'date_created',
+                            }
+                        };
+
+                        // Add collection-specific fields
+                        const mapping = fieldMappings[fav.collection];
+                        if (mapping) {
+                            // Add all fields from mapping (remove duplicates)
+                            const additionalFields = Object.values(mapping);
+                            fields = [...new Set([...fields, ...additionalFields])];
+                        }
+
+                        console.log(`Fetching ${fav.collection} item ${fav.item_id} with fields:`, fields);
+
+                        const item = await itemService.readOne(fav.item_id, {
+                            fields: fields,
+                        });
+
+                        if (item) {
+                            // Helper function to flatten M2M relationships
+                            const flattenRelationships = (relationArray, idField = 'id') => {
+                                if (!relationArray || !Array.isArray(relationArray)) return [];
+
+                                return relationArray
+                                    .map(relationItem => {
+                                        const relatedObj = relationItem[`${idField}_id`] || relationItem;
+                                        if (!relatedObj || !relatedObj.id) return null;
+
+                                        return {
+                                            id: relatedObj.id,
+                                            name: relatedObj.name || 'Unnamed',
+                                            slug: relatedObj.slug,
+                                        };
+                                    })
+                                    .filter(Boolean);
+                            };
+
+                            // Helper function to safely get field values
+                            const getFieldValue = (obj, path) => {
+                                if (!path) return undefined;
+                                return path.split('.').reduce((acc, part) => acc?.[part], obj);
+                            };
+
+                            // Process relationships for different collection types
+                            let countries = [];
+                            let sectors = [];
+                            let regions = [];
+
+                            if (fav.collection === 'projects' || fav.collection === 'tenders' || fav.collection === 'companies') {
+                                countries = flattenRelationships(item.countries, 'countries');
+                                sectors = flattenRelationships(item.sectors, 'sectors');
+
+                                if (fav.collection === 'projects') {
+                                    regions = flattenRelationships(item.regions, 'regions');
+                                }
+                            }
+
+                            // Transform featured_image to include full URLs
+                            let imageData = getFieldValue(item, mapping?.image);
+                            if (imageData && typeof imageData === 'object' && imageData.id) {
+                                imageData = {
+                                    id: imageData.id,
+                                    url: `${process.env.PUBLIC_URL}/assets/${imageData.id}`,
+                                    thumbnail_url: `${process.env.PUBLIC_URL}/assets/${imageData.id}?width=400&height=300&fit=cover`,
+                                    title: imageData.title,
+                                    ...imageData
+                                };
+                            }
+
+                            // Create standardized response object
+                            const standardizedItem = {
+                                id: item.id,
+                                collection: fav.collection,
+                                favorite_id: fav.id,
+                                favorite_date: fav.date_created,
+                                title: getFieldValue(item, mapping?.title),
+                                image: imageData,
+                                summary: getFieldValue(item, mapping?.summary),
+                                slug: getFieldValue(item, mapping?.slug),
+                                status: item.status,
+                                date_created: getFieldValue(item, mapping?.date),
+                                // Collection-specific additional fields
+                                ...(fav.collection === 'projects' && {
+                                    current_stage: item.current_stage,
+                                    current_status: item.current_status,
+                                    contract_value_usd: item.contract_value_usd,
+                                    location: item.location,
+                                    countries: countries,
+                                    sectors: sectors,
+                                    regions: regions,
+                                }),
+                                ...(fav.collection === 'companies' && {
+                                    company_role: item.company_role,
+                                    employees: item.employees,
+                                    projects_completed: item.projects_completed,
+                                    countries: countries,
+                                    sectors: sectors,
+                                }),
+                                ...(fav.collection === 'tenders' && {
+                                    countries: countries,
+                                    sectors: sectors,
+                                }),
+                                ...(fav.collection === 'main_news' && {
+                                    category: item.is_trending ? 'Trending News' : 'Main News',
+                                }),
+                                ...(fav.collection === 'experts_analysts' && {
+                                    title_role: item.title,
+                                }),
+                                // Statistics for relationships
+                                ...((countries.length > 0 || sectors.length > 0 || regions.length > 0) && {
+                                    stats: {
+                                        ...(countries.length > 0 && { countries_count: countries.length }),
+                                        ...(sectors.length > 0 && { sectors_count: sectors.length }),
+                                        ...(regions.length > 0 && { regions_count: regions.length })
+                                    }
+                                })
+                            };
+
+                            // Clean up undefined fields
+                            Object.keys(standardizedItem).forEach(key => {
+                                if (standardizedItem[key] === undefined) {
+                                    delete standardizedItem[key];
+                                }
+                            });
+
+                            results.push(standardizedItem);
+                            console.log(`Added ${fav.collection} item to results:`, standardizedItem.title);
+                        } else {
+                            console.warn(`Item not found: ${fav.collection} - ${fav.item_id}`);
+                        }
+                    } catch (error) {
+                        console.warn(`Could not fetch ${fav.collection} item ${fav.item_id}:`, error.message);
+
+                        // Even if we can't fetch the item, we can still return basic favorite info
+                        results.push({
+                            id: fav.item_id,
+                            collection: fav.collection,
+                            favorite_id: fav.id,
+                            favorite_date: fav.date_created,
+                            title: `Item ${fav.item_id}`,
+                            status: 'unavailable',
+                            error: 'Item could not be loaded'
+                        });
+                    }
                 }
             }
 
+            console.log('Final results count:', results.length);
+
             return res.json({
                 success: true,
-                collection,
-                total,
-                limit: Number(limit),
-                offset: Number(offset),
+                collection: collection,
+                total: totalCount,
+                limit: parseInt(limit),
+                offset: parseInt(offset),
                 data: results,
             });
         } catch (error) {
