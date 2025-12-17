@@ -364,6 +364,9 @@ export default (router, { services, database, getSchema}) => {
             if (item.sectors && Array.isArray(item.sectors)) {
                 item.sectors = item.sectors.map(t => t.sectors_id).filter(Boolean);
             }
+            // if (item.related_projects && Array.isArray(item.related_projects)) {
+            //     item.related_projects = item.related_projects.map(t => t.projects_id).filter(Boolean);
+            // }
 
             // Handle favorites
             const { is_favorited, favorite_id } = accountability?.user
