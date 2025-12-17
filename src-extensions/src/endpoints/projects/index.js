@@ -372,6 +372,95 @@ export default (router, { services, exceptions, getSchema, database}) => {
         }
     });
 
+    router.get('/stats', async (req, res, next) => {
+        try {
+            const schema = await getSchema();
+            const { filter } = req.query;
+
+            // Validate filter parameter
+            const validFilters = ['type', 'sector', 'region'];
+            if (!filter || !validFilters.includes(filter)) {
+                return res.status(400).json({
+                    error: 'Invalid filter parameter. Must be one of: type, sector, region'
+                });
+            }
+
+            const projectsService = new ItemsService('projects', {
+                schema: schema,
+                accountability: req.accountability
+            });
+
+            // Get all projects with the relevant relations
+            const fieldMap = {
+                type: ['id', 'types.types_id.id', 'types.types_id.name', 'types.types_id.slug'],
+                sector: ['id', 'sectors.sectors_id.id', 'sectors.sectors_id.name', 'sectors.sectors_id.slug'],
+                region: ['id', 'regions.regions_id.id', 'regions.regions_id.name', 'regions.regions_id.slug']
+            };
+
+            const projects = await projectsService.readByQuery({
+                fields: fieldMap[filter],
+                limit: -1, // Get all projects
+                filter: {} // Empty filter object instead of undefined
+            });
+
+            // Get the relation key
+            const relationKey = filter === 'type' ? 'types' :
+                filter === 'sector' ? 'sectors' : 'regions';
+            const idKey = `${filter === 'type' ? 'types' :
+                filter === 'sector' ? 'sectors' : 'regions'}_id`;
+
+            // Count occurrences
+            const statsMap = new Map();
+            let totalRelations = 0;
+
+            projects.forEach(project => {
+                if (project[relationKey] && Array.isArray(project[relationKey])) {
+                    project[relationKey].forEach(rel => {
+                        if (rel[idKey]) {
+                            const item = rel[idKey];
+                            const key = item.id;
+
+                            if (!statsMap.has(key)) {
+                                statsMap.set(key, {
+                                    id: item.id,
+                                    name: item.name,
+                                    slug: item.slug || null,
+                                    count: 0
+                                });
+                            }
+
+                            statsMap.get(key).count++;
+                            totalRelations++;
+                        }
+                    });
+                }
+            });
+
+            // Convert to array and calculate percentages
+            const stats = Array.from(statsMap.values())
+                .map(stat => ({
+                    ...stat,
+                    percentage: totalRelations > 0
+                        ? Math.round((stat.count / totalRelations) * 100 * 10) / 10
+                        : 0
+                }))
+                .sort((a, b) => b.count - a.count); // Sort by count descending
+
+            return res.json({
+                data: {
+                    filter: filter,
+                    total_projects: projects.length,
+                    total_relations: totalRelations,
+                    stats: stats
+                }
+            });
+
+        } catch (error) {
+            console.error('Project stats error:', error);
+            next(error);
+        }
+    });
+
     router.get('/:id', async (req, res, next) => {
         try {
             const schema = await getSchema();
@@ -529,6 +618,7 @@ export default (router, { services, exceptions, getSchema, database}) => {
             next(error);
         }
     });
+
 
     router.get('/public/recent', async (req, res, next) => {
         try {
