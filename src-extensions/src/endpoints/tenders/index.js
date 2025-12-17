@@ -259,6 +259,92 @@ export default (router, { services, database, getSchema}) => {
         }
     });
 
+    router.get('/stats/filters', async (req, res, next) => {
+        try {
+            const schema = await getSchema();
+            const { q } = req.query;
+
+            // Validate filter parameter
+            const validFilters = ['sector', 'region'];
+            if (!q || !validFilters.includes(q)) {
+                return res.status(400).json({
+                    error: 'Invalid filter parameter. Must be one of: sector, region'
+                });
+            }
+
+            const itemService = new ItemsService('tenders', {
+                schema: schema,
+                accountability: req.accountability
+            });
+
+            // Get all projects with the relevant relations
+            const fieldMap = {
+                sector: 'sectors.sectors_id.*',
+                region: 'regions.regions_id.*'
+            };
+
+            const items = await itemService.readByQuery({
+                fields: ['id', fieldMap[q]],
+                limit: -1 // Get all items
+            });
+
+            // Get the relation key
+            const relationKey = q === 'sector' ? 'sectors' : 'regions';
+            const idKey = `${q === 'type' ? 'types' :
+                q === 'sector' ? 'sectors' : 'regions'}_id`;
+
+            // Count occurrences
+            const statsMap = new Map();
+            let totalItems = 0;
+
+            items.forEach(data => {
+                if (data[relationKey] && Array.isArray(data[relationKey])) {
+                    data[relationKey].forEach(rel => {
+                        if (rel[idKey]) {
+                            const item = rel[idKey];
+                            const key = item.id;
+
+                            if (!statsMap.has(key)) {
+                                statsMap.set(key, {
+                                    id: item.id,
+                                    name: item.name,
+                                    slug: item.slug || null,
+                                    count: 0
+                                });
+                            }
+
+                            statsMap.get(key).count++;
+                            totalItems++;
+                        }
+                    });
+                }
+            });
+
+            // Convert to array and calculate percentages
+            const stats = Array.from(statsMap.values())
+                .map(stat => ({
+                    ...stat,
+                    percentage: totalItems > 0
+                        ? Math.round((stat.count / totalItems) * 100 * 10) / 10
+                        : 0
+                }))
+                .sort((a, b) => b.count - a.count); // Sort by count descending
+
+            return res.json({
+                data: {
+                    filter: q,
+                    total: items.length,
+                    stats: stats
+                }
+            });
+
+        } catch (error) {
+            console.error('item stats error:', error);
+            next(error);
+        }
+    });
+
+
     router.get('/:id', async (req, res, next) => {
         try {
             const schema = await getSchema();
