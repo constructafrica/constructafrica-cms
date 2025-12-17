@@ -372,14 +372,14 @@ export default (router, { services, exceptions, getSchema, database}) => {
         }
     });
 
-    router.get('/stats', async (req, res, next) => {
+    router.get('/stats/filters', async (req, res, next) => {
         try {
             const schema = await getSchema();
-            const { filter } = req.query;
+            const { q } = req.query;
 
             // Validate filter parameter
             const validFilters = ['type', 'sector', 'region'];
-            if (!filter || !validFilters.includes(filter)) {
+            if (!q || !validFilters.includes(q)) {
                 return res.status(400).json({
                     error: 'Invalid filter parameter. Must be one of: type, sector, region'
                 });
@@ -392,26 +392,25 @@ export default (router, { services, exceptions, getSchema, database}) => {
 
             // Get all projects with the relevant relations
             const fieldMap = {
-                type: ['id', 'types.types_id.id', 'types.types_id.name', 'types.types_id.slug'],
-                sector: ['id', 'sectors.sectors_id.id', 'sectors.sectors_id.name', 'sectors.sectors_id.slug'],
-                region: ['id', 'regions.regions_id.id', 'regions.regions_id.name', 'regions.regions_id.slug']
+                type: 'types.types_id.*',
+                sector: 'sectors.sectors_id.*',
+                region: 'regions.regions_id.*'
             };
 
             const projects = await projectsService.readByQuery({
-                fields: fieldMap[filter],
-                limit: -1, // Get all projects
-                filter: {} // Empty filter object instead of undefined
+                fields: ['id', fieldMap[q]],
+                limit: -1 // Get all projects
             });
 
             // Get the relation key
-            const relationKey = filter === 'type' ? 'types' :
-                filter === 'sector' ? 'sectors' : 'regions';
-            const idKey = `${filter === 'type' ? 'types' :
-                filter === 'sector' ? 'sectors' : 'regions'}_id`;
+            const relationKey = q === 'type' ? 'types' :
+                q === 'sector' ? 'sectors' : 'regions';
+            const idKey = `${q === 'type' ? 'types' :
+                q === 'sector' ? 'sectors' : 'regions'}_id`;
 
             // Count occurrences
             const statsMap = new Map();
-            let totalRelations = 0;
+            let totalProjects = 0;
 
             projects.forEach(project => {
                 if (project[relationKey] && Array.isArray(project[relationKey])) {
@@ -430,7 +429,7 @@ export default (router, { services, exceptions, getSchema, database}) => {
                             }
 
                             statsMap.get(key).count++;
-                            totalRelations++;
+                            totalProjects++;
                         }
                     });
                 }
@@ -440,17 +439,17 @@ export default (router, { services, exceptions, getSchema, database}) => {
             const stats = Array.from(statsMap.values())
                 .map(stat => ({
                     ...stat,
-                    percentage: totalRelations > 0
-                        ? Math.round((stat.count / totalRelations) * 100 * 10) / 10
+                    percentage: totalProjects > 0
+                        ? Math.round((stat.count / totalProjects) * 100 * 10) / 10
                         : 0
                 }))
                 .sort((a, b) => b.count - a.count); // Sort by count descending
 
             return res.json({
                 data: {
-                    filter: filter,
+                    filter: q,
                     total_projects: projects.length,
-                    total_relations: totalRelations,
+                    total_relations: totalProjects,
                     stats: stats
                 }
             });
