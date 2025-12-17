@@ -411,6 +411,9 @@ export default (router, { services, exceptions, getSchema, database}) => {
                     'contacts.company_contacts_id.id',
                     'contacts.company_contacts_id.name',
                     'contacts.company_contacts_id.company',
+                    'contacts.company_contacts_id.company.id',
+                    'contacts.company_contacts_id.company.name',
+                    'contacts.company_contacts_id.company.email',
                     'contacts.company_contacts_id.email',
                     'contacts.company_contacts_id.phone',
                     'featured_image.*',
@@ -467,7 +470,11 @@ export default (router, { services, exceptions, getSchema, database}) => {
                     .map(pc => ({
                         id: pc.company_contacts_id.id,
                         name: pc.company_contacts_id.name || null,
-                        company: pc.company_contacts_id.company || null,
+                        company: {
+                            id: pc.company_contacts_id.company.id || null,
+                            name: pc.company_contacts_id.company.name || null,
+                            email: pc.company_contacts_id.company.email || null,
+                        },
                         email: pc.company_contacts_id.email || null,
                         phone: pc.company_contacts_id.phone || null,
                         role: pc.company_contacts_id.role || null,

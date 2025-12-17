@@ -207,7 +207,7 @@ export default (router, { services, database, getSchema}) => {
                 data: item
             });
         } catch (error) {
-            console.error('Tender by ID error:', error);
+            console.error('Opinion by ID error:', error);
             next(error);
         }
     });
