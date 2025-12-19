@@ -252,7 +252,7 @@ export default (router, { services, exceptions, env, logger }) => {
 
             try {
                 const { data, error } = await resend.emails.send({
-                    from: 'onboarding@resend.dev',
+                    from: env.EMAIL_FROM,
                     to: email,
                     subject: 'Verify your email address',
                     html: `
@@ -646,7 +646,7 @@ export default (router, { services, exceptions, env, logger }) => {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+                        from: env.EMAIL_FROM || 'onboarding@resend.dev',
                         to: email,
                         subject: 'Reset Your Password',
                         html: `
