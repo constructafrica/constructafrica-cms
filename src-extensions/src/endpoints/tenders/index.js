@@ -375,11 +375,18 @@ export default (router, { services, database, getSchema}) => {
                     'created_by.first_name',
                     'created_by.last_name',
                     'created_by.email',
+                    'created_by.facebook_url',
+                    'created_by.linkedin_url',
+                    'created_by.twitter_handle',
                     'created_by.avatar',
                     'created_by.avatar.id',
                     'created_by.avatar.filename_disk',
                     'created_by.avatar.title',
                     'created_by.avatar.filesize',
+
+                    'related_companies.companies_id.id',
+                    'related_companies.companies_id.name',
+                    'related_companies.companies_id.email',
 
                     'featured_image.*',
                 ]

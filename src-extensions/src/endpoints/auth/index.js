@@ -5,7 +5,6 @@ import { Resend } from 'resend';
 
 export default (router, { services, exceptions, env, logger }) => {
     const { UsersService, MailService } = services;
-    // const { InvalidPayloadException, ForbiddenException } = exceptions;
 
     // Helper function to generate verification token
     function generateVerificationToken() {

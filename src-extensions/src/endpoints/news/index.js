@@ -402,7 +402,6 @@ export default (router, { services, database, getSchema}) => {
 
                     'related_companies.companies_id.id',
                     'related_companies.companies_id.name',
-                    // 'related_companies.companies_id.summary',
                     'related_companies.companies_id.email',
                     'related_companies.companies_id.countries.countries_id.id',
                     'related_companies.companies_id.countries.countries_id.name',

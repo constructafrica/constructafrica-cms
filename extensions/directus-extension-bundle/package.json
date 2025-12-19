@@ -62,8 +62,13 @@
 			},
 			{
 				"type": "endpoint",
-				"name": "ca-users",
-				"source": "src/endpoints/ca-users/index.js"
+				"name": "ca-user",
+				"source": "src/endpoints/ca-user/index.js"
+			},
+			{
+				"type": "endpoint",
+				"name": "comments",
+				"source": "src/endpoints/comments/index.js"
 			},
 			{
 				"type": "endpoint",
@@ -115,6 +120,7 @@
 		"vue": "^3.5.13"
 	},
 	"dependencies": {
+		"multer": "^2.0.2",
 		"resend": "^6.5.2",
 		"stripe": "^19.3.1"
 	}
