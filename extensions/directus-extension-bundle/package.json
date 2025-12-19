@@ -67,8 +67,8 @@
 			},
 			{
 				"type": "endpoint",
-				"name": "comments",
-				"source": "src/endpoints/comments/index.js"
+				"name": "ca-comments",
+				"source": "src/endpoints/ca-comments/index.js"
 			},
 			{
 				"type": "endpoint",
