@@ -186,7 +186,7 @@ export default (router, { services, exceptions, env, logger }) => {
     router.post('/register', async (req, res) => {
         logger.info('🚀 Custom register endpoint called - using Resend');
         try {
-            const { email, password, first_name, last_name } = req.body;
+            const { email, password, first_name, last_name, intent } = req.body;
 
             // Validate required fields
             if (!email || !password) {
@@ -241,8 +241,10 @@ export default (router, { services, exceptions, env, logger }) => {
 
             logger.info(`✅ User created with ID: ${user}`);
 
+            const frontendUrl = "https://staging.constructafrica.com";
+
             // Send verification email
-            const verificationUrl = `${env.PUBLIC_URL}/verify-email?token=${verificationToken}`;
+            const verificationUrl = `${frontendUrl}/verify-email?token=${verificationToken}&intent=${intent || ''}`;
 
             const resend = new Resend(env.EMAIL_SMTP_PASSWORD);
 
