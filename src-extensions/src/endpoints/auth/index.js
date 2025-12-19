@@ -292,7 +292,7 @@ export default (router, { services, exceptions, env, logger }) => {
                 });
 
                 // Optional: Delete the user if email fails
-                // await usersService.deleteOne(user);
+                await usersService.deleteOne(user);
 
                 return res.status(500).json({
                     success: false,
