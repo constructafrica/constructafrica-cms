@@ -179,7 +179,11 @@ export default (router, { services, env, logger, getSchema}) => {
                     'job_title',
                     'phone',
                     'subscription_start',
+                    'subscription_status',
                     'subscription_expiry',
+                    'active_subscription.id',
+                    'active_subscription.name',
+                    'active_subscription.slug',
                     'status',
                     'role.id',
                     'role.name',
@@ -196,13 +200,13 @@ export default (router, { services, env, logger, getSchema}) => {
             const policies = req.accountability?.permissions || [];
 
             // 🔑 Subscription status logic
-            let active_subscription = false;
+            // let active_subscription = false;
 
-            if (user.subscription_expiry) {
-                const now = new Date();
-                const expiryDate = new Date(user.subscription_expiry);
-                active_subscription = expiryDate > now;
-            }
+            // if (user.subscription_expiry) {
+            //     const now = new Date();
+            //     const expiryDate = new Date(user.subscription_expiry);
+            //     active_subscription = expiryDate > now;
+            // }
 
             return res.json({
                 success: true,
@@ -226,10 +230,11 @@ export default (router, { services, env, logger, getSchema}) => {
                         : null,
 
                     policies,
-                    active_subscription,
                     subscription: {
-                        start: user.subscription_start,
-                        expiry: user.subscription_expiry
+                        plan: user.active_subscription || null,
+                        start: user.subscription_start || null,
+                        expiry: user.subscription_expiry || null,
+                        status: user.subscription_status,
                     }
                 }
             });

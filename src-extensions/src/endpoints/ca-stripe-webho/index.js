@@ -6,11 +6,10 @@ export default (router, { services, exceptions, env, logger, getSchema }) => {
     const stripe = new Stripe(env.STRIPE_SECRET_KEY);
     const endpointSecret = env.STRIPE_WEBHOOK_SECRET
 
-    router.post('/', async (req, res) => {
+    router.post('/', express.raw({ type: 'application/json' }), async (req, res) => {
         // MAIN DIFFERENCE WITH STRIPE EXAMPLE
         let event = req.rawBody
         // Only verify the event if you have an endpoint secret defined.
-        // Otherwise use the basic event deserialized with JSON.parse
         if (endpointSecret) {
             // Get the signature sent by Stripe
             const signature = req.headers['stripe-signature']
