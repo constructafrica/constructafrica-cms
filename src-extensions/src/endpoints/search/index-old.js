@@ -56,7 +56,7 @@ export default (router, context) => {
         },
         experts_analysts: {
             fields: ['title', 'id', 'slug', 'bio', 'status', 'date_created'],
-            searchFields: ['title'],
+            searchFields: ['title', 'bio'],
             displayFields: {
                 id: "id",
                 title: 'title',
@@ -313,30 +313,6 @@ export default (router, context) => {
     // HELPER FUNCTIONS
     // ============================================
 
-    /**
-     * Split query into individual words and create OR conditions
-     * "dangote starling" becomes: search for "dangote" OR "starling"
-     */
-    function buildMultiWordSearchFilter(config, query) {
-        // Split the query into individual words (filter out empty strings)
-        const words = query.trim().split(/\s+/).filter(word => word.length > 0);
-
-        console.log(`[SEARCH] Split query into words:`, words);
-
-        // Create OR conditions for each word across all search fields
-        const orConditions = [];
-
-        words.forEach(word => {
-            config.searchFields.forEach(field => {
-                orConditions.push({
-                    [field]: { _icontains: word }
-                });
-            });
-        });
-
-        return { _or: orConditions };
-    }
-
     async function searchCollection(collection, query, limit, offset, schema, accountability) {
         try {
             const config = searchableCollections[collection];
@@ -345,8 +321,12 @@ export default (router, context) => {
                 accountability: accountability,
             });
 
-            // Build search filter with multi-word support
-            const searchFilter = buildMultiWordSearchFilter(config, query);
+            // Build search filter with case-insensitive partial matching
+            const searchFilter = {
+                _or: config.searchFields.map(field => ({
+                    [field]: { _icontains: query }
+                }))
+            };
 
             // Try with status filter first
             let filter = {

@@ -72,6 +72,11 @@
 			},
 			{
 				"type": "endpoint",
+				"name": "ca-stripe-webho",
+				"source": "src/endpoints/ca-stripe-webho/index.js"
+			},
+			{
+				"type": "endpoint",
 				"name": "test",
 				"source": "src/endpoints/test/index.js"
 			},
@@ -94,6 +99,11 @@
 				"type": "hook",
 				"name": "project-news-hook",
 				"source": "src/hooks/project-news-hook/index.js"
+			},
+			{
+				"type": "hook",
+				"name": "stripe-webhook-middleware",
+				"source": "src/hooks/stripe-webhook-middleware/index.js"
 			},
 			{
 				"type": "interface",
@@ -120,6 +130,7 @@
 		"vue": "^3.5.13"
 	},
 	"dependencies": {
+		"express": "^5.2.1",
 		"multer": "^2.0.2",
 		"resend": "^6.5.2",
 		"stripe": "^19.3.1"

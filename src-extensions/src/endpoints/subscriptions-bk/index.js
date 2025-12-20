@@ -675,7 +675,6 @@ export default (router, { services, env, logger, getSchema, database }) => {
         const sig = req.headers['stripe-signature'];
         const stripe = new Stripe(env.STRIPE_SECRET_KEY);
 
-
         let event;
 
         try {
@@ -718,17 +717,15 @@ export default (router, { services, env, logger, getSchema, database }) => {
                     };
 
                     // Handle subscription
-                    if (session.mode === 'subscription') {
-                        updateData.stripe_subscription_id = session.subscription;
-                        updateData.subscription_status = 'active';
+                    updateData.stripe_subscription_id = session.subscription;
+                    updateData.subscription_status = 'active';
 
-                        // Fetch subscription details for period dates
-                        const subscription = await stripe.subscriptions.retrieve(session.subscription);
-                        updateData.subscription_period_start = new Date(subscription.current_period_start * 1000);
-                        updateData.subscription_period_end = new Date(subscription.current_period_end * 1000);
-                        updateData.amount = subscription.items.data[0].price.unit_amount / 100;
-                        updateData.currency = subscription.currency;
-                    }
+                    // Fetch subscription details for period dates
+                    const subscription = await stripe.subscriptions.retrieve(session.subscription);
+                    updateData.subscription_period_start = new Date(subscription.current_period_start * 1000);
+                    updateData.subscription_period_end = new Date(subscription.current_period_end * 1000);
+                    updateData.amount = subscription.items.data[0].price.unit_amount / 100;
+                    updateData.currency = subscription.currency;
 
                     await transactionsService.updateOne(transactions[0].id, updateData);
                     logger.info(`Transaction updated: ${transactions[0].id} - Status: completed`);
@@ -769,98 +766,6 @@ export default (router, { services, env, logger, getSchema, database }) => {
                             }
                         });
                         logger.info(`Payment failed for transaction: ${transactions[0].id}`);
-                    }
-                    break;
-                }
-
-                case 'customer.subscription.updated': {
-                    const subscription = event.data.object;
-
-                    const transactions = await transactionsService.readByQuery({
-                        filter: { stripe_subscription_id: { _eq: subscription.id } },
-                        limit: 1
-                    });
-
-                    if (transactions.length > 0) {
-                        await transactionsService.updateOne(transactions[0].id, {
-                            subscription_status: subscription.status,
-                            subscription_period_start: new Date(subscription.current_period_start * 1000),
-                            subscription_period_end: new Date(subscription.current_period_end * 1000)
-                        });
-                        logger.info(`Subscription updated: ${transactions[0].id} - Status: ${subscription.status}`);
-                    }
-                    break;
-                }
-
-                case 'customer.subscription.deleted': {
-                    const subscription = event.data.object;
-
-                    const transactions = await transactionsService.readByQuery({
-                        filter: { stripe_subscription_id: { _eq: subscription.id } },
-                        limit: 1
-                    });
-
-                    if (transactions.length > 0) {
-                        await transactionsService.updateOne(transactions[0].id, {
-                            subscription_status: 'cancelled'
-                        });
-                        logger.info(`Subscription cancelled: ${transactions[0].id}`);
-                    }
-                    break;
-                }
-
-                case 'invoice.payment_succeeded': {
-                    const invoice = event.data.object;
-
-                    // Handle recurring subscription payments
-                    if (invoice.subscription) {
-                        const transactions = await transactionsService.readByQuery({
-                            filter: { stripe_subscription_id: { _eq: invoice.subscription } },
-                            limit: 1
-                        });
-
-                        if (transactions.length > 0) {
-                            // Create a new transaction record for the recurring payment
-                            await transactionsService.createOne({
-                                user: transactions[0].user,
-                                stripe_customer_id: invoice.customer,
-                                stripe_subscription_id: invoice.subscription,
-                                stripe_payment_intent_id: invoice.payment_intent,
-                                amount: invoice.amount_paid / 100,
-                                currency: invoice.currency,
-                                status: 'completed',
-                                payment_type: 'subscription',
-                                subscription_status: 'active',
-                                metadata: {
-                                    invoice_id: invoice.id,
-                                    billing_reason: invoice.billing_reason
-                                }
-                            });
-                            logger.info(`Recurring payment recorded for subscription: ${invoice.subscription}`);
-                        }
-                    }
-                    break;
-                }
-
-                case 'invoice.payment_failed': {
-                    const invoice = event.data.object;
-
-                    if (invoice.subscription) {
-                        const transactions = await transactionsService.readByQuery({
-                            filter: { stripe_subscription_id: { _eq: invoice.subscription } },
-                            limit: 1
-                        });
-
-                        if (transactions.length > 0) {
-                            await transactionsService.updateOne(transactions[0].id, {
-                                subscription_status: 'past_due',
-                                metadata: {
-                                    ...transactions[0].metadata,
-                                    last_payment_error: invoice.last_payment_error?.message
-                                }
-                            });
-                            logger.warn(`Payment failed for subscription: ${invoice.subscription}`);
-                        }
                     }
                     break;
                 }
