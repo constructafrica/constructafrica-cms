@@ -193,6 +193,7 @@ export default (router, { services, env, logger, getSchema}) => {
                     'status',
                     'role.id',
                     'role.name',
+                    'role.slug',
                     'avatar.id',
                 ]
             });
@@ -223,6 +224,7 @@ export default (router, { services, env, logger, getSchema}) => {
                         ? {
                             id: user.role.id,
                             name: user.role.name,
+                            slug: user.role.slug,
                         }
                         : null,
 
