@@ -228,12 +228,20 @@ export default {
       loadingCompanies.value = true;
 
       try {
+        // Split search query into individual words
+        const words = searchQuery.trim().split(/\s+/).filter(word => word.length > 0);
+
+        // Build OR conditions for each word
+        const orConditions = words.map(word => ({
+          name: { _icontains: word }
+        }));
+
         const response = await api.get('/items/companies', {
           params: {
             fields: ['id', 'name', 'email'],
             limit: 50,
             filter: {
-              name: { _icontains: searchQuery }
+              _or: orConditions
             },
             sort: ['name'],
           },

@@ -1,4 +1,6 @@
 import { Stripe } from "stripe";
+import express from "express";
+// const express = require('express');
 
 export default (router, { services, exceptions, env, logger, getSchema }) => {
     const { ItemsService } = services
@@ -8,7 +10,7 @@ export default (router, { services, exceptions, env, logger, getSchema }) => {
 
     router.post('/', express.raw({ type: 'application/json' }), async (req, res) => {
         // MAIN DIFFERENCE WITH STRIPE EXAMPLE
-        let event = req.rawBody
+        let event;
         // Only verify the event if you have an endpoint secret defined.
         if (endpointSecret) {
             // Get the signature sent by Stripe

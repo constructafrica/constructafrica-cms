@@ -163,8 +163,11 @@ export default (router, { services, env, logger, getSchema}) => {
 
             const userId = req.accountability.user;
 
+            // Use services from context, not direct import
+            const { UsersService } = services;
+
             const usersService = new UsersService({
-                schema: req.schema,
+                schema: await getSchema(),
                 accountability: req.accountability
             });
 
@@ -198,15 +201,6 @@ export default (router, { services, env, logger, getSchema}) => {
 
             // Resolve permissions from accountability
             const policies = req.accountability?.permissions || [];
-
-            // 🔑 Subscription status logic
-            // let active_subscription = false;
-
-            // if (user.subscription_expiry) {
-            //     const now = new Date();
-            //     const expiryDate = new Date(user.subscription_expiry);
-            //     active_subscription = expiryDate > now;
-            // }
 
             return res.json({
                 success: true,
@@ -242,17 +236,17 @@ export default (router, { services, env, logger, getSchema}) => {
         } catch (error) {
             logger.error('❌ Get /me error:', {
                 message: error.message,
-                stack: error.stack
+                stack: error.stack,
+                userId: req.accountability?.user
             });
 
             return res.status(500).json({
                 success: false,
-                message: 'Failed to retrieve user information'
+                message: 'Failed to retrieve user information',
+                error: error.message // Include error message for debugging
             });
         }
     });
-
-
 
     router.get('/editors', async (req, res, next) => {
         try {
