@@ -101,11 +101,6 @@
 				"source": "src/hooks/project-news-hook/index.js"
 			},
 			{
-				"type": "hook",
-				"name": "stripe-webhook-middleware",
-				"source": "src/hooks/stripe-webhook-middleware/index.js"
-			},
-			{
 				"type": "interface",
 				"name": "project-companies-selector",
 				"source": "src/interfaces/project-companies-selector/index.js"

@@ -1,4 +1,4 @@
-// const express = require('express')
+const express = require('express')
 // module.exports = function registerHook({ init }) {
 //     init('middlewares.before', async function ({ app }) {
 //         app.use(
@@ -14,18 +14,19 @@
 //         )
 //     })
 // }
-const express = require('express')
+
 module.exports = function registerHook({ init }) {
     init('middlewares.before', async function ({ app }) {
-        app.use(
-            express.json({
-                verify: (req, res, buf) => {
-                    // ONLY capture raw body for Stripe webhook
-                    if (req.originalUrl.startsWith('/ca-stripe-webho')) {
-                        req.rawBody = buf.toString();
-                    }
-                },
-            })
+        // Use raw body parser specifically for Stripe webhook
+        app.use('/ca-stripe-webho',
+            express.raw({ type: 'application/json' }),
+            (req, res, next) => {
+                req.rawBody = req.body.toString('utf8');
+                next();
+            }
         );
+
+        // JSON parser for everything else
+        app.use(express.json());
     });
 }

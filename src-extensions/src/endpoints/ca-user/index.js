@@ -151,9 +151,9 @@ export default (router, { services, env, logger, getSchema}) => {
     });
 
     // Get current user's avatar URL - requires authentication
-    router.get('/me/avatar', async (req, res) => {
+    router.get('/me', async (req, res) => {
         try {
-            // Check if user is authenticated
+            // Ensure authentication
             if (!req.accountability || !req.accountability.user) {
                 return res.status(401).json({
                     success: false,
@@ -168,45 +168,86 @@ export default (router, { services, env, logger, getSchema}) => {
                 accountability: req.accountability
             });
 
-            // Get user with avatar
+            // Fetch user with role + avatar
             const user = await usersService.readOne(userId, {
-                fields: ['id', 'email', 'first_name', 'last_name', 'avatar.*']
+                fields: [
+                    'id',
+                    'email',
+                    'first_name',
+                    'last_name',
+                    'company',
+                    'job_title',
+                    'phone',
+                    'subscription_start',
+                    'subscription_expiry',
+                    'status',
+                    'role.id',
+                    'role.name',
+                    'avatar.id',
+                ]
             });
 
-            if (!user.avatar) {
-                return res.json({
-                    success: true,
-                    message: 'No avatar set',
-                    data: {
-                        avatar: null
-                    }
-                });
-            }
+            // Build avatar URL safely
+            const avatar = user.avatar?.id
+                ? `${env.PUBLIC_URL}/assets/${user.avatar.id}`
+                : null;
 
-            // Construct avatar URL
-            const avatarUrl = `${env.PUBLIC_URL}/assets/${user.avatar.id}`;
+            // Resolve permissions from accountability
+            const policies = req.accountability?.permissions || [];
+
+            // 🔑 Subscription status logic
+            let active_subscription = false;
+
+            if (user.subscription_expiry) {
+                const now = new Date();
+                const expiryDate = new Date(user.subscription_expiry);
+                active_subscription = expiryDate > now;
+            }
 
             return res.json({
                 success: true,
                 data: {
-                    avatar: {
-                        id: user.avatar.id,
-                        url: avatarUrl,
-                        filename: user.avatar.filename_download,
-                        type: user.avatar.type,
-                        filesize: user.avatar.filesize
+                    id: user.id,
+                    email: user.email,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    company: user.company,
+                    job_title: user.job_title,
+                    phone: user.phone,
+                    status: user.status,
+
+                    avatar,
+
+                    role: user.role
+                        ? {
+                            id: user.role.id,
+                            name: user.role.name,
+                        }
+                        : null,
+
+                    policies,
+                    active_subscription,
+                    subscription: {
+                        start: user.subscription_start,
+                        expiry: user.subscription_expiry
                     }
                 }
             });
 
         } catch (error) {
-            logger.error('❌ Get avatar error:', error);
+            logger.error('❌ Get /me error:', {
+                message: error.message,
+                stack: error.stack
+            });
+
             return res.status(500).json({
                 success: false,
-                message: 'Failed to retrieve avatar'
+                message: 'Failed to retrieve user information'
             });
         }
     });
+
+
 
     router.get('/editors', async (req, res, next) => {
         try {
