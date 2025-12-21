@@ -72,11 +72,6 @@
 			},
 			{
 				"type": "endpoint",
-				"name": "ca-stripe-webho",
-				"source": "src/endpoints/ca-stripe-webho/index.js"
-			},
-			{
-				"type": "endpoint",
 				"name": "test",
 				"source": "src/endpoints/test/index.js"
 			},
@@ -89,6 +84,11 @@
 				"type": "hook",
 				"name": "favorites-counter",
 				"source": "src/hooks/favorites-counter/index.js"
+			},
+			{
+				"type": "hook",
+				"name": "stripe-webhook",
+				"source": "src/hooks/stripe-webhook/index.js"
 			},
 			{
 				"type": "hook",
@@ -125,6 +125,7 @@
 		"vue": "^3.5.13"
 	},
 	"dependencies": {
+		"body-parser": "^2.2.1",
 		"express": "^5.2.1",
 		"multer": "^2.0.2",
 		"resend": "^6.5.2",
