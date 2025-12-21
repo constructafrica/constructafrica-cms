@@ -63,7 +63,8 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
             }
         } else {
             logger.warn('⚠️ No STRIPE_WEBHOOK_SECRET - signature verification disabled');
-            event = JSON.parse(rawBody);
+            throw { message: `Webhook signature verification failed`, status: 400 };
+            // event = JSON.parse(rawBody);
         }
 
         // Process the webhook event
@@ -126,13 +127,14 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
                     const userEmail = user.email;
                     const periodStart = new Date();
                     const periodEnd = new Date(periodStart);
+                    const billingPeriod = session?.metadata?.billing_period;
 
-                    if (transaction.billing_period === 'yearly') {
+                    if (billingPeriod === 'yearly') {
                         periodEnd.setFullYear(periodEnd.getFullYear() + 1);
-                    } else if (transaction.billing_period === 'monthly') {
+                    } else if (billingPeriod === 'monthly') {
                         periodEnd.setMonth(periodEnd.getMonth() + 1);
                     } else {
-                        logger.warn(`⚠️ Unknown billing_period: ${transaction.billing_period}, defaulting to monthly`);
+                        logger.warn(`⚠️ Unknown billing_period: ${billingPeriod}, defaulting to monthly`);
                         periodEnd.setMonth(periodEnd.getMonth() + 1);
                     }
 
@@ -150,7 +152,6 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
                         limit: 1,
                     });
 
-                    const billingPeriod = session?.metadata?.billing_period;
                     const subscriptionData = {
                         user: transaction.user_created,
                         plan: transaction.payable_id,
@@ -161,13 +162,22 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
                         cancel_at_period_end: false,
                     };
 
+                    let subscriptionModel;
+
                     if (existingSubscriptions.length > 0) {
-                        await subscriptionsService.updateOne(existingSubscriptions[0].id, subscriptionData);
+                        subscriptionModel = await subscriptionsService.updateOne(existingSubscriptions[0].id, subscriptionData);
                         logger.info(`✅ Subscription updated: ${existingSubscriptions[0].id}`);
                     } else {
-                        const newSub = await subscriptionsService.createOne(subscriptionData);
-                        logger.info(`✅ New subscription created: ${newSub.id}`);
+                        subscriptionModel = await subscriptionsService.createOne(subscriptionData);
+                        logger.info(`✅ New subscription created: ${subscriptionModel.id}`);
                     }
+
+                    await usersService.updateOne(user.id, {
+                        subscription_status: 'active',
+                        subscription_start: periodStart,
+                        subscription_expiry: periodEnd,
+                        active_subscription: subscriptionModel.id,
+                    });
 
                     await transactionsService.updateOne(transaction.id, transactionUpdate);
                     logger.info(`✅ Transaction updated: ${transaction.id} - Status: completed`);
@@ -283,9 +293,6 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
                             stack: emailError.stack,
                             fullError: JSON.stringify(emailError, null, 2)
                         });
-
-                        // Optional: Delete the user if email fails
-                        await usersService.deleteOne(user);
 
                         return res.status(500).json({
                             success: false,
