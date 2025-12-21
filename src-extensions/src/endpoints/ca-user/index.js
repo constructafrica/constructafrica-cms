@@ -225,10 +225,10 @@ export default (router, { services, env, logger, getSchema}) => {
 
                     policies,
                     subscription: {
-                        // plan: user.subscription_plan || null,
+                        active: user.active_subscription || null,
                         start: user.subscription_start || null,
                         expiry: user.subscription_expiry || null,
-                        status: user.subscription_status,
+                        status: user.subscription_status || null,
                     }
                 }
             });

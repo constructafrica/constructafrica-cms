@@ -82,6 +82,10 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
             knex: database,
             schema
         });
+        const plansService = new ItemsService('subscription_plans', {
+            knex: database,
+            schema
+        });
 
 
         try {
@@ -103,6 +107,8 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
                     const transaction = transactions[0];
 
                     const resolvedUserId = transaction.user_created || session.metadata?.user_id;
+                    const resolvedPlanId = transaction.payable_id || session.metadata?.plan_id;
+
                     if (!resolvedUserId) {
                         logger.error('❌ Unable to resolve user for transaction', {
                             transaction_id: transaction.id,
@@ -146,6 +152,8 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
                         currency: session.currency,
                     };
 
+                    await transactionsService.updateOne(transaction.id, transactionUpdate);
+
                     // Create or update user_subscriptions record
                     const existingSubscriptions = await subscriptionsService.readByQuery({
                         filter: { status: { _eq: 'active' }, user: { _eq: transaction.user_created } },
@@ -172,16 +180,29 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
                         logger.info(`✅ New subscription created: ${subscriptionModel.id}`);
                     }
 
-                    await usersService.updateOne(user.id, {
+                    const plan = await plansService.readOne(resolvedPlanId, {
+                        fields: ['id', 'role']
+                    });
+
+                    if (!plan?.role) {
+                        logger.error('❌ Subscription plan has no role assigned', {
+                            plan_id: resolvedPlanId
+                        });
+                        throw new Error('Subscription plan role not configured');
+                    }
+
+                    const userUpdatePayload = {
                         subscription_status: 'active',
                         subscription_start: periodStart,
                         subscription_expiry: periodEnd,
                         active_subscription: subscriptionModel.id,
-                    });
+                    };
 
-                    await transactionsService.updateOne(transaction.id, transactionUpdate);
-                    logger.info(`✅ Transaction updated: ${transaction.id} - Status: completed`);
-                    logger.info(`Subscription period: ${periodStart.toISOString()} to ${periodEnd.toISOString()}`);
+                    if (user.role !== plan.role) {
+                        userUpdatePayload.role = plan.role;
+                    }
+
+                    await usersService.updateOne(user.id, userUpdatePayload);
 
                     const subscriptionType = 'News Subscription';
                     const billingPeriodFormatted = billingPeriod === 'yearly' ? 'Yearly' : 'Monthly';
