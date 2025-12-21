@@ -1,6 +1,7 @@
 import { defineHook } from '@directus/extensions-sdk';
 import bodyParser from 'body-parser';
 import Stripe from 'stripe';
+import {Resend} from "resend";
 
 export default defineHook(({ init }, { env, database, services, logger, getSchema }) => {
     init('middlewares.before', ({ app }) => {
@@ -85,7 +86,7 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
 
         // Process the webhook event
         const schema = await getSchema({ database });
-        const { ItemsService } = services;
+        const { ItemsService, UsersService } = services;
         const transactionsService = new ItemsService('transactions', {
             knex: database,
             schema
@@ -94,6 +95,11 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
             knex: database,
             schema
         });
+        const usersService = new UsersService({
+            knex: database,
+            schema
+        });
+
 
         try {
             switch (event.type) {
@@ -112,6 +118,30 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
                     }
 
                     const transaction = transactions[0];
+
+                    const resolvedUserId = transaction.user_created || session.metadata?.user_id;
+                    if (!resolvedUserId) {
+                        logger.error('❌ Unable to resolve user for transaction', {
+                            transaction_id: transaction.id,
+                            session_id: session.id
+                        });
+                        throw new Error('User could not be resolved for subscription');
+                    }
+
+                    let user;
+                    try {
+                        user = await usersService.readOne(resolvedUserId, {
+                            fields: ['id', 'email', 'first_name', 'last_name', 'subscription_status', 'subscription_expiry', 'subscription_start']
+                        });
+                    } catch (err) {
+                        logger.error('❌ Failed to fetch user for subscription', {
+                            user_id: resolvedUserId,
+                            error: err.message
+                        });
+                        throw err;
+                    }
+
+                    const userEmail = user.email;
                     const periodStart = new Date();
                     const periodEnd = new Date(periodStart);
 
@@ -138,13 +168,14 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
                         limit: 1,
                     });
 
+                    const billingPeriod = session?.metadata?.billing_period;
                     const subscriptionData = {
                         user: transaction.user_created,
                         plan: transaction.payable_id,
                         status: 'active',
                         start_date: periodStart,
                         end_date: periodEnd,
-                        billing_period: session.metadata.billing_period,
+                        billing_period: billingPeriod,
                         cancel_at_period_end: false,
                     };
 
@@ -159,6 +190,127 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
                     await transactionsService.updateOne(transaction.id, transactionUpdate);
                     logger.info(`✅ Transaction updated: ${transaction.id} - Status: completed`);
                     logger.info(`Subscription period: ${periodStart.toISOString()} to ${periodEnd.toISOString()}`);
+
+                    const subscriptionType = 'News Subscription';
+                    const billingPeriodFormatted = billingPeriod === 'yearly' ? 'Yearly' : 'Monthly';
+
+                    const expiryDateFormatted = periodEnd.toLocaleDateString('en-GB', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                    });
+
+                    const startDateFormatted = periodStart.toLocaleDateString('en-GB', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                    });
+
+                    const amountPaid = `${session.currency.toUpperCase()} ${(session.amount_total / 100).toFixed(2)}`;
+
+                    const resend = new Resend(env.EMAIL_SMTP_PASSWORD);
+                    try {
+                        const { data, error } = await resend.emails.send({
+                            from: env.EMAIL_FROM,
+                            to: userEmail,
+                            subject: 'Payment Successful – News Subscription Activated',
+                            html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #111827;">Payment Successful</h2>
+
+            <p>Hi ${user.first_name},</p>
+
+            <p>
+                Thank you for your payment! Your <strong>${subscriptionType}</strong>
+                has been successfully activated.
+            </p>
+
+            <hr style="margin: 24px 0;" />
+
+            <h3 style="margin-bottom: 8px;">Subscription Details</h3>
+
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Plan</strong></td>
+                    <td style="padding: 8px 0;">${subscriptionType}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Billing Period</strong></td>
+                    <td style="padding: 8px 0;">${billingPeriodFormatted}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Start Date</strong></td>
+                    <td style="padding: 8px 0;">${startDateFormatted}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Expiry Date</strong></td>
+                    <td style="padding: 8px 0;">${expiryDateFormatted}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Amount Paid</strong></td>
+                    <td style="padding: 8px 0;">${amountPaid}</td>
+                </tr>
+            </table>
+
+            <hr style="margin: 24px 0;" />
+
+            <p>
+                You now have full access to your news subscription benefits.
+                If you have any questions or need help, our support team is always here for you.
+            </p>
+
+            <p style="margin-top: 24px;">
+                <a
+                    href="${env.FRONTEND_URL}/dashboard"
+                    style="
+                        display: inline-block;
+                        padding: 12px 20px;
+                        background-color: #111827;
+                        color: #ffffff;
+                        text-decoration: none;
+                        border-radius: 6px;
+                        font-weight: bold;
+                    "
+                >
+                    Go to Dashboard
+                </a>
+            </p>
+
+            <p style="margin-top: 32px; font-size: 12px; color: #6b7280;">
+                If you did not authorize this payment, please contact support immediately.
+            </p>
+        </div>
+    `
+                        });
+
+                        if (error) {
+                            logger.error('❌ Resend API error details:', {
+                                message: error.message,
+                                name: error.name,
+                                statusCode: error.statusCode,
+                                fullError: JSON.stringify(error, null, 2)
+                            });
+                            throw error;
+                        }
+
+                        logger.info(`✅email sent successfully! Email ID: ${data.id}`);
+
+                    } catch (emailError) {
+                        logger.error('❌ Email sending failed:', {
+                            message: emailError.message,
+                            stack: emailError.stack,
+                            fullError: JSON.stringify(emailError, null, 2)
+                        });
+
+                        // Optional: Delete the user if email fails
+                        await usersService.deleteOne(user);
+
+                        return res.status(500).json({
+                            success: false,
+                            message: 'Registration successful but email verification could not be sent. Please contact support.',
+                            debug: emailError.message // Remove this in production
+                        });
+                    }
                     break;
                 }
 

@@ -246,12 +246,11 @@ export default (router, { services, exceptions, env, logger }) => {
             // Send verification email
             const verificationUrl = `${frontendUrl}/verify-email?token=${verificationToken}&intent=${intent || ''}`;
 
-            const resend = new Resend(env.EMAIL_SMTP_PASSWORD);
-
             logger.info(`📧 Attempting to send email to: ${email}`);
             logger.info(`📧 From address: onboarding@resend.dev`);
             logger.info(`📧 Verification URL: ${verificationUrl}`);
 
+            const resend = new Resend(env.EMAIL_SMTP_PASSWORD);
             try {
                 const { data, error } = await resend.emails.send({
                     from: env.EMAIL_FROM,
