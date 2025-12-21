@@ -5,18 +5,33 @@ import {Resend} from "resend";
 
 export default defineHook(({ init }, { env, database, services, logger, getSchema }) => {
     init('middlewares.before', ({ app }) => {
-        const webhookPath = (env.STRIPE_WEBHOOK_PATH || '/ca-stripe-webho').replace(/\/$/, '');
+        app.use((req, res, next) => {
+            let stripeSignature;
+            let rawBody;
 
-        app.post(
-            webhookPath,
-            bodyParser.raw({ type: 'application/json' }),
-            async (req, res) => {
+            // Use bodyParser with verify callback to capture raw body
+            bodyParser.json({
+                verify: (req, _res, buf) => {
+                    stripeSignature = req.get('stripe-signature');
+                    if (stripeSignature) {
+                        rawBody = buf.toString();
+                    }
+                }
+            })(req, res, async () => {
+                // Only process if this is a Stripe webhook
+                if (!(stripeSignature && rawBody)) {
+                    return next();
+                }
 
-                const stripeSignature = req.headers['stripe-signature'];
-                const rawBody = req.body;
+                // Check if this is our webhook path
+                const webhookPath = env.STRIPE_WEBHOOK_PATH || '/ca-stripe-webho';
 
-                if (!stripeSignature || !rawBody) {
-                    return res.status(400).send('Missing Stripe signature or body');
+                // Normalize paths for comparison (remove trailing slashes)
+                const normalizedReqPath = req.path.replace(/\/$/, '');
+                const normalizedWebhookPath = webhookPath.replace(/\/$/, '');
+
+                if (normalizedReqPath !== normalizedWebhookPath) {
+                    return next();
                 }
 
                 logger.info('=== STRIPE WEBHOOK RECEIVED ===');
@@ -28,12 +43,15 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
 
                 try {
                     await handleStripeWebhook(req, res, rawBody, stripeSignature);
-                } catch (err) {
-                    logger.error('❌ Stripe webhook error:', err.message);
-                    res.status(err.status || 500).json({ error: err.message });
+                    // DON'T call next() - response is already sent in handleStripeWebhook
+                } catch (error) {
+                    logger.error('❌ Stripe webhook error:', error.message);
+                    return res.status(error.status || 500).json({
+                        error: error.message,
+                    });
                 }
-            }
-        );
+            });
+        });
     });
 
     async function handleStripeWebhook(req, res, rawBody, stripeSignature) {
