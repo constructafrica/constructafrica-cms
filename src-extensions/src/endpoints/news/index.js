@@ -309,7 +309,7 @@ export default (router, { services, database, getSchema}) => {
 
             // Get the relation key
             const relationKey = q === 'sector' ? 'sectors' : 'regions';
-            const idKey = `${q === 'type' ? 'types' :
+            const idKey = `${
                 q === 'sector' ? 'sectors' : 'regions'}_id`;
 
             // Count occurrences

@@ -72,6 +72,11 @@
 			},
 			{
 				"type": "endpoint",
+				"name": "ca-notifications",
+				"source": "src/endpoints/ca-notifications/index.js"
+			},
+			{
+				"type": "endpoint",
 				"name": "test",
 				"source": "src/endpoints/test/index.js"
 			},

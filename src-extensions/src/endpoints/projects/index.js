@@ -372,13 +372,13 @@ export default (router, { services, exceptions, getSchema, database}) => {
         }
     });
 
-    router.get('/stats/filters', async (req, res, next) => {
+    router.get('/stats/filters/old', async (req, res, next) => {
         try {
             const schema = await getSchema();
             const { q } = req.query;
 
             // Validate filter parameter
-            const validFilters = ['type', 'sector', 'region'];
+            const validFilters = ['type', 'sector', 'region', 'sub_sector', 'stage'];
             if (!q || !validFilters.includes(q)) {
                 return res.status(400).json({
                     error: 'Invalid filter parameter. Must be one of: type, sector, region'
@@ -394,6 +394,8 @@ export default (router, { services, exceptions, getSchema, database}) => {
             const fieldMap = {
                 type: 'types.types_id.*',
                 sector: 'sectors.sectors_id.*',
+                sub_sector: 'sub_sectors.sub_sectors_id.*',
+                // stage: 'project.sectors_id.*',
                 region: 'regions.regions_id.*'
             };
 
@@ -459,6 +461,161 @@ export default (router, { services, exceptions, getSchema, database}) => {
             next(error);
         }
     });
+
+    router.get('/stats/filters', async (req, res, next) => {
+        try {
+            const schema = await getSchema();
+            const { q } = req.query;
+
+            const validFilters = ['type', 'sector', 'sub_sector', 'region', 'stage'];
+            if (!q || !validFilters.includes(q)) {
+                return res.status(400).json({
+                    error: 'Invalid filter parameter. Must be one of: type, sector, sub_sector, region, stage'
+                });
+            }
+
+            const projectsService = new ItemsService('projects', {
+                schema,
+                accountability: req.accountability
+            });
+
+            /**
+             * =========================
+             * STAGE (M2O → project_status)
+             * =========================
+             */
+            if (q === 'stage') {
+                const projects = await projectsService.readByQuery({
+                    fields: [
+                        'id',
+                        'current_status.id',
+                        'current_status.name',
+                        'current_status.slug'
+                    ],
+                    limit: -1
+                });
+
+                const statsMap = new Map();
+                let totalProjects = 0;
+
+                projects.forEach(project => {
+                    const status = project.current_status;
+                    if (!status) return;
+
+                    totalProjects++;
+
+                    if (!statsMap.has(status.id)) {
+                        statsMap.set(status.id, {
+                            id: status.id,
+                            name: status.name,
+                            slug: status.slug || null,
+                            count: 0
+                        });
+                    }
+
+                    statsMap.get(status.id).count++;
+                });
+
+                const stats = Array.from(statsMap.values())
+                    .map(stat => ({
+                        ...stat,
+                        percentage: totalProjects > 0
+                            ? Math.round((stat.count / totalProjects) * 1000) / 10
+                            : 0
+                    }))
+                    .sort((a, b) => b.count - a.count);
+
+                return res.json({
+                    data: {
+                        filter: 'stage',
+                        total_projects: totalProjects,
+                        stats
+                    }
+                });
+            }
+
+            /**
+             * =========================
+             * RELATION-BASED FILTERS (M2M)
+             * =========================
+             */
+            const fieldMap = {
+                type: 'types.types_id.*',
+                sector: 'sectors.sectors_id.*',
+                sub_sector: 'sub_sectors.sub_sectors_id.*',
+                region: 'regions.regions_id.*'
+            };
+
+            const relationKeyMap = {
+                type: 'types',
+                sector: 'sectors',
+                sub_sector: 'sub_sectors',
+                region: 'regions'
+            };
+
+            const idKeyMap = {
+                type: 'types_id',
+                sector: 'sectors_id',
+                sub_sector: 'sub_sectors_id',
+                region: 'regions_id'
+            };
+
+            const projects = await projectsService.readByQuery({
+                fields: ['id', fieldMap[q]],
+                limit: -1
+            });
+
+            const relationKey = relationKeyMap[q];
+            const idKey = idKeyMap[q];
+
+            const statsMap = new Map();
+            let totalRelations = 0;
+
+            projects.forEach(project => {
+                if (Array.isArray(project[relationKey])) {
+                    project[relationKey].forEach(rel => {
+                        const item = rel[idKey];
+                        if (!item) return;
+
+                        if (!statsMap.has(item.id)) {
+                            statsMap.set(item.id, {
+                                id: item.id,
+                                name: item.name,
+                                slug: item.slug || null,
+                                count: 0
+                            });
+                        }
+
+                        statsMap.get(item.id).count++;
+                        totalRelations++;
+                    });
+                }
+            });
+
+            const stats = Array.from(statsMap.values())
+                .map(stat => ({
+                    ...stat,
+                    percentage: totalRelations > 0
+                        ? Math.round((stat.count / totalRelations) * 1000) / 10
+                        : 0
+                }))
+                .sort((a, b) => b.count - a.count);
+
+            return res.json({
+                data: {
+                    filter: q,
+                    total_projects: projects.length,
+                    total_relations: totalRelations,
+                    stats
+                }
+            });
+
+        } catch (error) {
+            console.error('Project stats error:', error);
+            next(error);
+        }
+    });
+
 
     router.get('/:id', async (req, res, next) => {
         try {
