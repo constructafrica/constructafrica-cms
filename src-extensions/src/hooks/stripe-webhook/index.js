@@ -196,6 +196,7 @@ export default defineHook(({ init }, { env, database, services, logger, getSchem
                         subscription_start: periodStart,
                         subscription_expiry: periodEnd,
                         active_subscription: subscriptionModel.id,
+                        subscription_plan: plan.id,
                     };
 
                     if (user.role !== plan.role) {

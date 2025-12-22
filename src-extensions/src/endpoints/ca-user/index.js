@@ -185,6 +185,13 @@ export default (router, { services, env, logger, getSchema}) => {
                     'subscription_status',
                     'subscription_expiry',
                     'active_subscription.*',
+                    'subscription_plan.id',
+                    'subscription_plan.name',
+                    'subscription_plan.slug',
+                    'subscription_plan.type',
+                    'subscription_plan.price',
+                    'subscription_plan.currency',
+                    'subscription_plan.billing_period',
                     'status',
                     'role.id',
                     'role.name',
@@ -225,7 +232,8 @@ export default (router, { services, env, logger, getSchema}) => {
 
                     policies,
                     subscription: {
-                        active: user.active_subscription || null,
+                        activeSubscription: user.active_subscription || null,
+                        plan: user.subscription_plan || null,
                         start: user.subscription_start || null,
                         expiry: user.subscription_expiry || null,
                         status: user.subscription_status || null,
