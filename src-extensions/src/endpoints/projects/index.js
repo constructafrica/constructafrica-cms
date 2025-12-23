@@ -616,6 +616,72 @@ export default (router, { services, exceptions, getSchema, database}) => {
         }
     });
 
+    router.get('/stats/stages', async (req, res, next) => {
+        try {
+            const schema = await getSchema();
+
+            const projectsService = new ItemsService('projects', {
+                schema,
+                accountability: req.accountability,
+            });
+
+            /**
+             * Fetch projects with:
+             * - contract_value
+             * - current_status → stage
+             */
+            const projects = await projectsService.readByQuery({
+                fields: [
+                    'id',
+                    'contract_value_usd',
+                    'current_status.id',
+                    'current_status.stage.id',
+                    'current_status.stage.name',
+                ],
+                filter: {
+                    current_status: { _nnull: true },
+                    contract_value_usd: { _gt: 0 },
+                },
+                limit: -1,
+            });
+
+            const stageMap = new Map();
+
+            for (const project of projects) {
+                const stage = project.current_status?.stage;
+                const contractValue = Number(project.contract_value_usd || 0);
+
+                if (!stage) continue;
+
+                if (!stageMap.has(stage.id)) {
+                    stageMap.set(stage.id, {
+                        stage_id: stage.id,
+                        stage_name: stage.name,
+                        total_contract_value: 0,
+                        projects_count: 0,
+                    });
+                }
+
+                const stageStats = stageMap.get(stage.id);
+                stageStats.total_contract_value += contractValue;
+                stageStats.projects_count += 1;
+            }
+
+            const stats = Array.from(stageMap.values()).sort(
+                (a, b) => b.total_contract_value - a.total_contract_value
+            );
+
+            return res.json({
+                success: true,
+                data: stats,
+            });
+
+        } catch (error) {
+            console.error('[PROJECT_STAGE_STATS] Error:', error);
+            next(error);
+        }
+    });
+
 
     router.get('/:id', async (req, res, next) => {
         try {

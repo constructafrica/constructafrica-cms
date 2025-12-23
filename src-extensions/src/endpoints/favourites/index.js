@@ -700,7 +700,7 @@ export default (router, context) => {
                             'experts_analysts': {
                                 title: 'name',
                                 image: 'photo',
-                                summary: 'bio',
+                                summary: 'summary',
                                 slug: 'slug',
                                 date: 'date_created',
                             },
@@ -1040,7 +1040,7 @@ export default (router, context) => {
                             'experts_analysts': {
                                 title: 'name',
                                 image: 'photo',
-                                summary: 'bio',
+                                summary: 'summary',
                                 slug: 'slug',
                                 date: 'date_created',
                             },
