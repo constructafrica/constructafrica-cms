@@ -40,7 +40,7 @@ export default defineEndpoint((router, { services }) => {
 
             const notifications = await notificationsService.readByQuery({
                 filter,
-                sort: ['-created_at'],
+                sort: ['-date_created'],
                 limit,
                 page,
             });
