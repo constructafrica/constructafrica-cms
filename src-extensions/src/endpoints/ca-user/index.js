@@ -181,6 +181,7 @@ export default (router, { services, env, logger, getSchema}) => {
                     'company',
                     'job_title',
                     'phone',
+                    'email_notifications',
                     'subscription_start',
                     'subscription_status',
                     'subscription_expiry',
@@ -219,6 +220,7 @@ export default (router, { services, env, logger, getSchema}) => {
                     job_title: user.job_title,
                     phone: user.phone,
                     status: user.status,
+                    email_notifications: user.email_notifications,
 
                     avatar,
 
