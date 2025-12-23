@@ -59,7 +59,7 @@ export default ({ action }, { services, getSchema }) => {
             unique: true,
             maxLength: 100
         },
-        subsectors: {
+        sub_sectors: {
             sourceField: 'name',
             slugField: 'slug',
             unique: true,
@@ -72,6 +72,12 @@ export default ({ action }, { services, getSchema }) => {
             maxLength: 100
         },
         project_status: {
+            sourceField: 'name',
+            slugField: 'slug',
+            unique: true,
+            maxLength: 100
+        },
+        project_stages: {
             sourceField: 'name',
             slugField: 'slug',
             unique: true,

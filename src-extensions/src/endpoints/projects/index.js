@@ -111,6 +111,15 @@ export default (router, { services, exceptions, getSchema, database}) => {
                         data: c.companies_id
                     }));
                     break;
+                case 'stage':
+                    if (project.current_status?.stage) {
+                        groupKeys = [{
+                            id: project.current_status.stage.id,
+                            name: project.current_status.stage.name || 'Unknown Stage',
+                            data: project.current_status.stage
+                        }];
+                    }
+                    break;
                 default:
                     groupKeys = [{ id: 'all', name: 'All Projects', data: null }];
             }
@@ -234,6 +243,10 @@ export default (router, { services, exceptions, getSchema, database}) => {
                     'current_status.id',
                     'current_status.name',
                     'current_status.slug',
+                    'current_status.stage.id',
+                    'current_status.stage.name',
+                    'current_status.stage.slug',
+
                     'featured_image',
                     'featured_image.id',
                     'featured_image.filename_disk',
