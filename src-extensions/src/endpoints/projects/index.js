@@ -695,7 +695,6 @@ export default (router, { services, exceptions, getSchema, database}) => {
         }
     });
 
-
     router.get('/:id', async (req, res, next) => {
         try {
             const schema = await getSchema();
@@ -740,6 +739,11 @@ export default (router, { services, exceptions, getSchema, database}) => {
                     'contacts.company_contacts_id.company.email',
                     'contacts.company_contacts_id.email',
                     'contacts.company_contacts_id.phone',
+                    'contacts.company_contacts_id.role',
+                    'contacts.company_contacts_id.facebook',
+                    'contacts.company_contacts_id.twitter',
+                    'contacts.company_contacts_id.linkedin',
+                    'contacts.company_contacts_id.photo.*',
                     'featured_image.*',
                     'news.*'
                 ]
@@ -802,6 +806,10 @@ export default (router, { services, exceptions, getSchema, database}) => {
                         email: pc.company_contacts_id.email || null,
                         phone: pc.company_contacts_id.phone || null,
                         role: pc.company_contacts_id.role || null,
+                        linkedin: pc.company_contacts_id.linkedin || null,
+                        twitter: pc.company_contacts_id.twitter || null,
+                        photo: pc.company_contacts_id.photo || null,
+                        facebook: pc.company_contacts_id.facebook || null,
                     }));
             } else {
                 project.contacts = [];

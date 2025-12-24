@@ -16,7 +16,7 @@ export default (router, { services, env, logger, getSchema }) => {
             }
 
             // Validate entity_type
-            const allowedEntityTypes = ['projects', 'main_news', 'tenders'];
+            const allowedEntityTypes = ['projects', 'main_news', 'tenders', 'experts_analysts', 'blog', 'events'];
             if (!allowedEntityTypes.includes(entity_type)) {
                 return res.status(422).json({
                     success: false,
