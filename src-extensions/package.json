@@ -1,144 +1,160 @@
 {
-	"name": "directus-extension-my-bundle",
-	"version": "1.0.0",
-	"type": "module",
-	"directus:extension": {
-		"host": "^10.1.10",
-		"type": "bundle",
-		"path": {
-			"app": "dist/app.js",
-			"api": "dist/api.js"
-		},
-		"entries": [
-			{
-				"type": "endpoint",
-				"name": "projects",
-				"source": "src/endpoints/projects/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "favourites",
-				"source": "src/endpoints/favourites/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "recent-views",
-				"source": "src/endpoints/recent-views/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "search",
-				"source": "src/endpoints/search/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "news",
-				"source": "src/endpoints/news/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "tenders",
-				"source": "src/endpoints/tenders/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "opinions",
-				"source": "src/endpoints/opinions/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "companies",
-				"source": "src/endpoints/companies/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "subscriptions",
-				"source": "src/endpoints/subscriptions/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "auth",
-				"source": "src/endpoints/auth/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "ca-user",
-				"source": "src/endpoints/ca-user/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "ca-comments",
-				"source": "src/endpoints/ca-comments/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "ca-notifications",
-				"source": "src/endpoints/ca-notifications/index.js"
-			},
-			{
-				"type": "endpoint",
-				"name": "test",
-				"source": "src/endpoints/test/index.js"
-			},
-			{
-				"type": "hook",
-				"name": "recent-view-hook",
-				"source": "src/hooks/recent-view-hook/index.js"
-			},
-			{
-				"type": "hook",
-				"name": "favorites-counter",
-				"source": "src/hooks/favorites-counter/index.js"
-			},
-			{
-				"type": "hook",
-				"name": "stripe-webhook",
-				"source": "src/hooks/stripe-webhook/index.js"
-			},
-			{
-				"type": "hook",
-				"name": "lead-hook",
-				"source": "src/hooks/lead-hook/index.js"
-			},
-			{
-				"type": "hook",
-				"name": "slug",
-				"source": "src/hooks/slug/index.js"
-			},
-			{
-				"type": "hook",
-				"name": "project-news-hook",
-				"source": "src/hooks/project-news-hook/index.js"
-			},
-			{
-				"type": "interface",
-				"name": "project-companies-selector",
-				"source": "src/interfaces/project-companies-selector/index.js"
-			}
-		]
-	},
-	"description": "Please enter a description for your extension",
-	"icon": "extension",
-	"keywords": [
-		"directus",
-		"directus-extension",
-		"directus-custom-bundle"
-	],
-	"scripts": {
-		"build": "directus-extension build",
-		"dev": "directus-extension build -w --no-minify",
-		"link": "directus-extension link",
-		"add": "directus-extension add"
-	},
-	"devDependencies": {
-		"@directus/extensions-sdk": "12.1.4",
-		"vue": "^3.5.13"
-	},
-	"dependencies": {
-		"body-parser": "^2.2.1",
-		"express": "^5.2.1",
-		"multer": "^2.0.2",
-		"resend": "^6.5.2",
-		"stripe": "^19.3.1"
-	}
+  "name": "directus-extension-my-bundle",
+  "version": "1.0.0",
+  "type": "module",
+  "directus:extension": {
+    "host": "^10.1.10",
+    "type": "bundle",
+    "path": {
+      "app": "dist/app.js",
+      "api": "dist/api.js"
+    },
+    "entries": [
+      {
+        "type": "endpoint",
+        "name": "projects",
+        "source": "src/endpoints/projects/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "favourites",
+        "source": "src/endpoints/favourites/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "recent-views",
+        "source": "src/endpoints/recent-views/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "search",
+        "source": "src/endpoints/search/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "news",
+        "source": "src/endpoints/news/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "tenders",
+        "source": "src/endpoints/tenders/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "opinions",
+        "source": "src/endpoints/opinions/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "companies",
+        "source": "src/endpoints/companies/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "subscriptions",
+        "source": "src/endpoints/subscriptions/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "auth",
+        "source": "src/endpoints/auth/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "ca-user",
+        "source": "src/endpoints/ca-user/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "ca-comments",
+        "source": "src/endpoints/ca-comments/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "ca-notifications",
+        "source": "src/endpoints/ca-notifications/index.js"
+      },
+      {
+        "type": "endpoint",
+        "name": "test",
+        "source": "src/endpoints/test/index.js"
+      },
+      {
+        "type": "hook",
+        "name": "recent-view-hook",
+        "source": "src/hooks/recent-view-hook/index.js"
+      },
+      {
+        "type": "hook",
+        "name": "favorites-counter",
+        "source": "src/hooks/favorites-counter/index.js"
+      },
+      {
+        "type": "hook",
+        "name": "stripe-webhook",
+        "source": "src/hooks/stripe-webhook/index.js"
+      },
+      {
+        "type": "hook",
+        "name": "lead-hook",
+        "source": "src/hooks/lead-hook/index.js"
+      },
+      {
+        "type": "hook",
+        "name": "slug",
+        "source": "src/hooks/slug/index.js"
+      },
+      {
+        "type": "hook",
+        "name": "project-news-hook",
+        "source": "src/hooks/project-news-hook/index.js"
+      },
+      {
+        "type": "interface",
+        "name": "project-companies-selector",
+        "source": "src/interfaces/project-companies-selector/index.js"
+      },
+      {
+        "type": "interface",
+        "name": "mp-select-interface",
+        "source": "src/interfaces/mp-select-interface/index.js"
+      },
+      {
+        "type": "interface",
+        "name": "m2m-select-interface",
+        "source": "src/interfaces/m2m-select-interface/index.js"
+      },
+      {
+        "type": "interface",
+        "name": "junction-select-interface",
+        "source": "src/interfaces/junction-select-interface/index.js"
+      }
+    ]
+  },
+  "description": "Please enter a description for your extension",
+  "icon": "extension",
+  "keywords": [
+    "directus",
+    "directus-extension",
+    "directus-custom-bundle"
+  ],
+  "scripts": {
+    "build": "directus-extension build",
+    "dev": "directus-extension build -w --no-minify",
+    "link": "directus-extension link",
+    "add": "directus-extension add"
+  },
+  "devDependencies": {
+    "@directus/extensions-sdk": "12.1.4",
+    "vue": "^3.5.13"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.1",
+    "express": "^5.2.1",
+    "lodash": "^4.17.21",
+    "multer": "^2.0.2",
+    "resend": "^6.5.2",
+    "stripe": "^19.3.1"
+  }
 }
