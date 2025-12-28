@@ -8,7 +8,6 @@
             :placeholder="t('search_items')"
             :disabled="disabled"
             @update:model-value="onSearchInput"
-            @focus="listOpen = true"
         >
             <template #prepend>
                 <v-icon name="search" />
@@ -26,11 +25,11 @@
         <div v-if="selectedItemsData.length > 0" class="selected-items">
             <v-chip
                 v-for="item in selectedItemsData"
-                :key="item[relatedPrimaryKeyFieldName]"
+                :key="item[relatedPrimaryKey]"
                 small
                 close-icon="close"
                 :disabled="disabled"
-                @click:close="removeItem(item[relatedPrimaryKeyFieldName])"
+                @click:close="removeItem(item[relatedPrimaryKey])"
             >
                 <render-template
                     :collection="relatedCollection"
@@ -40,53 +39,47 @@
             </v-chip>
         </div>
 
-        <div v-if="listOpen || searchQuery">
-            <div v-if="loading" class="loading-container">
-                <v-progress-circular indeterminate small />
-            </div>
+        <div v-if="loading" class="loading-container">
+            <v-progress-circular indeterminate small />
+        </div>
 
-            <div v-else-if="availableItems.length > 0" class="items-list">
-                <div
-                    v-for="item in availableItems"
-                    :key="item[relatedPrimaryKeyFieldName]"
-                    class="item"
-                    :class="{
-                        selected: isSelected(item[relatedPrimaryKeyFieldName]),
-                    }"
-                    @click="toggleItem(item)"
-                >
-                    <v-checkbox
-                        :model-value="
-                            isSelected(item[relatedPrimaryKeyFieldName])
-                        "
-                        :disabled="disabled"
-                        @click.stop
+        <div v-else-if="availableItems.length > 0" class="items-list">
+            <div
+                v-for="item in availableItems"
+                :key="item[relatedPrimaryKey]"
+                class="item"
+                :class="{ selected: isSelected(item[relatedPrimaryKey]) }"
+                @click="toggleItem(item)"
+            >
+                <v-checkbox
+                    :model-value="isSelected(item[relatedPrimaryKey])"
+                    :disabled="disabled"
+                    @click.stop
+                />
+                <div class="item-content">
+                    <render-template
+                        :collection="relatedCollection"
+                        :item="item"
+                        :template="displayTemplate"
                     />
-                    <div class="item-content">
-                        <render-template
-                            :collection="relatedCollection"
-                            :item="item"
-                            :template="displayTemplate"
-                        />
-                    </div>
                 </div>
             </div>
-
-            <div v-else-if="searchQuery && !loading" class="no-results">
-                {{ t("no_items_found") }}
-            </div>
-
-            <v-button
-                v-if="enableCreate"
-                small
-                class="add-new"
-                :disabled="disabled"
-                @click="createNew"
-            >
-                <v-icon name="add" small />
-                {{ t("create_new") }}
-            </v-button>
         </div>
+
+        <div v-else-if="searchQuery && !loading" class="no-results">
+            {{ t("no_items_found") }}
+        </div>
+
+        <v-button
+            v-if="enableCreate"
+            small
+            class="add-new"
+            :disabled="disabled"
+            @click="createNew"
+        >
+            <v-icon name="add" small />
+            {{ t("create_new") }}
+        </v-button>
 
         <v-drawer
             v-model="drawerOpen"
@@ -165,126 +158,98 @@ export default defineComponent({
         const relationsStore = useRelationsStore();
         const fieldsStore = useFieldsStore();
 
-        console.log(
-            "DEBUG: Props received - collection:",
-            props.collection,
-            "field:",
-            props.field,
-        );
-
         const items = ref([]);
         const loading = ref(false);
         const searchQuery = ref("");
         const drawerOpen = ref(false);
         const newItem = ref({});
         const saving = ref(false);
-        const listOpen = ref(false);
 
-        // Updated relationInfo with correct M2M detection + logs
+        // Get relation info for M2M
         const relationInfo = computed(() => {
-            console.log(
-                "DEBUG: Computing relationInfo for collection:",
-                props.collection,
-                "field:",
-                props.field,
-            );
-
-            const fieldRelations = relationsStore.getRelationsForField(
+            const relations = relationsStore.getRelationsForField(
                 props.collection,
                 props.field,
             );
-            console.log("DEBUG: Relations for field:", fieldRelations);
 
-            if (!fieldRelations || fieldRelations.length === 0) {
-                console.error(
-                    "ERROR: No relations found for field:",
-                    props.field,
-                );
+            if (!relations || relations.length === 0) {
+                console.error("No relations found for field:", props.field);
                 return null;
             }
 
-            // Find the O2M relation from the junction collection back to our collection
-            const junctionO2MRelation = fieldRelations.find(
-                (rel) =>
-                    rel.related_collection === props.collection && // points back to projects
-                    rel.collection !== props.collection, // comes from junction
+            // For M2M, find the relation that points to the junction table
+            const m2oRelation = relations.find(
+                (relation) =>
+                    relation.collection === props.collection &&
+                    relation.field === props.field,
             );
 
-            if (!junctionO2MRelation) {
+            if (!m2oRelation) {
+                console.error("M2O relation not found");
+                return null;
+            }
+
+            const junctionCollection = m2oRelation.related_collection;
+            console.log("Junction collection:", junctionCollection);
+
+            // Find all relations for the junction collection
+            const junctionRelations =
+                relationsStore.getRelationsForCollection(junctionCollection);
+            console.log("Junction relations:", junctionRelations);
+
+            // Find the relation that points to the related collection (not back to our collection)
+            const relatedRelation = junctionRelations.find(
+                (relation) =>
+                    relation.collection === junctionCollection &&
+                    relation.related_collection !== props.collection &&
+                    relation.related_collection !== null &&
+                    relation.field !== m2oRelation.meta?.one_field, // Exclude the field pointing back to us
+            );
+
+            if (!relatedRelation) {
                 console.error(
-                    "ERROR: No O2M junction relation found pointing back to current collection",
+                    "Related relation not found in junction relations",
                 );
                 return null;
             }
 
             console.log(
-                "DEBUG: Found junction O2M relation:",
-                junctionO2MRelation,
-            );
-
-            const junctionCollection = junctionO2MRelation.collection;
-            console.log("DEBUG: Junction collection:", junctionCollection);
-
-            // Now find the other relation in the junction: the M2O to the actual related items
-            const otherRelationInJunction = fieldRelations.find(
-                (rel) =>
-                    rel.collection === junctionCollection &&
-                    rel.related_collection !== props.collection,
-            );
-
-            if (!otherRelationInJunction) {
-                console.error(
-                    "ERROR: No related M2O relation found in junction",
-                );
-                return null;
-            }
-
-            console.log(
-                "DEBUG: Found related M2O relation:",
-                otherRelationInJunction,
+                "Related collection:",
+                relatedRelation.related_collection,
             );
 
             return {
+                m2oRelation,
+                relatedRelation,
                 junctionCollection,
-                relatedCollection: otherRelationInJunction.related_collection,
-                relatedField: otherRelationInJunction.field, // e.g., 'types_id' or 'sectors_id'
-                // junctionField not needed unless you have extra fields in junction
+                relatedCollection: relatedRelation.related_collection,
+                junctionField: m2oRelation.field,
+                relatedField: relatedRelation.field,
+                relationPkField: m2oRelation.meta?.one_field,
             };
         });
 
         const relatedCollection = computed(() => {
-            const col = relationInfo.value?.relatedCollection;
-            console.log("DEBUG: Related collection:", col);
-            return col;
+            return relationInfo.value?.relatedCollection;
         });
 
         const junctionCollection = computed(() => {
-            const jc = relationInfo.value?.junctionCollection;
-            console.log("DEBUG: Junction collection:", jc);
-            return jc;
+            return relationInfo.value?.junctionCollection;
         });
 
-        const relatedPrimaryKeyFieldName = computed(() => {
-            if (!relatedCollection.value) return "id";
-            const pkField = fieldsStore.getPrimaryKeyFieldForCollection(
+        const relatedPrimaryKey = computed(() => {
+            if (!relatedCollection.value) return null;
+            return fieldsStore.getPrimaryKeyFieldForCollection(
                 relatedCollection.value,
             );
-            const name = pkField?.field || "id";
-            console.log("DEBUG: Related primary key field name:", name);
-            return name;
         });
 
         const displayTemplate = computed(() => {
             if (props.template) return props.template;
-
-            // Prefer 'name' if it exists in related collection
-            const fields = fieldsStore.getFieldsForCollection(
-                relatedCollection.value,
-            );
-            const hasName = fields.some((f) => f.field === "name");
-            return hasName
-                ? "{{ name }}"
-                : `{{ ${relatedPrimaryKeyFieldName.value} }}`;
+            if (relatedPrimaryKey.value) {
+                return `{{ ${relatedPrimaryKey.value} }}`;
+            }
+            return "{{ id }}";
         });
 
         // Get selected item IDs from value
@@ -294,7 +259,7 @@ export default defineComponent({
             const relatedField = relationInfo.value?.relatedField;
             if (!relatedField) return [];
 
-            const ids = props.value
+            return props.value
                 .map((item) => {
                     if (!item) return null;
 
@@ -307,7 +272,7 @@ export default defineComponent({
 
                         // If related is an object, get its primary key
                         if (typeof related === "object" && related !== null) {
-                            return related[relatedPrimaryKeyFieldName.value];
+                            return related[relatedPrimaryKey.value];
                         }
 
                         // If related is a primitive value (ID), return it
@@ -318,20 +283,13 @@ export default defineComponent({
                     return item;
                 })
                 .filter((id) => id !== null && id !== undefined);
-
-            console.log("DEBUG: Selected item IDs:", ids);
-            return ids;
         });
 
         // Get full item data for selected items
         const selectedItemsData = computed(() => {
-            const data = items.value.filter((item) =>
-                selectedItemIds.value.includes(
-                    item[relatedPrimaryKeyFieldName.value],
-                ),
+            return items.value.filter((item) =>
+                selectedItemIds.value.includes(item[relatedPrimaryKey.value]),
             );
-            console.log("DEBUG: Selected items data:", data);
-            return data;
         });
 
         // Get available items (all items for selection)
@@ -389,7 +347,6 @@ export default defineComponent({
                     { params },
                 );
                 items.value = response.data.data || [];
-                console.log("DEBUG: Fetched items:", items.value);
             } catch (error) {
                 console.error("Error fetching items:", error);
                 items.value = [];
@@ -411,7 +368,7 @@ export default defineComponent({
         const toggleItem = (item) => {
             if (props.disabled) return;
 
-            const itemId = item[relatedPrimaryKeyFieldName.value];
+            const itemId = item[relatedPrimaryKey.value];
             const isCurrentlySelected = isSelected(itemId);
 
             let newSelectedIds;
@@ -439,8 +396,7 @@ export default defineComponent({
             if (!relatedField) return;
 
             if (!selectedIds || selectedIds.length === 0) {
-                emit("input", []);
-                console.log("DEBUG: Emitted empty array for no selections");
+                emit("input", null);
                 return;
             }
 
@@ -452,7 +408,7 @@ export default defineComponent({
                     if (!item || typeof item !== "object") return false;
                     const related = item[relatedField];
                     if (typeof related === "object" && related !== null) {
-                        return related[relatedPrimaryKeyFieldName.value] === id;
+                        return related[relatedPrimaryKey.value] === id;
                     }
                     return related === id;
                 });
@@ -463,16 +419,12 @@ export default defineComponent({
                 }
 
                 // Create new junction record
-                // return {
-                //     [relatedField]: id,
-                // };
                 return {
-                    [relatedField]: { [relatedPrimaryKeyFieldName.value]: id },
+                    [relatedField]: id,
                 };
             });
 
             emit("input", value);
-            console.log("DEBUG: Emitted updated value:", value);
         };
 
         const createNew = () => {
@@ -496,15 +448,11 @@ export default defineComponent({
                 items.value.unshift(created);
 
                 // Add to selection
-                const createdId = created[relatedPrimaryKeyFieldName.value];
+                const createdId = created[relatedPrimaryKey.value];
                 updateValue([...selectedItemIds.value, createdId]);
 
                 drawerOpen.value = false;
                 newItem.value = {};
-                console.log(
-                    "DEBUG: Saved new item and updated selection:",
-                    created,
-                );
             } catch (error) {
                 console.error("Error saving new item:", error);
             } finally {
@@ -530,13 +478,13 @@ export default defineComponent({
                     !Array.isArray(newValue) ||
                     newValue.length === 0 ||
                     !relatedCollection.value ||
-                    !relatedPrimaryKeyFieldName.value
+                    !relatedPrimaryKey.value
                 )
                     return;
 
                 const missingIds = selectedItemIds.value.filter((id) => {
                     return !items.value.some(
-                        (item) => item[relatedPrimaryKeyFieldName.value] === id,
+                        (item) => item[relatedPrimaryKey.value] === id,
                     );
                 });
 
@@ -547,7 +495,7 @@ export default defineComponent({
                             {
                                 params: {
                                     filter: {
-                                        [relatedPrimaryKeyFieldName.value]: {
+                                        [relatedPrimaryKey.value]: {
                                             _in: missingIds,
                                         },
                                     },
@@ -562,19 +510,13 @@ export default defineComponent({
                         fetchedItems.forEach((fetchedItem) => {
                             const exists = items.value.some(
                                 (item) =>
-                                    item[relatedPrimaryKeyFieldName.value] ===
-                                    fetchedItem[
-                                        relatedPrimaryKeyFieldName.value
-                                    ],
+                                    item[relatedPrimaryKey.value] ===
+                                    fetchedItem[relatedPrimaryKey.value],
                             );
                             if (!exists) {
                                 items.value.push(fetchedItem);
                             }
                         });
-                        console.log(
-                            "DEBUG: Fetched missing selected items:",
-                            fetchedItems,
-                        );
                     } catch (error) {
                         console.error("Error fetching selected items:", error);
                     }
@@ -598,7 +540,7 @@ export default defineComponent({
             removeItem,
             displayTemplate,
             relatedCollection,
-            relatedPrimaryKeyFieldName,
+            relatedPrimaryKey,
             createNew,
             drawerOpen,
             newItem,
