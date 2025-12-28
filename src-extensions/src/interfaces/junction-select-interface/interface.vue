@@ -40,52 +40,56 @@
             </v-chip>
         </div>
 
-        <div v-if="listOpen || searchQuery">
-            <div v-if="loading" class="loading-container">
-                <v-progress-circular indeterminate small />
-            </div>
+        <div v-click-outside="closeList" class="m2m-dropdown">
+            <div v-if="listOpen || searchQuery">
+                <div v-if="loading" class="loading-container">
+                    <v-progress-circular indeterminate small />
+                </div>
 
-            <div v-else-if="availableItems.length > 0" class="items-list">
-                <div
-                    v-for="item in availableItems"
-                    :key="item[relatedPrimaryKeyFieldName]"
-                    class="item"
-                    :class="{
-                        selected: isSelected(item[relatedPrimaryKeyFieldName]),
-                    }"
-                    @click="toggleItem(item)"
-                >
-                    <v-checkbox
-                        :model-value="
-                            isSelected(item[relatedPrimaryKeyFieldName])
-                        "
-                        :disabled="disabled"
-                        @click.stop
-                    />
-                    <div class="item-content">
-                        <render-template
-                            :collection="relatedCollection"
-                            :item="item"
-                            :template="displayTemplate"
+                <div v-else-if="availableItems.length > 0" class="items-list">
+                    <div
+                        v-for="item in availableItems"
+                        :key="item[relatedPrimaryKeyFieldName]"
+                        class="item"
+                        :class="{
+                            selected: isSelected(
+                                item[relatedPrimaryKeyFieldName],
+                            ),
+                        }"
+                        @click="toggleItem(item)"
+                    >
+                        <v-checkbox
+                            :model-value="
+                                isSelected(item[relatedPrimaryKeyFieldName])
+                            "
+                            :disabled="disabled"
+                            @click.stop
                         />
+                        <div class="item-content">
+                            <render-template
+                                :collection="relatedCollection"
+                                :item="item"
+                                :template="displayTemplate"
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div v-else-if="searchQuery && !loading" class="no-results">
-                {{ t("no_items_found") }}
-            </div>
+                <div v-else-if="searchQuery && !loading" class="no-results">
+                    {{ t("no_items_found") }}
+                </div>
 
-            <v-button
-                v-if="enableCreate"
-                small
-                class="add-new"
-                :disabled="disabled"
-                @click="createNew"
-            >
-                <v-icon name="add" small />
-                {{ t("create_new") }}
-            </v-button>
+                <v-button
+                    v-if="enableCreate"
+                    small
+                    class="add-new"
+                    :disabled="disabled"
+                    @click="createNew"
+                >
+                    <v-icon name="add" small />
+                    {{ t("create_new") }}
+                </v-button>
+            </div>
         </div>
 
         <v-drawer
@@ -258,6 +262,15 @@ export default defineComponent({
             return col;
         });
 
+        const closeList = () => {
+            listOpen.value = false;
+            if (!searchQuery.value) {
+                searchQuery.value = "";
+                // optional: refetch full list
+                // fetchItems();
+            }
+        };
+
         const junctionCollection = computed(() => {
             const jc = relationInfo.value?.junctionCollection;
             console.log("DEBUG: Junction collection:", jc);
@@ -274,17 +287,22 @@ export default defineComponent({
             return name;
         });
 
+        // const displayTemplate = computed(() => {
+        //     if (props.template) return props.template;
+
+        //     // Prefer 'name' if it exists in related collection
+        //     const fields = fieldsStore.getFieldsForCollection(
+        //         relatedCollection.value,
+        //     );
+        //     const hasName = fields.some((f) => f.field === "name");
+        //     return hasName
+        //         ? "{{ name }}"
+        //         : `{{ ${relatedPrimaryKeyFieldName.value} }}`;
+        // });
+
         const displayTemplate = computed(() => {
             if (props.template) return props.template;
-
-            // Prefer 'name' if it exists in related collection
-            const fields = fieldsStore.getFieldsForCollection(
-                relatedCollection.value,
-            );
-            const hasName = fields.some((f) => f.field === "name");
-            return hasName
-                ? "{{ name }}"
-                : `{{ ${relatedPrimaryKeyFieldName.value} }}`;
+            return "{{ name || id }}"; // Simple, safe, works even if fields not loaded yet
         });
 
         // Get selected item IDs from value
@@ -514,74 +532,64 @@ export default defineComponent({
 
         // Load items on mount
         watch(
-            () => props.collection,
-            () => {
-                fetchItems();
-            },
-            { immediate: true },
-        );
+            [relationInfo, () => props.value],
+            ([info, value]) => {
+                if (!info?.relatedCollection) return;
 
-        // Fetch selected items if they're not in the list
-        watch(
-            () => props.value,
-            async (newValue) => {
-                if (
-                    !newValue ||
-                    !Array.isArray(newValue) ||
-                    newValue.length === 0 ||
-                    !relatedCollection.value ||
-                    !relatedPrimaryKeyFieldName.value
-                )
-                    return;
+                // Always load full list on mount / when relation ready
+                fetchItems(searchQuery.value || "");
 
-                const missingIds = selectedItemIds.value.filter((id) => {
-                    return !items.value.some(
-                        (item) => item[relatedPrimaryKeyFieldName.value] === id,
-                    );
-                });
-
-                if (missingIds.length > 0) {
-                    try {
-                        const response = await api.get(
-                            `/items/${relatedCollection.value}`,
-                            {
-                                params: {
-                                    filter: {
-                                        [relatedPrimaryKeyFieldName.value]: {
-                                            _in: missingIds,
-                                        },
-                                    },
-                                    fields: ["*"],
-                                },
-                            },
-                        );
-
-                        const fetchedItems = response.data.data || [];
-
-                        // Add to items list without duplicates
-                        fetchedItems.forEach((fetchedItem) => {
-                            const exists = items.value.some(
+                // If we have existing value, ensure missing selected items are fetched
+                if (value && Array.isArray(value) && value.length > 0) {
+                    const missingIds = selectedItemIds.value.filter(
+                        (id) =>
+                            !items.value.some(
                                 (item) =>
                                     item[relatedPrimaryKeyFieldName.value] ===
-                                    fetchedItem[
-                                        relatedPrimaryKeyFieldName.value
-                                    ],
-                            );
-                            if (!exists) {
-                                items.value.push(fetchedItem);
-                            }
-                        });
-                        console.log(
-                            "DEBUG: Fetched missing selected items:",
-                            fetchedItems,
-                        );
-                    } catch (error) {
-                        console.error("Error fetching selected items:", error);
+                                    id,
+                            ),
+                    );
+                    if (missingIds.length > 0) {
+                        // Fetch missing ones separately
+                        api.get(`/items/${relatedCollection.value}`, {
+                            params: {
+                                filter: {
+                                    [relatedPrimaryKeyFieldName.value]: {
+                                        _in: missingIds,
+                                    },
+                                },
+                                fields: ["*"],
+                            },
+                        })
+                            .then((res) => {
+                                const fetched = res.data.data || [];
+                                fetched.forEach((item) => {
+                                    if (
+                                        !items.value.some(
+                                            (i) =>
+                                                i[
+                                                    relatedPrimaryKeyFieldName
+                                                        .value
+                                                ] ===
+                                                item[
+                                                    relatedPrimaryKeyFieldName
+                                                        .value
+                                                ],
+                                        )
+                                    ) {
+                                        items.value.push(item);
+                                    }
+                                });
+                            })
+                            .catch(console.error);
                     }
                 }
             },
             { immediate: true },
         );
+
+        // This exposes the resolved collection to interface options
+        provide("relatedCollection", relatedCollection);
 
         return {
             t,
@@ -604,6 +612,8 @@ export default defineComponent({
             newItem,
             saving,
             saveNewItem,
+            listOpen,
+            closeList,
         };
     },
 });
