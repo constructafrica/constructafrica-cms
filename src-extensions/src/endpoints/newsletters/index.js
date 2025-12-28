@@ -2,7 +2,7 @@ export default (router, { services, env, logger, getSchema }) => {
     const {ItemsService, UsersService} = services;
 
     router.get('/', async (req, res) => {
-        logger.info('💬 Get comments request received');
+        logger.info('💬 Get newsletters request received');
 
         try {
             const { entity_type, entity_id, page = 1, limit = 20 } = req.query;
@@ -16,7 +16,7 @@ export default (router, { services, env, logger, getSchema }) => {
             }
 
             // Validate entity_type
-            const allowedEntityTypes = ['projects', 'main_news', 'tenders', 'experts_analysts', 'blog', 'events'];
+            const allowedEntityTypes = ['projects', 'companies', 'main_news', 'tenders', 'experts_analysts'];
             if (!allowedEntityTypes.includes(entity_type)) {
                 return res.status(422).json({
                     success: false,
@@ -24,15 +24,15 @@ export default (router, { services, env, logger, getSchema }) => {
                 });
             }
 
-            const commentsService = new ItemsService('comments', {
+            const newslettersService = new ItemsService('user_newsletters', {
                 schema: req.schema,
                 accountability: req.accountability
             });
 
             const offset = (Number(page) - 1) * Number(limit);
 
-            // Fetch comments
-            const result = await commentsService.readByQuery({
+            // Fetch newsletters
+            const result = await newslettersService.readByQuery({
                 filter: {
                     _and: [
                         { entity_type: { _eq: entity_type } },
@@ -52,17 +52,17 @@ export default (router, { services, env, logger, getSchema }) => {
                 ]
             });
 
-            const comments = result.data || result;
+            const newsletters = result.data || result;
             const meta = result.meta || {};
 
             return res.json({
                 success: true,
-                data: comments,
+                data: newsletters,
                 meta: {
                     page: Number(page),
                     limit: Number(limit),
-                    total_count: meta.total_count ?? comments.length,
-                    filter_count: meta.filter_count ?? comments.length,
+                    total_count: meta.total_count ?? newsletters.length,
+                    filter_count: meta.filter_count ?? newsletters.length,
                     page_count: meta.total_count
                         ? Math.ceil(meta.total_count / limit)
                         : 1
@@ -70,22 +70,22 @@ export default (router, { services, env, logger, getSchema }) => {
             });
 
         } catch (error) {
-            logger.error('❌ Get comments error:', {
+            logger.error('❌ Get newsletters error:', {
                 message: error.message,
                 stack: error.stack
             });
 
             return res.status(500).json({
                 success: false,
-                message: 'Failed to fetch comments'
+                message: 'Failed to fetch newsletters'
             });
         }
     });
 
 
-    // Create a new comment
+    // Create a new newsletter
     router.post('/create', async (req, res) => {
-        logger.info('💬 Create comment request received');
+        logger.info('💬 Create newsletter request received');
 
         try {
             // Check if user is authenticated
@@ -97,18 +97,18 @@ export default (router, { services, env, logger, getSchema }) => {
             }
 
             const userId = req.accountability.user;
-            const {subject, content, entity_type, entity_id} = req.body;
+            const {entity_type, entity_id} = req.body;
 
             // Validate required fields
-            if (!content || !entity_type || !entity_id) {
+            if (!entity_type || !entity_id) {
                 return res.status(422).json({
                     success: false,
-                    message: 'Content, entity_type, and entity_id are required'
+                    message: 'Entity_type, and entity_id are required'
                 });
             }
 
             // Validate entity_type
-            const allowedEntityTypes = ['projects', 'main_news', 'tenders', 'experts_analysts', 'blog', 'events'];
+            const allowedEntityTypes = ['projects', 'main_news','companies', 'tenders'];
             if (!allowedEntityTypes.includes(entity_type)) {
                 return res.status(422).json({
                     success: false,
@@ -131,43 +131,35 @@ export default (router, { services, env, logger, getSchema }) => {
                 });
             }
 
-            // Create comment
-            const commentsService = new ItemsService('comments', {
+            // Create newsletter
+            const newslettersService = new ItemsService('user_newsletters', {
                 schema: req.schema,
                 accountability: req.accountability
             });
 
-            const comment = await commentsService.createOne({
-                subject: subject || null,
-                content,
+            const newsletter = await newslettersService.createOne({
                 entity_type,
                 entity_id,
                 user_created: userId,
                 date_created: new Date().toISOString()
             });
 
-            logger.info(`✅ Comment created with ID: ${comment}`);
-
-            // Fetch the created comment with user details
-            const createdComment = await commentsService.readOne(comment, {
-                fields: ['*', 'user_created.id', 'user_created.email', 'user_created.first_name', 'user_created.last_name', 'user_created.avatar']
-            });
+            logger.info(`✅ Newsletter created with ID: ${newsletter}`);
 
             return res.json({
                 success: true,
-                message: 'Comment created successfully',
-                data: createdComment
+                message: 'Newsletter created successfully',
             });
 
         } catch (error) {
-            logger.error('❌ Create comment error:', {
+            logger.error('❌ Create newsletter error:', {
                 message: error,
                 stack: error.stack
             });
 
             return res.status(500).json({
                 success: false,
-                message: 'Failed to create comment. Please try again.'
+                message: 'Failed to create newsletter. Please try again.'
             });
         }
     });

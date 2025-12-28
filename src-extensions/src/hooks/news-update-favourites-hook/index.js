@@ -87,7 +87,7 @@ export default ({ action }, { services, database }) => {
                 await resend.emails.send({
                     from: env.EMAIL_FROM,
                     to: user.email,
-                    subject: `New update on ${project.title}`,
+                    subject: `New update on project ${project.title}`,
                     html: `
                             <p>Hi ${user.first_name || 'there'},</p>
                             <p>

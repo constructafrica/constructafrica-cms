@@ -107,8 +107,8 @@
       },
       {
         "type": "hook",
-        "name": "project-news-hook",
-        "source": "src/hooks/project-news-hook/index.js"
+        "name": "news-update-hook",
+        "source": "src/hooks/news-update-hook/index.js"
       },
       {
         "type": "interface",
@@ -117,8 +117,8 @@
       },
       {
         "type": "interface",
-        "name": "mp-select-interface",
-        "source": "src/interfaces/mp-select-interface/index.js"
+        "name": "m2o-select-interface",
+        "source": "src/interfaces/m2o-select-interface/index.js"
       },
       {
         "type": "interface",
