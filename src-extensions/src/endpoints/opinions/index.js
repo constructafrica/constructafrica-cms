@@ -215,6 +215,138 @@ export default (router, { services, database, getSchema }) => {
     }
   });
 
+  router.get("/authors/:authorId", async (req, res, next) => {
+    try {
+      const schema = await getSchema();
+      const { accountability } = req;
+      const authorId = req.params.authorId;
+
+      const limit = parseInt(req.query.limit) || 25;
+      const page = parseInt(req.query.page) || 1;
+      const offset = (page - 1) * limit;
+
+      const newsService = new ItemsService("experts_analysts", {
+        schema,
+        accountability,
+      });
+
+      /** -------------------------
+       * COUNT
+       * -------------------------- */
+      let totalCount = 0;
+
+      try {
+        const knex = database;
+
+        const countResult = await knex("experts_analysts")
+          .where("created_by", authorId)
+          .count("* as count");
+
+        totalCount = parseInt(countResult[0]?.count) || 0;
+      } catch (err) {
+        console.error("Author count error:", err);
+      }
+
+      /** -------------------------
+       * FETCH DATA
+       * -------------------------- */
+      const items = await newsService.readByQuery({
+        fields: [
+          "*",
+
+          "countries.countries_id.id",
+          "countries.countries_id.name",
+          "countries.countries_id.slug",
+
+          "regions.regions_id.id",
+          "regions.regions_id.name",
+          "regions.regions_id.slug",
+
+          "sectors.sectors_id.id",
+          "sectors.sectors_id.name",
+          "sectors.sectors_id.slug",
+
+          "created_by.id",
+          "created_by.first_name",
+          "created_by.last_name",
+          "created_by.email",
+          "created_by.bio",
+          "created_by.avatar",
+          "created_by.avatar.id",
+          "created_by.avatar.filename_disk",
+          "created_by.avatar.title",
+          "created_by.avatar.filesize",
+
+          "photo.*",
+        ],
+
+        filter: {
+          created_by: {
+            _eq: authorId,
+          },
+        },
+
+        sort: ["-date_created"],
+        limit,
+        offset,
+      });
+
+      /** -------------------------
+       * TRANSFORM
+       * -------------------------- */
+      const transformed = items.map((item) => {
+        // Photo URLs
+        if (item.photo?.id) {
+          item.photo.url = `${process.env.PUBLIC_URL}/assets/${item.photo.id}`;
+          item.photo.thumbnail_url = `${process.env.PUBLIC_URL}/assets/${item.photo.id}?width=400&height=300&fit=cover`;
+        }
+
+        // Avatar URLs
+        const avatar = item.created_by?.avatar;
+        if (avatar?.id) {
+          avatar.url = `${process.env.PUBLIC_URL}/assets/${avatar.id}`;
+          avatar.thumbnail_url = `${process.env.PUBLIC_URL}/assets/${avatar.id}?width=400&height=300&fit=cover`;
+        }
+
+        // Flatten M2M
+        if (Array.isArray(item.countries)) {
+          item.countries = item.countries
+            .map((c) => c.countries_id)
+            .filter(Boolean);
+        }
+
+        if (Array.isArray(item.regions)) {
+          item.regions = item.regions.map((r) => r.regions_id).filter(Boolean);
+        }
+
+        if (Array.isArray(item.sectors)) {
+          item.sectors = item.sectors.map((s) => s.sectors_id).filter(Boolean);
+        }
+
+        return item;
+      });
+
+      /** -------------------------
+       * META
+       * -------------------------- */
+      const meta = {
+        total_count: totalCount,
+        filter_count: totalCount,
+        limit,
+        page,
+        page_count: Math.ceil(totalCount / limit),
+      };
+
+      return res.json({
+        data: transformed,
+        meta,
+      });
+    } catch (error) {
+      console.error("Opinions by author error:", error);
+      next(error);
+    }
+  });
+
   router.get("/public/recent", async (req, res, next) => {
     try {
       const newsService = new ItemsService("experts_analysts", {
