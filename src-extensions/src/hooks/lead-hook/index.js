@@ -1,14 +1,16 @@
 import { Resend } from "resend";
 import {hashToken, generateVerificationToken} from "../../helpers/index.js";
 
-export default ({ action }, { services, database, env, logger }) => {
+export default ({ action }, { services, database, env, logger, getSchema}) => {
   const resend = new Resend(env.EMAIL_SMTP_PASSWORD);
   const { ItemsService, UsersService } = services;
 
-
   action("leads.items.create", async ({ payload, key }, { schema }) => {
+
     try {
-      logger.info("[LEAD_HOOK] New demo booking:", key);
+      console.log(`[CREATE LEAD] Converting lead to user`);
+      logger.info("[LEAD_HOOK] New demo booking:", payload.id);
+      const schema = await getSchema();
 
       const {
         first_name,
@@ -19,6 +21,16 @@ export default ({ action }, { services, database, env, logger }) => {
         phone,
         job_title,
       } = payload;
+
+      const countryService = await ItemsService("countries", {
+        schema: schema,
+      });
+
+      const countryModel = countryService.readOne(country, {
+        fields: ['id', 'name']
+      })
+
+      console.log('Counties', countryModel);
 
       /** 📧 EMAIL ADMIN */
       await resend.emails.send({
@@ -47,6 +59,10 @@ export default ({ action }, { services, database, env, logger }) => {
                                 <tr>
                                     <td style="padding: 8px 0;"><strong>Phone</strong></td>
                                     <td>${phone || "—"}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0;"><strong>Country</strong></td>
+                                    <td>${countryModel.name || "—"}</td>
                                 </tr>
                                 <tr>
                                     <td style="padding: 8px 0;"><strong>Job Title</strong></td>
@@ -94,9 +110,11 @@ export default ({ action }, { services, database, env, logger }) => {
   =============================== */
   action("leads.items.update", async ({ payload, keys }, { schema }) => {
     try {
-      logger.info(`Starting [LEAD_UPDATE] with logger`);
+      console.log(`[LEAD_UPDATE] Converting lead to user`, payload.id);
 
-      const leadId = keys[0];
+      logger.info(`Starting [LEAD_UPDATE] with logger`, payload.id);
+
+      const leadId = payload.id;
 
       console.log(`[LEAD_UPDATE] Converting lead ${leadId} to user`);
 

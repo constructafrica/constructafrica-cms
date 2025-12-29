@@ -1,4 +1,4 @@
-import { addFavoritesStatus, getFavoriteStatus } from "../../helpers/index.js";
+import {addFavoritesStatus, getCollectionCounts, getFavoriteStatus} from "../../helpers/index.js";
 
 export default (router, { services, database, getSchema }) => {
   const { ItemsService } = services;
@@ -18,36 +18,13 @@ export default (router, { services, database, getSchema }) => {
       const offset = (page - 1) * limit;
 
       // Get total count using database connection directly
-      let totalCount = 0;
-      let filterCount = 0;
+      const filterObj = req.query.filter || {};
 
-      try {
-        const filterObj = req.query.filter || {};
+      const { totalCount, filterCount } = await getCollectionCounts({
+        service: newsService,
+        filter: filterObj,
+      });
 
-        // Access the database connection through the service
-        const knex = database;
-
-        // Build count query
-        // For now, this gets the total count without filters
-        const totalResult = await knex("experts_analysts").count("* as count");
-        totalCount = parseInt(totalResult[0]?.count) || 0;
-
-        // For filtered count, if you have filters, you'd need to apply them
-        // This is a simplified version - expand based on your filter needs
-        if (Object.keys(filterObj).length > 0) {
-          // You can implement filter logic here or use the service
-          filterCount = totalCount; // Simplified - same as total for now
-        } else {
-          filterCount = totalCount;
-        }
-
-        console.log("Total count from DB:", totalCount);
-      } catch (countError) {
-        console.error("Error getting count:", countError);
-        // Fallback to news length
-        totalCount = news?.length || 0;
-        filterCount = totalCount;
-      }
 
       // Fetch news
       const news = await newsService.readByQuery({
@@ -83,14 +60,12 @@ export default (router, { services, database, getSchema }) => {
 
       // Build proper meta object
       const meta = {
-        total_count: totalCount,
+        total_count: filterCount,
         filter_count: filterCount,
         limit: limit,
         page: page,
-        page_count: Math.ceil(totalCount / limit),
+        page_count: Math.ceil(filterCount / limit),
       };
-
-      console.log("Final meta:", meta);
 
       // Transform news
       const transformedNews = news.map((item) => {

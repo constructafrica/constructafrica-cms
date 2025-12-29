@@ -111,3 +111,35 @@ export function hashToken(token) {
 export function generateVerificationToken() {
     return randomBytes(32).toString('hex');
 }
+
+/**
+ * Get total and filtered counts for a Directus collection
+ */
+export async function getCollectionCounts({
+                                              service,
+                                              filter = {},
+                                          }) {
+    // Total count (no filters)
+    const totalResult = await service.readByQuery({
+        aggregate: { count: ['*'] },
+    });
+
+    const totalCount = Number(totalResult?.[0]?.count || 0);
+
+    // Filtered count
+    let filterCount = totalCount;
+
+    if (filter && Object.keys(filter).length > 0) {
+        const filteredResult = await service.readByQuery({
+            filter,
+            aggregate: { count: ['*'] },
+        });
+
+        filterCount = Number(filteredResult?.[0]?.count || 0);
+    }
+
+    return {
+        totalCount,
+        filterCount,
+    };
+}

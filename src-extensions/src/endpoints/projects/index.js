@@ -1,3 +1,5 @@
+import {getCollectionCounts} from "../../helpers/index.js";
+
 export default (router, { services, exceptions, getSchema, database}) => {
     const { ItemsService, AssetsService } = services;
 
@@ -173,39 +175,12 @@ export default (router, { services, exceptions, getSchema, database}) => {
             const offset = (page - 1) * limit;
 
             // Get total count using database connection directly
-            let totalCount = 0;
-            let filterCount = 0;
+            const filterObj = req.query.filter || {};
 
-            try {
-                const filterObj = req.query.filter || {};
-
-                // Access the database connection through the service
-                const knex = database;
-
-                // Build count query
-                let countQuery = knex('projects').count('* as count');
-
-                // Note: For complex filters, you may need to use Directus filter helpers
-                // For now, this gets the total count without filters
-                const totalResult = await countQuery;
-                totalCount = parseInt(totalResult[0]?.count) || 0;
-
-                // For filtered count, if you have filters, you'd need to apply them
-                // This is a simplified version - expand based on your filter needs
-                if (Object.keys(filterObj).length > 0) {
-                    // You can implement filter logic here or use the service
-                    filterCount = totalCount; // Simplified - same as total for now
-                } else {
-                    filterCount = totalCount;
-                }
-
-                console.log('Total count from DB:', totalCount);
-            } catch (countError) {
-                console.error('Error getting count:', countError);
-                // Fallback to projects length
-                totalCount = projects?.length || 0;
-                filterCount = totalCount;
-            }
+            const { totalCount, filterCount } = await getCollectionCounts({
+                service: projectsService,
+                filter: filterObj,
+            });
 
             // Fetch projects
             const projects = await projectsService.readByQuery({
@@ -270,11 +245,11 @@ export default (router, { services, exceptions, getSchema, database}) => {
 
             // Build proper meta object
             const meta = {
-                total_count: totalCount,
+                total_count: filterCount,
                 filter_count: filterCount,
                 limit: limit,
                 page: page,
-                page_count: Math.ceil(totalCount / limit)
+                page_count: Math.ceil(filterCount / limit)
             };
 
             console.log('Final meta:', meta);
