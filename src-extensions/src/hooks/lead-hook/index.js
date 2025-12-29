@@ -222,7 +222,7 @@ export default ({ action }, { services, database, env, logger }) => {
         start_date: lead.start_date,
         end_date: lead.end_date,
         amount: lead.amount,
-        source: "lead",
+        lead_id: lead.id,
       });
 
       /** 7️⃣ Update user with subscription info */
