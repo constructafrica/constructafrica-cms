@@ -113,7 +113,6 @@ export default ({ action }, { services, database, getSchema }) => {
         } catch (error) {
             console.error('Error tracking recent view:', error);
             console.error('Error stack:', error.stack);
-            // Don't throw error to avoid breaking the original read operation
         }
     }
 

@@ -94,7 +94,7 @@ export default (router, context) => {
                     let fields = ['id', 'status', 'date_created', 'date_updated'];
 
                     if (view.collection === 'projects') {
-                        fields.push('title', 'slug', 'summary', 'featured_image', 'contract_value_usd', 'current_stage', 'current_status.name');
+                        fields.push('title', 'slug', 'summary', 'featured_image', 'contract_value_usd', 'current_status.name');
                     } else if (view.collection === 'companies') {
                         fields.push('name', 'slug', 'company_role', 'logo', 'description');
                     }
