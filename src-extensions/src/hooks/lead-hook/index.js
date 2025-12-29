@@ -3,6 +3,8 @@ import {hashToken, generateVerificationToken} from "../../helpers/index.js";
 
 export default ({ action }, { services, database, env, logger }) => {
   const resend = new Resend(env.EMAIL_SMTP_PASSWORD);
+  const { ItemsService, UsersService } = services;
+
 
   action("leads.items.create", async ({ payload, key }, { schema }) => {
     try {
@@ -92,7 +94,12 @@ export default ({ action }, { services, database, env, logger }) => {
   =============================== */
   action("leads.items.update", async ({ payload, keys }, { schema }) => {
     try {
+      logger.info(`Starting [LEAD_UPDATE] with logger`);
+
       const leadId = keys[0];
+
+      console.log(`[LEAD_UPDATE] Converting lead ${leadId} to user`);
+
       if (!payload.status) return;
 
       const leadsService = new ItemsService("leads", {
@@ -140,7 +147,7 @@ export default ({ action }, { services, database, env, logger }) => {
         return;
       }
 
-      logger.info(`[LEAD_UPDATE] Converting lead ${leadId} to user`);
+      console.log(`[LEAD_UPDATE] Converting lead ${leadId} to user`);
 
       /** 3️⃣ Check if user already exists */
       const existingUsers = await usersService.readByQuery({
