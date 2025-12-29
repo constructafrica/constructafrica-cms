@@ -1,5 +1,6 @@
 import { defineInterface } from "@directus/extensions-sdk";
 import InterfaceComponent from "./interface.vue";
+
 export default defineInterface({
   id: "junction-dropdown",
   name: "Junction M2M Dropdown",
@@ -12,16 +13,38 @@ export default defineInterface({
   group: "relational",
   options: ({ relations }) => {
     let relatedCollection = null;
-    // relations here is the result of getRelationsForField on the alias field
+
+    console.log("DEBUG options: relations received:", relations);
+
+    // For M2M relationships, we need to find the collection on the other side of the junction
     if (relations && relations.length >= 2) {
-      // Find the one pointing to something other than current collection
-      const relatedRel = relations.find(
-          (rel) =>
-              rel.related_collection &&
-              rel.related_collection !== relations[0].related_collection,
+      // Find the junction collection (the one that's not the current collection)
+      const junctionRelation = relations.find(
+          (rel) => rel.collection !== rel.related_collection
       );
-      if (relatedRel) relatedCollection = relatedRel.related_collection;
+
+      console.log("DEBUG options: junction relation:", junctionRelation);
+
+      if (junctionRelation) {
+        const junctionCollection = junctionRelation.collection;
+
+        // Find the relation from the junction to the target collection
+        const targetRelation = relations.find(
+            (rel) =>
+                rel.collection === junctionCollection &&
+                rel.related_collection !== relations[0].related_collection
+        );
+
+        console.log("DEBUG options: target relation:", targetRelation);
+
+        if (targetRelation) {
+          relatedCollection = targetRelation.related_collection;
+        }
+      }
     }
+
+    console.log("DEBUG options: final relatedCollection:", relatedCollection);
+
     return [
       {
         field: "template",
@@ -29,7 +52,7 @@ export default defineInterface({
         meta: {
           interface: "system-display-template",
           options: {
-            collectionName: relatedCollection, // Now passes e.g., 'countries' or 'types'
+            collectionName: relatedCollection,
           },
           width: "full",
         },

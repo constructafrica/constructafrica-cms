@@ -32,11 +32,7 @@
           :disabled="disabled"
           @click:close="removeItem(item[relatedPrimaryKeyFieldName])"
       >
-        <render-template
-            :collection="relatedCollection"
-            :item="item"
-            :template="displayTemplate"
-        />
+        {{ getItemDisplay(item) }}
       </v-chip>
     </div>
     <div v-if="listOpen" class="dropdown-container">
@@ -58,19 +54,15 @@
                             isSelected(item[relatedPrimaryKeyFieldName])
                         "
               :disabled="disabled"
-              @click.stop
+              @click.stop="toggleItem(item)"
           />
           <div class="item-content">
-            <render-template
-                :collection="relatedCollection"
-                :item="item"
-                :template="displayTemplate"
-            />
+            {{ getItemDisplay(item) }}
           </div>
         </div>
       </div>
-      <div v-else-if="searchQuery && !loading" class="no-results">
-        {{ t("no_items_found") }}
+      <div v-else-if="!loading" class="no-results">
+        {{ searchQuery ? t("no_items_found") : t("no_items_available") }}
       </div>
       <v-button
           v-if="enableCreate"
@@ -233,6 +225,25 @@ export default defineComponent({
           : `{{ ${relatedPrimaryKeyFieldName.value} }}`;
     });
 
+    // Helper function to render display template
+    const getItemDisplay = (item) => {
+      if (!item) return "";
+
+      let template = displayTemplate.value;
+
+      // Simple template rendering - replace {{ field }} with actual values
+      const matches = template.match(/\{\{\s*(\w+)\s*\}\}/g);
+      if (matches) {
+        matches.forEach((match) => {
+          const fieldName = match.replace(/\{\{\s*|\s*\}\}/g, "");
+          const value = item[fieldName];
+          template = template.replace(match, value || "");
+        });
+      }
+
+      return template || item[relatedPrimaryKeyFieldName.value] || "";
+    };
+
     const selectedItemIds = computed(() => {
       if (!props.value || !Array.isArray(props.value)) return [];
       const relatedField = relationInfo.value?.relatedField;
@@ -253,15 +264,18 @@ export default defineComponent({
           })
           .filter((id) => id !== null && id !== undefined);
 
+      console.log("DEBUG: Selected item IDs:", ids);
       return ids;
     });
 
     const selectedItemsData = computed(() => {
-      return items.value.filter((item) =>
+      const data = items.value.filter((item) =>
           selectedItemIds.value.includes(
               item[relatedPrimaryKeyFieldName.value],
           ),
       );
+      console.log("DEBUG: Selected items data:", data);
+      return data;
     });
 
     const availableItems = computed(() => {
@@ -313,6 +327,7 @@ export default defineComponent({
             { params },
         );
         items.value = response.data.data || [];
+        console.log("DEBUG: Fetched items:", items.value);
       } catch (error) {
         console.error("Error fetching items:", error);
         items.value = [];
@@ -331,7 +346,7 @@ export default defineComponent({
     };
 
     const openList = () => {
-      if (!disabled) {
+      if (!props.disabled) {
         listOpen.value = true;
       }
     };
@@ -371,6 +386,7 @@ export default defineComponent({
 
       if (!selectedIds || selectedIds.length === 0) {
         emit("input", []);
+        console.log("DEBUG: Emitted empty array");
         return;
       }
 
@@ -385,15 +401,19 @@ export default defineComponent({
         });
 
         if (existingJunction) {
+          console.log("DEBUG: Preserving existing junction:", existingJunction);
           return existingJunction;
         }
 
-        return {
-          [relatedField]: { [relatedPrimaryKeyFieldName.value]: id },
+        const newJunction = {
+          [relatedField]: id,
         };
+        console.log("DEBUG: Creating new junction:", newJunction);
+        return newJunction;
       });
 
       emit("input", value);
+      console.log("DEBUG: Emitted updated value:", value);
     };
 
     const createNew = () => {
@@ -422,15 +442,17 @@ export default defineComponent({
       }
     };
 
-    // Load items on mount and when collection changes
-    onMounted(() => {
-      fetchItems();
+    // Load items on mount
+    onMounted(async () => {
+      await fetchItems();
     });
 
     watch(
-        () => props.collection,
-        () => {
-          fetchItems();
+        () => relatedCollection.value,
+        async () => {
+          if (relatedCollection.value) {
+            await fetchItems();
+          }
         },
     );
 
@@ -438,20 +460,25 @@ export default defineComponent({
     watch(
         () => props.value,
         async (newValue) => {
+          console.log("DEBUG: Value changed:", newValue);
+
           if (
               !newValue ||
               !Array.isArray(newValue) ||
               newValue.length === 0 ||
               !relatedCollection.value ||
               !relatedPrimaryKeyFieldName.value
-          )
+          ) {
             return;
+          }
 
           const missingIds = selectedItemIds.value.filter((id) => {
             return !items.value.some(
                 (item) => item[relatedPrimaryKeyFieldName.value] === id,
             );
           });
+
+          console.log("DEBUG: Missing IDs:", missingIds);
 
           if (missingIds.length > 0) {
             try {
@@ -469,13 +496,13 @@ export default defineComponent({
                   },
               );
               const fetchedItems = response.data.data || [];
+              console.log("DEBUG: Fetched missing items:", fetchedItems);
+
               fetchedItems.forEach((fetchedItem) => {
                 const exists = items.value.some(
                     (item) =>
                         item[relatedPrimaryKeyFieldName.value] ===
-                        fetchedItem[
-                            relatedPrimaryKeyFieldName.value
-                            ],
+                        fetchedItem[relatedPrimaryKeyFieldName.value],
                 );
                 if (!exists) {
                   items.value.push(fetchedItem);
@@ -486,7 +513,7 @@ export default defineComponent({
             }
           }
         },
-        { immediate: true },
+        { immediate: true, deep: true },
     );
 
     return {
@@ -513,6 +540,7 @@ export default defineComponent({
       saving,
       saveNewItem,
       listOpen,
+      getItemDisplay,
     };
   },
   directives: {
