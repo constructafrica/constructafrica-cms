@@ -55,13 +55,13 @@ export default (router, context) => {
             weight: 0.7
         },
         experts_analysts: {
-            fields: ['title', 'id', 'slug', 'bio', 'status', 'date_created'],
+            fields: ['title', 'id', 'slug','summary', 'status', 'date_created'],
             searchFields: ['title'],
             displayFields: {
                 id: "id",
                 title: 'title',
                 type: 'experts_analysts',
-                summary: 'bio',
+                summary: 'summary',
                 slug: 'slug'
             },
             weight: 0.6
@@ -73,6 +73,18 @@ export default (router, context) => {
                 id: "id",
                 title: 'title',
                 type: 'blog',
+                summary: 'summary',
+                slug: 'slug'
+            },
+            weight: 0.5
+        },
+        events: {
+            fields: ['title', 'summary', 'id', 'slug', 'status', 'date_created'],
+            searchFields: ['title', 'summary'],
+            displayFields: {
+                id: "id",
+                title: 'title',
+                type: 'events',
                 summary: 'summary',
                 slug: 'slug'
             },
