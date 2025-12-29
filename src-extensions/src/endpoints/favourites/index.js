@@ -660,7 +660,6 @@ export default (router, context) => {
                                 summary: 'summary',
                                 slug: 'slug',
                                 date: 'date_created',
-                                current_stage: 'current_stage',
                                 current_status: 'current_status.name',
                                 contract_value_usd: 'contract_value_usd',
                                 location: 'location',
@@ -790,7 +789,6 @@ export default (router, context) => {
                                 date_created: getFieldValue(item, mapping?.date),
                                 // Collection-specific additional fields
                                 ...(fav.collection === 'projects' && {
-                                    current_stage: item.current_stage,
                                     current_status: item.current_status,
                                     contract_value_usd: item.contract_value_usd,
                                     location: item.location,
@@ -1000,7 +998,6 @@ export default (router, context) => {
                                 summary: 'summary',
                                 slug: 'slug',
                                 date: 'date_created',
-                                current_stage: 'current_stage',
                                 current_status: 'current_status.name',
                                 contract_value_usd: 'contract_value_usd',
                                 location: 'location',
@@ -1132,7 +1129,6 @@ export default (router, context) => {
                                 date_created: getFieldValue(item, mapping?.date),
                                 // Collection-specific additional fields
                                 ...(fav.collection === 'projects' && {
-                                    current_stage: item.current_stage,
                                     current_status: item.current_status,
                                     contract_value_usd: item.contract_value_usd,
                                     location: item.location,
