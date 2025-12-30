@@ -745,6 +745,7 @@ export default (router, { services, database, exceptions, getSchema }) => {
                     userId: accountability.user,
                     schema,
                     accountability,
+                    ItemsService
                 });
             } catch (notificationError) {
                 console.warn(

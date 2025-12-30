@@ -17,7 +17,6 @@ export default defineEndpoint((router, { services }) => {
             }
 
             const userId = req.accountability.user;
-
             const schema = req.schema;
 
             const notificationsService = new ItemsService('notifications', {
@@ -38,39 +37,50 @@ export default defineEndpoint((router, { services }) => {
                 filter.is_read = { _eq: false };
             }
 
+            // Fetch notifications
             const notifications = await notificationsService.readByQuery({
                 filter,
                 sort: ['-date_created'],
                 limit,
                 page,
+                fields: ['*'], // Explicitly specify fields
             });
 
-            // Get unread count
-            const unreadCountResult = await notificationsService.readByQuery({
+            console.log('[NOTIFICATIONS_ENDPOINT] Notifications result:', notifications);
+
+            // Get unread count - use getItemCount instead of aggregate
+            const unreadCount = await notificationsService.readByQuery({
                 filter: {
                     user: { _eq: userId },
                     is_read: { _eq: false },
                 },
-                aggregate: { count: '*' },
+                limit: 0, // Don't return items
+                meta: ['total_count'], // Request total count in meta
             });
 
-            const unreadCount = unreadCountResult?.[0]?.count || 0;
+            console.log('[NOTIFICATIONS_ENDPOINT] Unread count result:', unreadCount);
+
+            // Extract the actual count
+            const totalUnread = unreadCount?.meta?.total_count || 0;
 
             return res.json({
                 success: true,
-                data: notifications,
+                data: notifications || [],
                 meta: {
                     page,
                     limit,
-                    unread_count: unreadCount,
+                    unread_count: totalUnread,
+                    total_count: notifications?.length || 0,
                 },
             });
         } catch (error) {
-            console.error('[NOTIFICATIONS_ENDPOINT]', error);
+            console.error('[NOTIFICATIONS_ENDPOINT] Error:', error);
+            console.error('[NOTIFICATIONS_ENDPOINT] Error stack:', error.stack);
 
             return res.status(500).json({
                 success: false,
                 message: 'Failed to load notifications',
+                error: error.message,
             });
         }
     });

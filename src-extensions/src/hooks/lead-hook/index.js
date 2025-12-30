@@ -322,7 +322,7 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
 
         // Send invite email
         const frontendUrl = env.FRONTEND_URL;
-        const verificationUrl = `${frontendUrl}/verify-email?token=${verificationToken}`;
+        const verificationUrl = `${frontendUrl}/project-activation?token=${verificationToken}`;
 
         try {
           const { error } = await resend.emails.send({

@@ -733,42 +733,18 @@ export default (router, { services, exceptions, getSchema, database }) => {
         project.contacts = [];
       }
 
-      // if (project.image_gallery && Array.isArray(project.image_gallery)) {
-      //     project.image_gallery = project.image_gallery
-      //         .filter(pc => pc.company_contacts_id)
-      //         .map(pc => ({
-      //             id: pc.company_contacts_id.id,
-      //             name: pc.company_contacts_id.name || null,
-      //             caption: pc.company_contacts_id.name || null,
-      //             alt_text: pc.company_contacts_id.name || null,
-      //             photo: {
-      //                 id: pc.company_contacts_id.company.id || null,
-      //                 name: pc.company_contacts_id.company.name || null,
-      //                 email: pc.company_contacts_id.company.email || null,
-      //             },
-      //             email: pc.company_contacts_id.email || null,
-      //             phone: pc.company_contacts_id.phone || null,
-      //             role: pc.company_contacts_id.role || null,
-      //             linkedin: pc.company_contacts_id.linkedin || null,
-      //             twitter: pc.company_contacts_id.twitter || null,
-      //             facebook: pc.company_contacts_id.facebook || null,
-      //         }));
-      // } else {
-      //     project.image_gallery = [];
-      // }
-
       // Handle favorites
-
       const { is_favorited, favorite_id } = accountability?.user
           ? await getFavoriteStatus({
-            projectId,
+            itemId: projectId,
             collection: 'projects',
             userId: accountability.user,
             schema,
             accountability,
-            ItemsService
+            ItemsService,
           })
           : { is_favorited: false, favorite_id: null };
+
 
       let has_notification = false;
       try {
@@ -778,6 +754,7 @@ export default (router, { services, exceptions, getSchema, database }) => {
           userId: accountability.user,
           schema,
           accountability,
+          ItemsService,
         });
       } catch (notificationError) {
         console.warn(
