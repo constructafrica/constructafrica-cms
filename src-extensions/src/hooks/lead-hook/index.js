@@ -129,8 +129,14 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
     try {
       console.log(`[LEAD_UPDATE] Processing lead update`, keys);
       logger.info(`Starting [LEAD_UPDATE]`, payload.id);
+      logger.info(`[LEAD_UPDATE] Payload:`, JSON.stringify(payload));
 
-      const leadId = payload.id;
+      const leadId = payload.id || keys[0];
+
+      if (!leadId) {
+        logger.error("[LEAD_UPDATE] No lead ID found in payload or keys");
+        return;
+      }
 
       // Only proceed if status field is being updated
       if (!payload.status) {
@@ -159,25 +165,37 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
       });
 
       // Fetch the lead
-      const lead = await leadsService.readOne(leadId, {
-        fields: [
-          "id",
-          "email",
-          "first_name",
-          "last_name",
-          "company",
-          "country",
-          "job_title",
-          "status",
-          "plan",
-          "start_date",
-          "end_date",
-          "amount",
-        ],
-      });
+      let lead;
+      try {
+        lead = await leadsService.readOne(leadId, {
+          fields: [
+            "id",
+            "email",
+            "first_name",
+            "last_name",
+            "company",
+            "country",
+            "job_title",
+            "status",
+            "plan",
+            "start_date",
+            "end_date",
+            "amount",
+          ],
+        });
+        logger.info(`[LEAD_UPDATE] Lead fetched:`, JSON.stringify(lead));
+      } catch (fetchError) {
+        logger.error("[LEAD_UPDATE] Failed to fetch lead", {
+          leadId,
+          message: fetchError.message,
+          stack: fetchError.stack,
+        });
+        throw fetchError;
+      }
 
       // Only act on status transition TO "subscribed"
       if (lead.status === "subscribed" || payload.status !== "subscribed") {
+        logger.info(`[LEAD_UPDATE] Skipping conversion - current status: ${lead.status}, new status: ${payload.status}`);
         return;
       }
 
@@ -185,15 +203,30 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
 
       // Validate required fields
       if (!lead.email || !lead.plan) {
-        logger.error("[LEAD_UPDATE] Missing required fields (email or plan)");
-        return;
+        logger.error("[LEAD_UPDATE] Missing required fields", {
+          hasEmail: !!lead.email,
+          hasPlan: !!lead.plan,
+          email: lead.email,
+          plan: lead.plan,
+        });
+        throw new Error("Missing required fields: email or plan");
       }
 
       // Check if user already exists
-      const existingUsers = await usersService.readByQuery({
-        filter: { email: { _eq: lead.email } },
-        limit: 1,
-      });
+      let existingUsers;
+      try {
+        existingUsers = await usersService.readByQuery({
+          filter: { email: { _eq: lead.email } },
+          limit: 1,
+        });
+        logger.info(`[LEAD_UPDATE] Found ${existingUsers.length} existing users with email ${lead.email}`);
+      } catch (userCheckError) {
+        logger.error("[LEAD_UPDATE] Failed to check for existing users", {
+          email: lead.email,
+          message: userCheckError.message,
+        });
+        throw userCheckError;
+      }
 
       let user;
 
@@ -202,13 +235,24 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
         logger.info(`[LEAD_UPDATE] User already exists: ${user.id}`);
       } else {
         // Fetch plan details
-        const plan = await plansService.readOne(lead.plan, {
-          fields: ['id', 'role']
-        });
+        let plan;
+        try {
+          plan = await plansService.readOne(lead.plan, {
+            fields: ['id', 'role']
+          });
+          logger.info(`[LEAD_UPDATE] Plan fetched:`, JSON.stringify(plan));
+        } catch (planError) {
+          logger.error("[LEAD_UPDATE] Failed to fetch plan", {
+            planId: lead.plan,
+            message: planError.message,
+          });
+          throw planError;
+        }
 
         if (!plan) {
+          const error = new Error("Plan not found");
           logger.error("[LEAD_UPDATE] Plan not found", { planId: lead.plan });
-          return;
+          throw error;
         }
 
         // Generate verification token
@@ -320,19 +364,34 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
 
       // Notify admin of failure
       try {
-        const leadsService = new ItemsService("leads", {
-          knex: database,
-          schema,
-        });
+        let leadForEmail;
+        try {
+          const leadsService = new ItemsService("leads", {
+            knex: database,
+            schema,
+          });
 
-        const lead = await leadsService.readOne(payload.id, {
-          fields: ["id", "email", "first_name", "last_name", "company"],
-        });
+          leadForEmail = await leadsService.readOne(leadId, {
+            fields: ["id", "email", "first_name", "last_name", "company"],
+          });
+        } catch (leadFetchError) {
+          logger.error("[LEAD_UPDATE] Failed to fetch lead for email notification", {
+            message: leadFetchError.message,
+          });
+          // Use basic info from error context
+          leadForEmail = {
+            id: leadId,
+            email: "Unknown",
+            first_name: "",
+            last_name: "",
+            company: "",
+          };
+        }
 
         await resend.emails.send({
           from: env.EMAIL_FROM,
           to: env.ADMIN_EMAIL,
-          subject: "Lead Conversion Failed",
+          subject: "⚠️ Lead Conversion Failed",
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2 style="color: #dc2626;">Lead Conversion Failed</h2>
@@ -342,19 +401,19 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
               <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
                 <tr>
                   <td style="padding: 8px 0;"><strong>Lead ID</strong></td>
-                  <td>${lead.id}</td>
+                  <td>${leadForEmail.id}</td>
                 </tr>
                 <tr>
                   <td style="padding: 8px 0;"><strong>Name</strong></td>
-                  <td>${lead.first_name || ""} ${lead.last_name || ""}</td>
+                  <td>${leadForEmail.first_name || ""} ${leadForEmail.last_name || ""}</td>
                 </tr>
                 <tr>
                   <td style="padding: 8px 0;"><strong>Email</strong></td>
-                  <td>${lead.email || "—"}</td>
+                  <td>${leadForEmail.email || "—"}</td>
                 </tr>
                 <tr>
                   <td style="padding: 8px 0;"><strong>Company</strong></td>
-                  <td>${lead.company || "—"}</td>
+                  <td>${leadForEmail.company || "—"}</td>
                 </tr>
               </table>
 
@@ -367,7 +426,7 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
 
               <p>
                 <a
-                  href="${env.PUBLIC_URL}/admin/leads/${lead.id}"
+                  href="${env.PUBLIC_URL}/admin/leads/${leadForEmail.id}"
                   style="
                     display: inline-block;
                     padding: 12px 20px;

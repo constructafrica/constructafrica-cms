@@ -146,6 +146,104 @@ export default (router, { services, exceptions, env, logger }) => {
         }
     });
 
+    router.post('/activate', async (req, res) => {
+        logger.info('🔑 Password reset attempt received');
+
+        try {
+            const { token, password } = req.body;
+
+            // Validate inputs
+            if (!token || !password) {
+                return res.status(422).json({
+                    success: false,
+                    message: 'Token and password are required'
+                });
+            }
+
+            // Validate password strength
+            if (password.length < 8) {
+                return res.status(422).json({
+                    success: false,
+                    message: 'Password must be at least 8 characters'
+                });
+            }
+
+            const usersService = new UsersService({ schema: req.schema });
+
+            // Hash the provided token to match stored hash
+            const hashedToken = hashToken(token);
+
+            // Find user with matching token that hasn't expired
+            const users = await usersService.readByQuery({
+                filter: {
+                    _and: [
+                        { email_verification_token: { _eq: hashedToken } },
+                        { verification_token_expires: { _gt: new Date().toISOString() } }
+                    ]
+                },
+                limit: 1
+            });
+
+            if (users.length === 0) {
+                logger.warn('Invalid or expired reset token used');
+                return res.status(400).json({
+                    success: false,
+                    message: 'Invalid or expired reset token'
+                });
+            }
+
+            const user = users[0];
+
+            // Update password and clear reset token
+            await usersService.updateOne(user.id, {
+                status: 'active',
+                password: password,
+                verification_status: true,
+                email_verification_token: null,
+                verification_token_expires: null
+            });
+
+            logger.info(`Account successfully activated for user: ${user.email}`);
+
+            // Optional: Send confirmation email
+            // try {
+            //     await fetch('https://api.resend.com/emails', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Authorization': `Bearer ${env.EMAIL_SMTP_PASSWORD}`,
+            //             'Content-Type': 'application/json'
+            //         },
+            //         body: JSON.stringify({
+            //             from: env.EMAIL_FROM || 'onboarding@resend.dev',
+            //             to: user.email,
+            //             subject: 'Password Changed Successfully',
+            //             html: `
+            //                 <h2>Password Changed</h2>
+            //                 <p>Your password has been successfully changed.</p>
+            //                 <p>If you didn't make this change, please contact support immediately.</p>
+            //             `
+            //         })
+            //     });
+            // } catch (emailError) {
+            //     // Don't fail the request if confirmation email fails
+            //     logger.warn('Failed to send password change confirmation:', emailError);
+            // }
+
+            return res.json({
+                success: true,
+                message: 'Account has been activated successfully. You can now login with your email and password.'
+            });
+
+        } catch (error) {
+            logger.error('❌ Reset password error:', error);
+            return res.status(500).json({
+                success: false,
+                message: 'An error occurred. Please try again.'
+            });
+        }
+    });
+
+
     // POST /auth/verify-email
     router.post('/verify-email', async (req, res) => {
         try {
