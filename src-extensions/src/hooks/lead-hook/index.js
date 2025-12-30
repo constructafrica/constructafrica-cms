@@ -125,7 +125,7 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
   /* ===============================
      UPDATE: Convert lead → user
   =============================== */
-  action("leads.items.update", async ({ payload, keys }) => {
+  action("leads.items.update", async ({ payload, keys }, { schema }) => {
     // Log immediately to confirm hook is triggered
     console.log(`[LEAD_UPDATE] ========== HOOK TRIGGERED ==========`);
     console.log(`[LEAD_UPDATE] Keys:`, keys);
@@ -152,8 +152,6 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
       }
 
       console.log(`[LEAD_UPDATE] Status in payload: ${payload.status}`);
-
-      const schema = await getSchema({ database });
 
       // Initialize services
       const leadsService = new ItemsService("leads", {
@@ -289,21 +287,42 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
         const hashedToken = hashToken(verificationToken);
 
         // Create user
-        user = await usersService.createOne({
-          email: lead.email,
-          first_name: lead.first_name,
-          last_name: lead.last_name,
-          status: "draft",
-          email_verification_token: hashedToken,
-          verification_status: false,
-          role: plan.role,
-        });
+        try {
+          user = await usersService.createOne({
+            email: lead.email,
+            first_name: lead.first_name,
+            last_name: lead.last_name,
+            status: "draft",
+            email_verification_token: hashedToken,
+            verification_status: false,
+            role: plan.role,
+          });
 
-        logger.info(`[LEAD_UPDATE] User created: ${user.id}`);
+          logger.info(`[LEAD_UPDATE] User created with ID: ${user?.id || user}`);
+          console.log(`[LEAD_UPDATE] User object:`, JSON.stringify(user));
+
+          // If user is just an ID string, fetch the full user object
+          if (typeof user === 'string') {
+            const userId = user;
+            user = await usersService.readOne(userId);
+            logger.info(`[LEAD_UPDATE] Fetched full user object for ${userId}`);
+          }
+
+          if (!user || !user.id) {
+            throw new Error("User creation returned invalid object");
+          }
+        } catch (userCreateError) {
+          logger.error("[LEAD_UPDATE] Failed to create user", {
+            email: lead.email,
+            message: userCreateError.message,
+            stack: userCreateError.stack,
+          });
+          throw userCreateError;
+        }
 
         // Send invite email
         const frontendUrl = env.FRONTEND_URL;
-        const verificationUrl = `${frontendUrl}/activate?token=${verificationToken}`;
+        const verificationUrl = `${frontendUrl}/verify-email?token=${verificationToken}`;
 
         try {
           const { error } = await resend.emails.send({
@@ -361,28 +380,62 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
       }
 
       // Create subscription
-      const subscription = await subscriptionsService.createOne({
-        user: user.id,
-        plan: lead.plan,
-        status: "active",
-        start_date: lead.start_date,
-        end_date: lead.end_date,
-        amount: lead.amount,
-        lead_id: lead.id,
-      });
+      let subscription;
+      try {
+        subscription = await subscriptionsService.createOne({
+          user: user.id,
+          plan: lead.plan,
+          status: "active",
+          start_date: lead.start_date,
+          end_date: lead.end_date,
+          amount: lead.amount,
+          lead_id: lead.id,
+        });
 
-      logger.info(`[LEAD_UPDATE] Subscription created: ${subscription.id}`);
+        logger.info(`[LEAD_UPDATE] Subscription created with ID: ${subscription?.id || subscription}`);
+        console.log(`[LEAD_UPDATE] Subscription object:`, JSON.stringify(subscription));
+
+        // If subscription is just an ID string, fetch the full object
+        if (typeof subscription === 'string') {
+          const subscriptionId = subscription;
+          subscription = await subscriptionsService.readOne(subscriptionId);
+          logger.info(`[LEAD_UPDATE] Fetched full subscription object for ${subscriptionId}`);
+        }
+
+        if (!subscription || !subscription.id) {
+          throw new Error("Subscription creation returned invalid object");
+        }
+      } catch (subscriptionError) {
+        logger.error("[LEAD_UPDATE] Failed to create subscription", {
+          userId: user.id,
+          leadId: lead.id,
+          message: subscriptionError.message,
+          stack: subscriptionError.stack,
+        });
+        throw subscriptionError;
+      }
 
       // Update user with subscription info
-      await usersService.updateOne(user.id, {
-        subscription_status: "active",
-        subscription_start: lead.start_date,
-        subscription_expiry: lead.end_date,
-        active_subscription: subscription.id,
-        subscription_plan: lead.plan,
-      });
+      try {
+        await usersService.updateOne(user.id, {
+          subscription_status: "active",
+          subscription_start: lead.start_date,
+          subscription_expiry: lead.end_date,
+          active_subscription: subscription.id,
+          subscription_plan: lead.plan,
+        });
 
-      logger.info(`[LEAD_UPDATE] User ${user.id} updated with subscription info`);
+        logger.info(`[LEAD_UPDATE] User ${user.id} updated with subscription info`);
+        console.log(`[LEAD_UPDATE] ========== CONVERSION SUCCESSFUL ==========`);
+      } catch (updateError) {
+        logger.error("[LEAD_UPDATE] Failed to update user with subscription info", {
+          userId: user.id,
+          subscriptionId: subscription.id,
+          message: updateError.message,
+          stack: updateError.stack,
+        });
+        throw updateError;
+      }
 
     } catch (error) {
       logger.error("[LEAD_UPDATE] Failed to convert lead", {
