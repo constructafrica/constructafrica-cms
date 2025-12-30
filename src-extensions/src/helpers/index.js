@@ -184,3 +184,32 @@ export async function addRelationStatus({
     ...(idName ? { [idName]: map.get(item.id) || null } : {}),
   }));
 }
+
+export async function getNotificationStatus({
+                                       entityType,
+                                       entityId,
+                                       userId,
+                                       schema,
+                                       accountability,
+                                              ItemsService
+                                     }) {
+  if (!userId) return false;
+
+  const notificationsService = new ItemsService('user_newsletters', {
+    schema,
+    accountability,
+  });
+
+  const existing = await notificationsService.readByQuery({
+    filter: {
+      _and: [
+        { user_created: { _eq: userId } },
+        { entity_type: { _eq: entityType } },
+        { entity_id: { _eq: entityId } },
+      ],
+    },
+    limit: 1,
+  });
+
+  return existing.length > 0;
+}

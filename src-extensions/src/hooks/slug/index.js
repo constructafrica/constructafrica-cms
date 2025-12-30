@@ -121,7 +121,6 @@ export default ({ action }, { services, getSchema }) => {
             if (actionType === 'create') {
                 itemData = meta.payload;
             } else if (actionType === 'update') {
-                // For updates, we need to get the current item to check if slug exists
                 const currentItem = await collectionService.readOne(meta.key, {
                     fields: [config.slugField, config.sourceField]
                 });
@@ -164,7 +163,6 @@ export default ({ action }, { services, getSchema }) => {
 
         } catch (error) {
             console.error(`Auto Slug: Error generating slug for ${collection}:`, error);
-            // Don't throw error to avoid breaking the create/update operation
         }
     }
 

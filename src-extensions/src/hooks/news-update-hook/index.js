@@ -1,4 +1,6 @@
-export default ({ action }, { services }) => {
+import { Resend } from "resend";
+export default ({ action }, { services, env }) => {
+  const resend = new Resend(env.EMAIL_SMTP_PASSWORD);
   const { ItemsService, UsersService } = services;
 
   action(
@@ -52,14 +54,20 @@ export default ({ action }, { services }) => {
           accountability,
         });
 
+        await entityService.updateOne(entityId, {
+          news_update_at: new Date().toISOString()
+        });
+
+        const fieldName = entityType === 'companies' ? 'name' : 'title';
+
         /**
          * Fetch entity (project / company)
          */
         const entity = await entityService.readOne(entityId, {
-          fields: ["id", "title", "name"],
+          fields: ["id", fieldName],
         });
 
-        const entityTitle = entity.title || entity.name || "New Update";
+        const entityTitle =  entityType === 'companies' ? entity.name : entity.title;
 
         /**
          * Get subscribed users
@@ -81,6 +89,7 @@ export default ({ action }, { services }) => {
         for (const sub of subscriptions) {
           const userId = sub.user_created;
           if (!userId) continue;
+
 
           const user = await usersService.readOne(userId, {
             fields: ["email", "first_name"],

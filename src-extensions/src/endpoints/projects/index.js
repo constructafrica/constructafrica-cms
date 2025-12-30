@@ -1,4 +1,4 @@
-import { getCollectionCounts, addRelationStatus } from "../../helpers/index.js";
+import {getCollectionCounts, addRelationStatus, getNotificationStatus, getFavoriteStatus} from "../../helpers/index.js";
 
 export default (router, { services, exceptions, getSchema, database }) => {
   const { ItemsService, AssetsService } = services;
@@ -758,45 +758,43 @@ export default (router, { services, exceptions, getSchema, database }) => {
       // }
 
       // Handle favorites
-      let is_favorited = false;
-      let favorite_id = null;
 
-      if (accountability?.user) {
-        try {
-          const favoritesService = new ItemsService("favourites", {
-            schema: schema,
-            accountability: accountability,
-          });
+      const { is_favorited, favorite_id } = accountability?.user
+          ? await getFavoriteStatus({
+            projectId,
+            collection: 'projects',
+            userId: accountability.user,
+            schema,
+            accountability,
+            ItemsService
+          })
+          : { is_favorited: false, favorite_id: null };
 
-          const existingFavorite = await favoritesService.readByQuery({
-            filter: {
-              _and: [
-                { user_created: { _eq: accountability.user } },
-                { collection: { _eq: "projects" } },
-                { item_id: { _eq: projectId } },
-              ],
-            },
-            limit: 1,
-          });
-
-          if (existingFavorite.length > 0) {
-            is_favorited = true;
-            favorite_id = existingFavorite[0].id;
-          }
-        } catch (favoritesError) {
-          console.warn(
-            "Failed to fetch favorite status:",
-            favoritesError.message,
-          );
-        }
+      let has_notification = false;
+      try {
+        has_notification = await getNotificationStatus({
+          entityType: 'projects',
+          entityId: projectId,
+          userId: accountability.user,
+          schema,
+          accountability,
+        });
+      } catch (notificationError) {
+        console.warn(
+            'Failed to fetch notification status:',
+            notificationError.message
+        );
       }
 
       const projectWithFavorite = {
         ...project,
         is_favorited,
         favorite_id,
+        has_notification,
         authenticated: !!accountability?.user,
       };
+
+
 
       return res.json({
         data: projectWithFavorite,

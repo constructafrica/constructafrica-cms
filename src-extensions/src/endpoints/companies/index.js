@@ -1,4 +1,10 @@
-import {addFavoritesStatus, addRelationStatus, getCollectionCounts, getFavoriteStatus} from "../../helpers/index.js";
+import {
+    addFavoritesStatus,
+    addRelationStatus,
+    getCollectionCounts,
+    getFavoriteStatus,
+    getNotificationStatus
+} from "../../helpers/index.js";
 
 export default (router, { services, database, exceptions, getSchema }) => {
     const { ItemsService, AssetsService } = services;
@@ -731,10 +737,27 @@ export default (router, { services, database, exceptions, getSchema }) => {
                 })
                 : { is_favorited: false, favorite_id: null };
 
+            let has_notification = false;
+            try {
+                has_notification = await getNotificationStatus({
+                    entityType: 'companies',
+                    entityId: itemId,
+                    userId: accountability.user,
+                    schema,
+                    accountability,
+                });
+            } catch (notificationError) {
+                console.warn(
+                    'Failed to fetch notification status:',
+                    notificationError.message
+                );
+            }
+
             const itemWithFavorite = {
                 ...item,
                 is_favorited,
-                favorite_id
+                favorite_id,
+                has_notification
             };
 
             res.json({
