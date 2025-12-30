@@ -1,16 +1,17 @@
 import { Resend } from "resend";
-import {hashToken, generateVerificationToken} from "../../helpers/index.js";
+import { hashToken, generateVerificationToken } from "../../helpers/index.js";
 
-export default ({ action }, { services, database, env, logger, getSchema}) => {
+export default ({ action }, { services, database, env, logger, getSchema }) => {
   const resend = new Resend(env.EMAIL_SMTP_PASSWORD);
   const { ItemsService, UsersService } = services;
 
+  /* ===============================
+     CREATE: New lead notification
+  =============================== */
   action("leads.items.create", async ({ payload, key }, { schema }) => {
-
     try {
-      console.log(`[CREATE LEAD] Converting lead to user`);
-      logger.info("[LEAD_HOOK] New demo booking:", payload.id);
-      const schema = await getSchema();
+      console.log(`[CREATE LEAD] New lead created`);
+      logger.info("[LEAD_HOOK] New demo booking:", key);
 
       const {
         first_name,
@@ -22,15 +23,31 @@ export default ({ action }, { services, database, env, logger, getSchema}) => {
         job_title,
       } = payload;
 
-      const countryService = await ItemsService("countries", {
-        schema: schema,
-      });
+      // Validate required fields
+      if (!email) {
+        logger.error("[LEAD_HOOK] Missing required email field");
+        return;
+      }
 
-      const countryModel = countryService.readOne(country, {
-        fields: ['id', 'name']
-      })
+      let countryName = "—";
 
-      console.log('Counties', countryModel);
+      // Fetch country if provided
+      if (country) {
+        try {
+          const countryService = new ItemsService("countries", {
+            knex: database,
+            schema: schema,
+          });
+
+          const countryModel = await countryService.readOne(country, {
+            fields: ['id', 'name']
+          });
+
+          countryName = countryModel?.name || "—";
+        } catch (error) {
+          logger.warn("[LEAD_HOOK] Could not fetch country", { country, error: error.message });
+        }
+      }
 
       /** 📧 EMAIL ADMIN */
       await resend.emails.send({
@@ -38,62 +55,62 @@ export default ({ action }, { services, database, env, logger, getSchema}) => {
         to: env.ADMIN_EMAIL,
         subject: "New Project Demo Booked",
         html: `
-                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                            <h2 style="color: #111827;">New Project Demo Booking</h2>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #111827;">New Project Demo Booking</h2>
 
-                            <p>A new project demo has just been booked with the following details:</p>
+            <p>A new project demo has just been booked with the following details:</p>
 
-                            <table style="width:100%; border-collapse: collapse;">
-                                <tr>
-                                    <td style="padding: 8px 0;"><strong>Name</strong></td>
-                                    <td>${first_name || ""} ${last_name || ""}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 0;"><strong>Company</strong></td>
-                                    <td>${company || "—"}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 0;"><strong>Email</strong></td>
-                                    <td>${email || "—"}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 0;"><strong>Phone</strong></td>
-                                    <td>${phone || "—"}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 0;"><strong>Country</strong></td>
-                                    <td>${countryModel.name || "—"}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 0;"><strong>Job Title</strong></td>
-                                    <td>${job_title || "—"}</td>
-                                </tr>
-                            </table>
+            <table style="width:100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0;"><strong>Name</strong></td>
+                <td>${first_name || ""} ${last_name || ""}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0;"><strong>Company</strong></td>
+                <td>${company || "—"}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0;"><strong>Email</strong></td>
+                <td>${email || "—"}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0;"><strong>Phone</strong></td>
+                <td>${phone || "—"}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0;"><strong>Country</strong></td>
+                <td>${countryName}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0;"><strong>Job Title</strong></td>
+                <td>${job_title || "—"}</td>
+              </tr>
+            </table>
 
-                            <hr style="margin: 24px 0;" />
+            <hr style="margin: 24px 0;" />
 
-                            <p>
-                                <a
-                                    href="${env.PUBLIC_URL}/admin/leads/${key}"
-                                    style="
-                                        display: inline-block;
-                                        padding: 12px 20px;
-                                        background-color: #111827;
-                                        color: #ffffff;
-                                        text-decoration: none;
-                                        border-radius: 6px;
-                                        font-weight: bold;
-                                    "
-                                >
-                                    View Lead in Admin
-                                </a>
-                            </p>
+            <p>
+              <a
+                href="${env.PUBLIC_URL}/admin/leads/${key}"
+                style="
+                  display: inline-block;
+                  padding: 12px 20px;
+                  background-color: #111827;
+                  color: #ffffff;
+                  text-decoration: none;
+                  border-radius: 6px;
+                  font-weight: bold;
+                "
+              >
+                View Lead in Admin
+              </a>
+            </p>
 
-                            <p style="margin-top: 24px; font-size: 12px; color: #6b7280;">
-                                This email was automatically sent when a demo was booked.
-                            </p>
-                        </div>
-                    `,
+            <p style="margin-top: 24px; font-size: 12px; color: #6b7280;">
+              This email was automatically sent when a demo was booked.
+            </p>
+          </div>
+        `,
       });
 
       logger.info("[LEAD_HOOK] Admin notification email sent");
@@ -110,16 +127,17 @@ export default ({ action }, { services, database, env, logger, getSchema}) => {
   =============================== */
   action("leads.items.update", async ({ payload, keys }, { schema }) => {
     try {
-      console.log(`[LEAD_UPDATE] Converting lead to user`, payload.id);
-
-      logger.info(`Starting [LEAD_UPDATE] with logger`, payload.id);
+      console.log(`[LEAD_UPDATE] Processing lead update`, keys);
+      logger.info(`Starting [LEAD_UPDATE]`, payload.id);
 
       const leadId = payload.id;
 
-      console.log(`[LEAD_UPDATE] Converting lead ${leadId} to user`);
+      // Only proceed if status field is being updated
+      if (!payload.status) {
+        return;
+      }
 
-      if (!payload.status) return;
-
+      // Initialize services
       const leadsService = new ItemsService("leads", {
         knex: database,
         schema,
@@ -140,6 +158,7 @@ export default ({ action }, { services, database, env, logger, getSchema}) => {
         schema
       });
 
+      // Fetch the lead
       const lead = await leadsService.readOne(leadId, {
         fields: [
           "id",
@@ -157,17 +176,20 @@ export default ({ action }, { services, database, env, logger, getSchema}) => {
         ],
       });
 
-      /** 2️⃣ Only act on status transition */
-      if (
-          lead.status === "subscribed" ||
-          payload.status !== "subscribed"
-      ) {
+      // Only act on status transition TO "subscribed"
+      if (lead.status === "subscribed" || payload.status !== "subscribed") {
         return;
       }
 
       console.log(`[LEAD_UPDATE] Converting lead ${leadId} to user`);
 
-      /** 3️⃣ Check if user already exists */
+      // Validate required fields
+      if (!lead.email || !lead.plan) {
+        logger.error("[LEAD_UPDATE] Missing required fields (email or plan)");
+        return;
+      }
+
+      // Check if user already exists
       const existingUsers = await usersService.readByQuery({
         filter: { email: { _eq: lead.email } },
         limit: 1,
@@ -179,14 +201,21 @@ export default ({ action }, { services, database, env, logger, getSchema}) => {
         user = existingUsers[0];
         logger.info(`[LEAD_UPDATE] User already exists: ${user.id}`);
       } else {
-        const verificationToken = generateVerificationToken();
-        const hashedToken = hashToken(verificationToken);
-
-        const plan = await plansService.readOne(resolvedPlanId, {
+        // Fetch plan details
+        const plan = await plansService.readOne(lead.plan, {
           fields: ['id', 'role']
         });
 
-        /** 4️⃣ Create user */
+        if (!plan) {
+          logger.error("[LEAD_UPDATE] Plan not found", { planId: lead.plan });
+          return;
+        }
+
+        // Generate verification token
+        const verificationToken = generateVerificationToken();
+        const hashedToken = hashToken(verificationToken);
+
+        // Create user
         user = await usersService.createOne({
           email: lead.email,
           first_name: lead.first_name,
@@ -197,49 +226,68 @@ export default ({ action }, { services, database, env, logger, getSchema}) => {
           role: plan.role,
         });
 
-        /** Send invite email */
+        logger.info(`[LEAD_UPDATE] User created: ${user.id}`);
+
+        // Send invite email
         const frontendUrl = env.FRONTEND_URL;
         const verificationUrl = `${frontendUrl}/verify-email?token=${verificationToken}`;
 
-        const { error } = await resend.emails.send({
-          from: env.EMAIL_FROM,
-          to: lead.email,
-          subject: "You're invited — activate your account",
-          html: `
-            <h2>Welcome to ConstructAfrica</h2>
-            <p>Hello ${lead.first_name || ""},</p>
+        try {
+          const { error } = await resend.emails.send({
+            from: env.EMAIL_FROM,
+            to: lead.email,
+            subject: "You're invited — activate your account",
+            html: `
+              <h2>Welcome to ConstructAfrica</h2>
+              <p>Hello ${lead.first_name || ""},</p>
 
-            <p>
-              An account has been created for you following your subscription.
-              Please verify your email to activate your access.
-            </p>
+              <p>
+                An account has been created for you following your subscription.
+                Please verify your email to activate your access.
+              </p>
 
-            <p>
-              <a href="${verificationUrl}">
-                Activate your account
-              </a>
-            </p>
+              <p>
+                <a href="${verificationUrl}" style="
+                  display: inline-block;
+                  padding: 12px 20px;
+                  background-color: #111827;
+                  color: #ffffff;
+                  text-decoration: none;
+                  border-radius: 6px;
+                  font-weight: bold;
+                ">
+                  Activate your account
+                </a>
+              </p>
 
-            <p>
-              Or copy and paste this link into your browser:
-              <br />
-              ${verificationUrl}
-            </p>
+              <p>
+                Or copy and paste this link into your browser:
+                <br />
+                ${verificationUrl}
+              </p>
 
-            <p>This link expires in 24 hours.</p>
-          `,
-        });
+              <p>This link expires in 24 hours.</p>
+            `,
+          });
 
-        if (error) {
-          logger.error("❌ Failed to send invite email", error);
-          await usersService.deleteOne(user);
-          throw new Error("Invite email failed");
+          if (error) {
+            logger.error("❌ Failed to send invite email", error);
+            // Rollback user creation
+            await usersService.deleteOne(user.id);
+            throw new Error("Invite email failed - user creation rolled back");
+          }
+
+          logger.info(`[LEAD_UPDATE] Invite sent to ${lead.email}`);
+        } catch (emailError) {
+          logger.error("[LEAD_UPDATE] Email sending failed", {
+            message: emailError.message,
+            stack: emailError.stack,
+          });
+          throw emailError;
         }
-
-        logger.info(`[LEAD_UPDATE] Invite sent to ${lead.email}`);
       }
 
-      /** 6️⃣ Create subscription */
+      // Create subscription
       const subscription = await subscriptionsService.createOne({
         user: user.id,
         plan: lead.plan,
@@ -250,7 +298,9 @@ export default ({ action }, { services, database, env, logger, getSchema}) => {
         lead_id: lead.id,
       });
 
-      /** 7️⃣ Update user with subscription info */
+      logger.info(`[LEAD_UPDATE] Subscription created: ${subscription.id}`);
+
+      // Update user with subscription info
       await usersService.updateOne(user.id, {
         subscription_status: "active",
         subscription_start: lead.start_date,
@@ -259,14 +309,92 @@ export default ({ action }, { services, database, env, logger, getSchema}) => {
         subscription_plan: lead.plan,
       });
 
-      logger.info(
-          `[LEAD_UPDATE] Subscription created for user ${user.id}`
-      );
+      logger.info(`[LEAD_UPDATE] User ${user.id} updated with subscription info`);
+
     } catch (error) {
       logger.error("[LEAD_UPDATE] Failed to convert lead", {
+        leadId: payload.id,
         message: error.message,
         stack: error.stack,
       });
+
+      // Notify admin of failure
+      try {
+        const leadsService = new ItemsService("leads", {
+          knex: database,
+          schema,
+        });
+
+        const lead = await leadsService.readOne(payload.id, {
+          fields: ["id", "email", "first_name", "last_name", "company"],
+        });
+
+        await resend.emails.send({
+          from: env.EMAIL_FROM,
+          to: env.ADMIN_EMAIL,
+          subject: "Lead Conversion Failed",
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #dc2626;">Lead Conversion Failed</h2>
+
+              <p>An error occurred while converting a lead to a user subscription.</p>
+
+              <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                <tr>
+                  <td style="padding: 8px 0;"><strong>Lead ID</strong></td>
+                  <td>${lead.id}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0;"><strong>Name</strong></td>
+                  <td>${lead.first_name || ""} ${lead.last_name || ""}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0;"><strong>Email</strong></td>
+                  <td>${lead.email || "—"}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0;"><strong>Company</strong></td>
+                  <td>${lead.company || "—"}</td>
+                </tr>
+              </table>
+
+              <div style="background-color: #fef2f2; border-left: 4px solid #dc2626; padding: 12px; margin: 20px 0;">
+                <p style="margin: 0; font-weight: bold; color: #dc2626;">Error Message:</p>
+                <p style="margin: 8px 0 0 0; font-family: monospace; font-size: 14px;">
+                  ${error.message}
+                </p>
+              </div>
+
+              <p>
+                <a
+                  href="${env.PUBLIC_URL}/admin/leads/${lead.id}"
+                  style="
+                    display: inline-block;
+                    padding: 12px 20px;
+                    background-color: #111827;
+                    color: #ffffff;
+                    text-decoration: none;
+                    border-radius: 6px;
+                    font-weight: bold;
+                  "
+                >
+                  View Lead in Admin
+                </a>
+              </p>
+
+              <p style="margin-top: 24px; font-size: 12px; color: #6b7280;">
+                Please review and manually process this lead conversion.
+              </p>
+            </div>
+          `,
+        });
+
+        logger.info("[LEAD_UPDATE] Admin failure notification sent");
+      } catch (notificationError) {
+        logger.error("[LEAD_UPDATE] Failed to send admin failure notification", {
+          message: notificationError.message,
+        });
+      }
     }
   });
 };
