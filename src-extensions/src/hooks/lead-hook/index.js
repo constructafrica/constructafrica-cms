@@ -126,22 +126,32 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
      UPDATE: Convert lead → user
   =============================== */
   action("leads.items.update", async ({ payload, keys }, { schema }) => {
-    try {
-      console.log(`[LEAD_UPDATE] Processing lead update`, keys);
-      logger.info(`Starting [LEAD_UPDATE]`, payload.id);
-      logger.info(`[LEAD_UPDATE] Payload:`, JSON.stringify(payload));
+    // Log immediately to confirm hook is triggered
+    console.log(`[LEAD_UPDATE] ========== HOOK TRIGGERED ==========`);
+    console.log(`[LEAD_UPDATE] Keys:`, keys);
+    console.log(`[LEAD_UPDATE] Payload keys:`, Object.keys(payload));
+    console.log(`[LEAD_UPDATE] Full Payload:`, JSON.stringify(payload, null, 2));
+    logger.info(`[LEAD_UPDATE] Hook triggered for keys:`, keys);
 
+    try {
       const leadId = payload.id || keys[0];
 
       if (!leadId) {
         logger.error("[LEAD_UPDATE] No lead ID found in payload or keys");
+        console.log(`[LEAD_UPDATE] EXITING: No lead ID`);
         return;
       }
 
+      console.log(`[LEAD_UPDATE] Lead ID: ${leadId}`);
+
       // Only proceed if status field is being updated
       if (!payload.status) {
+        console.log(`[LEAD_UPDATE] EXITING: No status in payload`);
+        logger.info(`[LEAD_UPDATE] No status field in payload, skipping`);
         return;
       }
+
+      console.log(`[LEAD_UPDATE] Status in payload: ${payload.status}`);
 
       // Initialize services
       const leadsService = new ItemsService("leads", {
@@ -194,10 +204,27 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
       }
 
       // Only act on status transition TO "subscribed"
-      if (lead.status === "subscribed" || payload.status !== "subscribed") {
-        logger.info(`[LEAD_UPDATE] Skipping conversion - current status: ${lead.status}, new status: ${payload.status}`);
+      if (payload.status !== "subscribed") {
+        logger.info(`[LEAD_UPDATE] Skipping - status is not "subscribed": ${payload.status}`);
+        console.log(`[LEAD_UPDATE] EXITING: Status is ${payload.status}, not "subscribed"`);
         return;
       }
+
+      console.log(`[LEAD_UPDATE] Status is "subscribed", checking if already converted...`);
+
+      // Check if this lead has already been converted by checking for existing subscription
+      const existingSubscriptions = await subscriptionsService.readByQuery({
+        filter: { lead_id: { _eq: leadId } },
+        limit: 1,
+      });
+
+      if (existingSubscriptions.length > 0) {
+        logger.info(`[LEAD_UPDATE] Lead ${leadId} already converted, skipping`);
+        console.log(`[LEAD_UPDATE] EXITING: Lead already has subscription ${existingSubscriptions[0].id}`);
+        return;
+      }
+
+      console.log(`[LEAD_UPDATE] Lead not yet converted, proceeding with conversion...`);
 
       console.log(`[LEAD_UPDATE] Converting lead ${leadId} to user`);
 
@@ -274,7 +301,7 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
 
         // Send invite email
         const frontendUrl = env.FRONTEND_URL;
-        const verificationUrl = `${frontendUrl}/verify-email?token=${verificationToken}`;
+        const verificationUrl = `${frontendUrl}/activate?token=${verificationToken}`;
 
         try {
           const { error } = await resend.emails.send({
