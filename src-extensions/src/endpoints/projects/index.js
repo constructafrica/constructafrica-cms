@@ -1,4 +1,10 @@
-import {getCollectionCounts, addRelationStatus, getNotificationStatus, getFavoriteStatus} from "../../helpers/index.js";
+import {
+  getCollectionCounts,
+  addRelationStatus,
+  getNotificationStatus,
+  getFavoriteStatus,
+  normalizeProjectFilters,
+} from "../../helpers/index.js";
 
 export default (router, { services, exceptions, getSchema, database }) => {
   const { ItemsService, AssetsService } = services;
@@ -37,19 +43,19 @@ export default (router, { services, exceptions, getSchema, database }) => {
   }
 
   async function addFavoritesStatus(projects, userId, schema, accountability) {
-        return addRelationStatus({
-            items: projects,
-            userId,
-            schema,
-            accountability,
-            collection: 'favourites',
-            itemField: 'item_id',
-            extraFilter: { collection: 'projects' },
-            flagName: 'is_favorited',
-            idName: 'favorite_id',
-          ItemsService
-        });
-    }
+    return addRelationStatus({
+      items: projects,
+      userId,
+      schema,
+      accountability,
+      collection: "favourites",
+      itemField: "item_id",
+      extraFilter: { collection: "projects" },
+      flagName: "is_favorited",
+      idName: "favorite_id",
+      ItemsService,
+    });
+  }
 
   async function addNotificationsStatus(
     projects,
@@ -66,7 +72,7 @@ export default (router, { services, exceptions, getSchema, database }) => {
       itemField: "entity_id",
       extraFilter: { entity_type: "projects" },
       flagName: "has_notification",
-      ItemsService
+      ItemsService,
     });
   }
 
@@ -176,7 +182,8 @@ export default (router, { services, exceptions, getSchema, database }) => {
       const offset = (page - 1) * limit;
 
       // Get total count using database connection directly
-      const filterObj = req.query.filter || {};
+      const rawFilter = req.query.filter || {};
+      const filterObj = normalizeProjectFilters(rawFilter);
 
       const { totalCount, filterCount } = await getCollectionCounts({
         service: projectsService,
@@ -241,7 +248,7 @@ export default (router, { services, exceptions, getSchema, database }) => {
         limit: groupBy ? -1 : limit,
         sort: ["-date_created"],
         offset: groupBy ? 0 : offset,
-        filter: req.query.filter || {},
+        filter: filterObj,
       });
 
       // Build proper meta object
@@ -735,21 +742,20 @@ export default (router, { services, exceptions, getSchema, database }) => {
 
       // Handle favorites
       const { is_favorited, favorite_id } = accountability?.user
-          ? await getFavoriteStatus({
+        ? await getFavoriteStatus({
             itemId: projectId,
-            collection: 'projects',
+            collection: "projects",
             userId: accountability.user,
             schema,
             accountability,
             ItemsService,
           })
-          : { is_favorited: false, favorite_id: null };
-
+        : { is_favorited: false, favorite_id: null };
 
       let has_notification = false;
       try {
         has_notification = await getNotificationStatus({
-          entityType: 'projects',
+          entityType: "projects",
           entityId: projectId,
           userId: accountability.user,
           schema,
@@ -758,8 +764,8 @@ export default (router, { services, exceptions, getSchema, database }) => {
         });
       } catch (notificationError) {
         console.warn(
-            'Failed to fetch notification status:',
-            notificationError.message
+          "Failed to fetch notification status:",
+          notificationError.message,
         );
       }
 
@@ -770,8 +776,6 @@ export default (router, { services, exceptions, getSchema, database }) => {
         has_notification,
         authenticated: !!accountability?.user,
       };
-
-
 
       return res.json({
         data: projectWithFavorite,

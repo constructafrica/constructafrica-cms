@@ -95,7 +95,7 @@ export async function addRelationStatus({
   extraFilter = {},
   flagName,
   idName = null,
-                                          ItemsService
+  ItemsService,
 }) {
   if (!items || items.length === 0) return items;
 
@@ -133,13 +133,13 @@ export async function addRelationStatus({
 }
 
 export async function getFavoriteStatus({
-                                          itemId,
-                                          collection,
-                                          userId,
-                                          schema,
-                                          accountability,
-                                          ItemsService,
-                                        }) {
+  itemId,
+  collection,
+  userId,
+  schema,
+  accountability,
+  ItemsService,
+}) {
   if (!itemId || !userId) {
     return {
       is_favorited: false,
@@ -185,16 +185,16 @@ export async function getFavoriteStatus({
   }
 }
 export async function getNotificationStatus({
-                                       entityType,
-                                       entityId,
-                                       userId,
-                                       schema,
-                                       accountability,
-                                              ItemsService
-                                     }) {
+  entityType,
+  entityId,
+  userId,
+  schema,
+  accountability,
+  ItemsService,
+}) {
   if (!userId) return false;
 
-  const notificationsService = new ItemsService('user_newsletters', {
+  const notificationsService = new ItemsService("user_newsletters", {
     schema,
     accountability,
   });
@@ -211,4 +211,60 @@ export async function getNotificationStatus({
   });
 
   return existing.length > 0;
+}
+
+function normalizeInFilter(value) {
+  if (Array.isArray(value)) {
+    return value
+      .flatMap((v) => (typeof v === "string" ? v.split(",") : v))
+      .map((v) => Number(v))
+      .filter((v) => Number.isInteger(v));
+  }
+
+  if (typeof value === "string") {
+    return value
+      .split(",")
+      .map((v) => Number(v))
+      .filter((v) => Number.isInteger(v));
+  }
+
+  return [];
+}
+
+export function normalizeProjectFilters(rawFilter = {}) {
+  const filter = JSON.parse(JSON.stringify(rawFilter)); // deep clone
+
+  const m2mFields = ["regions", "countries", "types", "sectors"];
+
+  for (const field of m2mFields) {
+    if (!filter[field]) continue;
+
+    const relationKey = Object.keys(filter[field])[0]; // regions_id
+    const condition = filter[field][relationKey];
+
+    if (!condition) continue;
+
+    // Handle _in
+    if (condition._in || condition["_in[]"]) {
+      const values = normalizeInFilter(condition._in ?? condition["_in[]"]);
+
+      delete condition._eq;
+      condition._in = values.length > 1 ? values : undefined;
+
+      if (values.length === 1) {
+        delete condition._in;
+        condition._eq = values[0];
+      }
+    }
+
+    // Handle accidental "66,55" in _eq
+    if (typeof condition._eq === "string" && condition._eq.includes(",")) {
+      const values = normalizeInFilter(condition._eq);
+
+      delete condition._eq;
+      condition._in = values;
+    }
+  }
+
+  return filter;
 }
