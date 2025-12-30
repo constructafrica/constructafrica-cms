@@ -125,7 +125,7 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
   /* ===============================
      UPDATE: Convert lead → user
   =============================== */
-  action("leads.items.update", async ({ payload, keys }, { schema }) => {
+  action("leads.items.update", async ({ payload, keys }) => {
     // Log immediately to confirm hook is triggered
     console.log(`[LEAD_UPDATE] ========== HOOK TRIGGERED ==========`);
     console.log(`[LEAD_UPDATE] Keys:`, keys);
@@ -152,6 +152,8 @@ export default ({ action }, { services, database, env, logger, getSchema }) => {
       }
 
       console.log(`[LEAD_UPDATE] Status in payload: ${payload.status}`);
+
+      const schema = await getSchema({ database });
 
       // Initialize services
       const leadsService = new ItemsService("leads", {
