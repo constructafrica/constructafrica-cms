@@ -890,7 +890,6 @@ export default (router, context) => {
         }
     });
 
-
     router.get('/:collection', async (req, res) => {
         try {
             const { accountability } = req;

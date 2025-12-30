@@ -81,6 +81,11 @@
         "source": "src/endpoints/test/index.js"
       },
       {
+        "type": "endpoint",
+        "name": "newsletters",
+        "source": "src/endpoints/newsletters/index.js"
+      },
+      {
         "type": "hook",
         "name": "recent-view-hook",
         "source": "src/hooks/recent-view-hook/index.js"

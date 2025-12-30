@@ -82,7 +82,6 @@ export default (router, { services, env, logger, getSchema }) => {
         }
     });
 
-
     // Create a new newsletter
     router.post('/create', async (req, res) => {
         logger.info('💬 Create newsletter request received');
@@ -163,5 +162,109 @@ export default (router, { services, env, logger, getSchema }) => {
             });
         }
     });
+
+    router.post('/toggle', async (req, res) => {
+        logger.info('🔁 Toggle newsletter request received');
+
+        try {
+            // Ensure authentication
+            if (!req.accountability || !req.accountability.user) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Authentication required',
+                });
+            }
+
+            const userId = req.accountability.user;
+            const { entity_type, entity_id } = req.body;
+
+            // Validate payload
+            if (!entity_type || !entity_id) {
+                return res.status(422).json({
+                    success: false,
+                    message: 'entity_type and entity_id are required',
+                });
+            }
+
+            const allowedEntityTypes = ['projects', 'main_news', 'companies', 'tenders'];
+            if (!allowedEntityTypes.includes(entity_type)) {
+                return res.status(422).json({
+                    success: false,
+                    message: `Invalid entity_type. Must be one of: ${allowedEntityTypes.join(', ')}`,
+                });
+            }
+
+            // Ensure entity exists
+            const entityService = new ItemsService(entity_type, {
+                schema: req.schema,
+                accountability: req.accountability,
+            });
+
+            try {
+                await entityService.readOne(entity_id);
+            } catch {
+                return res.status(404).json({
+                    success: false,
+                    message: `${entity_type} with ID ${entity_id} not found`,
+                });
+            }
+
+            const newslettersService = new ItemsService('user_newsletters', {
+                schema: req.schema,
+                accountability: req.accountability,
+            });
+
+            // 🔍 Check if newsletter already exists
+            const existing = await newslettersService.readByQuery({
+                filter: {
+                    entity_type: { _eq: entity_type },
+                    entity_id: { _eq: entity_id },
+                    user_created: { _eq: userId },
+                },
+                limit: 1,
+            });
+
+            // 🔁 Toggle logic
+            if (existing.length > 0) {
+                // ❌ Delete (unsubscribe)
+                await newslettersService.deleteOne(existing[0].id);
+
+                logger.info('❌ Newsletter removed');
+
+                return res.json({
+                    success: true,
+                    action: 'removed',
+                    message: 'Newsletter subscription removed',
+                });
+            }
+
+            await newslettersService.createOne({
+                entity_type,
+                entity_id,
+                user_created: userId,
+                date_created: new Date().toISOString(),
+            });
+
+            logger.info('✅ Newsletter created');
+
+            return res.json({
+                success: true,
+                action: 'created',
+                message: 'Newsletter subscribed successfully',
+            });
+
+        } catch (error) {
+            logger.error('❌ Toggle newsletter error:', {
+                message: error.message,
+                stack: error.stack,
+            });
+
+            return res.status(500).json({
+                success: false,
+                message: 'Failed to toggle newsletter. Please try again.',
+            });
+        }
+    });
+
 
 }

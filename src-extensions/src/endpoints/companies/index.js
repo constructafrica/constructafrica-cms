@@ -1,4 +1,4 @@
-import {addFavoritesStatus, getCollectionCounts, getFavoriteStatus} from "../../helpers/index.js";
+import {addFavoritesStatus, addRelationStatus, getCollectionCounts, getFavoriteStatus} from "../../helpers/index.js";
 
 export default (router, { services, database, exceptions, getSchema }) => {
     const { ItemsService, AssetsService } = services;
@@ -53,19 +53,30 @@ export default (router, { services, database, exceptions, getSchema }) => {
         }
     }
 
-    async function addCompaniesFavoritesStatus(
-        companies,
-        userId,
-        schema,
-        accountability,
-    ) {
-        return addFavoritesStatus({
+    async function addFavoritesStatus(companies, userId, schema, accountability) {
+        return addRelationStatus({
             items: companies,
-            collection: 'companies',
             userId,
             schema,
             accountability,
-            ItemsService,
+            collection: 'favourites',
+            itemField: 'item_id',
+            extraFilter: { collection: 'companies' },
+            flagName: 'is_favorited',
+            idName: 'favorite_id',
+        });
+    }
+
+    async function addNotificationsStatus(companies, userId, schema, accountability) {
+        return addRelationStatus({
+            items: companies,
+            userId,
+            schema,
+            accountability,
+            collection: 'user_newsletters',
+            itemField: 'entity_id',
+            extraFilter: { entity_type: 'companies' },
+            flagName: 'has_notification',
         });
     }
 
@@ -298,19 +309,28 @@ export default (router, { services, database, exceptions, getSchema }) => {
                 });
             }
 
-            let finalItems;
+            let finalItems = transformedCompanies;
+
             if (accountability?.user) {
-                finalItems = await addCompaniesFavoritesStatus(
-                    companies,
+                finalItems = await addFavoritesStatus(
+                    finalItems,
                     accountability.user,
                     schema,
-                    req.accountability
+                    req.accountability,
+                );
+
+                finalItems = await addNotificationsStatus(
+                    finalItems,
+                    accountability.user,
+                    schema,
+                    req.accountability,
                 );
             } else {
-                finalItems = transformedCompanies.map(item => ({
-                    ...item,
+                finalItems = finalItems.map((project) => ({
+                    ...project,
                     is_favorited: false,
-                    favorite_id: null
+                    favorite_id: null,
+                    has_notification: false,
                 }));
             }
 
