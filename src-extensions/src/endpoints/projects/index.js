@@ -47,6 +47,7 @@ export default (router, { services, exceptions, getSchema, database }) => {
             extraFilter: { collection: 'projects' },
             flagName: 'is_favorited',
             idName: 'favorite_id',
+          ItemsService
         });
     }
 
@@ -65,6 +66,7 @@ export default (router, { services, exceptions, getSchema, database }) => {
       itemField: "entity_id",
       extraFilter: { entity_type: "projects" },
       flagName: "has_notification",
+      ItemsService
     });
   }
 
