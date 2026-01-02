@@ -184,6 +184,7 @@ export async function getFavoriteStatus({
     };
   }
 }
+
 export async function getNotificationStatus({
   entityType,
   entityId,

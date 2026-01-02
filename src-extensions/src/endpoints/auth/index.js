@@ -178,7 +178,7 @@ export default (router, { services, exceptions, env, logger }) => {
                 filter: {
                     _and: [
                         { email_verification_token: { _eq: hashedToken } },
-                        { verification_token_expires: { _gt: new Date().toISOString() } }
+                        // { verification_token_expires: { _gt: new Date().toISOString() } }
                     ]
                 },
                 limit: 1
